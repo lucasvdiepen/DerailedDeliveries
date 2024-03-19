@@ -16,7 +16,7 @@ jobs:
           pr_comment_lang: en
           pr_comment_send_success: true
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.MY_GITHUB_TOKEN }}"
 
       - name: See how autofix did
         run: git status
