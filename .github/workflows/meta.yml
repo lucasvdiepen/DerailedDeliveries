@@ -4,9 +4,6 @@ on: pull_request
 jobs:
   unity-meta-check:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      checks: write
     steps:
       - uses: actions/checkout@v2
       - uses: DeNA/unity-meta-check@v3
