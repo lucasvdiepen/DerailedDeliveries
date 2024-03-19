@@ -6,11 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: jwalton/gh-find-current-pr@v1
         id: findPr
-
       - uses: DeNA/unity-meta-check@v3
+        with:
           enable_pr_comment: true
           pr_comment_pull_number: ${{ steps.findPr.outputs.number }}
         env:
