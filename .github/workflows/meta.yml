@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: DeNA/unity-meta-check@v3
         with:
-          enable_autofix: true
+          enable_autofix: false
           autofix_globs: .
           enable_junit: true
           junit_xml_path: junit.xml
