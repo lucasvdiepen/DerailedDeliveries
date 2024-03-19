@@ -1,16 +1,28 @@
 name: Meta Check
-on: push
+on: pull_request
 
 jobs:
-  meta-check:
+  unity-meta-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: jwalton/gh-find-current-pr@v1
-        id: findPr
       - uses: DeNA/unity-meta-check@v3
         with:
+          enable_autofix: true
+          autofix_globs: .
+          enable_junit: true
+          junit_xml_path: junit.xml
           enable_pr_comment: true
-          pr_comment_pull_number: ${{ steps.findPr.outputs.number }}
+          pr_comment_lang: ja
+          pr_comment_send_success: true
         env:
           GITHUB_TOKEN: "${{ secrets.YOUR_GITHUB_TOKEN }}"
+
+      - name: See how autofix did
+        run: git status
+        if: always()
+
+      - uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: junit.xml
+        if: always()
