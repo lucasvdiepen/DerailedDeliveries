@@ -7,3 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: DeNA/unity-meta-check@v3
+        with:
+          enable_pr_comment: true
+          pr_comment_lang: en
+          pr_comment_send_success: true
