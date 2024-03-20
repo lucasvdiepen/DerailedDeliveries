@@ -9,6 +9,6 @@ jobs:
         -   name: dotnet-format
             uses: tegrasystems/dotnet-format@v1
             with:
-                project: 'DerailedDeliveries.sln'
-                project-name: 'DerailedDeliveries'
+                project: DerailedDeliveries.sln
+                project-name: 
                 export-output: 'true'
