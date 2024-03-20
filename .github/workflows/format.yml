@@ -3,10 +3,6 @@ name: "Test dotnet format"
 on:
   workflow_dispatch:
   pull_request:
-    paths:
-      - "__tests__/dotnet/**"
-    branches:
-      - main
 
 jobs:
   dotnet-format:
