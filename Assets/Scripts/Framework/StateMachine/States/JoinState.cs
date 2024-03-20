@@ -1,3 +1,6 @@
+using FishNet;
+using System.Collections;
+
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
     /// <summary>
@@ -5,6 +8,11 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     /// </summary>
     public class JoinState : MenuState
     {
+        public override IEnumerator OnStateEnter()
+        {
+            yield return base.OnStateEnter();
 
+            InstanceFinder.ClientManager.StartConnection();
+        }
     }
 }
