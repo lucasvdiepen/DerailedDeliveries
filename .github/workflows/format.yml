@@ -1,22 +1,14 @@
-name: dotnet format
+name: "[CI]Build, Test and Lint"
 
 on: pull_request
-
 jobs:
-  check-format:
-    runs-on: windows-latest
-
+  dotnet-format:
+    runs-on: ubuntu-latest
     steps:
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.x'
-
-      - name: Install dotnet-format tool
-        run: dotnet tool install -g dotnet-format
-
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Run dotnet format
-        run: dotnet format '.\' --folder --check --verbosity diagnostic
+        -   uses: actions/checkout@v2
+        -   name: dotnet-format
+            uses: tegrasystems/dotnet-format@v1
+            with:
+                project: DerailedDeliveries.sln
+                project-name: DerailedDeliveries
+                export-output: 'true'
