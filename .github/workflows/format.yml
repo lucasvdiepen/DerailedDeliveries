@@ -1,14 +1,30 @@
-name: "[CI]Build, Test and Lint"
+name: "Test dotnet format"
 
-on: pull_request
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "__tests__/dotnet/**"
+    branches:
+      - main
+
 jobs:
   dotnet-format:
+    name: "Test dotnet format"
     runs-on: ubuntu-latest
     steps:
-        -   uses: actions/checkout@v2
-        -   name: dotnet-format
-            uses: tegrasystems/dotnet-format@v1
-            with:
-                project: "DerailedDeliveries.sln"
-                project-name: "DerailedDeliveries"
-                export-output: 'true'
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: dotnet-format
+        id: dotnet-format
+        uses: ./
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          workspace: ${{ github.workspace }}/__tests__/dotnet/ConfigDerailedDeliveries
+          logLevel: "detailed"
+          projectFileName: "DerailedDeliveries.sln"
+          jscpdCheck: false
+          jscpdCheckAsError: false
+
+      - name: log-output
+        run: echo "${{ steps.dotnet-format.outputs.output }}"
