@@ -11,6 +11,7 @@ jobs:
         id: findPr
 
       - uses: DeNA/unity-meta-check@v3
+        with:
           enable_pr_comment: true
           pr_comment_pull_number: ${{ steps.findPr.outputs.number }}
         env:
