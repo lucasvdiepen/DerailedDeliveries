@@ -21,6 +21,11 @@ namespace DerailedDeliveries.Framework.InputParser
         /// </summary>
         public Action<Vector2> OnMove;
 
+        /// <summary>
+        /// The direction the player is currently moving in.
+        /// </summary>
+        public Vector2 MoveDirection { get; private set; }
+
         private PlayerInput _playerInput;
 
         private void Awake() => _playerInput = GetComponent<PlayerInput>();
@@ -37,7 +42,12 @@ namespace DerailedDeliveries.Framework.InputParser
             _playerInput.actions["Interact"].performed -= Interact;
         }
 
-        private void Move(InputAction.CallbackContext context) => OnMove?.Invoke(context.ReadValue<Vector2>());
+        private void Move(InputAction.CallbackContext context)
+        {
+            MoveDirection = context.ReadValue<Vector2>();
+
+            OnMove?.Invoke(MoveDirection);
+        }
 
         private void Interact(InputAction.CallbackContext context) => OnInteract?.Invoke();
     }
