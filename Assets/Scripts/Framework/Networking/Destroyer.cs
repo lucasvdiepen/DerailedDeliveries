@@ -32,8 +32,6 @@ namespace DerailedDeliveries.Framework.Networking
 
         private void DestroyAll()
         {
-            Debug.Log("Check destroyer");
-
             if (IsOwner)
                 return;
 
