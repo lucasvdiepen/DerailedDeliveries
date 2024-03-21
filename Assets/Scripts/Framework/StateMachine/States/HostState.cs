@@ -13,27 +13,18 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     {
         public override IEnumerator OnStateEnter()
         {
-            yield return base.OnStateEnter();
-
-            InstanceFinder.ClientManager.OnClientConnectionState += OnClientStateChanged;
-
             InstanceFinder.ServerManager.StartConnection();
             InstanceFinder.ClientManager.StartConnection("localhost");
+
+            yield return base.OnStateEnter();
         }
 
         public override IEnumerator OnStateExit()
         {
+            if(InstanceFinder.NetworkManager.IsClient)
+                PlayerManager.Instance.IsSpawnEnabled = false;
+
             yield return base.OnStateExit();
-
-            PlayerManager.Instance.IsSpawnEnabled = false;
-        }
-
-        private void OnClientStateChanged(ClientConnectionStateArgs args)
-        {
-            if(args.ConnectionState != LocalConnectionState.Started)
-                return;
-
-            PlayerManager.Instance.IsSpawnEnabled = true;
         }
     }
 }

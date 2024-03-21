@@ -40,13 +40,32 @@ namespace DerailedDeliveries.Framework.InputParser
         private readonly List<NetworkObject> _players = new();
         private bool _isSpawnEnabled;
 
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            _playerInputManager.EnableJoining();
+        }
+
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+
+            _playerInputManager.DisableJoining();
+        }
+
         public void SpawnPlayer(NetworkConnection connection) => SpawnPlayerOnServer(connection);
 
         [ServerRpc(RequireOwnership = false)]
         private void SpawnPlayerOnServer(NetworkConnection connection)
         {
             GameObject spawnedPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+            NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
+
             ServerManager.Spawn(spawnedPlayer, connection);
+            SceneManager.AddOwnerToDefaultScene(networkObject);
+
+            _players.Add(networkObject);
 
             PlayerCount++;
         }

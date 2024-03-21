@@ -108,8 +108,8 @@ MonoBehaviour:
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
   _isGlobal: 0
   _initializeOrder: 0
@@ -136,8 +136,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 9137881235243545769}
   _networkObjectCache: {fileID: 9137881235243545769}
   _components:
-  - {fileID: 350454645476312809}
   - {fileID: 945120239230563089}
+  - {fileID: 350454645476312809}
 --- !u!1 &7344955885029037493
 GameObject:
   m_ObjectHideFlags: 0

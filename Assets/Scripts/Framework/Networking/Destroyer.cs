@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
@@ -8,17 +9,35 @@ namespace DerailedDeliveries.Framework.Networking
         [SerializeField]
         private MonoBehaviour[] _components;
 
+        public override void OnSpawnServer(NetworkConnection connection)
+        {
+            base.OnSpawnServer(connection);
+
+            DestroyAll();
+        }
+
         public override void OnStartClient()
         {
             base.OnStartClient();
 
-            if(base.IsOwner)
-            {
-                Destroy(this);
-                return;
-            }
+            DestroyAll();
+        }
 
-            foreach(MonoBehaviour component in _components)
+        public override void OnOwnershipClient(NetworkConnection prevOwner)
+        {
+            base.OnOwnershipClient(prevOwner);
+
+            DestroyAll();
+        }
+
+        private void DestroyAll()
+        {
+            Debug.Log("Check destroyer");
+
+            if (IsOwner)
+                return;
+
+            foreach (MonoBehaviour component in _components)
                 Destroy(component);
 
             Destroy(this);
