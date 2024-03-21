@@ -49,20 +49,6 @@ namespace DerailedDeliveries.Framework.TrainController
             DebugSnapToSpline();
         }
 
-        public void DebugSnapToSpline()
-        {
-            _distanceAlongSpline = _trainFrontStartTime;
-            UpdateWagonPosition(_frontWagon);
-
-            int wagons = _wagons.Length + 1;
-            for (int i = 1; i < wagons; i++)
-            {
-                float adjustedFollowDistance = _wagonFollowDistance / 10f;
-                float offset = adjustedFollowDistance + (_wagonSpacing / 10f) * i;
-                UpdateWagonPosition(_wagons[i - 1], offset);
-            }
-        }
-
         /// <summary>
         /// Sets a wagon transform to the correct spline position.
         /// </summary>
@@ -94,6 +80,20 @@ namespace DerailedDeliveries.Framework.TrainController
             _distanceAlongSpline += CurrentVelocity * Time.deltaTime;
             if (_distanceAlongSpline > 1.0f)
                 _distanceAlongSpline = 0.0f;
+        }
+
+        private void DebugSnapToSpline()
+        {
+            _distanceAlongSpline = _trainFrontStartTime;
+            UpdateWagonPosition(_frontWagon);
+
+            int wagons = _wagons.Length + 1;
+            for (int i = 1; i < wagons; i++)
+            {
+                float adjustedFollowDistance = _wagonFollowDistance / 10f;
+                float offset = adjustedFollowDistance + (_wagonSpacing / 10f) * i;
+                UpdateWagonPosition(_wagons[i - 1], offset);
+            }
         }
     }
 }
