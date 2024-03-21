@@ -31,7 +31,7 @@ namespace DerailedDeliveries.Framework.TrainController
         [SerializeField]
         private float _heightOffset = 1.0f;
         
-        [SerializeField]
+        [SerializeField, Space]
         private float _accelerationDuration = 10f;
 
         [SerializeField]
@@ -61,9 +61,14 @@ namespace DerailedDeliveries.Framework.TrainController
         public TrainEngineState EngineState { get; private set; }
 
         /// <summary>
-        /// Current train 
+        /// Current train speed type.
         /// </summary>
         public TrainEngineSpeedTypes CurrentEngineSpeedType { get; private set; }
+
+        /// <summary>
+        /// Current train speed type.
+        /// </summary>
+        public TrainEngineSpeedTypes CurrentTargetEngineSpeedType { get; private set; }
 
         /// <summary>
         /// Current distance value along spline lenght clamped between 0-1 (same as time). <br/>
@@ -130,15 +135,16 @@ namespace DerailedDeliveries.Framework.TrainController
         {
             TrainEngineSpeedTypes lastType = CurrentEngineSpeedType;
 
-            CurrentEngineSpeedType = (TrainEngineSpeedTypes)Mathf.Clamp
-                    ((int)CurrentEngineSpeedType + (increase ? 1 : -1), 0, _speedTypesCount);
+            CurrentTargetEngineSpeedType = (TrainEngineSpeedTypes)Mathf.Clamp
+                    ((int)CurrentTargetEngineSpeedType + (increase ? 1 : -1), 0, _speedTypesCount);
 
+            bool isAccelerating = (int)lastType < (int)CurrentTargetEngineSpeedType;
+            TweenTrainSpeed(CurrentTargetEngineSpeedType, isAccelerating);
+
+            //TODO: fix pls
             if (lastType != CurrentEngineSpeedType)
             {
                 onSpeedTypeChanged?.Invoke(lastType, CurrentEngineSpeedType);
-
-                bool isAccelerating = (int)lastType < (int)CurrentEngineSpeedType;
-                TweenTrainSpeed(CurrentEngineSpeedType, isAccelerating);
             }
         }
 
@@ -174,7 +180,8 @@ namespace DerailedDeliveries.Framework.TrainController
 
             _speedTween.OnComplete(() =>
             {
-                EngineState = TrainEngineState.FULL_POWER;
+                EngineState = targetEngineSpeedType == TrainEngineSpeedTypes.STILL 
+                    ? TrainEngineState.ON_STANDBY : TrainEngineState.FULL_POWER;
                 CurrentEngineSpeedType = targetEngineSpeedType;
             });
 
@@ -182,7 +189,7 @@ namespace DerailedDeliveries.Framework.TrainController
         }
 
         /// <summary>
-        /// Sets a wagon transform to the correct spline position.
+        /// Sets a wagon transform to the correct spline position and rotation.
         /// </summary>
         /// <param name="trainBody"></param>
         /// <param name="offset"></param>
