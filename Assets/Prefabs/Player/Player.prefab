@@ -161,10 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5cef2c0e05e0844d910fa7f156abd23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerRigidBody: {fileID: 2858816033031180669}
-  _playerInputParser: {fileID: 945120239230563089}
-  _playerVelocity: {x: 0, y: 0}
-  _playerSpeed: 5
+  _speed: 10
+  _maxSpeed: 3
 --- !u!114 &807764299014293325
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,15 +13,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField]
-        private float _playerSpeed = 2;
+        private float _speed = 2;
+
+        [SerializeField]
+        private float _maxSpeed = 2;
 
         private PlayerInputParser _playerInputParser;
-        private Rigidbody _playerRigidbody;
+        private Rigidbody _rigidbody;
         private Vector2 _playerInput;
 
         private void Awake()
         {
-            _playerRigidbody = gameObject.GetComponent<Rigidbody>();
+            _rigidbody = gameObject.GetComponent<Rigidbody>();
             _playerInputParser = gameObject.GetComponent<PlayerInputParser>();
         }
 
@@ -43,15 +46,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UpdateVelocity()
         {
-            if (_playerInput == Vector2.zero)
-                return;
+            Vector3 newForce = new Vector3(_playerInput.x, 0, _playerInput.y) * _speed;
 
-            _playerRigidbody.velocity = new Vector3
-            (
-                _playerInput.x * _playerSpeed,
-                _playerRigidbody.velocity.y,
-                _playerInput.y * _playerSpeed
-            );
+            newForce += _rigidbody.velocity;
+
+            newForce.x = Mathf.Clamp(newForce.x, _maxSpeed * -1, _maxSpeed);
+            newForce.z = Mathf.Clamp(newForce.z, _maxSpeed * -1, _maxSpeed);
+
+            _rigidbody.velocity = newForce;
         }
     }
 }
