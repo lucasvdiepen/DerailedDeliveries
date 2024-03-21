@@ -1,3 +1,4 @@
+using DerailedDeliveries.Framework.InputParser;
 using FishNet;
 using System.Collections;
 
@@ -13,6 +14,15 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             yield return base.OnStateEnter();
 
             InstanceFinder.ClientManager.StartConnection();
+
+            PlayerManager.Instance.IsSpawnEnabled = true;
+        }
+
+        public override IEnumerator OnStateExit()
+        {
+            yield return base.OnStateExit();
+
+            PlayerManager.Instance.IsSpawnEnabled = false;
         }
     }
 }

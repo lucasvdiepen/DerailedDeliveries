@@ -25,12 +25,6 @@ namespace DerailedDeliveries.Framework.Utils
 
                 _instance = FindObjectOfType<T>();
 
-                if(_instance != null)
-                    return _instance;
-
-                GameObject container = new(typeof(T).Name);
-                _instance = container.AddComponent<T>();
-
                 return _instance;
             }
         }
