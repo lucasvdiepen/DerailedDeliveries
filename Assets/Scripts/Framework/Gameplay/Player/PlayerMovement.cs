@@ -16,12 +16,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private float _playerSpeed = 2;
 
         private PlayerInputParser _playerInputParser;
-        private Rigidbody _playerRigidBody;
+        private Rigidbody _playerRigidbody;
         private Vector2 _playerInput;
 
         private void Awake()
         {
-            _playerRigidBody = gameObject.GetComponent<Rigidbody>();
+            _playerRigidbody = gameObject.GetComponent<Rigidbody>();
             _playerInputParser = gameObject.GetComponent<PlayerInputParser>();
         }
 
@@ -46,10 +46,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_playerInput == Vector2.zero)
                 return;
 
-            _playerRigidBody.velocity = new Vector3
+            _playerRigidbody.velocity = new Vector3
             (
                 _playerInput.x * _playerSpeed,
-                _playerRigidBody.velocity.y,
+                _playerRigidbody.velocity.y,
                 _playerInput.y * _playerSpeed
             );
         }
