@@ -1,4 +1,5 @@
-using DerailedDeliveries.Framework.StateMachine.Attributes;
+using FishNet;
+using System.Collections;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
@@ -7,6 +8,12 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     /// </summary>
     public class HostState : MenuState
     {
+        public override IEnumerator OnStateEnter()
+        {
+            yield return base.OnStateEnter();
 
+            InstanceFinder.ServerManager.StartConnection();
+            InstanceFinder.ClientManager.StartConnection("localhost");
+        }
     }
 }
