@@ -58,7 +58,7 @@ namespace DerailedDeliveries.Framework.TrainController
             for (int i = 1; i < wagons; i++)
             {
                 float adjustedFollowDistance = _wagonFollowDistance / 10f;
-                float offset = i == 1 ? adjustedFollowDistance : adjustedFollowDistance + (_wagonSpacing * i);
+                float offset = adjustedFollowDistance + (_wagonSpacing / 10f) * i;
                 UpdateWagonPosition(_wagons[i - 1], offset);
             }
         }
@@ -85,7 +85,10 @@ namespace DerailedDeliveries.Framework.TrainController
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
             {
-                UpdateWagonPosition(_wagons[i - 1], _wagonSpacing * i);
+                float adjustedFollowDistance = _wagonFollowDistance / 10f;
+                float offset = adjustedFollowDistance + (_wagonSpacing / 10f) * i;
+
+                UpdateWagonPosition(_wagons[i - 1], offset);
             }
 
             _distanceAlongSpline += CurrentVelocity * Time.deltaTime;
