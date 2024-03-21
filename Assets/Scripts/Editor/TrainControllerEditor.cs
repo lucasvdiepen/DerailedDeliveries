@@ -22,8 +22,10 @@ public class TrainControllerEditor : Editor
 
         EditorGUI.BeginDisabledGroup(true);
 
-        EditorGUILayout.EnumPopup("Current train engine state: ", trainController.EngineState);
-        EditorGUILayout.FloatField("Current train speed: ", trainController.CurrentVelocity * 100);
+        EditorGUILayout.EnumPopup("Current engine state: ", trainController.EngineState);
+        EditorGUILayout.EnumPopup("Current engine speed state: ", trainController.CurrentEngineSpeedType);
+
+        EditorGUILayout.FloatField("Current speed: ", trainController.CurrentVelocity * 100);
         EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
 
         EditorGUI.EndDisabledGroup();
