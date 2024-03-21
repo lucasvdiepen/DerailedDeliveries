@@ -32,7 +32,15 @@ namespace DerailedDeliveries.Framework.TrainController
         [SerializeField]
         private Transform[] _wagons = null;
 
+        /// <summary>
+        /// Train velocity speed.
+        /// </summary>
         public float CurrentVelocity => _speed / 100f;
+
+        /// <summary>
+        /// Current train engine state.
+        /// </summary>
+        public TrainEngineState EngineState { get; set; }
 
         private float _distanceAlongSpline = 0.0f;
 
