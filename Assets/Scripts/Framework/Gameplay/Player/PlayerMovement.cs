@@ -42,7 +42,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private void OnDisable()
         {
             _playerInputParser.OnMove -= SetMovementVector;
-            InstanceFinder.TimeManager.OnTick -= UpdateVelocity;
+
+            if (InstanceFinder.TimeManager != null)
+                InstanceFinder.TimeManager.OnTick -= UpdateVelocity;
         }
 
         private void SetMovementVector(Vector2 playerInput) => _playerVelocity = playerInput;
