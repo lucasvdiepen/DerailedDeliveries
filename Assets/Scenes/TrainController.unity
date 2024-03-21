@@ -532,8 +532,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527173265}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.045056794, y: -0.71724725, z: -0.046579584, w: 0.6937988}
-  m_LocalPosition: {x: 0.042053223, y: 11.001336, z: 14.671957}
+  m_LocalRotation: {x: -0.0077377316, y: -0.03505556, z: -0.00027142547, w: 0.9993554}
+  m_LocalPosition: {x: 27.540638, y: 11.4181, z: 2.8805156}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -739,8 +739,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720210847}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.034683198, y: -0.79120797, z: -0.04506773, w: 0.6088973}
-  m_LocalPosition: {x: -2.4352188, y: 11.339923, z: 14.361479}
+  m_LocalRotation: {x: 0.06288687, y: -0.0027013158, z: 0.00017021484, w: 0.998017}
+  m_LocalPosition: {x: 27.418736, y: 11.299268, z: 5.364263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1158,12 +1158,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spline: {fileID: 64685509}
-  _speed: 0.1
-  _heightOffset: 0.1
   _trainFrontStartTime: 0
+  _maxSpeed: 1
+  _heightOffset: 0.1
+  _accelerationDuration: 5
+  _accelerationEase: 1
+  _frontWagon: {fileID: 0}
   _wagonFollowDistance: 0
   _wagonSpacing: 0
-  _frontWagon: {fileID: 0}
   _wagons: []
 --- !u!1 &1327516687
 GameObject:
@@ -2162,12 +2164,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spline: {fileID: 1396686326}
-  _speed: 7.5
+  _trainFrontStartTime: 0.555
+  _maxSpeed: 7.5
   _heightOffset: 0.08
-  _trainFrontStartTime: 0.236
-  _wagonFollowDistance: 0.15
-  _wagonSpacing: -0.86
+  _accelerationDuration: 20
+  _accelerationEase: 8
   _frontWagon: {fileID: 2131814525}
+  _wagonFollowDistance: 0.15
+  _wagonSpacing: -0.85
   _wagons:
   - {fileID: 527173267}
   - {fileID: 2046294663}
@@ -2464,8 +2468,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046294662}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.046779208, y: -0.74447626, z: -0.052453592, w: 0.66393936}
-  m_LocalPosition: {x: -1.204567, y: 11.174389, z: 14.584534}
+  m_LocalRotation: {x: 0.02479545, y: -0.02511149, z: 0.0006230389, w: 0.9993769}
+  m_LocalPosition: {x: 27.445065, y: 11.419461, z: 4.1235785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2496,8 +2500,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131814523}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.035947215, y: -0.7038114, z: -0.03570541, w: 0.70857775}
-  m_LocalPosition: {x: 1.077034, y: 10.879792, z: 14.683994}
+  m_LocalRotation: {x: -0.010876877, y: -0.023602929, z: -0.00025681293, w: 0.9996622}
+  m_LocalPosition: {x: 27.599903, y: 11.39909, z: 1.8552952}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
