@@ -9,28 +9,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     /// <summary>
     /// A class responsible for handling the player's movement.
     /// </summary>
-    [RequireComponent(typeof(Rigidbody), typeof(NetworkObject))]
+    [RequireComponent(typeof(Rigidbody), typeof(PlayerInputParser))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField]
         private Rigidbody _playerRigidBody;
 
-        [SerializeField]
         private PlayerInputParser _playerInputParser;
 
-        [SerializeField]
-        private Vector2 _playerVelocity;
+        private Vector2 _playerInput;
 
         [SerializeField]
         private float _playerSpeed = 2;
 
         private void Awake()
         {
-            if(_playerRigidBody == null)
-                _playerRigidBody = gameObject.GetComponent<Rigidbody>();
-
-            if(_playerInputParser == null)
-                _playerInputParser = gameObject.GetComponent<PlayerInputParser>();
+            _playerRigidBody = gameObject.GetComponent<Rigidbody>();
+            _playerInputParser = gameObject.GetComponent<PlayerInputParser>();
         }
 
         private void OnEnable()
@@ -47,18 +41,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 InstanceFinder.TimeManager.OnTick -= UpdateVelocity;
         }
 
-        private void SetMovementVector(Vector2 playerInput) => _playerVelocity = playerInput;
+        private void SetMovementVector(Vector2 playerInput) => _playerInput = playerInput;
 
         private void UpdateVelocity()
         {
-            if (_playerVelocity == Vector2.zero)
+            if (_playerInput == Vector2.zero)
                 return;
 
             _playerRigidBody.velocity = new Vector3
             (
-                _playerVelocity.x * _playerSpeed,
-                _playerRigidBody.velocity.y, 
-                _playerVelocity.y * _playerSpeed
+                _playerInput.x * _playerSpeed,
+                _playerRigidBody.velocity.y,
+                _playerInput.y * _playerSpeed
             );
         }
     }
