@@ -1159,7 +1159,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spline: {fileID: 64685509}
   _trainFrontStartTime: 0
-  _maxSpeed: 1
+  _maxHighSpeed: 7.5
+  _maxMediumSpeed: 7.5
+  _maxLowSpeed: 7.5
   _heightOffset: 0.1
   _accelerationDuration: 5
   _accelerationEase: 1
@@ -2165,7 +2167,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spline: {fileID: 1396686326}
   _trainFrontStartTime: 0.555
-  _maxSpeed: 7.5
+  _maxHighSpeed: 7.5
+  _maxMediumSpeed: 5
+  _maxLowSpeed: 2.5
   _heightOffset: 0.08
   _accelerationDuration: 20
   _accelerationEase: 8

@@ -1,9 +1,8 @@
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine.Splines;
 using UnityEngine;
 using DG.Tweening;
-
-using DerailedDeliveries.Framework.InputParser;
-using UnityEngine.InputSystem;
 using System;
 
 namespace DerailedDeliveries.Framework.TrainController
@@ -21,7 +20,13 @@ namespace DerailedDeliveries.Framework.TrainController
 
         [Header("Train Config")]
         [SerializeField]
-        private float _maxSpeed = 7.5f;
+        private float _maxHighSpeed = 7.5f;
+        
+        [SerializeField]
+        private float _maxMediumSpeed = 5f;
+        
+        [SerializeField]
+        private float _maxLowSpeed = 2.5f;
 
         [SerializeField]
         private float _heightOffset = 1.0f;
@@ -73,31 +78,29 @@ namespace DerailedDeliveries.Framework.TrainController
         /// <br/>TrainEngineSpeedTypes = current value.
         /// </summary>
         public Action<TrainEngineSpeedTypes, TrainEngineSpeedTypes> onSpeedTypeChanged = null;
-        
+
+        private Dictionary<TrainEngineSpeedTypes, float> _getSpeedValue;
+
         private float _currentSpeed = 0f;
         private float _speedTypesCount = 0;
+        private Tween _speedTween;
 
         private void Start()
         {
             DistanceAlongSpline = _trainFrontStartTime;
             _speedTypesCount = Enum.GetValues(typeof(TrainEngineSpeedTypes)).Length - 1;
 
+            //Initialize speed values dictionary.
+            _getSpeedValue = new Dictionary<TrainEngineSpeedTypes, float>()
+            {
+                {TrainEngineSpeedTypes.LOW, _maxLowSpeed },
+                {TrainEngineSpeedTypes.MEDIUM, _maxMediumSpeed },
+                {TrainEngineSpeedTypes.HIGH, _maxHighSpeed },
+                {TrainEngineSpeedTypes.STILL, 0 },
+            };
+
             EngineState = TrainEngineState.ON_STANDBY;
             CurrentEngineSpeedType = TrainEngineSpeedTypes.STILL;
-
-            var accelerationTween = DOTween.To(()
-                => _currentSpeed, x => _currentSpeed = x, _maxSpeed, _accelerationDuration);
-
-            accelerationTween.OnStart(() => EngineState = TrainEngineState.ACCELERATING);
-            accelerationTween.OnComplete(() =>
-            {
-                EngineState = TrainEngineState.FULL_POWER;
-                CurrentEngineSpeedType = TrainEngineSpeedTypes.HIGH;
-            });
-;
-            DOTween.Sequence()
-                .AppendInterval(2f)
-                .Append(accelerationTween.SetEase(_accelerationEase));
         }
 
         private void OnValidate()
@@ -121,9 +124,8 @@ namespace DerailedDeliveries.Framework.TrainController
             {
                 AdjustSpeed(false);
             }
-            
         }
-        
+
         private void AdjustSpeed(bool increase)
         {
             TrainEngineSpeedTypes lastType = CurrentEngineSpeedType;
@@ -132,9 +134,13 @@ namespace DerailedDeliveries.Framework.TrainController
                     ((int)CurrentEngineSpeedType + (increase ? 1 : -1), 0, _speedTypesCount);
 
             if (lastType != CurrentEngineSpeedType)
+            {
                 onSpeedTypeChanged?.Invoke(lastType, CurrentEngineSpeedType);
-        }
 
+                bool isAccelerating = (int)lastType < (int)CurrentEngineSpeedType;
+                TweenTrainSpeed(CurrentEngineSpeedType, isAccelerating);
+            }
+        }
 
         private void MoveTrain()
         {
@@ -152,6 +158,27 @@ namespace DerailedDeliveries.Framework.TrainController
             DistanceAlongSpline += CurrentVelocity * Time.deltaTime;
             if (DistanceAlongSpline > 1.0f)
                 DistanceAlongSpline = 0.0f;
+        }
+
+        private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType, bool isAccelerating)
+        {
+            _speedTween.Kill();
+
+            float currentMaxSpeed = _getSpeedValue[targetEngineSpeedType];
+
+            _speedTween = DOTween.To(()
+                => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, _accelerationDuration);
+
+            _speedTween.OnStart(() => EngineState = 
+                isAccelerating ? TrainEngineState.ACCELERATING : TrainEngineState.DECELERATING);
+
+            _speedTween.OnComplete(() =>
+            {
+                EngineState = TrainEngineState.FULL_POWER;
+                CurrentEngineSpeedType = targetEngineSpeedType;
+            });
+
+            _speedTween.Play();
         }
 
         /// <summary>

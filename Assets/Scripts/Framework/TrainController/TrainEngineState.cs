@@ -18,6 +18,11 @@ namespace DerailedDeliveries.Framework.TrainController
         ACCELERATING,
 
         /// <summary>
+        /// State when train engine is running and deaccelerating speed.
+        /// </summary>
+        DECELERATING,
+
+        /// <summary>
         /// State when train engine is running and has reached peak speed.
         /// </summary>
         FULL_POWER,
