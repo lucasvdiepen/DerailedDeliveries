@@ -12,14 +12,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     [RequireComponent(typeof(Rigidbody), typeof(PlayerInputParser))]
     public class PlayerMovement : MonoBehaviour
     {
-        private Rigidbody _playerRigidBody;
-
-        private PlayerInputParser _playerInputParser;
-
-        private Vector2 _playerInput;
-
         [SerializeField]
         private float _playerSpeed = 2;
+
+        private PlayerInputParser _playerInputParser;
+        private Rigidbody _playerRigidBody;
+        private Vector2 _playerInput;
 
         private void Awake()
         {
