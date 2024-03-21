@@ -1,8 +1,8 @@
-using FishNet;
+using FishNet.Object;
 using UnityEngine;
+using FishNet;
 
 using DerailedDeliveries.Framework.InputParser;
-using FishNet.Object;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
