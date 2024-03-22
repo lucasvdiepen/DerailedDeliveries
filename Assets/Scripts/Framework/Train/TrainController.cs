@@ -36,6 +36,8 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private Transform[] _wagons = null;
 
+        private RailSplit _railSplit;
+
         /// <summary>
         /// Current distance value along spline lenght clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
@@ -65,6 +67,8 @@ namespace DerailedDeliveries.Framework.Train
 
             if (Spline != null)
                 SplineLenght = Spline.CalculateLength();
+
+            _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
 
 #if UNITY_EDITOR
@@ -100,7 +104,19 @@ namespace DerailedDeliveries.Framework.Train
 
             DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.deltaTime;
             if (DistanceAlongSpline > 1.0f)
+            {
+                if(_railSplit == null)
+                {
+                    print("End reached");
+                    return;
+                }
+
                 DistanceAlongSpline = 0.0f;
+                Spline = _railSplit.GetRandomWay();
+
+                RecalculateSplineLenght();
+                Spline.gameObject.TryGetComponent(out _railSplit);
+            }
         }
 
         /// <summary>

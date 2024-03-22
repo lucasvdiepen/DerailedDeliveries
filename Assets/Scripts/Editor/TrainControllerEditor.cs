@@ -41,7 +41,7 @@ public class TrainControllerEditor : Editor
         if(engineScript.CurrentTargetEngineSpeedType != engineScript.CurrentEngineSpeedType)
             EditorGUILayout.EnumPopup("Target engine speed state: ", engineScript.CurrentTargetEngineSpeedType);
             
-        EditorGUILayout.FloatField("Current speed: ", engineScript.CurrentVelocity * 100);
+        EditorGUILayout.FloatField("Current speed: ", engineScript.CurrentVelocity / trainController.SplineLenght);
         EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
 
         EditorGUI.EndDisabledGroup();
