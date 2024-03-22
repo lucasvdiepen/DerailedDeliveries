@@ -20,13 +20,19 @@ public class TrainControllerEditor : Editor
     {
         DrawDefaultInspector();
 
+        TrainController trainController = (TrainController)target;
+        if(GUILayout.Button("Recalculate Spline Lenght"))
+        {
+            trainController.RecalculateSplineLenght();
+            trainController.DebugSnapToSpline();
+        }
+        
         if (!Application.isPlaying)
             return;
 
-        TrainController trainController = (TrainController)target;
+        TrainEngine engineScript = trainController.TrainEngine;
         EditorGUI.BeginDisabledGroup(true);
 
-        TrainEngine engineScript = trainController.TrainEngine;
         EditorGUILayout.EnumPopup("Current engine state: ", engineScript.EngineState);
         EditorGUILayout.EnumPopup("Current engine speed state: ", engineScript.CurrentEngineSpeedType);
 

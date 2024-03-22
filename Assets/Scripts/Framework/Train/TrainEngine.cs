@@ -10,6 +10,7 @@ namespace DerailedDeliveries.Framework.Train
     /// <summary>
     /// Class responsible for controlling the trains engine.
     /// </summary>
+    [RequireComponent(typeof(TrainController))]
     public class TrainEngine : AbstractSingleton<TrainEngine>
     {
         [SerializeField]
@@ -45,7 +46,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Current train velocity speed.
         /// </summary>
-        public float CurrentVelocity => _currentSpeed / 100f;
+        public float CurrentVelocity => _currentSpeed / _trainController.SplineLenght;
 
         private Dictionary<TrainEngineSpeedTypes, float> _getSpeedValue;
 
@@ -53,6 +54,9 @@ namespace DerailedDeliveries.Framework.Train
         private float _speedTypesCount = 0;
 
         private Tween _speedTween;
+        private TrainController _trainController;
+
+        private void Awake() => _trainController = GetComponent<TrainController>();
 
         private void Start()
         {
@@ -96,9 +100,10 @@ namespace DerailedDeliveries.Framework.Train
             _speedTween.Kill();
 
             float currentMaxSpeed = _getSpeedValue[targetEngineSpeedType];
-
-            _speedTween = DOTween.To(()
-                => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, _accelerationDuration);
+            float duration = _accelerationDuration;
+            
+            _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
+                .SetEase(_accelerationEase);
 
             _speedTween.OnComplete(() =>
             {

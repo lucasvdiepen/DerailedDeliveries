@@ -10,8 +10,11 @@ namespace DerailedDeliveries.Framework.Train
     [RequireComponent(typeof(TrainEngine))]
     public class TrainController : MonoBehaviour
     {
-        [SerializeField]
-        private SplineContainer _spline;
+        /// <summary>
+        /// Reference to the spline line data.
+        /// </summary>
+        [field: SerializeField]
+        public SplineContainer Spline { get; private set; }
         
         [Header("Train Config")]
         [SerializeField, Range(0, 1)]
@@ -41,14 +44,27 @@ namespace DerailedDeliveries.Framework.Train
         public float DistanceAlongSpline { get; private set; } = 0.0f;
 
         /// <summary>
+        /// Returns the precalculated line lenght of the spline
+        /// </summary>
+        public float SplineLenght { get; private set; }
+
+        /// <summary>
         /// Reference to the train engine.
         /// </summary>
         public TrainEngine TrainEngine { get; private set; }
+
+        /// <summary>
+        /// Helper method for updating the current spline lenght.
+        /// </summary>
+        public void RecalculateSplineLenght() => SplineLenght = Spline.CalculateLength();
 
         private void Awake()
         {
             TrainEngine = GetComponent<TrainEngine>();
             DistanceAlongSpline = _trainFrontStartTime;
+
+            if (Spline != null)
+                SplineLenght = Spline.CalculateLength();
         }
 
 #if UNITY_EDITOR
@@ -56,7 +72,7 @@ namespace DerailedDeliveries.Framework.Train
         {
             if (!gameObject.activeSelf || Application.isPlaying)
                 return;
-
+            
             DebugSnapToSpline();
         }
 #endif
@@ -74,7 +90,7 @@ namespace DerailedDeliveries.Framework.Train
                 float adjustedFollowDistance = _wagonFollowDistance / 10f;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / 10f) * i;
 
-                UpdateWagonPosition(_wagons[i - 1], offset);
+                UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
 
             DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.deltaTime;
@@ -89,16 +105,19 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="offset"></param>
         public void UpdateWagonPosition(Transform trainBody, float offset = 0)
         {
-            Vector3 nextPosition = _spline.EvaluatePosition(DistanceAlongSpline + (offset / 10f));
+            Vector3 nextPosition = Spline.EvaluatePosition(DistanceAlongSpline + (offset / 10f));
             nextPosition.y += _heightOffset;
             trainBody.position = nextPosition;
 
-            Vector3 nextDirection = _spline.EvaluateTangent(DistanceAlongSpline + (offset / 10f));
+            Vector3 nextDirection = Spline.EvaluateTangent(DistanceAlongSpline + (offset / 10f));
             trainBody.rotation = Quaternion.LookRotation(-nextDirection, Vector3.up);
         }
 
 #if UNITY_EDITOR
-        private void DebugSnapToSpline()
+        /// <summary>
+        /// Helper method to snap train wagons to the correct spline position/rotation. 
+        /// </summary>
+        public void DebugSnapToSpline()
         {
             DistanceAlongSpline = _trainFrontStartTime;
             UpdateWagonPosition(_frontWagon);
@@ -108,7 +127,8 @@ namespace DerailedDeliveries.Framework.Train
             {
                 float adjustedFollowDistance = _wagonFollowDistance / 10f;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / 10f) * i;
-                UpdateWagonPosition(_wagons[i - 1], offset);
+                
+                UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
         }
 #endif
