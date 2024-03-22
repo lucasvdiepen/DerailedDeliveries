@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
-using FishNet.Object;
+using System.Collections;
+using Unity.VisualScripting;
+using FishNet.Connection;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -24,7 +27,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private PlayerInputParser _inputParser;
 
-        private bool IsInteracting => _interactingTarget != null;
+        private bool _isInteracting;
+
+        private float _cooldown = .2f;
+
+        private bool _isOnCooldown;
 
         private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
 
@@ -38,7 +45,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             if (target.TryGetComponent<Interactable>(out Interactable interactable))
             {
-                if (_interactables.Contains(interactable) || IsInteracting)
+                if (_interactables.Contains(interactable))
                     return;
 
                 _interactables.Add(interactable);
@@ -60,23 +67,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UseInteractable()
         {
-            if (_interactables.Count == 0 || IsInteracting)
-            {
-                if (IsInteracting)
-                    _interactingTarget.Interact(this);
-
+            if (_isOnCooldown || _interactables.Count == 0)
                 return;
+
+            if (_isInteracting)
+            {
+                StartCoroutine(ActivateCooldown());
+                _interactingTarget.InteractOnServer(this);
             }
 
             // TO DO: Priority checking for which interactable is most prio.
-
-            InteractOnServer(_interactables[0]);
-        }
-
-        [ServerRpc]
-        private void InteractOnServer(Interactable interactable)
-        {
-            interactable.Interact(this);
+            StartCoroutine(ActivateCooldown());
+            _interactingTarget = _interactables[0];
+            _interactingTarget.InteractOnServer(this);
         }
 
         /// <summary>
@@ -84,21 +87,29 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// </summary>
         /// <param name="interactable">The current interacting target. If the interactor already had this
         /// reference set it will reset it.</param>
-        public void SetInteractingTarget(Interactable interactable)
+        // Function that is called server sided for setting transform parent and reference to
+        // interacting target.
+        public void SetInteractingTarget(Interactable interactable, bool isInteracting)
         {
-            _interactingTarget = IsInteracting
-                ? null
-                : interactable;
+            _interactingTarget = interactable;
+            _isInteracting = isInteracting;
 
             interactable.gameObject.transform.SetParent
             (
-                IsInteracting
+                _isInteracting
                 ? _grabbingAnchor
                 : null
             );
 
-            if(IsInteracting)
+            if(_isInteracting)
                 interactable.gameObject.transform.localPosition = Vector3.zero;
+        }
+
+        private protected virtual IEnumerator ActivateCooldown()
+        {
+            _isOnCooldown = false;
+            yield return new WaitForSeconds(_cooldown);
+            _isOnCooldown = true;
         }
     }
 }

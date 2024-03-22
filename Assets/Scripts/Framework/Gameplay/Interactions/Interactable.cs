@@ -26,22 +26,34 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
 
         private bool _interactable;
 
+        private bool _isBeingInteracted;
+
         private protected bool IsInteractable
         {
             get => _interactable;
             set => _interactable = value;
         }
+        private protected bool IsBeingInteracted
+        {
+            get => _isBeingInteracted;
+            set => _isBeingInteracted = value;
+        }
 
         /// <summary>
-        /// The base function for any Interactable that is used to call the functionality of the Interactable.
-        /// Can be overwritten in classes that derive from the base class.
+        /// A function that calls a RPC to the server on this Interactable.
         /// </summary>
+        /// <param name="interactor">The interactor that his request originates from.</param>
         [ServerRpc]
-        public virtual void Interact(Interactor interactor)
+        public void InteractOnServer(Interactor interactor)
         {
-            if (!_interactable || _isOnCooldown)
+            if (!_interactable || _isOnCooldown || _isBeingInteracted)
                 return;
 
+            Interact(interactor);
+        }
+
+        private protected virtual void Interact(Interactor interactor)
+        {
             StartCoroutine(ActivateCooldown());
 
             OnInteract?.Invoke();
