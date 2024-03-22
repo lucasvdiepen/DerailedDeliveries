@@ -1,4 +1,4 @@
-namespace DerailedDeliveries.Framework.TrainController
+namespace DerailedDeliveries.Framework.Train
 {
     /// <summary>
     /// Enum state for different train speeds.
@@ -8,6 +8,10 @@ namespace DerailedDeliveries.Framework.TrainController
         STILL,
         LOW,
         MEDIUM,
-        HIGH
+        HIGH,
+
+        LOW_REVERSE,
+        MEDIUM_REVERSE,
+        HIGH_REVERSE
     }
 }

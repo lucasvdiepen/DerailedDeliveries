@@ -1,7 +1,8 @@
+#if UNITY_EDITOR
 using UnityEditor;
-
-using DerailedDeliveries.Framework.TrainController;
 using UnityEngine;
+
+using DerailedDeliveries.Framework.Train;
 
 [CustomEditor(typeof(TrainController))]
 public class TrainControllerEditor : Editor
@@ -18,19 +19,24 @@ public class TrainControllerEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        TrainController trainController = (TrainController)target;
 
+        if (!Application.isPlaying)
+            return;
+
+        TrainController trainController = (TrainController)target;
         EditorGUI.BeginDisabledGroup(true);
 
-        EditorGUILayout.EnumPopup("Current engine state: ", trainController.EngineState);
-        EditorGUILayout.EnumPopup("Current engine speed state: ", trainController.CurrentEngineSpeedType);
+        TrainEngine engineScript = trainController.TrainEngine;
+        EditorGUILayout.EnumPopup("Current engine state: ", engineScript.EngineState);
+        EditorGUILayout.EnumPopup("Current engine speed state: ", engineScript.CurrentEngineSpeedType);
 
-        if(trainController.CurrentTargetEngineSpeedType != trainController.CurrentEngineSpeedType)
-            EditorGUILayout.EnumPopup("Target engine speed state: ", trainController.CurrentTargetEngineSpeedType);
-
-        EditorGUILayout.FloatField("Current speed: ", trainController.CurrentVelocity * 100);
+        if(engineScript.CurrentTargetEngineSpeedType != engineScript.CurrentEngineSpeedType)
+            EditorGUILayout.EnumPopup("Target engine speed state: ", engineScript.CurrentTargetEngineSpeedType);
+            
+        EditorGUILayout.FloatField("Current speed: ", engineScript.CurrentVelocity * 100);
         EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
 
         EditorGUI.EndDisabledGroup();
     }
 }
+#endif

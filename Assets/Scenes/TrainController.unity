@@ -631,6 +631,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1051506057}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 769d8742b97bc3048af2224223b1a0e2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1051506059}
   m_SourcePrefab: {fileID: 100100000, guid: 769d8742b97bc3048af2224223b1a0e2, type: 3}
 --- !u!1 &712823177
 GameObject:
@@ -649,7 +653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &712823178
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,7 +1077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &907720225
 Transform:
   m_ObjectHideFlags: 0
@@ -1159,16 +1163,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spline: {fileID: 64685509}
   _trainFrontStartTime: 0
-  _maxHighSpeed: 7.5
-  _maxMediumSpeed: 7.5
-  _maxLowSpeed: 7.5
   _heightOffset: 0.1
-  _accelerationDuration: 5
-  _accelerationEase: 1
   _frontWagon: {fileID: 0}
   _wagonFollowDistance: 0
   _wagonSpacing: 0
   _wagons: []
+--- !u!114 &1051506059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051506055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68b0e8587849dc24d94752d025b9f4a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHighSpeed: 7.5
+  _maxMediumSpeed: 5
+  _maxLowSpeed: 2.5
+  _accelerationDuration: 10
+  _accelerationEase: 1
 --- !u!1 &1327516687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1661339809
 Transform:
   m_ObjectHideFlags: 0
@@ -2146,6 +2162,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1874032691}
   - component: {fileID: 1874032690}
+  - component: {fileID: 1874032692}
+  - component: {fileID: 1874032693}
   m_Layer: 0
   m_Name: Train
   m_TagString: Untagged
@@ -2167,12 +2185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spline: {fileID: 1396686326}
   _trainFrontStartTime: 0.555
-  _maxHighSpeed: 7.5
-  _maxMediumSpeed: 5
-  _maxLowSpeed: 2.5
   _heightOffset: 0.08
-  _accelerationDuration: 20
-  _accelerationEase: 8
   _frontWagon: {fileID: 2131814525}
   _wagonFollowDistance: 0.15
   _wagonSpacing: 0.85
@@ -2199,6 +2212,35 @@ Transform:
   - {fileID: 720210849}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1874032692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874032689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68b0e8587849dc24d94752d025b9f4a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHighSpeed: 7.5
+  _maxMediumSpeed: 5
+  _maxLowSpeed: 2.5
+  _accelerationDuration: 10
+  _accelerationEase: 8
+--- !u!114 &1874032693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874032689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6c828cd7fcc8d488d237ee6d876a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1886223041
 GameObject:
   m_ObjectHideFlags: 0
@@ -2299,7 +2341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1889706657
 Transform:
   m_ObjectHideFlags: 0
@@ -3290,7 +3332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &7240900999389900077
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3464,7 +3506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &7986465590501251284
 GameObject:
   m_ObjectHideFlags: 0
@@ -3482,7 +3524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &8136324320248487401
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3573,7 +3615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &8732810366652648979
 MeshFilter:
   m_ObjectHideFlags: 0
