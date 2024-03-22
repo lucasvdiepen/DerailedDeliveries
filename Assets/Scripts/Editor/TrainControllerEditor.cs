@@ -19,9 +19,9 @@ public class TrainControllerEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-
         TrainController trainController = (TrainController)target;
-        if(GUILayout.Button("Recalculate Spline Lenght"))
+        
+        if(GUILayout.Button("Recalculate Spline Lenght") && !Application.isPlaying)
         {
             trainController.RecalculateSplineLenght();
             trainController.DebugSnapToSpline();
@@ -29,7 +29,7 @@ public class TrainControllerEditor : Editor
         
         if (!Application.isPlaying)
             return;
-
+        
         TrainEngine engineScript = trainController.TrainEngine;
         EditorGUI.BeginDisabledGroup(true);
 

@@ -46,7 +46,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Returns the precalculated line lenght of the spline
         /// </summary>
-        public float SplineLenght { get; private set; }
+        public float SplineLenght { get; private set; } = 0;
 
         /// <summary>
         /// Reference to the train engine.
@@ -70,13 +70,18 @@ namespace DerailedDeliveries.Framework.Train
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!gameObject.activeSelf || Application.isPlaying)
+            if (!gameObject.activeSelf)
                 return;
-            
+
+            if (SplineLenght == 0)
+                SplineLenght = Spline.CalculateLength();
+
+            if (Application.isPlaying)
+                return;
+
             DebugSnapToSpline();
         }
 #endif
-
         private void Update() 
             => MoveTrain();
 
