@@ -63,7 +63,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         }
 
         private readonly List<PlayerId> _players = new();
-        private readonly List<PlayerSpawner> _playerSpawners = new();
+        private readonly List<PlayerSpawnRequester> _playerSpawners = new();
         private bool _isSpawnEnabled;
         private int _playerIdCount;
 
@@ -97,7 +97,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             if(playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
             {
-                PlayerSpawner playerSpawner = _playerSpawners[0];
+                PlayerSpawnRequester playerSpawner = _playerSpawners[0];
 
                 PlayerInput playerSpawnerInput = playerSpawner.GetComponent<PlayerInput>();
                 PlayerInput playerInput = playerId.GetComponent<PlayerInput>();
@@ -146,7 +146,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// </summary>
         /// <param name="clientConnection">The client connection that wants to spawn a player.</param>
         /// <param name="playerSpawner">The player spawner which is trying to spawn a player.</param>
-        public void SpawnPlayer(NetworkConnection clientConnection, PlayerSpawner playerSpawner)
+        public void SpawnPlayer(NetworkConnection clientConnection, PlayerSpawnRequester playerSpawner)
         {
             if(_players.Count >= _maxPlayers)
             {

@@ -7,7 +7,7 @@ namespace DerailedDeliveries.Framework.Networking
     /// <summary>
     /// A class responsible for destroying components when the client does not own the object.
     /// </summary>
-    public class Destroyer : NetworkBehaviour
+    public class UnownedComponentDestroyer : NetworkBehaviour
     {
         [SerializeField]
         private MonoBehaviour[] _components;

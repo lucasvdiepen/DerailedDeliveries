@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7407627284437429531}
   - component: {fileID: 949718271437521191}
-  - component: {fileID: 7068367015896633781}
+  - component: {fileID: 4224236436027397008}
   m_Layer: 0
-  m_Name: PlayerSpawner
+  m_Name: PlayerSpawnRequester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerActions
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7068367015896633781
+--- !u!114 &4224236436027397008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
