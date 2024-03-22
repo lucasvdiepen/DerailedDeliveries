@@ -1,6 +1,7 @@
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using System.Collections;
+using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
@@ -12,7 +13,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
     [RequireComponent(typeof(CapsuleCollider))]
-    public class Interactor : MonoBehaviour
+    public class Interactor : NetworkBehaviour
     {
         [SerializeField]
         private List<Interactable> _interactables;
@@ -73,6 +74,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             {
                 StartCoroutine(ActivateCooldown());
                 _interactingTarget.InteractOnServer(this);
+                return;
             }
 
             // TO DO: Priority checking for which interactable is most prio.
@@ -92,12 +94,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _interactingTarget = interactable;
             _isInteracting = isInteracting;
 
-            interactable.gameObject.transform.SetParent
-            (
-                _isInteracting
-                ? _grabbingAnchor
-                : null
-            );
+            if (_isInteracting)
+                interactable.NetworkObject.SetParent(_grabbingAnchor.GetComponent<NetworkBehaviour>());
+            else
+                interactable.NetworkObject.UnsetParent();
 
             if(_isInteracting)
                 interactable.gameObject.transform.localPosition = Vector3.zero;
@@ -105,9 +105,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private protected virtual IEnumerator ActivateCooldown()
         {
-            _isOnCooldown = false;
-            yield return new WaitForSeconds(_cooldown);
             _isOnCooldown = true;
+            yield return new WaitForSeconds(_cooldown);
+            _isOnCooldown = false;
         }
     }
 }

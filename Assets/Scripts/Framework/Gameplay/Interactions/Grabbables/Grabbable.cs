@@ -15,10 +15,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <param name="interactor">The Interactor that interacts with this Grabbable.</param>
         private protected override void Interact(Interactor interactor)
         {
-            base.Interact(interactor);
+            if (!IsInteractable || IsOnCooldown)
+                return;
 
             if (IsBeingInteracted && interactor != _originInteractor)
                 return;
+
+            base.Interact(interactor);
 
             IsBeingInteracted = !IsBeingInteracted;
 
