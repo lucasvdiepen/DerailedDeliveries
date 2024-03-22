@@ -132,25 +132,34 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <summary>
         /// Tries to spawn a player on the server.
         /// </summary>
-        /// <param name="connection">The client connection that wants to spawn a player.</param>
+        /// <param name="clientConnection">The client connection that wants to spawn a player.</param>
         /// <param name="playerSpawner">The player spawner which is trying to spawn a player.</param>
-        public void SpawnPlayer(NetworkConnection connection, PlayerSpawner playerSpawner)
+        public void SpawnPlayer(NetworkConnection clientConnection, PlayerSpawner playerSpawner)
         {
+            if(_players.Count >= _maxPlayers)
+            {
+                Destroy(playerSpawner.gameObject);
+                return;
+            }
+
             if(_playerSpawners.Contains(playerSpawner))
                 return;
 
             _playerSpawners.Add(playerSpawner);
 
-            SpawnPlayerOnServer(connection);
+            SpawnPlayerOnServer(clientConnection);
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void SpawnPlayerOnServer(NetworkConnection connection)
+        private void SpawnPlayerOnServer(NetworkConnection clientConnection)
         {
+            if(_players.Count >= _maxPlayers)
+                return;
+
             GameObject spawnedPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
 
-            ServerManager.Spawn(spawnedPlayer, connection);
+            ServerManager.Spawn(spawnedPlayer, clientConnection);
             SceneManager.AddOwnerToDefaultScene(networkObject);
 
             spawnedPlayer.GetComponent<PlayerId>().SetId(_playerIdCount);
