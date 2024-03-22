@@ -28,13 +28,6 @@ namespace DerailedDeliveries.Framework.Train
         private Ease _accelerationEase = Ease.Linear;
 
         /// <summary>
-        /// Action that gets invoked when train speed type has changed.<br/>
-        /// <br>TrainEngineSpeedTypes = last value.</br>
-        /// <br/>TrainEngineSpeedTypes = current value.
-        /// </summary>
-        public Action<TrainEngineSpeedTypes, TrainEngineSpeedTypes> onSpeedTypeChanged = null;
-
-        /// <summary>
         /// Current train engine state.
         /// </summary>
         public TrainEngineState EngineState { get; private set; }
@@ -67,16 +60,26 @@ namespace DerailedDeliveries.Framework.Train
 
             _getSpeedValue = new Dictionary<TrainEngineSpeedTypes, float>()
             {
+                {TrainEngineSpeedTypes.HIGH, _maxHighSpeed },
                 {TrainEngineSpeedTypes.LOW, _maxLowSpeed },
                 {TrainEngineSpeedTypes.MEDIUM, _maxMediumSpeed },
-                {TrainEngineSpeedTypes.HIGH, _maxHighSpeed },
+                
                 {TrainEngineSpeedTypes.STILL, 0 },
+
+                {TrainEngineSpeedTypes.LOW_REVERSE, -_maxLowSpeed },
+                {TrainEngineSpeedTypes.MEDIUM_REVERSE, -_maxMediumSpeed },
+                {TrainEngineSpeedTypes.HIGH_REVERSE, -_maxHighSpeed },
             };
 
             EngineState = TrainEngineState.ON_STANDBY;
             CurrentEngineSpeedType = TrainEngineSpeedTypes.STILL;
+            CurrentTargetEngineSpeedType = TrainEngineSpeedTypes.STILL;
         }
 
+        /// <summary>
+        /// Method for increasing/decreasing train speed level.
+        /// </summary>
+        /// <param name="increase"></param>
         public void AdjustSpeed(bool increase)
         {
             TrainEngineSpeedTypes lastType = CurrentEngineSpeedType;
@@ -86,12 +89,6 @@ namespace DerailedDeliveries.Framework.Train
 
             bool isAccelerating = (int)lastType < (int)CurrentTargetEngineSpeedType;
             TweenTrainSpeed(CurrentTargetEngineSpeedType, isAccelerating);
-
-            //TODO: fix pls
-            if (lastType != CurrentEngineSpeedType)
-            {
-                onSpeedTypeChanged?.Invoke(lastType, CurrentEngineSpeedType);
-            }
         }
 
         private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType, bool isAccelerating)
