@@ -23,9 +23,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         private float _cooldown = .5f;
 
         private bool _isOnCooldown;
-
         private bool _interactable;
-
         private bool _isBeingInteracted;
 
         private protected bool IsInteractable
@@ -33,6 +31,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
             get => _interactable;
             set => _interactable = value;
         }
+
         private protected bool IsBeingInteracted
         {
             get => _isBeingInteracted;

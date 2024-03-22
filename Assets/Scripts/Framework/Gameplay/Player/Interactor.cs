@@ -1,12 +1,10 @@
+using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
-using FishNet.Object;
+using System.Collections;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
-using System.Collections;
-using Unity.VisualScripting;
-using FishNet.Connection;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -27,6 +25,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private PlayerInputParser _inputParser;
 
+        [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
 
         private float _cooldown = .2f;
@@ -87,8 +86,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// </summary>
         /// <param name="interactable">The current interacting target. If the interactor already had this
         /// reference set it will reset it.</param>
-        // Function that is called server sided for setting transform parent and reference to
-        // interacting target.
+        // Function that is called server sided for setting transform parent and reference to interacting target.
         public void SetInteractingTarget(Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
