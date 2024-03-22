@@ -4,11 +4,17 @@ using UnityEngine;
 
 namespace DerailedDeliveries.Framework.Networking
 {
+    /// <summary>
+    /// A class responsible for destroying components when the client does not own the object.
+    /// </summary>
     public class Destroyer : NetworkBehaviour
     {
         [SerializeField]
         private MonoBehaviour[] _components;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnSpawnServer(NetworkConnection connection)
         {
             base.OnSpawnServer(connection);
@@ -16,6 +22,9 @@ namespace DerailedDeliveries.Framework.Networking
             DestroyAll();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartClient()
         {
             base.OnStartClient();
@@ -23,6 +32,9 @@ namespace DerailedDeliveries.Framework.Networking
             DestroyAll();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnOwnershipClient(NetworkConnection prevOwner)
         {
             base.OnOwnershipClient(prevOwner);

@@ -1,8 +1,7 @@
-using DerailedDeliveries.Framework.InputParser;
 using FishNet;
-using FishNet.Transporting;
 using System.Collections;
-using UnityEngine;
+
+using DerailedDeliveries.Framework.PlayerManagement;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
@@ -11,6 +10,9 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     /// </summary>
     public class HostState : MenuState
     {
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override IEnumerator OnStateEnter()
         {
             InstanceFinder.ServerManager.StartConnection();
@@ -19,6 +21,9 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             yield return base.OnStateEnter();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override IEnumerator OnStateExit()
         {
             if(InstanceFinder.NetworkManager.IsClient)

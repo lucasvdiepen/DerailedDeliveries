@@ -1,9 +1,13 @@
-using DerailedDeliveries.Framework.InputParser;
 using FishNet;
 using UnityEngine;
 
-namespace DerailedDeliveries.Framework.Player
+using DerailedDeliveries.Framework.InputParser;
+
+namespace DerailedDeliveries.Framework.PlayerManagement
 {
+    /// <summary>
+    /// A class responsible for spawning the player.
+    /// </summary>
     public class PlayerSpawner : MonoBehaviour
     {
         private void Start() => PlayerManager.Instance.SpawnPlayer(InstanceFinder.ClientManager.Connection, this);

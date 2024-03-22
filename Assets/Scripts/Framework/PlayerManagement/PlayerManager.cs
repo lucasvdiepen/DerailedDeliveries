@@ -1,23 +1,20 @@
-using DerailedDeliveries.Framework.Gameplay.Player;
-using DerailedDeliveries.Framework.Player;
-using DerailedDeliveries.Framework.Utils;
 using FishNet.Connection;
 using FishNet.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace DerailedDeliveries.Framework.InputParser
+using DerailedDeliveries.Framework.Utils;
+
+namespace DerailedDeliveries.Framework.PlayerManagement
 {
+    /// <summary>
+    /// A class that manages all the networked players in the game.
+    /// </summary>
     public class PlayerManager : NetworkAbstractSingleton<PlayerManager>
     {
-        public Action<PlayerId> OnPlayerJoined;
-
-        public Action<PlayerId> OnPlayerLeft;
-
         [SerializeField]
         private PlayerInputManager _playerInputManager;
 
@@ -27,11 +24,24 @@ namespace DerailedDeliveries.Framework.InputParser
         [SerializeField]
         private int _maxPlayers = 6;
 
-        public int PlayerCount
-        {
-            get => _players.Count;
-        }
+        /// <summary>
+        /// Invoked when a player joins the game. The PlayerId script is passed as an argument.
+        /// </summary>
+        public Action<PlayerId> OnPlayerJoined;
 
+        /// <summary>
+        /// Invoked when a player leaves the game.
+        /// </summary>
+        public Action OnPlayerLeft;
+
+        /// <summary>
+        /// The amount of players currently in the game.
+        /// </summary>
+        public int PlayerCount => _players.Count;
+
+        /// <summary>
+        /// Whether spawning new players is enabled.
+        /// </summary>
         public bool IsSpawnEnabled
         {
             get
@@ -54,6 +64,9 @@ namespace DerailedDeliveries.Framework.InputParser
         private bool _isSpawnEnabled;
         private int _playerIdCount;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartClient()
         {
             base.OnStartClient();
@@ -61,6 +74,9 @@ namespace DerailedDeliveries.Framework.InputParser
             _playerInputManager.EnableJoining();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStopClient()
         {
             base.OnStopClient();
@@ -68,6 +84,10 @@ namespace DerailedDeliveries.Framework.InputParser
             _playerInputManager.DisableJoining();
         }
 
+        /// <summary>
+        /// Called when a player joined the game.
+        /// </summary>
+        /// <param name="playerId">The PlayerId that joined the game.</param>
         public void PlayerJoined(PlayerId playerId)
         {
             _players.Add(playerId);
@@ -88,18 +108,32 @@ namespace DerailedDeliveries.Framework.InputParser
             OnPlayerJoined?.Invoke(playerId);
         }
 
+        /// <summary>
+        /// Called when a player left the game.
+        /// </summary>
+        /// <param name="playerId">The PlayerId that left the game.</param>
         public void PlayerLeft(PlayerId playerId)
         {
             _players.Remove(playerId);
-            OnPlayerLeft?.Invoke(playerId);
+            OnPlayerLeft?.Invoke();
         }
 
+        /// <summary>
+        /// Gets a player by their id.
+        /// </summary>
+        /// <param name="id">The id of the player to get.</param>
+        /// <returns>The PlayerId script of the player with the given id.</returns>
         public PlayerId GetPlayer(int id)
         {
             PlayerId playerId = _players.FirstOrDefault(player => player.Id == id);
             return playerId;
         }
 
+        /// <summary>
+        /// Tries to spawn a player on the server.
+        /// </summary>
+        /// <param name="connection">The client connection that wants to spawn a player.</param>
+        /// <param name="playerSpawner">The player spawner which is trying to spawn a player.</param>
         public void SpawnPlayer(NetworkConnection connection, PlayerSpawner playerSpawner)
         {
             if(_playerSpawners.Contains(playerSpawner))
@@ -123,6 +157,10 @@ namespace DerailedDeliveries.Framework.InputParser
             _playerIdCount++;
         }
 
+        /// <summary>
+        /// Despawns a player on the server.
+        /// </summary>
+        /// <param name="networkObject">The network object of the player to despawn.</param>
         public void DespawnPlayer(NetworkObject networkObject) => DespawnPlayerOnServer(networkObject);
 
         [ServerRpc(RequireOwnership = false)]
