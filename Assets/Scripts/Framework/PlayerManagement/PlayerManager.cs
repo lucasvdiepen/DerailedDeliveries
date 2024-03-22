@@ -24,6 +24,9 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [SerializeField]
         private int _maxPlayers = 6;
 
+        [SerializeField]
+        private List<Color> _playerColors;
+
         /// <summary>
         /// Invoked when a player joins the game. The PlayerId script is passed as an argument.
         /// </summary>
@@ -114,6 +117,15 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <param name="playerId">The PlayerId that left the game.</param>
         public void PlayerLeft(PlayerId playerId)
         {
+            if(!_players.Contains(playerId))
+                return;
+
+            if(IsServer)
+            {
+                Color playerColor = playerId.GetComponent<PlayerColor>().Color;
+                _playerColors.Add(playerColor);
+            }
+
             _players.Remove(playerId);
             OnPlayerLeft?.Invoke();
         }
@@ -163,6 +175,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             SceneManager.AddOwnerToDefaultScene(networkObject);
 
             spawnedPlayer.GetComponent<PlayerId>().SetId(_playerIdCount);
+
+            Color newColor = _playerColors[UnityEngine.Random.Range(0, _playerColors.Count)];
+            spawnedPlayer.GetComponent<PlayerColor>().SetColor(newColor);
+            _playerColors.Remove(newColor);
+
             _playerIdCount++;
         }
 

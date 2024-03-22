@@ -54,6 +54,13 @@ MonoBehaviour:
   _playerPrefab: {fileID: 3048916122270372580, guid: 35d12fa655fd7c14f8ba8f85fa76bdb7,
     type: 3}
   _maxPlayers: 6
+  _playerColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0.7647059, g: 0.5686275, b: 0.2627451, a: 1}
+  - {r: 0.2901961, g: 0.25490198, b: 0.16470589, a: 1}
+  - {r: 1, g: 0, b: 0.8942375, a: 1}
 --- !u!114 &3213328650872674612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +89,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 1150574315
   <SceneId>k__BackingField: 0
