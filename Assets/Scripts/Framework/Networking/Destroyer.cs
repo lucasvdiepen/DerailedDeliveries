@@ -32,7 +32,7 @@ namespace DerailedDeliveries.Framework.Networking
 
         private void DestroyAll()
         {
-            if (IsOwner)
+            if (Owner.IsLocalClient)
                 return;
 
             foreach (MonoBehaviour component in _components)

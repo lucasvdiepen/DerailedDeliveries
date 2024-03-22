@@ -6,9 +6,6 @@ namespace DerailedDeliveries.Framework.Player
 {
     public class PlayerSpawner : MonoBehaviour
     {
-        private void Start()
-        {
-            PlayerManager.Instance.SpawnPlayer(InstanceFinder.ClientManager.Connection);
-        }
+        private void Start() => PlayerManager.Instance.SpawnPlayer(InstanceFinder.ClientManager.Connection, this);
     }
 }
