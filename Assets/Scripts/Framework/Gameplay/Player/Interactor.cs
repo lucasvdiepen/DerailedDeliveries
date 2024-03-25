@@ -24,12 +24,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private Transform _grabbingAnchor;
 
+        [SerializeField]
+        private float _cooldown = .2f;
+
         private PlayerInputParser _inputParser;
 
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
-
-        private float _cooldown = .2f;
 
         private bool _isOnCooldown;
 
@@ -84,11 +85,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         }
 
         /// <summary>
-        /// A function that sets the InteractingTarget of this Interactor.
+        /// A function that sets the InteractingTarget of this Interactor serversided.
         /// </summary>
         /// <param name="interactable">The current interacting target. If the interactor already had this
         /// reference set it will reset it.</param>
-        // Function that is called server sided for setting transform parent and reference to interacting target.
         public void SetInteractingTarget(Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;

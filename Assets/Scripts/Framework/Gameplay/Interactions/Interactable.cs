@@ -1,10 +1,10 @@
 using System.Collections;
+using FishNet.Observing;
+using FishNet.Object;
 using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
-using FishNet.Object;
-using FishNet.Observing;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions
 {

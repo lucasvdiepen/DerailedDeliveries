@@ -50,7 +50,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         {
             Vector3 playerInput = new Vector3(_playerInput.normalized.x, 0, _playerInput.normalized.y);
 
-
             Vector3 newForce = _rigidbody.velocity + playerInput * _speed;
 
             newForce.x = Mathf.Clamp(newForce.x, _maxSpeed * -1, _maxSpeed);
