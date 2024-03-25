@@ -36,8 +36,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private Transform[] _wagons = null;
 
-        private RailSplit _railSplit;
-
         /// <summary>
         /// Current distance value along spline lenght clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
@@ -60,13 +58,16 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public void RecalculateSplineLenght() => SplineLenght = Spline.CalculateLength();
 
+        private RailSplit _railSplit;
+        private const float TWEAK_DIVIDE_FACTOR = 10;
+
         private void Awake()
         {
             TrainEngine = GetComponent<TrainEngine>();
             DistanceAlongSpline = _trainFrontStartTime;
 
             if (Spline != null)
-                SplineLenght = Spline.CalculateLength();
+                RecalculateSplineLenght();
 
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
@@ -96,58 +97,88 @@ namespace DerailedDeliveries.Framework.Train
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
             {
-                float adjustedFollowDistance = _wagonFollowDistance / 10f;
-                float offset = adjustedFollowDistance + (-_wagonSpacing / 10f) * i;
+                float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
+                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
 
                 UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
 
             DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.deltaTime;
             if (DistanceAlongSpline > 1.0f)
+                HandlePossibleRailSplit();
+        }
+
+        private void HandlePossibleRailSplit()
+        {
+            if (_railSplit == null)
             {
-                if(_railSplit == null)
-                {
-                    print("End reached");
-                    return;
-                }
-
-                DistanceAlongSpline = 0.0f;
-                Spline = _railSplit.GetRandomWay();
-
-                RecalculateSplineLenght();
-                Spline.gameObject.TryGetComponent(out _railSplit);
+                print("End reached");
+                return;
             }
+
+            DistanceAlongSpline = 0.0f;
+            Spline = _railSplit.GetRandomWay();
+
+            RecalculateSplineLenght();
+            DistanceAlongSpline = GetOptimalTrainStartPoint();
+
+            Spline.gameObject.TryGetComponent(out _railSplit);
+        }
+        
+        /// <summary>
+        /// Calculates and returns the correct start distance along the current spline.
+        /// </summary>
+        /// <param name="currentPosition"></param>
+        /// <returns>Spline distance value.</returns>
+        private float GetOptimalTrainStartPoint()
+        {
+            int wagons = _wagons.Length;
+            
+            float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
+            float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * wagons;
+
+            float offsetSum = Mathf.Abs(offset / SplineLenght / TWEAK_DIVIDE_FACTOR);
+            return offsetSum;
         }
 
         /// <summary>
         /// Sets a wagon transform to the correct spline position and rotation.
         /// </summary>
-        /// <param name="trainBody"></param>
-        /// <param name="offset"></param>
+        /// <param name="trainBody">Transform of affected wagon.</param>
+        /// <param name="offset">Optional offset applied on <see cref="DistanceAlongSpline"/></param>
         public void UpdateWagonPosition(Transform trainBody, float offset = 0)
         {
-            Vector3 nextPosition = Spline.EvaluatePosition(DistanceAlongSpline + (offset / 10f));
+            Vector3 nextPosition = Spline.EvaluatePosition(DistanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
             nextPosition.y += _heightOffset;
             trainBody.position = nextPosition;
 
-            Vector3 nextDirection = Spline.EvaluateTangent(DistanceAlongSpline + (offset / 10f));
+            Vector3 nextDirection = Spline.EvaluateTangent(DistanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
             trainBody.rotation = Quaternion.LookRotation(-nextDirection, Vector3.up);
         }
-
-#if UNITY_EDITOR
+        
         /// <summary>
-        /// Helper method to snap train wagons to the correct spline position/rotation. 
+        /// Helper method for resetting train position to the current spline start point based on its length.
         /// </summary>
-        public void DebugSnapToSpline()
+        public void ResetTrainPosition()
         {
-            DistanceAlongSpline = _trainFrontStartTime;
+            _trainFrontStartTime = GetOptimalTrainStartPoint();
+            DebugSnapToSpline(_trainFrontStartTime);
+        }
+
+        /// <summary>
+        /// Helper method to snap train wagons to the correct spline position/rotation for editor use only.
+        /// </summary>
+#if UNITY_EDITOR
+        public void DebugSnapToSpline(float overrideSplinePosition = 0)
+        {
+            DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
             UpdateWagonPosition(_frontWagon);
 
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
             {
-                float adjustedFollowDistance = _wagonFollowDistance / 10f;
-                float offset = adjustedFollowDistance + (-_wagonSpacing / 10f) * i;
+                float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
+                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
                 
                 UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }

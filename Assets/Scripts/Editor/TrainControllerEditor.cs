@@ -23,11 +23,14 @@ public class TrainControllerEditor : Editor
 
         if (!Application.isPlaying)
         {
-            if (!GUILayout.Button("Recalculate Spline Length"))
-                return;
+            if (GUILayout.Button("Recalculate Spline Length"))
+            {
+                trainController.RecalculateSplineLenght();
+                trainController.DebugSnapToSpline();
+            }
 
-            trainController.RecalculateSplineLenght();
-            trainController.DebugSnapToSpline();
+            if (GUILayout.Button("Reset Train Position"))
+                trainController.ResetTrainPosition();
 
             return;
         }

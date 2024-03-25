@@ -86,16 +86,13 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="increase"></param>
         public void AdjustSpeed(bool increase)
         {
-            TrainEngineSpeedTypes lastType = CurrentEngineSpeedType;
-
             CurrentTargetEngineSpeedType = (TrainEngineSpeedTypes)Mathf.Clamp
                     ((int)CurrentTargetEngineSpeedType + (increase ? 1 : -1), 0, _speedTypesCount);
 
-            bool isAccelerating = (int)lastType < (int)CurrentTargetEngineSpeedType;
-            TweenTrainSpeed(CurrentTargetEngineSpeedType, isAccelerating);
+            TweenTrainSpeed(CurrentTargetEngineSpeedType);
         }
 
-        private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType, bool isAccelerating)
+        private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType)
         {
             _speedTween.Kill();
 
