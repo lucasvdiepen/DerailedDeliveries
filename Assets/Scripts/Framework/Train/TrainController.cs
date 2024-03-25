@@ -168,7 +168,6 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Helper method to snap train wagons to the correct spline position/rotation for editor use only.
         /// </summary>
-#if UNITY_EDITOR
         public void DebugSnapToSpline(float overrideSplinePosition = 0)
         {
             DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
@@ -183,6 +182,5 @@ namespace DerailedDeliveries.Framework.Train
                 UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
         }
-#endif
     }
 }
