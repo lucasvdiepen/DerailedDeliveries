@@ -48,7 +48,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UpdateVelocity()
         {
-            Vector3 playerRotation = new Vector3(_playerInput.normalized.x, 0, _playerInput.normalized.y);
+            Vector3 playerInput = new Vector3(_playerInput.normalized.x, 0, _playerInput.normalized.y);
+
+
+            Vector3 newForce = _rigidbody.velocity + playerInput * _speed;
+
+            newForce.x = Mathf.Clamp(newForce.x, _maxSpeed * -1, _maxSpeed);
+            newForce.z = Mathf.Clamp(newForce.z, _maxSpeed * -1, _maxSpeed);
+
+            _rigidbody.velocity = newForce;
 
             if (_playerInput.normalized != Vector2.zero)
             {
@@ -56,19 +64,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                     Quaternion.Lerp
                     (
                         gameObject.transform.rotation,
-                        Quaternion.LookRotation(playerRotation),
+                        Quaternion.LookRotation(playerInput),
                         Mathf.Clamp01(_rotationSpeed * Time.deltaTime)
                     );
             }
-
-            Vector3 newForce = new Vector3(_playerInput.x, 0, _playerInput.y) * _speed;
-
-            newForce += _rigidbody.velocity;
-
-            newForce.x = Mathf.Clamp(newForce.x, _maxSpeed * -1, _maxSpeed);
-            newForce.z = Mathf.Clamp(newForce.z, _maxSpeed * -1, _maxSpeed);
-
-            _rigidbody.velocity = newForce;
         }
     }
 }
