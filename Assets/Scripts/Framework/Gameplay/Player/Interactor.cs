@@ -67,7 +67,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UseInteractable()
         {
-            if (_isOnCooldown || _interactables.Count == 0)
+            if (_isOnCooldown || !_isInteracting && _interactables.Count == 0)
                 return;
 
             if (_isInteracting)

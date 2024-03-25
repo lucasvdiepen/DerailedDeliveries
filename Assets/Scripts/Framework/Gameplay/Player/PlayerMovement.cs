@@ -1,4 +1,3 @@
-using FishNet.Object;
 using UnityEngine;
 using FishNet;
 
@@ -17,6 +16,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         [SerializeField]
         private float _maxSpeed = 2;
+
+        [SerializeField]
+        private float _rotationSpeed = 50;
 
         private PlayerInputParser _playerInputParser;
         private Rigidbody _rigidbody;
@@ -46,6 +48,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UpdateVelocity()
         {
+            Vector3 playerRotation = new Vector3(_playerInput.normalized.x, 0, _playerInput.normalized.y);
+
+            if (_playerInput.normalized != Vector2.zero)
+            {
+                gameObject.transform.rotation =
+                    Quaternion.Lerp
+                    (
+                        gameObject.transform.rotation,
+                        Quaternion.LookRotation(playerRotation),
+                        Mathf.Clamp01(_rotationSpeed * Time.deltaTime)
+                    );
+            }
+
             Vector3 newForce = new Vector3(_playerInput.x, 0, _playerInput.y) * _speed;
 
             newForce += _rigidbody.velocity;
