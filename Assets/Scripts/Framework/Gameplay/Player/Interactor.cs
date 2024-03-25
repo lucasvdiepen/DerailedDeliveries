@@ -44,7 +44,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         {
             GameObject target = collider.gameObject;
 
-            if (target.TryGetComponent<Interactable>(out Interactable interactable))
+            if (target.TryGetComponent(out Interactable interactable))
             {
                 if (_interactables.Contains(interactable))
                     return;
@@ -57,7 +57,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         {
             GameObject target = collider.gameObject;
 
-            if(target.TryGetComponent<Interactable>(out Interactable interactable))
+            if(target.TryGetComponent(out Interactable interactable))
             {
                 if (!_interactables.Contains(interactable))
                     return;
