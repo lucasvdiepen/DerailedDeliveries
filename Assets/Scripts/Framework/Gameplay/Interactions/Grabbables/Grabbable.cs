@@ -8,7 +8,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     public class Grabbable : Interactable
     {
         private Interactor _originInteractor;
-        
+
+        private protected bool IsBeingInteracted { get; set; }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override bool CheckIfInteractable() => IsInteractable && !IsOnCooldown && !IsBeingInteracted;
+
         private protected override void Interact(Interactor interactor)
         {
             if (!IsInteractable || IsOnCooldown)

@@ -26,7 +26,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
 
         private protected bool IsInteractable { get; set; } = true;
 
-        private protected bool IsBeingInteracted { get; set; }
+        /// <summary>
+        /// Returns a boolean that reflects if this Interactable is available for interaction.
+        /// </summary>
+        /// <returns>The status that reflects if this is interactable.</returns>
+        public virtual bool CheckIfInteractable() => IsInteractable && !IsOnCooldown;
 
         /// <summary>
         /// A function that calls a RPC to the server on this Interactable.

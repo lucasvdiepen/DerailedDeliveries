@@ -80,6 +80,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             // TO DO: Priority checking for which interactable is most prio.
             StartCoroutine(ActivateCooldown());
+
+            foreach(Interactable interactable in _interactables)
+            {
+                //if(interactable.isintera)
+            }
             _interactingTarget = _interactables[0];
             _interactingTarget.InteractOnServer(this);
         }

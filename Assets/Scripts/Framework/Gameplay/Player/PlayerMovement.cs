@@ -60,7 +60,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_playerInput.normalized != Vector2.zero)
             {
                 gameObject.transform.rotation =
-                    Quaternion.Lerp
+                    Quaternion.Slerp
                     (
                         gameObject.transform.rotation,
                         Quaternion.LookRotation(playerInput),
