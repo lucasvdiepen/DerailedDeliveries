@@ -78,15 +78,21 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 return;
             }
 
-            // TO DO: Priority checking for which interactable is most prio.
             StartCoroutine(ActivateCooldown());
+
+            _interactingTarget = null;
 
             foreach(Interactable interactable in _interactables)
             {
-                //if(interactable.isintera)
+                if (interactable.CheckIfInteractable())
+                {
+                    _interactingTarget = interactable;
+                    break;
+                }
             }
-            _interactingTarget = _interactables[0];
-            _interactingTarget.InteractOnServer(this);
+
+            if(_interactingTarget != null)
+                _interactingTarget.InteractOnServer(this);
         }
 
         /// <summary>
