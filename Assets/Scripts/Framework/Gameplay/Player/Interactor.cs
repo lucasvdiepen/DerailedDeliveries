@@ -106,12 +106,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _isInteracting = isInteracting;
 
             if (_isInteracting)
+            {
                 interactable.NetworkObject.SetParent(_grabbingAnchor.GetComponent<NetworkBehaviour>());
+                interactable.gameObject.transform.localPosition = Vector3.zero;
+            }
             else
                 interactable.NetworkObject.UnsetParent();
-
-            if(_isInteracting)
-                interactable.gameObject.transform.localPosition = Vector3.zero;
         }
 
         private protected virtual IEnumerator ActivateCooldown()
