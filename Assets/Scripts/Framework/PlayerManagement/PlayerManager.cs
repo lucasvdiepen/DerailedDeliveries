@@ -148,14 +148,14 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <param name="playerSpawner">The player spawner which is trying to spawn a player.</param>
         public void SpawnPlayer(NetworkConnection clientConnection, PlayerSpawnRequester playerSpawner)
         {
+            if(_playerSpawners.Contains(playerSpawner))
+                return;
+
             if(_players.Count >= _maxPlayers)
             {
                 Destroy(playerSpawner.gameObject);
                 return;
             }
-
-            if(_playerSpawners.Contains(playerSpawner))
-                return;
 
             _playerSpawners.Add(playerSpawner);
 
@@ -166,7 +166,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private void SpawnPlayerOnServer(NetworkConnection clientConnection)
         {
             if(_players.Count >= _maxPlayers)
+            {
+                ClearSpawningPlayers(clientConnection);
                 return;
+            }
 
             GameObject spawnedPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
@@ -181,6 +184,16 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             _playerColors.Remove(newColor);
 
             _playerIdCount++;
+        }
+
+        [TargetRpc]
+        private void ClearSpawningPlayers(NetworkConnection clientConnection)
+        {
+            for(int i = _playerSpawners.Count - 1; i >= 0; i--)
+            {
+                Destroy(_playerSpawners[i].gameObject);
+                _playerSpawners.RemoveAt(i);
+            }
         }
 
         /// <summary>
