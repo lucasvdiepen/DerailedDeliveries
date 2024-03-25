@@ -95,6 +95,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         {
             _players.Add(playerId);
 
+            // Check if the player which is spawned by the server is created for us. If true, copy the control scheme.
             if(playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
             {
                 PlayerSpawnRequester playerSpawner = _playerSpawners[0];
@@ -102,7 +103,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
                 PlayerInput playerSpawnerInput = playerSpawner.GetComponent<PlayerInput>();
                 PlayerInput playerInput = playerId.GetComponent<PlayerInput>();
 
-                playerInput.SwitchCurrentControlScheme(playerSpawnerInput.currentControlScheme, playerSpawnerInput.devices.ToArray());
+                playerInput.SwitchCurrentControlScheme(
+                    playerSpawnerInput.currentControlScheme,
+                    playerSpawnerInput.devices.ToArray()
+                );
 
                 Destroy(playerSpawner.gameObject);
                 _playerSpawners.Remove(playerSpawner);
