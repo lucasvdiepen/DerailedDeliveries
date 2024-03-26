@@ -95,7 +95,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         {
             _players.Add(playerId);
 
-            // Check if the player which is spawned by the server is created for us. If true, copy the control scheme.
+            // Check if the new player created by the server is for us. If true, copy the control scheme.
             if(playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
             {
                 PlayerSpawnRequester playerSpawner = _playerSpawners[0];
