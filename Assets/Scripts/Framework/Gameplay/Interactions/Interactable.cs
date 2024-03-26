@@ -1,6 +1,7 @@
 using System.Collections;
 using FishNet.Observing;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 using System;
 
@@ -22,8 +23,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [SerializeField]
         private float _cooldown = .5f;
 
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsOnCooldown { get; set; }
 
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsInteractable { get; set; } = true;
 
         /// <summary>
@@ -37,19 +40,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The interactor that this request originates from.</param>
         [ServerRpc(RequireOwnership = false)]
-        public void InteractOnServer(Interactor interactor)
-        {
-            if (!IsInteractable || IsOnCooldown)
-                return;
+        public void InteractOnServer(Interactor interactor) => Interact(interactor);
 
-            Interact(interactor);
-        }
-
-        private protected virtual void Interact(Interactor interactor)
+        private protected virtual bool Interact(Interactor interactor)
         {
+            if(!IsInteractable || IsOnCooldown)
+                return false;
+
             StartCoroutine(ActivateCooldown());
 
             OnInteract?.Invoke();
+
+            return true;
         }
 
         private protected virtual IEnumerator ActivateCooldown()

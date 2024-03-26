@@ -1,3 +1,5 @@
+using FishNet.Object.Synchronizing;
+
 using DerailedDeliveries.Framework.Gameplay.Player;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
@@ -9,22 +11,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     {
         private Interactor _originInteractor;
 
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsBeingInteracted { get; set; }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override bool CheckIfInteractable() => IsInteractable && !IsOnCooldown && !IsBeingInteracted;
+        public override bool CheckIfInteractable() => base.CheckIfInteractable() && !IsBeingInteracted;
 
-        private protected override void Interact(Interactor interactor)
+        private protected override bool Interact(Interactor interactor)
         {
-            if (!IsInteractable || IsOnCooldown)
-                return;
-
-            if (IsBeingInteracted && interactor != _originInteractor)
-                return;
-
-            base.Interact(interactor);
+            if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
+                return false;
 
             IsBeingInteracted = !IsBeingInteracted;
 
@@ -33,6 +31,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 : null;
 
             interactor.SetInteractingTarget(this, IsBeingInteracted);
+
+            return true;
         }
     }
 }
