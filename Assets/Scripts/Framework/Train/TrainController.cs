@@ -194,6 +194,11 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public void DebugSnapToSpline(float overrideSplinePosition = 0)
         {
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
+
+            if (_trainFrontStartTime <= CurrentOptimalStartPoint)
+                _trainFrontStartTime = CurrentOptimalStartPoint;
+
             DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
             UpdateWagonPosition(_frontWagon);
 
