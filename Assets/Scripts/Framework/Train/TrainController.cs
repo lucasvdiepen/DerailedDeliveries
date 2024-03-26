@@ -1,6 +1,8 @@
 using UnityEngine.Splines;
+using FishNet.Object;
 using UnityEngine;
 using System;
+using FishNet;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -8,7 +10,7 @@ namespace DerailedDeliveries.Framework.Train
     /// Class responsible for moving train along rails spline.
     /// </summary>
     [RequireComponent(typeof(TrainEngine))]
-    public class TrainController : MonoBehaviour
+    public class TrainController : NetworkBehaviour
     {
         /// <summary>
         /// Reference to the spline line data.
@@ -85,12 +87,30 @@ namespace DerailedDeliveries.Framework.Train
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
 
-        private void Update() 
-            => MoveTrain();
+        private void OnEnable()
+            => InstanceFinder.TimeManager.OnTick += OnTick;
 
-        private void MoveTrain()
+        private void OnDisable()
+            => InstanceFinder.TimeManager.OnTick -= OnTick;
+
+        private void OnTick()
         {
-            UpdateWagonPosition(_frontWagon);
+            if (!IsServer)
+                return;
+
+            DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.fixedDeltaTime;
+            
+            int wagons = _wagons.Length + 1;
+            for (int i = 1; i < wagons; i++)
+            {
+                MoveTrain(DistanceAlongSpline);
+            }
+        }
+
+        [ObserversRpc(RunLocally = true)]
+        private void MoveTrain(float distanceAlongSpline)
+        {
+            UpdateWagonPosition(_frontWagon, distanceAlongSpline);
 
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
@@ -98,15 +118,16 @@ namespace DerailedDeliveries.Framework.Train
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
 
-                UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
+                UpdateWagonPosition(_wagons[i - 1], distanceAlongSpline, offset / SplineLenght);
             }
 
-            DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.deltaTime;
-            
-            if (DistanceAlongSpline >= 1.0f && TrainEngine.IsIncreasing())
+            if (!IsServer)
+                return;
+
+            if (distanceAlongSpline >= 1.0f && TrainEngine.IsIncreasing())
                 HandlePossibleRailSplit();
 
-            if(DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsReversing())
+            if(distanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsReversing())
                 HandleReverseRailSplit();
         }
 
@@ -170,13 +191,13 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         /// <param name="trainBody">Transform of affected wagon.</param>
         /// <param name="offset">Optional offset applied on <see cref="DistanceAlongSpline"/></param>
-        public void UpdateWagonPosition(Transform trainBody, float offset = 0)
+        public void UpdateWagonPosition(Transform trainBody, float distanceAlongSpline, float offset = 0)
         {
-            Vector3 nextPosition = Spline.EvaluatePosition(DistanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
+            Vector3 nextPosition = Spline.EvaluatePosition(distanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
             nextPosition.y += _heightOffset;
             trainBody.position = nextPosition;
 
-            Vector3 nextDirection = Spline.EvaluateTangent(DistanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
+            Vector3 nextDirection = Spline.EvaluateTangent(distanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
             trainBody.rotation = Quaternion.LookRotation(-nextDirection, Vector3.up);
         }
         
@@ -200,7 +221,7 @@ namespace DerailedDeliveries.Framework.Train
                 _trainFrontStartTime = CurrentOptimalStartPoint;
 
             DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
-            UpdateWagonPosition(_frontWagon);
+            UpdateWagonPosition(_frontWagon, DistanceAlongSpline);
 
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
