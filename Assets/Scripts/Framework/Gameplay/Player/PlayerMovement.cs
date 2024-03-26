@@ -2,7 +2,6 @@ using UnityEngine;
 using FishNet;
 
 using DerailedDeliveries.Framework.InputParser;
-using UnityEngine.InputSystem;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -49,18 +48,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UpdatePhysics()
         {
-            Vector3 normalizedInput = new Vector3
-                (
-                    _playerInput.normalized.x, 
-                    0, 
-                    _playerInput.normalized.y
-                );
-
-            if (_playerInput.normalized == Vector2.zero)
+            if (_playerInput == Vector2.zero)
                 return;
 
-            UpdateVelocity(normalizedInput);
-            UpdateRotation(normalizedInput);
+            Vector3 playerInput = new Vector3(_playerInput.x, 0, _playerInput.y);
+
+            UpdateVelocity(playerInput);
+            UpdateRotation(playerInput);
         }
 
         private void UpdateRotation(Vector3 input)
