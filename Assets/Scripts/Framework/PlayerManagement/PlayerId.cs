@@ -26,7 +26,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         {
             base.OnStopClient();
 
-            PlayerManager.Instance.PlayerLeft(this);
+            PlayerManager.Instance?.PlayerLeft(this);
         }
 
         /// <summary>
