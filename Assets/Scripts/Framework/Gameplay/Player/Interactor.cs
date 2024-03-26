@@ -27,11 +27,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private float _cooldown = .2f;
 
-        private PlayerInputParser _inputParser;
-
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        private bool _isInteracting;
 
+        private PlayerInputParser _inputParser;
+        private bool _isInteracting;
         private bool _isOnCooldown;
 
         private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
