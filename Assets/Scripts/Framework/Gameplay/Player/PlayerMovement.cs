@@ -1,4 +1,3 @@
-using FishNet.Object;
 using UnityEngine;
 using FishNet;
 
@@ -18,6 +17,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private float _maxSpeed = 2;
 
+        [SerializeField]
+        private float _rotationSpeed = 50;
+
         private PlayerInputParser _playerInputParser;
         private Rigidbody _rigidbody;
         private Vector2 _playerInput;
@@ -31,7 +33,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private void OnEnable()
         {
             _playerInputParser.OnMove += SetMovementVector;
-            InstanceFinder.TimeManager.OnTick += UpdateVelocity;
+            InstanceFinder.TimeManager.OnTick += UpdatePhysics;
         }
 
         private void OnDisable()
@@ -39,14 +41,36 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _playerInputParser.OnMove -= SetMovementVector;
 
             if (InstanceFinder.TimeManager != null)
-                InstanceFinder.TimeManager.OnTick -= UpdateVelocity;
+                InstanceFinder.TimeManager.OnTick -= UpdatePhysics;
         }
 
         private void SetMovementVector(Vector2 playerInput) => _playerInput = playerInput;
 
-        private void UpdateVelocity()
+        private void UpdatePhysics()
         {
-            Vector3 newForce = new Vector3(_playerInput.x, 0, _playerInput.y) * _speed;
+            if (_playerInput == Vector2.zero)
+                return;
+
+            Vector3 playerInput = new Vector3(_playerInput.x, 0, _playerInput.y);
+
+            UpdateVelocity(playerInput);
+            UpdateRotation(playerInput);
+        }
+
+        private void UpdateRotation(Vector3 input)
+        {
+            gameObject.transform.rotation =
+                    Quaternion.Slerp
+                    (
+                        gameObject.transform.rotation,
+                        Quaternion.LookRotation(input),
+                        Mathf.Clamp01(_rotationSpeed * Time.deltaTime)
+                    );
+        }
+
+        private void UpdateVelocity(Vector3 input)
+        {
+            Vector3 newForce = _rigidbody.velocity + input * _speed;
 
             _rigidbody.AddForce(Vector3.ClampMagnitude(newForce, _maxSpeed));
         }
