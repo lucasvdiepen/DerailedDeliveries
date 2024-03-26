@@ -52,10 +52,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             Vector3 newForce = _rigidbody.velocity + playerInput * _speed;
 
-            newForce.x = Mathf.Clamp(newForce.x, _maxSpeed * -1, _maxSpeed);
-            newForce.z = Mathf.Clamp(newForce.z, _maxSpeed * -1, _maxSpeed);
-
-            _rigidbody.velocity = newForce;
+            _rigidbody.AddForce(Vector3.ClampMagnitude(newForce, _maxSpeed));
 
             if (_playerInput.normalized != Vector2.zero)
             {
