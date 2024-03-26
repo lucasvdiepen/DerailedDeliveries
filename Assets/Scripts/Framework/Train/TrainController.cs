@@ -52,13 +52,14 @@ namespace DerailedDeliveries.Framework.Train
         /// Reference to the train engine.
         /// </summary>
         public TrainEngine TrainEngine { get; private set; }
-
+        
         /// <summary>
         /// Helper method for updating the current spline lenght.
         /// </summary>
         public void RecalculateSplineLenght() => SplineLenght = Spline.CalculateLength();
 
         private RailSplit _railSplit;
+
         private const float TWEAK_DIVIDE_FACTOR = 10;
 
         private void Awake()
@@ -108,6 +109,9 @@ namespace DerailedDeliveries.Framework.Train
                 HandlePossibleRailSplit();
         }
 
+        /// <summary>
+        /// Checks for possible upcomming rail splittings. If none are found, end is reached.
+        /// </summary>
         private void HandlePossibleRailSplit()
         {
             if (_railSplit == null)
@@ -117,7 +121,7 @@ namespace DerailedDeliveries.Framework.Train
             }
 
             DistanceAlongSpline = 0.0f;
-            Spline = _railSplit.GetRandomWay();
+            Spline = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
             RecalculateSplineLenght();
             DistanceAlongSpline = GetOptimalTrainStartPoint();
@@ -139,6 +143,11 @@ namespace DerailedDeliveries.Framework.Train
 
             float offsetSum = Mathf.Abs(offset / SplineLenght / TWEAK_DIVIDE_FACTOR);
             return offsetSum;
+        }
+
+        public float GetOptimalTrainEndPoint()
+        {
+
         }
 
         /// <summary>

@@ -6,12 +6,12 @@ using UnityEngine.Splines;
 /// </summary>
 public class RailSplit : MonoBehaviour
 {
-    [SerializeField]
-    private SplineContainer[] possibleWays = null;
+    [field: SerializeField]
+    public SplineContainer[] PossibleTracks { get; set; }
 
-    public SplineContainer GetRandomWay()
+    private void Awake()
     {
-        int randIndex = Random.Range(0, possibleWays.Length);
-        return possibleWays[randIndex];
+        if (PossibleTracks.Length > 2)
+            Debug.LogWarning("This RailSplit contains more than two possible tracks", this);
     }
 }

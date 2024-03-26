@@ -48,6 +48,13 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public float CurrentVelocity => _currentSpeed / _trainController.SplineLenght;
 
+        /// <summary>
+        /// Determines the chosen track for the next possible rail split.<br></br>
+        /// <br>False = left.</br>
+        /// <br>True = right.</br>
+        /// </summary>
+        public bool CurrentSplitDirection { get; set; }
+
         private Dictionary<TrainEngineSpeedTypes, float> _getSpeedValue;
 
         private float _currentSpeed = 0f;
