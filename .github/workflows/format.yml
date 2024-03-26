@@ -19,4 +19,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run dotnet format
-        run: dotnet format '.\' --exclude Assets/Plugins --check --verbosity diagnostic
+        run: dotnet format DerailedDevliveries.sln --exclude Assets/Plugins --check --verbosity diagnostic
