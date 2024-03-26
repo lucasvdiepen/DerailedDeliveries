@@ -7,6 +7,7 @@ namespace DerailedDeliveries.Framework.TriggerArea
     /// <summary>
     /// A class responsible for handling colliders entering and exiting a trigger area.
     /// </summary>
+    [RequireComponent(typeof(Collider))]
     public class TriggerArea<T> : MonoBehaviour where T : Component
     {
         private readonly List<T> _componentsInCollider = new();
