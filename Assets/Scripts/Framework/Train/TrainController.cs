@@ -41,7 +41,16 @@ namespace DerailedDeliveries.Framework.Train
         /// <br/> 0 = Spline start point.<br/>
         /// 1 = Spline end point.<br/>
         /// </summary>
-        public float DistanceAlongSpline { get; private set; } = 0.0f;
+        public float DistanceAlongSpline
+        {
+            get => _distanceAlongSpline;
+            set => _distanceAlongSpline = Mathf.Clamp01(value);
+        }
+
+        /// <summary>
+        /// Optimal start point for train on spline track based on its length. 
+        /// </summary>
+        public float CurrentOptimalStartPoint { get; private set; }
 
         /// <summary>
         /// Returns the precalculated line lenght of the spline
@@ -62,10 +71,13 @@ namespace DerailedDeliveries.Framework.Train
 
         private const float TWEAK_DIVIDE_FACTOR = 10;
 
+        private float _distanceAlongSpline = 0;
+
         private void Awake()
         {
             TrainEngine = GetComponent<TrainEngine>();
             DistanceAlongSpline = _trainFrontStartTime;
+            CurrentOptimalStartPoint = _trainFrontStartTime;
 
             if (Spline != null)
                 RecalculateSplineLenght();
@@ -104,9 +116,26 @@ namespace DerailedDeliveries.Framework.Train
                 UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
 
+            // Move movement
             DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.deltaTime;
-            if (DistanceAlongSpline > 1.0f)
+
+            if (DistanceAlongSpline >= 1.0f && ((int)TrainEngine.CurrentEngineSpeedType > 3 || (int)TrainEngine.CurrentTargetEngineSpeedType > 3))
                 HandlePossibleRailSplit();
+
+            if(DistanceAlongSpline <= CurrentOptimalStartPoint && ((int)TrainEngine.CurrentEngineSpeedType < 3 || (int)TrainEngine.CurrentTargetEngineSpeedType < 3))
+            {
+
+                if (Spline.transform.parent == null)
+                    return;
+
+                DistanceAlongSpline = 1f;
+                Spline = Spline.transform.parent.GetComponent<SplineContainer>();
+
+                RecalculateSplineLenght();
+
+                CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
+                Spline.gameObject.TryGetComponent(out _railSplit);
+            }
         }
 
         /// <summary>
@@ -124,8 +153,9 @@ namespace DerailedDeliveries.Framework.Train
             Spline = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
             RecalculateSplineLenght();
-            DistanceAlongSpline = GetOptimalTrainStartPoint();
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
+            _distanceAlongSpline = CurrentOptimalStartPoint;
             Spline.gameObject.TryGetComponent(out _railSplit);
         }
         
@@ -142,6 +172,8 @@ namespace DerailedDeliveries.Framework.Train
             float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * wagons;
 
             float offsetSum = Mathf.Abs(offset / SplineLenght / TWEAK_DIVIDE_FACTOR);
+
+            
             return offsetSum;
         }
 

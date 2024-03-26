@@ -46,6 +46,8 @@ public class TrainControllerEditor : Editor
             
         EditorGUILayout.FloatField("Current speed: ", engineScript.CurrentVelocity / trainController.SplineLenght);
         EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
+        EditorGUILayout.FloatField("Current optimal start point: ", trainController.CurrentOptimalStartPoint);
+        EditorGUILayout.Toggle("Current chosen track upcomming rail split: ", trainController.TrainEngine.CurrentSplitDirection);
 
         EditorGUI.EndDisabledGroup();
     }
