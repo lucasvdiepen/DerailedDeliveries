@@ -2,6 +2,7 @@ using UnityEngine;
 using FishNet;
 
 using DerailedDeliveries.Framework.InputParser;
+using UnityEngine.InputSystem;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -33,7 +34,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private void OnEnable()
         {
             _playerInputParser.OnMove += SetMovementVector;
-            InstanceFinder.TimeManager.OnTick += UpdateVelocity;
+            InstanceFinder.TimeManager.OnTick += UpdatePhysics;
         }
 
         private void OnDisable()
@@ -41,29 +42,43 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _playerInputParser.OnMove -= SetMovementVector;
 
             if (InstanceFinder.TimeManager != null)
-                InstanceFinder.TimeManager.OnTick -= UpdateVelocity;
+                InstanceFinder.TimeManager.OnTick -= UpdatePhysics;
         }
 
         private void SetMovementVector(Vector2 playerInput) => _playerInput = playerInput;
 
-        private void UpdateVelocity()
+        private void UpdatePhysics()
         {
-            Vector3 playerInput = new Vector3(_playerInput.normalized.x, 0, _playerInput.normalized.y);
+            Vector3 normalizedInput = new Vector3
+                (
+                    _playerInput.normalized.x, 
+                    0, 
+                    _playerInput.normalized.y
+                );
 
-            Vector3 newForce = _rigidbody.velocity + playerInput * _speed;
+            if (_playerInput.normalized == Vector2.zero)
+                return;
 
-            _rigidbody.AddForce(Vector3.ClampMagnitude(newForce, _maxSpeed));
+            UpdateVelocity(normalizedInput);
+            UpdateRotation(normalizedInput);
+        }
 
-            if (_playerInput.normalized != Vector2.zero)
-            {
-                gameObject.transform.rotation =
+        private void UpdateRotation(Vector3 input)
+        {
+            gameObject.transform.rotation =
                     Quaternion.Slerp
                     (
                         gameObject.transform.rotation,
-                        Quaternion.LookRotation(playerInput),
+                        Quaternion.LookRotation(input),
                         Mathf.Clamp01(_rotationSpeed * Time.deltaTime)
                     );
-            }
+        }
+
+        private void UpdateVelocity(Vector3 input)
+        {
+            Vector3 newForce = _rigidbody.velocity + input * _speed;
+
+            _rigidbody.AddForce(Vector3.ClampMagnitude(newForce, _maxSpeed));
         }
     }
 }
