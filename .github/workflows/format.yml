@@ -1,26 +1,22 @@
-name: "Test dotnet format"
+name: dotnet format
 
-on:
-  workflow_dispatch:
-  pull_request:
+on: pull_request
 
 jobs:
-  dotnet-format:
-    name: "Test dotnet format"
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: dotnet-format
-        id: dotnet-format
-        uses: ./
-        with:
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          workspace: ${{ github.workspace }}/__tests__/dotnet/ConfigDerailedDeliveries
-          logLevel: "detailed"
-          projectFileName: "DerailedDeliveries.sln"
-          jscpdCheck: false
-          jscpdCheckAsError: false
+  check-format:
+    runs-on: windows-latest
 
-      - name: log-output
-        run: echo "${{ steps.dotnet-format.outputs.output }}"
+    steps:
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install dotnet-format tool
+        run: dotnet tool install -g dotnet-format
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Run dotnet format
+        run: dotnet format '.\' --folder --exclude Assets/Plugins --check --verbosity diagnostic
