@@ -10,5 +10,5 @@ jobs:
             uses: tegrasystems/dotnet-format@v1
             with:
                 project: "Assembly-CSharp.csproj"
-                project-name: "DerailedDeliveries"
+                project-name: "Assembly-CSharp"
                 export-output: 'true'
