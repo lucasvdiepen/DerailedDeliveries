@@ -99,6 +99,21 @@ namespace DerailedDeliveries.Framework.Train
             TweenTrainSpeed(CurrentTargetEngineSpeedType);
         }
 
+
+        /// <summary>
+        /// Helper method for checking if the train is moving forwards.
+        /// </summary>
+        /// <returns>Is the train moving forwards?</returns>
+        public bool IsIncreasing()
+            => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
+
+        /// <summary>
+        /// Helper method for checking if the train is moving backwards.
+        /// </summary>
+        /// <returns>Is the train moving backwards?</returns>
+        public bool IsReversing()
+            => (int)CurrentEngineSpeedType < 3 || (int)CurrentTargetEngineSpeedType < 3;
+
         private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType)
         {
             _speedTween.Kill();

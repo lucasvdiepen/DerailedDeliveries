@@ -85,21 +85,6 @@ namespace DerailedDeliveries.Framework.Train
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
 
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (!gameObject.activeSelf)
-                return;
-
-            if (SplineLenght == 0)
-                SplineLenght = Spline.CalculateLength();
-
-            if (Application.isPlaying)
-                return;
-
-            DebugSnapToSpline();
-        }
-#endif
         private void Update() 
             => MoveTrain();
 
@@ -116,26 +101,13 @@ namespace DerailedDeliveries.Framework.Train
                 UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
 
-            // Move movement
             DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.deltaTime;
-
-            if (DistanceAlongSpline >= 1.0f && ((int)TrainEngine.CurrentEngineSpeedType > 3 || (int)TrainEngine.CurrentTargetEngineSpeedType > 3))
+            
+            if (DistanceAlongSpline >= 1.0f && TrainEngine.IsIncreasing())
                 HandlePossibleRailSplit();
 
-            if(DistanceAlongSpline <= CurrentOptimalStartPoint && ((int)TrainEngine.CurrentEngineSpeedType < 3 || (int)TrainEngine.CurrentTargetEngineSpeedType < 3))
-            {
-
-                if (Spline.transform.parent == null)
-                    return;
-
-                DistanceAlongSpline = 1f;
-                Spline = Spline.transform.parent.GetComponent<SplineContainer>();
-
-                RecalculateSplineLenght();
-
-                CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
-                Spline.gameObject.TryGetComponent(out _railSplit);
-            }
+            if(DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsReversing())
+                HandleReverseRailSplit();
         }
 
         /// <summary>
@@ -158,6 +130,23 @@ namespace DerailedDeliveries.Framework.Train
             _distanceAlongSpline = CurrentOptimalStartPoint;
             Spline.gameObject.TryGetComponent(out _railSplit);
         }
+
+        /// <summary>
+        /// Method for switching spline track to the previous spline while reversing.
+        /// </summary>
+        private void HandleReverseRailSplit()
+        {
+            if (Spline.transform.parent == null)
+                return;
+
+            DistanceAlongSpline = 1f;
+            Spline = Spline.transform.parent.GetComponent<SplineContainer>();
+
+            RecalculateSplineLenght();
+
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
+            Spline.gameObject.TryGetComponent(out _railSplit);
+        }
         
         /// <summary>
         /// Calculates and returns the correct start distance along the current spline.
@@ -173,13 +162,7 @@ namespace DerailedDeliveries.Framework.Train
 
             float offsetSum = Mathf.Abs(offset / SplineLenght / TWEAK_DIVIDE_FACTOR);
 
-            
             return offsetSum;
-        }
-
-        public float GetOptimalTrainEndPoint()
-        {
-            return 0;
         }
 
         /// <summary>
@@ -223,5 +206,21 @@ namespace DerailedDeliveries.Framework.Train
                 UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
             }
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (!gameObject.activeSelf)
+                return;
+
+            if (SplineLenght == 0)
+                SplineLenght = Spline.CalculateLength();
+
+            if (Application.isPlaying)
+                return;
+
+            DebugSnapToSpline();
+        }
+#endif
     }
 }
