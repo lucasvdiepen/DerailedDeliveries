@@ -147,7 +147,7 @@ namespace DerailedDeliveries.Framework.Train
 
         public float GetOptimalTrainEndPoint()
         {
-
+            return 0;
         }
 
         /// <summary>
