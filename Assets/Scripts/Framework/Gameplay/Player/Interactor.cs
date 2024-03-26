@@ -111,7 +111,17 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 interactable.gameObject.transform.localPosition = Vector3.zero;
             }
             else
+            {
                 interactable.NetworkObject.UnsetParent();
+
+                if (!interactable.TryGetComponent(out BoxCollider collider))
+                    return;
+
+                Physics.Raycast(interactable.transform.position, Vector3.down, out RaycastHit hit, 5f);
+
+                hit.point += new Vector3(0, collider.size.y * .5f, 0);
+                interactable.transform.position = hit.point;
+            }
         }
 
         private protected virtual IEnumerator ActivateCooldown()

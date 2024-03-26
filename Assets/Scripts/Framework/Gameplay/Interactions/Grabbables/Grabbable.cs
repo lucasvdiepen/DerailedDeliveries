@@ -1,4 +1,5 @@
 using FishNet.Object.Synchronizing;
+using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 
@@ -7,6 +8,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     /// <summary>
     /// A Interactable class that is used for all grabbable Interactables.
     /// </summary>
+    [RequireComponent(typeof(BoxCollider))]
     public class Grabbable : Interactable
     {
         private Interactor _originInteractor;
