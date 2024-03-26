@@ -1,4 +1,7 @@
+name: dotnet format 2
+
 on: pull_request
+
 jobs:
   build:
     runs-on: ubuntu-latest
