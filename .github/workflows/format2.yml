@@ -1,0 +1,14 @@
+name: "[CI]Build, Test and Lint"
+
+on: pull_request
+jobs:
+  dotnet-format:
+    runs-on: ubuntu-latest
+    steps:
+        -   uses: actions/checkout@v2
+        -   name: dotnet-format
+            uses: tegrasystems/dotnet-format@v1
+            with:
+                project: "DerailedDeliveries.sln"
+                project-name: "DerailedDeliveries"
+                export-output: 'true'
