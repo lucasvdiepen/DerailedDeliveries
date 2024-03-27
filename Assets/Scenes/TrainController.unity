@@ -17617,6 +17617,119 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19c5db1e464edfc41976d49c2e331e29, type: 3}
+--- !u!1001 &2977314328139333486
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1039732233535158790, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 1297655548312088807
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039732233535158790, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: _networkBehaviours.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 653.37463
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -36.1522
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 740.3127
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247245346681754931, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11311022}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[1]
+      value: 
+      objectReference: {fileID: 473080692}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[2]
+      value: 
+      objectReference: {fileID: 947237285}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[3]
+      value: 
+      objectReference: {fileID: 2043003398}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[4]
+      value: 
+      objectReference: {fileID: 1819420712}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[5]
+      value: 
+      objectReference: {fileID: 1020958674}
+    - target: {fileID: 7592143477825573247, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: splineContainers.Array.data[6]
+      value: 
+      objectReference: {fileID: 558874499}
+    - target: {fileID: 8383109026815723439, guid: aff153afd1b26eb4f87a0fdf1245bf80,
+        type: 3}
+      propertyPath: m_Name
+      value: SplineManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aff153afd1b26eb4f87a0fdf1245bf80, type: 3}
 --- !u!114 &6244660876483023539 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3884252529985719752, guid: a9f2209baf2bc384a81b509c6c1968ec,
@@ -17675,7 +17788,7 @@ PrefabInstance:
     - target: {fileID: 3884252529985719752, guid: a9f2209baf2bc384a81b509c6c1968ec,
         type: 3}
       propertyPath: _trainFrontStartTime
-      value: 0.024213519
+      value: 0.009929234
       objectReference: {fileID: 0}
     - target: {fileID: 3884252529985719752, guid: a9f2209baf2bc384a81b509c6c1968ec,
         type: 3}
@@ -17905,3 +18018,4 @@ SceneRoots:
   - {fileID: 1966094101}
   - {fileID: 1496605923}
   - {fileID: 1098948855}
+  - {fileID: 2977314328139333486}

@@ -93,18 +93,45 @@ namespace DerailedDeliveries.Framework.Train
         private void OnDisable()
             => InstanceFinder.TimeManager.OnTick -= OnTick;
 
-        private void OnTick()
+        private void OnTick() // Server only.
         {
             if (!IsServer)
                 return;
 
             DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.fixedDeltaTime;
             
+            if (DistanceAlongSpline >= 1.0f && TrainEngine.IsTraveling())
+            {
+                //HandlePossibleRailSplit();
+                if (_railSplit != null)
+                {
+                    DistanceAlongSpline = 0.0f;
+                    Spline = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
+
+                    int nextTrackID = SplineManager.Instance.GetIDByTrack(Spline);
+                    SwitchCurrentTrack(nextTrackID + 1);
+                }
+                else
+                {
+                    print("End reached");
+                }
+            }
+
+           /* if (DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
+            {
+                if (!HandleReverseRailSplit()) // No rail split has been found, stop train.
+                {
+                    print("Stop");
+                    DistanceAlongSpline = CurrentOptimalStartPoint;
+                }
+            }*/
+            
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
             {
                 MoveTrain(DistanceAlongSpline);
             }
+
         }
 
         [ObserversRpc(RunLocally = true)]
@@ -121,14 +148,31 @@ namespace DerailedDeliveries.Framework.Train
                 UpdateWagonPosition(_wagons[i - 1], distanceAlongSpline, offset / SplineLength);
             }
 
-            if (!IsServer)
+            /*if (!IsServer)
                 return;
 
-            if (distanceAlongSpline >= 1.0f && TrainEngine.IsIncreasing())
+            if (distanceAlongSpline >= 1.0f && TrainEngine.IsTraveling())
                 HandlePossibleRailSplit();
 
-            if(distanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsReversing())
-                HandleReverseRailSplit();
+            if(distanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
+            {
+                if (!HandleReverseRailSplit()) // No rail split has been found, stop train.
+                {
+                    print("Stop");
+                }
+            }*/
+        }
+
+        [ObserversRpc(RunLocally = true)]
+        private void SwitchCurrentTrack(int trackID)
+        {
+            Spline = SplineManager.Instance.GetTrackByID(trackID);
+
+            RecalculateSplineLenght();
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
+
+            DistanceAlongSpline = CurrentOptimalStartPoint;
+            Spline.gameObject.TryGetComponent(out _railSplit);
         }
 
         /// <summary>
@@ -148,17 +192,17 @@ namespace DerailedDeliveries.Framework.Train
             RecalculateSplineLenght();
             CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
-            _distanceAlongSpline = CurrentOptimalStartPoint;
+            DistanceAlongSpline = CurrentOptimalStartPoint;
             Spline.gameObject.TryGetComponent(out _railSplit);
         }
 
         /// <summary>
         /// Method for switching spline track to the previous spline while reversing.
         /// </summary>
-        private void HandleReverseRailSplit()
+        private bool HandleReverseRailSplit()
         {
             if (Spline.transform.parent == null)
-                return;
+                return false;
 
             DistanceAlongSpline = 1f;
             Spline = Spline.transform.parent.GetComponent<SplineContainer>();
@@ -167,6 +211,8 @@ namespace DerailedDeliveries.Framework.Train
 
             CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
             Spline.gameObject.TryGetComponent(out _railSplit);
+
+            return true;
         }
         
         /// <summary>
@@ -238,7 +284,7 @@ namespace DerailedDeliveries.Framework.Train
         {
             base.OnValidate();
 
-            if (!gameObject.activeSelf)
+            if (!gameObject.activeSelf || !gameObject.activeInHierarchy)
                 return;
 
             if (SplineLength == 0)
