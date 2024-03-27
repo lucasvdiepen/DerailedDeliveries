@@ -46,7 +46,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Current train velocity speed.
         /// </summary>
-        public float CurrentVelocity => _currentSpeed / _trainController.SplineLenght;
+        public float CurrentVelocity => _currentSpeed / _trainController.SplineLength;
 
         /// <summary>
         /// Determines the chosen track for the next possible rail split.<br></br>

@@ -57,7 +57,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Returns the precalculated line lenght of the spline
         /// </summary>
-        public float SplineLenght { get; private set; } = 0;
+        public float SplineLength { get; private set; } = 0;
 
         /// <summary>
         /// Reference to the train engine.
@@ -67,7 +67,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Helper method for updating the current spline lenght.
         /// </summary>
-        public void RecalculateSplineLenght() => SplineLenght = Spline.CalculateLength();
+        public void RecalculateSplineLenght() => SplineLength = Spline.CalculateLength();
 
         private RailSplit _railSplit;
 
@@ -118,7 +118,7 @@ namespace DerailedDeliveries.Framework.Train
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
 
-                UpdateWagonPosition(_wagons[i - 1], distanceAlongSpline, offset / SplineLenght);
+                UpdateWagonPosition(_wagons[i - 1], distanceAlongSpline, offset / SplineLength);
             }
 
             if (!IsServer)
@@ -181,7 +181,7 @@ namespace DerailedDeliveries.Framework.Train
             float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
             float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * wagons;
 
-            float offsetSum = Mathf.Abs(offset / SplineLenght / TWEAK_DIVIDE_FACTOR);
+            float offsetSum = Mathf.Abs(offset / SplineLength / TWEAK_DIVIDE_FACTOR);
 
             return offsetSum;
         }
@@ -229,18 +229,20 @@ namespace DerailedDeliveries.Framework.Train
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
                 
-                UpdateWagonPosition(_wagons[i - 1], offset / SplineLenght);
+                UpdateWagonPosition(_wagons[i - 1], DistanceAlongSpline,  offset / SplineLength);
             }
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+
             if (!gameObject.activeSelf)
                 return;
 
-            if (SplineLenght == 0)
-                SplineLenght = Spline.CalculateLength();
+            if (SplineLength == 0)
+                SplineLength = Spline.CalculateLength();
 
             if (Application.isPlaying)
                 return;
