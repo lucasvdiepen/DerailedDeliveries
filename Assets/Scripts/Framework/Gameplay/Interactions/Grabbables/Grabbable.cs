@@ -1,15 +1,14 @@
 using FishNet.Object.Synchronizing;
+using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
-using FishNet.Object;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
     /// <summary>
     /// A Interactable class that is used for all grabbable Interactables.
     /// </summary>
-    [RequireComponent(typeof(BoxCollider))]
     public class Grabbable : Interactable
     {
         [SerializeField]
@@ -25,6 +24,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public override bool CheckIfInteractable() => base.CheckIfInteractable() && !IsBeingInteracted;
 
+        [Server]
         private protected override bool Interact(Interactor interactor)
         {
             if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
@@ -49,7 +49,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if (IsBeingInteracted)
             {
                 NetworkObject.SetParent(interactor.GrabbingAnchor.GetComponent<NetworkBehaviour>());
-                gameObject.transform.localPosition = Vector3.zero;
+                transform.localPosition = Vector3.zero;
             }
             else
             {
@@ -58,10 +58,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 if (!gameObject.TryGetComponent(out BoxCollider collider))
                     return;
 
-                Physics.Raycast(gameObject.transform.position, Vector3.down, out RaycastHit hit, _groundCheckDistance);
+                Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _groundCheckDistance);
 
                 hit.point += new Vector3(0, collider.size.y * .5f, 0);
-                gameObject.transform.position = hit.point;
+                transform.position = hit.point;
             }
         }
     }

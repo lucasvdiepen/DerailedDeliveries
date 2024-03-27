@@ -12,7 +12,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
     /// <summary>
     /// A class that is responsible for holding values for an interactable object.
     /// </summary>
-    [RequireComponent(typeof(NetworkObject), typeof(NetworkObserver))]
+    [RequireComponent(typeof(NetworkObject), typeof(NetworkObserver), typeof(BoxCollider))]
     public class Interactable : NetworkBehaviour
     {
         /// <summary>
@@ -39,9 +39,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// A function that calls a RPC to the server on this Interactable.
         /// </summary>
         /// <param name="interactor">The interactor that this request originates from.</param>
-        [ServerRpc(RequireOwnership = false)]
+        [ServerRpc(RequireOwnership = false), Server]
         public void InteractOnServer(Interactor interactor) => Interact(interactor);
 
+        [Server]
         private protected virtual bool Interact(Interactor interactor)
         {
             if(!IsInteractable || IsOnCooldown)
