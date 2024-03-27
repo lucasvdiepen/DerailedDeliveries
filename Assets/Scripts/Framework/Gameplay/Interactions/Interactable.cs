@@ -39,7 +39,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// A function that calls a RPC to the server on this Interactable.
         /// </summary>
         /// <param name="interactor">The interactor that this request originates from.</param>
-        [ServerRpc(RequireOwnership = false), Server]
+        [ServerRpc(RequireOwnership = false)]
         public void InteractOnServer(Interactor interactor) => Interact(interactor);
 
         [Server]

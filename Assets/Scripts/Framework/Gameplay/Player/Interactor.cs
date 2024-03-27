@@ -105,6 +105,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// </summary>
         /// <param name="interactable">The current interacting target. If the interactor already had this
         /// reference set it will reset it.</param>
+        [Server]
         public void UpdateInteractingTarget(Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
