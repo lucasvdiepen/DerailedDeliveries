@@ -106,10 +106,10 @@ namespace DerailedDeliveries.Framework.Train
                 if (_railSplit != null)
                 {
                     DistanceAlongSpline = 0.0f;
-                    Spline = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
+                    SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
-                    int nextTrackID = SplineManager.Instance.GetIDByTrack(Spline);
-                    SwitchCurrentTrack(nextTrackID + 1);
+                    int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+                    SwitchCurrentTrack(nextTrackID);
                 }
                 else
                 {
