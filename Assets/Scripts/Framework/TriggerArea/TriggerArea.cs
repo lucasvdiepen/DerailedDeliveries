@@ -10,39 +10,39 @@ namespace DerailedDeliveries.Framework.TriggerArea
     [RequireComponent(typeof(Collider))]
     public class TriggerArea<T> : MonoBehaviour where T : Component
     {
-        private readonly List<T> _componentsInCollider = new();
+        private readonly List<T> _colliders = new();
 
         /// <summary>
         /// Invoked when a collider enters or exits the trigger area.
         /// </summary>
-        public Action<T[]> OnComponentChange;
+        public Action<T[]> OnColliderChange;
 
         /// <summary>
         /// Invoked when a collider enters the trigger area.
         /// </summary>
-        public Action<T> OnComponentEnter;
+        public Action<T> OnColliderEnter;
 
         /// <summary>
         /// Invoked when a collider exits the trigger area.
         /// </summary>
-        public Action<T> OnComponentExit;
+        public Action<T> OnColliderExit;
 
         /// <summary>
         /// Gets the colliders currently inside the trigger area.
         /// </summary>
-        public T[] ComponentsInCollider => _componentsInCollider.ToArray();
+        public T[] ComponentsInCollider => _colliders.ToArray();
 
         private void OnTriggerEnter(Collider other)
         {
             if(!other.TryGetComponent(out T component))
                 return;
 
-            if(_componentsInCollider.Contains(component))
+            if(_colliders.Contains(component))
                 return;
 
-            _componentsInCollider.Add(component);
-            OnComponentEnter?.Invoke(component);
-            OnComponentChange?.Invoke(_componentsInCollider.ToArray());
+            _colliders.Add(component);
+            OnColliderEnter?.Invoke(component);
+            OnColliderChange?.Invoke(_colliders.ToArray());
         }
 
         private void OnTriggerExit(Collider other)
@@ -50,12 +50,12 @@ namespace DerailedDeliveries.Framework.TriggerArea
             if(!other.TryGetComponent(out T component))
                 return;
 
-            if(!_componentsInCollider.Contains(component))
+            if(!_colliders.Contains(component))
                 return;
 
-            _componentsInCollider.Remove(component);
-            OnComponentExit?.Invoke(component);
-            OnComponentChange?.Invoke(_componentsInCollider.ToArray());
+            _colliders.Remove(component);
+            OnColliderExit?.Invoke(component);
+            OnColliderChange?.Invoke(_colliders.ToArray());
         }
     }
 

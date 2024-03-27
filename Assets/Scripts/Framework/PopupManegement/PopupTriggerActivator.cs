@@ -13,13 +13,13 @@ namespace DerailedDeliveries.Framework.PopupManagement
     {
         private Popup _popup;
 
-        private void OnEnable() => OnComponentChange += OnComponentChanged;
+        private void OnEnable() => OnColliderChange += OnColliderChanged;
 
-        private void OnDisable() => OnComponentChange -= OnComponentChanged;
+        private void OnDisable() => OnColliderChange -= OnColliderChanged;
 
         private void Awake() => _popup = GetComponentInChildren<Popup>();
 
-        private void OnComponentChanged(PlayerId[] players)
+        private void OnColliderChanged(PlayerId[] players)
         {
             if (players.Length == 0)
             {

@@ -15,6 +15,9 @@ namespace DerailedDeliveries.Framework.PopupManagement
         private CanvasGroup _popupCanvasGroup;
 
         [SerializeField]
+        private float _fadeDuration = 0.5f;
+
+        [SerializeField]
         private float _hoverHeight = 1;
 
         [SerializeField]
@@ -73,12 +76,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
                 ).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
 
-            yield return _popupCanvasGroup.DOFade(1, .5f).SetEase(Ease.OutCubic).WaitForCompletion();
+            yield return _popupCanvasGroup.DOFade(1, _fadeDuration).SetEase(Ease.OutCubic).WaitForCompletion();
         }
 
         private protected virtual IEnumerator ClosePopup()
         {
-            yield return _popupCanvasGroup.DOFade(0, .5f).SetEase(Ease.OutCubic).WaitForCompletion();
+            yield return _popupCanvasGroup.DOFade(0, _fadeDuration).SetEase(Ease.OutCubic).WaitForCompletion();
 
             _hoverAnimation.Kill();
 
