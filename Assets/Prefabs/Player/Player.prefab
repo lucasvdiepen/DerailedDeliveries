@@ -302,7 +302,6 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
-  _interactables: []
   _interactingTarget: {fileID: 0}
   _grabbingAnchor: {fileID: 4761326792321871254}
   _cooldown: 0.2
@@ -353,7 +352,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
