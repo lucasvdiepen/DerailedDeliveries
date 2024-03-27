@@ -15,6 +15,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     [RequireComponent(typeof(CapsuleCollider))]
     public class Interactor : NetworkBehaviour
     {
+        /// <summary>
+        /// Returns the GrabbingAnchor Transform of this Interactor.
+        /// </summary>
+        public Transform GrabbingAnchor => _grabbingAnchor;
+
         [SerializeField]
         private List<Interactable> _interactables;
 
@@ -27,12 +32,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private float _cooldown = .2f;
 
-        private PlayerInputParser _inputParser;
 
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
 
+        private PlayerInputParser _inputParser;
         private bool _isOnCooldown;
+
 
         private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
 
@@ -71,14 +77,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_isOnCooldown || !_isInteracting && _interactables.Count == 0)
                 return;
 
+            StartCoroutine(ActivateCooldown());
+
             if (_isInteracting)
             {
-                StartCoroutine(ActivateCooldown());
                 _interactingTarget.InteractOnServer(this);
                 return;
             }
-
-            StartCoroutine(ActivateCooldown());
 
             _interactingTarget = null;
 
@@ -96,32 +101,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         }
 
         /// <summary>
-        /// A function that sets the InteractingTarget of this Interactor serversided.
+        /// A function that sets the InteractingTarget of this Interactor server sided.
         /// </summary>
         /// <param name="interactable">The current interacting target. If the interactor already had this
         /// reference set it will reset it.</param>
-        public void SetInteractingTarget(Interactable interactable, bool isInteracting)
+        public void UpdateInteractingTarget(Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
             _isInteracting = isInteracting;
-
-            if (_isInteracting)
-            {
-                interactable.NetworkObject.SetParent(_grabbingAnchor.GetComponent<NetworkBehaviour>());
-                interactable.gameObject.transform.localPosition = Vector3.zero;
-            }
-            else
-            {
-                interactable.NetworkObject.UnsetParent();
-
-                if (!interactable.TryGetComponent(out BoxCollider collider))
-                    return;
-
-                Physics.Raycast(interactable.transform.position, Vector3.down, out RaycastHit hit, 5f);
-
-                hit.point += new Vector3(0, collider.size.y * .5f, 0);
-                interactable.transform.position = hit.point;
-            }
         }
 
         private protected virtual IEnumerator ActivateCooldown()
