@@ -109,7 +109,7 @@ namespace DerailedDeliveries.Framework.Train
                     SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
                     int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
-                    SwitchCurrentTrack(nextTrackID);
+                    SwitchCurrentTrack(nextTrackID, true);
                 }
                 else
                 {
@@ -117,15 +117,23 @@ namespace DerailedDeliveries.Framework.Train
                 }
             }
 
-           /* if (DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
+            if (DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
             {
-                if (!HandleReverseRailSplit()) // No rail split has been found, stop train.
+                if (Spline.transform.parent != null)
                 {
-                    print("Stop");
+                    DistanceAlongSpline = 1.0f;
+                    SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
+                    int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+                    
+                    SwitchCurrentTrack(nextTrackID);
+                }
+                else
+                {
+                    print("Start reached");
                     DistanceAlongSpline = CurrentOptimalStartPoint;
                 }
-            }*/
-            
+            }
+
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
             {
@@ -164,35 +172,16 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [ObserversRpc(RunLocally = true)]
-        private void SwitchCurrentTrack(int trackID)
+        private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline = false)
         {
             Spline = SplineManager.Instance.GetTrackByID(trackID);
 
             RecalculateSplineLenght();
             CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
-            DistanceAlongSpline = CurrentOptimalStartPoint;
-            Spline.gameObject.TryGetComponent(out _railSplit);
-        }
+            if(setDistanceAlongSpline)
+                DistanceAlongSpline = CurrentOptimalStartPoint;
 
-        /// <summary>
-        /// Checks for possible upcomming rail splittings. If none are found, end is reached.
-        /// </summary>
-        private void HandlePossibleRailSplit()
-        {
-            if (_railSplit == null)
-            {
-                print("End reached");
-                return;
-            }
-
-            DistanceAlongSpline = 0.0f;
-            Spline = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
-
-            RecalculateSplineLenght();
-            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
-
-            DistanceAlongSpline = CurrentOptimalStartPoint;
             Spline.gameObject.TryGetComponent(out _railSplit);
         }
 
