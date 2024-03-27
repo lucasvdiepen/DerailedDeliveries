@@ -18,8 +18,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Run dotnet format
-        run: dotnet format DerailedDeliveries.sln --exclude Assets/Plugins --check --verify-no-changes --verbosity diagnostic
-
       - name: Run dotnet format style
         run: dotnet format style DerailedDeliveries.sln --exclude Assets/Plugins --check --verify-no-changes --verbosity diagnostic
+        
+      - name: Run dotnet format
+        run: dotnet format DerailedDeliveries.sln --exclude Assets/Plugins --check --verify-no-changes --verbosity diagnostic
