@@ -1,23 +1,19 @@
-name: dotnet format 2
+name: .NET
 
 on: pull_request
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Setup .NET Core
+      - uses: actions/checkout@v2
+      - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0.x'
-          
-      - uses: xt0rted/dotnet-format-problem-matcher@v1
-
-      - name: Install dotnet-format tool
-        run: dotnet tool install -g dotnet-format
-
-      - name: Check out code
-        uses: actions/checkout@v2
+          dotnet-version: 6.0.x
 
       - name: Run dotnet format
-        run: dotnet-format DerailedDeliveries.sln --exclude Assets/Plugins --check --verify-no-changes --verbosity diagnostic
+        uses: xt0rted/dotnet-format@v1
+        with:
+          only-changed-files: "true"
