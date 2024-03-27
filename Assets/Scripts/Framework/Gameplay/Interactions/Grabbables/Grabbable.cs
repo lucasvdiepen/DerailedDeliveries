@@ -12,6 +12,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     [RequireComponent(typeof(BoxCollider))]
     public class Grabbable : Interactable
     {
+        [SerializeField]
+        private protected float _groundCheckDistance = 5f;
+
         private Interactor _originInteractor;
 
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
@@ -55,7 +58,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 if (!gameObject.TryGetComponent(out BoxCollider collider))
                     return;
 
-                Physics.Raycast(gameObject.transform.position, Vector3.down, out RaycastHit hit, 5f);
+                Physics.Raycast(gameObject.transform.position, Vector3.down, out RaycastHit hit, _groundCheckDistance);
 
                 hit.point += new Vector3(0, collider.size.y * .5f, 0);
                 gameObject.transform.position = hit.point;
