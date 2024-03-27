@@ -102,13 +102,15 @@ namespace DerailedDeliveries.Framework.Train
             
             if (DistanceAlongSpline >= 1.0f && TrainEngine.IsTraveling())
             {
-                //HandlePossibleRailSplit();
+                // Check for possible upcomming rail split.
                 if (_railSplit != null)
                 {
                     DistanceAlongSpline = 0.0f;
                     SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
                     int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+
+                    // Switch current track to the new track.
                     SwitchCurrentTrack(nextTrackID, true);
                 }
                 else
@@ -119,12 +121,15 @@ namespace DerailedDeliveries.Framework.Train
 
             if (DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
             {
+                // Check for possible backward rail split.
                 if (Spline.transform.parent != null)
                 {
                     DistanceAlongSpline = 1.0f;
                     SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
+                    
                     int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
                     
+                    // Switch current track to the new track.
                     SwitchCurrentTrack(nextTrackID);
                 }
                 else
@@ -134,12 +139,10 @@ namespace DerailedDeliveries.Framework.Train
                 }
             }
 
+            // Loop over all wagons and update them.
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
-            {
                 MoveTrain(DistanceAlongSpline);
-            }
-
         }
 
         [ObserversRpc(RunLocally = true)]
@@ -150,25 +153,12 @@ namespace DerailedDeliveries.Framework.Train
             int wagons = _wagons.Length + 1;
             for (int i = 1; i < wagons; i++)
             {
+                // Calculate appropriate spacing/offset.
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
 
                 UpdateWagonPosition(_wagons[i - 1], distanceAlongSpline, offset / SplineLength);
             }
-
-            /*if (!IsServer)
-                return;
-
-            if (distanceAlongSpline >= 1.0f && TrainEngine.IsTraveling())
-                HandlePossibleRailSplit();
-
-            if(distanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
-            {
-                if (!HandleReverseRailSplit()) // No rail split has been found, stop train.
-                {
-                    print("Stop");
-                }
-            }*/
         }
 
         [ObserversRpc(RunLocally = true)]
@@ -184,28 +174,9 @@ namespace DerailedDeliveries.Framework.Train
 
             Spline.gameObject.TryGetComponent(out _railSplit);
         }
-
-        /// <summary>
-        /// Method for switching spline track to the previous spline while reversing.
-        /// </summary>
-        private bool HandleReverseRailSplit()
-        {
-            if (Spline.transform.parent == null)
-                return false;
-
-            DistanceAlongSpline = 1f;
-            Spline = Spline.transform.parent.GetComponent<SplineContainer>();
-
-            RecalculateSplineLenght();
-
-            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
-            Spline.gameObject.TryGetComponent(out _railSplit);
-
-            return true;
-        }
         
         /// <summary>
-        /// Calculates and returns the correct start distance along the current spline.
+        /// Calculates and returns the correct start distance along the current spline based on the length of the train.
         /// </summary>
         /// <param name="currentPosition"></param>
         /// <returns>Spline distance value.</returns>
@@ -237,7 +208,7 @@ namespace DerailedDeliveries.Framework.Train
         }
         
         /// <summary>
-        /// Helper method for resetting train position to the current spline start point based on its length.
+        /// Helper method for resetting train position to the current spline start point based on its length. (Editor only)
         /// </summary>
         public void ResetTrainPosition()
         {
