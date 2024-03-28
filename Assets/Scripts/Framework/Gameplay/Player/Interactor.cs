@@ -1,11 +1,11 @@
 using FishNet.Object.Synchronizing;
-using System.Collections.Generic;
 using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
+using DerailedDeliveries.Framework.TriggerArea;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -13,10 +13,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
     [RequireComponent(typeof(CapsuleCollider))]
-    public class Interactor : NetworkBehaviour
+    public class Interactor : NetworkTriggerArea<Interactable>
     {
-        [SerializeField]
-        private List<Interactable> _interactables;
+        /// <summary>
+        /// Returns the GrabbingAnchor Transform of this Interactor.
+        /// </summary>
+        public Transform GrabbingAnchor => _grabbingAnchor;
 
         [SerializeField]
         private Interactable _interactingTarget;
@@ -27,12 +29,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private float _cooldown = .2f;
 
-        private PlayerInputParser _inputParser;
 
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
 
+        private PlayerInputParser _inputParser;
         private bool _isOnCooldown;
+
 
         private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
 
@@ -40,49 +43,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
 
-        private void OnTriggerEnter(Collider collider)
-        {
-            GameObject target = collider.gameObject;
-
-            if (target.TryGetComponent(out Interactable interactable))
-            {
-                if (_interactables.Contains(interactable))
-                    return;
-
-                _interactables.Add(interactable);
-            }
-        }
-
-        private void OnTriggerExit(Collider collider)
-        {
-            GameObject target = collider.gameObject;
-
-            if(target.TryGetComponent(out Interactable interactable))
-            {
-                if (!_interactables.Contains(interactable))
-                    return;
-
-                _interactables.Remove(interactable);
-            }
-        }
-
         private void UseInteractable()
         {
-            if (_isOnCooldown || !_isInteracting && _interactables.Count == 0)
+            Interactable[] interactables = ComponentsInCollider;
+
+            if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
+
+            StartCoroutine(ActivateCooldown());
 
             if (_isInteracting)
             {
-                StartCoroutine(ActivateCooldown());
                 _interactingTarget.InteractOnServer(this);
                 return;
             }
 
-            StartCoroutine(ActivateCooldown());
-
             _interactingTarget = null;
 
-            foreach(Interactable interactable in _interactables)
+            foreach(Interactable interactable in interactables)
             {
                 if (interactable.CheckIfInteractable())
                 {
@@ -96,22 +74,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         }
 
         /// <summary>
-        /// A function that sets the InteractingTarget of this Interactor serversided.
+        /// A function that sets the InteractingTarget of this Interactor server sided.
         /// </summary>
         /// <param name="interactable">The current interacting target. If the interactor already had this
         /// reference set it will reset it.</param>
-        public void SetInteractingTarget(Interactable interactable, bool isInteracting)
+        [Server]
+        public void UpdateInteractingTarget(Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
             _isInteracting = isInteracting;
-
-            if (_isInteracting)
-            {
-                interactable.NetworkObject.SetParent(_grabbingAnchor.GetComponent<NetworkBehaviour>());
-                interactable.gameObject.transform.localPosition = Vector3.zero;
-            }
-            else
-                interactable.NetworkObject.UnsetParent();
         }
 
         private protected virtual IEnumerator ActivateCooldown()
