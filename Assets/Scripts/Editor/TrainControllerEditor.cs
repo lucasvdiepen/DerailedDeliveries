@@ -44,7 +44,7 @@ public class TrainControllerEditor : Editor
         if(engineScript.CurrentTargetEngineSpeedType != engineScript.CurrentEngineSpeedType)
             EditorGUILayout.EnumPopup("Target engine speed state: ", engineScript.CurrentTargetEngineSpeedType);
             
-        EditorGUILayout.FloatField("Current speed: ", engineScript.CurrentVelocity / trainController.SplineLength);
+        EditorGUILayout.FloatField("Current speed: ", engineScript.CurrentVelocity);
         EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
         EditorGUILayout.FloatField("Current optimal start point: ", trainController.CurrentOptimalStartPoint);
         EditorGUILayout.Toggle("Current chosen track upcomming rail split: ", trainController.TrainEngine.CurrentSplitDirection);
