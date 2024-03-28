@@ -93,7 +93,8 @@ namespace DerailedDeliveries.Framework.Train
         private void OnDisable()
             => InstanceFinder.TimeManager.OnTick -= OnTick;
 
-        private void OnTick() // Server only.
+        // Server only.
+        private void OnTick() 
         {
             if (!IsServer)
                 return;
@@ -161,6 +162,11 @@ namespace DerailedDeliveries.Framework.Train
             }
         }
 
+        /// <summary>
+        /// Internally used to switch spline track.
+        /// </summary>
+        /// <param name="trackID">ID of the track.</param>
+        /// <param name="setDistanceAlongSpline">Should train snap to optimal starting point.</param>
         [ObserversRpc(RunLocally = true)]
         private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline = false)
         {
