@@ -67,7 +67,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Helper method for updating the current spline lenght.
         /// </summary>
-        public void RecalculateSplineLenght() => SplineLength = Spline.CalculateLength();
+        public void RecalculateSplineLength() => SplineLength = Spline.CalculateLength();
 
         private RailSplit _railSplit;
 
@@ -82,7 +82,7 @@ namespace DerailedDeliveries.Framework.Train
             CurrentOptimalStartPoint = _trainFrontStartTime;
 
             if (Spline != null)
-                RecalculateSplineLenght();
+                RecalculateSplineLength();
 
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
@@ -116,7 +116,7 @@ namespace DerailedDeliveries.Framework.Train
                 }
                 else
                 {
-                    print("End reached");
+                    // End reached.
                 }
             }
 
@@ -135,7 +135,7 @@ namespace DerailedDeliveries.Framework.Train
                 }
                 else
                 {
-                    print("Start reached");
+                    // Start reached.
                     DistanceAlongSpline = CurrentOptimalStartPoint;
                 }
             }
@@ -170,9 +170,11 @@ namespace DerailedDeliveries.Framework.Train
         [ObserversRpc(RunLocally = true)]
         private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline = false)
         {
+            // Get correct spline by given ID.
             Spline = SplineManager.Instance.GetTrackByID(trackID);
 
-            RecalculateSplineLenght();
+            //Refresh spline length and optimal start point.
+            RecalculateSplineLength();
             CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
             if(setDistanceAlongSpline)

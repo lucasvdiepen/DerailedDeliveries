@@ -25,7 +25,7 @@ public class TrainControllerEditor : Editor
         {
             if (GUILayout.Button("Recalculate Spline Length"))
             {
-                trainController.RecalculateSplineLenght();
+                trainController.RecalculateSplineLength();
                 trainController.DebugSnapToSpline();
             }
 
