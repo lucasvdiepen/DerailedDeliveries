@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
+using UnityEditor.VersionControl;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -32,17 +33,17 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Current train engine state.
         /// </summary>
-        public TrainEngineState EngineState { get; private set; }
+        public TrainEngineState EngineState { get; private set; } = TrainEngineState.ON_STANDBY;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
-        public TrainEngineSpeedTypes CurrentEngineSpeedType { get; private set; }
+        public TrainEngineSpeedTypes CurrentEngineSpeedType { get; private set; } = TrainEngineSpeedTypes.STILL;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
-        public TrainEngineSpeedTypes CurrentTargetEngineSpeedType { get; private set; }
+        public TrainEngineSpeedTypes CurrentTargetEngineSpeedType { get; private set; } = TrainEngineSpeedTypes.STILL;
 
         /// <summary>
         /// Current train velocity speed.
@@ -102,18 +103,11 @@ namespace DerailedDeliveries.Framework.Train
                 {TrainEngineSpeedTypes.MEDIUM_REVERSE, -_maxMediumSpeed },
                 {TrainEngineSpeedTypes.HIGH_REVERSE, -_maxHighSpeed },
             };
-
-            SetTrainEngineState(TrainEngineState.ON_STANDBY);
-            
-            CurrentEngineSpeedType = TrainEngineSpeedTypes.STILL;
-            CurrentTargetEngineSpeedType = TrainEngineSpeedTypes.STILL;
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void ToggleTrainDirection()
-        {
-            OnTrainDirectionChanged(!CurrentSplitDirection);
-        }
+            => OnTrainDirectionChanged(!CurrentSplitDirection);
 
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         private void OnTrainDirectionChanged(bool newDirection)
@@ -124,9 +118,7 @@ namespace DerailedDeliveries.Framework.Train
 
         [ServerRpc(RequireOwnership = false)]
         public void SetTrainEngineState(TrainEngineState newState)
-        {
-            OnTrainEngineStateChanged(newState);
-        }
+            => OnTrainEngineStateChanged(newState);
 
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         private void OnTrainEngineStateChanged(TrainEngineState newState)
@@ -163,20 +155,6 @@ namespace DerailedDeliveries.Framework.Train
             OnSpeedChanged?.Invoke(CurrentEngineSpeedType);
         }
 
-        /// <summary>
-        /// Helper method for checking if the train is moving forwards.
-        /// </summary>
-        /// <returns>Is the train moving forwards?</returns>
-        public bool IsTraveling()
-            => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
-
-        /// <summary>
-        /// Helper method for checking if the train is moving backwards.
-        /// </summary>
-        /// <returns>Is the train moving backwards?</returns>
-        public bool IsTravelingReverse()
-            => (int)CurrentEngineSpeedType < 3 || (int)CurrentTargetEngineSpeedType < 3;
-
         private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType)
         {
             _speedTween.Kill();
@@ -198,5 +176,19 @@ namespace DerailedDeliveries.Framework.Train
 
             _speedTween.Play();
         }
+        /// <summary>
+        /// Helper method for checking if the train is moving forwards.
+        /// </summary>
+        /// <returns>Is the train moving forwards?</returns>
+        public bool IsTraveling()
+            => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
+
+        /// <summary>
+        /// Helper method for checking if the train is moving backwards.
+        /// </summary>
+        /// <returns>Is the train moving backwards?</returns>
+        public bool IsTravelingReverse()
+            => (int)CurrentEngineSpeedType < 3 || (int)CurrentTargetEngineSpeedType < 3;
     }
+
 }
