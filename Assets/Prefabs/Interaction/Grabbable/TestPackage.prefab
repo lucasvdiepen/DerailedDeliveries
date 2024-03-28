@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6703346681586767465}
   - component: {fileID: 156916524191783587}
   - component: {fileID: 3938336100073716210}
-  - component: {fileID: 8353263133976288844}
+  - component: {fileID: 3233224100130758042}
   m_Layer: 0
   m_Name: TestPackage
   m_TagString: Untagged
@@ -105,7 +105,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 156916524191783587}
-  - {fileID: 8353263133976288844}
+  - {fileID: 0}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -203,7 +203,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8353263133976288844
+--- !u!114 &3233224100130758042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,13 +212,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1555197626043509476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b4c4fdd3286ff46be65aa4cbe04835, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e88bca8dcd4f6c4eb288735598727f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 6073812502090828546}
-  _networkObjectCache: {fileID: 6073812502090828546}
+  _networkObjectCache: {fileID: 0}
   _cooldown: 0.5
+  _groundCheckDistance: 5
   <IsOnCooldown>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
+  _collidingInteractables: []
+  _originInteractor: {fileID: 0}
   <IsBeingInteracted>k__BackingField: 0

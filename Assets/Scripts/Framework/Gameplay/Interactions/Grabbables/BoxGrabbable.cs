@@ -1,23 +1,21 @@
-using DerailedDeliveries.Framework.Gameplay.Player;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
+    /// <summary>
+    /// A <see cref="Grabbable"/> class that is responsible for holding logic for the Box Grabbable.
+    /// </summary>
     public class BoxGrabbable : Grabbable
     {
-        private protected override void UseGrabbable(Interactor interactor)
+        private protected override Interactable GetInteractableTarget()
         {
-            if (!IsBeingInteracted)
+            foreach(Interactable interactable in CollidingInteractables)
             {
-                //Check for shelf / usecase (new class has to be made)
-
-
-                return;
+                if (interactable.GetType() == typeof(ShelfInteractable))
+                    return interactable;
             }
 
-            base.UseGrabbable(interactor);
+            return null;
         }
     }
 }

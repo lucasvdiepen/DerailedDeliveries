@@ -18,7 +18,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// <summary>
         /// Returns the GrabbingAnchor Transform of this Interactor.
         /// </summary>
-        public Transform GrabbingAnchor => _grabbingAnchor;
+        public NetworkBehaviour GrabbingAnchor => _grabbingAnchor;
+
+        /// <summary>
+        /// A getter that returns the Interactor's InteractingTarget.
+        /// </summary>
+        public Interactable InteractingTarget => _interactingTarget;
 
         [SerializeField]
         private List<Interactable> _interactables;
@@ -27,18 +32,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private Interactable _interactingTarget;
 
         [SerializeField]
-        private Transform _grabbingAnchor;
+        private NetworkBehaviour _grabbingAnchor;
 
         [SerializeField]
         private float _cooldown = .2f;
 
-
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
-
         private PlayerInputParser _inputParser;
         private bool _isOnCooldown;
-
 
         private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
 

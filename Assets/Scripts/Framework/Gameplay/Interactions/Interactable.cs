@@ -1,7 +1,7 @@
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using FishNet.Observing;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
 using UnityEngine;
 using System;
 
@@ -41,6 +41,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// <param name="interactor">The interactor that this request originates from.</param>
         [ServerRpc(RequireOwnership = false)]
         public void InteractOnServer(Interactor interactor) => Interact(interactor);
+
+        /// <summary>
+        /// A function that is called from interactable to interactable.
+        /// </summary>
+        /// <param name="interactor">The origin Interactor.</param>
+        /// <returns>The status of if the Interaction was succesfull.</returns>
+        public bool InteractableInteracts(Interactor interactor) => Interact(interactor);
 
         [Server]
         private protected virtual bool Interact(Interactor interactor)
