@@ -88,10 +88,10 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         private void OnEnable()
-            => InstanceFinder.TimeManager.OnTick += OnTick;
+            => TimeManager.OnTick += OnTick;
 
         private void OnDisable()
-            => InstanceFinder.TimeManager.OnTick -= OnTick;
+            => TimeManager.OnTick -= OnTick;
 
         // Server only.
         private void OnTick() 
@@ -99,7 +99,7 @@ namespace DerailedDeliveries.Framework.Train
             if (!IsServer)
                 return;
 
-            DistanceAlongSpline += TrainEngine.CurrentVelocity * Time.fixedDeltaTime;
+            DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
             
             if (DistanceAlongSpline >= 1.0f && TrainEngine.IsTraveling())
             {
