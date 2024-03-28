@@ -4,6 +4,7 @@ using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -17,6 +18,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
         [SerializeField]
         private Interactor _originInteractor;
+
+        [SerializeField]
+        private ShelfInteractable _originShelf;
 
         [SerializeField]
         private float _groundCheckDistance = 5f;
@@ -37,11 +41,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
         private void OnTriggerExit(Collider other)
         {
-            if (_collidingInteractables.Count != 0 && other.TryGetComponent(out Interactable interactable))
-            {
-                if (_collidingInteractables.Contains(interactable))
-                    _collidingInteractables.Remove(interactable);
-            }
+            if (other.TryGetComponent(out Interactable interactable) && _collidingInteractables.Contains(interactable))
+                _collidingInteractables.Remove(interactable);
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if (UseGrabbable(interactor))
                 return;
 
-            UpdateInteractionStatus(interactor, !IsBeingInteracted);
+            UpdateInteractionStatus(interactor, null, !IsBeingInteracted);
 
             if (IsBeingInteracted)
             {
@@ -83,19 +84,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             }
         }
 
-        /// <summary>
-        /// Updates the Grabbable's Interaction status.
-        /// </summary>
-        /// <param name="interactor">The Interactor that's updating the status.</param>
-        /// <param name="isBeingInteracted">The new IsBeingInteracted status.</param>
-        public void UpdateInteractionStatus(Interactor interactor, bool isBeingInteracted)
-        {
-            IsBeingInteracted = isBeingInteracted;
-            _originInteractor = IsBeingInteracted
-                ? interactor
-                : null;
-        }
-
         private protected virtual void PlaceInteractableOnGround()
         {
             if (!gameObject.TryGetComponent(out BoxCollider collider))
@@ -107,9 +95,23 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             transform.position = hit.point;
         }
 
+        /// <summary>
+        /// Updates the Grabbable's Interaction status.
+        /// </summary>
+        /// <param name="interactor">The Interactor that's updating the status.</param>
+        /// <param name="isBeingInteracted">The new IsBeingInteracted status.</param>
+        public void UpdateInteractionStatus(Interactor interactor, ShelfInteractable shelf, bool isBeingInteracted)
+        {
+            _originShelf = shelf;
+            IsBeingInteracted = isBeingInteracted;
+            _originInteractor = IsBeingInteracted
+                ? interactor
+                : null;
+        }
+
         private protected virtual bool UseGrabbable(Interactor interactor)
         {
-            if (!IsBeingInteracted || _collidingInteractables.Count == 0)
+            if (_originShelf == null && _collidingInteractables.Count == 0)
                 return false;
 
             Interactable target = GetInteractableTarget();

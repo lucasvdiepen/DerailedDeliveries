@@ -35,23 +35,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
                 _heldInteractable = target;
 
                 if (target is Grabbable grabbable)
-                    grabbable.UpdateInteractionStatus(interactor, false);
+                    grabbable.UpdateInteractionStatus(null, this, false);
 
                 interactor.UpdateInteractingTarget(null, false);
                 return true;
             }
-
-            if (_heldInteractable != null && target == null)
+            else
             {
                 _heldInteractable.NetworkObject.SetParent(interactor.GrabbingAnchor);
                 _heldInteractable.transform.localPosition = Vector3.zero;
 
-                if (target is Grabbable grabbable)
-                    grabbable.UpdateInteractionStatus(interactor, true);
+                if (_heldInteractable is Grabbable grabbable)
+                    grabbable.UpdateInteractionStatus(interactor, null, true);
 
                 interactor.UpdateInteractingTarget(_heldInteractable, true);
 
-                _heldInteractable = target;
+                _heldInteractable = null;
                 return true;
             }
 

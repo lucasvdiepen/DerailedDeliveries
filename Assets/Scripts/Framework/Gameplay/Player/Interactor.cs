@@ -45,9 +45,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
 
+
+        public Interactable[] interactables1;
         private void UseInteractable()
         {
             Interactable[] interactables = ComponentsInCollider;
+            interactables1 = ComponentsInCollider;
 
             if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
