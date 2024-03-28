@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using FishNet.Object;
 using DG.Tweening;
 using UnityEngine;
 using System;
 
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+
 using DerailedDeliveries.Framework.Utils;
-using UnityEditor.VersionControl;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -33,17 +34,20 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Current train engine state.
         /// </summary>
-        public TrainEngineState EngineState { get; private set; } = TrainEngineState.ON_STANDBY;
+        public TrainEngineState EngineState 
+            { get; private set; } = TrainEngineState.ON_STANDBY;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
-        public TrainEngineSpeedTypes CurrentEngineSpeedType { get; private set; } = TrainEngineSpeedTypes.STILL;
+        public TrainEngineSpeedTypes CurrentEngineSpeedType 
+            { get; private set; } = TrainEngineSpeedTypes.STILL;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
-        public TrainEngineSpeedTypes CurrentTargetEngineSpeedType { get; private set; } = TrainEngineSpeedTypes.STILL;
+        public TrainEngineSpeedTypes CurrentTargetEngineSpeedType 
+            { get; private set; } = TrainEngineSpeedTypes.STILL;
 
         /// <summary>
         /// Current train velocity speed.
@@ -79,7 +83,9 @@ namespace DerailedDeliveries.Framework.Train
 
         private Dictionary<TrainEngineSpeedTypes, float> _getSpeedValue;
 
+        [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private float _currentSpeed = 0f;
+        
         private float _speedTypesCount = 0;
 
         private Tween _speedTween;
@@ -105,10 +111,52 @@ namespace DerailedDeliveries.Framework.Train
             };
         }
 
+        /// <summary>
+        /// Helper method for checking if the train is moving forwards.
+        /// </summary>
+        /// <returns>Is the train moving forwards?</returns>
+        public bool IsTraveling()
+            => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
+
+        /// <summary>
+        /// Helper method for checking if the train is moving backwards.
+        /// </summary>
+        /// <returns>Is the train moving backwards?</returns>
+        public bool IsTravelingReverse()
+            => (int)CurrentEngineSpeedType < 3 || (int)CurrentTargetEngineSpeedType < 3;
+        
+        #region ServerRPCS
+        /// <summary>
+        /// Used to toggle direction of upcomming rail split.
+        /// </summary>
         [ServerRpc(RequireOwnership = false)]
         public void ToggleTrainDirection()
             => OnTrainDirectionChanged(!CurrentSplitDirection);
 
+        /// <summary>
+        /// Used to set the train engine state.
+        /// </summary>
+        /// <param name="newState">New state of the train engine.</param>
+        [ServerRpc(RequireOwnership = false)]
+        public void SetTrainEngineState(TrainEngineState newState)
+            => OnTrainEngineStateChanged(newState);
+        
+        /// <summary>
+        /// Method for increasing/decreasing train speed level.
+        /// </summary>
+        /// <param name="increment">Increase or decrease speed.</param>
+        [ServerRpc(RequireOwnership = false)]
+        public void AdjustSpeed(bool increment)
+        {
+            TrainEngineSpeedTypes newTargetSpeed = (TrainEngineSpeedTypes)Mathf.Clamp
+                    ((int)CurrentTargetEngineSpeedType + (increment ? 1 : -1), 0, _speedTypesCount);
+
+            OnTrainTargetSpeedChanged(newTargetSpeed);
+            TweenTrainSpeed(CurrentTargetEngineSpeedType);
+        }
+        #endregion;
+        
+        #region ObserverRPCS
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         private void OnTrainDirectionChanged(bool newDirection)
         {
@@ -116,29 +164,11 @@ namespace DerailedDeliveries.Framework.Train
             OnDirectionChanged?.Invoke(CurrentSplitDirection);
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void SetTrainEngineState(TrainEngineState newState)
-            => OnTrainEngineStateChanged(newState);
-
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         private void OnTrainEngineStateChanged(TrainEngineState newState)
         {
             EngineState = newState;
             OnEngineStateChanged?.Invoke(newState);
-        }
-
-        /// <summary>
-        /// Method for increasing/decreasing train speed level.
-        /// </summary>
-        /// <param name="increase"></param>
-        [ServerRpc(RequireOwnership = false)]
-        public void AdjustSpeed(bool increase)
-        {
-            TrainEngineSpeedTypes newTargetSpeed = (TrainEngineSpeedTypes)Mathf.Clamp
-                    ((int)CurrentTargetEngineSpeedType + (increase ? 1 : -1), 0, _speedTypesCount);
-
-            OnTrainTargetSpeedChanged(newTargetSpeed);
-            TweenTrainSpeed(CurrentTargetEngineSpeedType);
         }
 
         [ObserversRpc(BufferLast = true, RunLocally = true)]
@@ -154,14 +184,19 @@ namespace DerailedDeliveries.Framework.Train
             CurrentEngineSpeedType = newSpeed;
             OnSpeedChanged?.Invoke(CurrentEngineSpeedType);
         }
+        #endregion
 
+        /// <summary>
+        /// Internally used to tween between different levels of speed.
+        /// </summary>
+        /// <param name="targetEngineSpeedType">New target speed to tween towards.</param>
         private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType)
         {
             _speedTween.Kill();
 
             float currentMaxSpeed = _getSpeedValue[targetEngineSpeedType];
             float duration = _accelerationDuration;
-            
+
             _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
                 .SetEase(_accelerationEase);
 
@@ -176,19 +211,6 @@ namespace DerailedDeliveries.Framework.Train
 
             _speedTween.Play();
         }
-        /// <summary>
-        /// Helper method for checking if the train is moving forwards.
-        /// </summary>
-        /// <returns>Is the train moving forwards?</returns>
-        public bool IsTraveling()
-            => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
 
-        /// <summary>
-        /// Helper method for checking if the train is moving backwards.
-        /// </summary>
-        /// <returns>Is the train moving backwards?</returns>
-        public bool IsTravelingReverse()
-            => (int)CurrentEngineSpeedType < 3 || (int)CurrentTargetEngineSpeedType < 3;
     }
-
 }

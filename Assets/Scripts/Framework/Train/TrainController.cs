@@ -174,7 +174,7 @@ namespace DerailedDeliveries.Framework.Train
 
             Spline.gameObject.TryGetComponent(out _railSplit);
         }
-        
+
         /// <summary>
         /// Calculates and returns the correct start distance along the current spline based on the length of the train.
         /// </summary>
