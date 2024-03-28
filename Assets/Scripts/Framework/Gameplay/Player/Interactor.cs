@@ -1,11 +1,11 @@
 using FishNet.Object.Synchronizing;
-using System.Collections.Generic;
 using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
+using DerailedDeliveries.Framework.TriggerArea;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -13,7 +13,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
     [RequireComponent(typeof(CapsuleCollider))]
-    public class Interactor : NetworkBehaviour
+    public class Interactor : NetworkTriggerArea<Interactable>
     {
         /// <summary>
         /// Returns the GrabbingAnchor Transform of this Interactor.
@@ -24,9 +24,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// A getter that returns the Interactor's InteractingTarget.
         /// </summary>
         public Interactable InteractingTarget => _interactingTarget;
-
-        [SerializeField]
-        private List<Interactable> _interactables;
 
         [SerializeField]
         private Interactable _interactingTarget;
@@ -48,35 +45,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
 
-        private void OnTriggerEnter(Collider collider)
-        {
-            GameObject target = collider.gameObject;
-
-            if (target.TryGetComponent(out Interactable interactable))
-            {
-                if (_interactables.Contains(interactable))
-                    return;
-
-                _interactables.Add(interactable);
-            }
-        }
-
-        private void OnTriggerExit(Collider collider)
-        {
-            GameObject target = collider.gameObject;
-
-            if(target.TryGetComponent(out Interactable interactable))
-            {
-                if (!_interactables.Contains(interactable))
-                    return;
-
-                _interactables.Remove(interactable);
-            }
-        }
-
         private void UseInteractable()
         {
-            if (_isOnCooldown || !_isInteracting && _interactables.Count == 0)
+            Interactable[] interactables = ComponentsInCollider;
+
+            if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
 
             StartCoroutine(ActivateCooldown());
@@ -89,7 +62,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             _interactingTarget = null;
 
-            foreach(Interactable interactable in _interactables)
+            foreach(Interactable interactable in interactables)
             {
                 if (interactable.CheckIfInteractable())
                 {
