@@ -88,6 +88,8 @@ namespace DerailedDeliveries.Framework.Train
         
         private float _speedTypesCount;
 
+        [SerializeField] private bool isLerping;
+
         private Tween _speedTween;
         private TrainController _trainController;
 
@@ -195,21 +197,34 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         /// <param name="targetEngineSpeedType">New target speed to tween towards.</param>
         [Server]
-        private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType)
+        private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType, bool checkIsBraking = true)
         {
             _speedTween.Kill();
 
             float currentMaxSpeed = _speedValues[targetEngineSpeedType];
             float duration = _accelerationDuration;
+            
+            if (CurrentEngineSpeedType != TrainEngineSpeedTypes.Still && checkIsBraking)
+                currentMaxSpeed = 0;
 
             _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
-                .SetEase(_accelerationEase);
-             
+                .SetEase(_accelerationEase)
+                .OnStart(() => isLerping = true);
+
             _speedTween.OnComplete(() =>
             {
+                float reverseSpeed = _speedValues[targetEngineSpeedType];
+                if (currentMaxSpeed != reverseSpeed) 
+                {
+                    TweenTrainSpeed(targetEngineSpeedType, false);
+                    print("Switch to " + targetEngineSpeedType);
+                    return;
+                }
+
                 TrainEngineState newEngineState = targetEngineSpeedType == TrainEngineSpeedTypes.Still
                     ? TrainEngineState.OnStandby : TrainEngineState.On;
 
+                isLerping = false;
                 SetTrainEngineState(newEngineState);
                 OnTrainSpeedChanged(targetEngineSpeedType);
             });

@@ -1015,15 +1015,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884ec3b01c9095546925d8ad8815f562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 3192052589244940169}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 3192052589244940169}
   <Spline>k__BackingField: {fileID: 0}
-  _trainFrontStartTime: 0.009929235
+  _trainFrontStartTime: 0.00996277
   _heightOffset: 0.08
   _frontWagon: {fileID: 6337498490736350784}
-  _wagonFollowDistance: 16.4
-  _wagonSpacing: 123.9
+  _wagonFollowDistance: 17.9
+  _wagonSpacing: 124.8
   _wagons:
   - {fileID: 8363429222284041710}
   - {fileID: 8087094740484054488}
@@ -1040,15 +1040,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b0e8587849dc24d94752d025b9f4a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 3192052589244940169}
-  _networkObjectCache: {fileID: 0}
-  _maxHighSpeed: 120
+  _networkObjectCache: {fileID: 3192052589244940169}
+  _maxHighSpeed: 7.5
   _maxMediumSpeed: 5
   _maxLowSpeed: 2.5
   _accelerationDuration: 10
   _accelerationEase: 8
   _currentSpeed: 0
+  isLerping: 0
 --- !u!114 &1590013551241812897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,9 +1062,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6c828cd7fcc8d488d237ee6d876a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 3192052589244940169}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 3192052589244940169}
 --- !u!114 &3192052589244940169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,7 +1080,10 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: 3884252529985719752}
+  - {fileID: 8025469572195238737}
+  - {fileID: 1590013551241812897}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -1091,7 +1095,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 10
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
