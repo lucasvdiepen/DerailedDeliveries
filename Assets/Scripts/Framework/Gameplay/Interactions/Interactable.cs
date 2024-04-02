@@ -15,11 +15,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
     [RequireComponent(typeof(NetworkObject), typeof(NetworkObserver), typeof(BoxCollider))]
     public class Interactable : NetworkBehaviour
     {
-        /// <summary>
-        /// Gets called when a player interacts with this interactable.
-        /// </summary>
-        public Action OnInteract;
-
         [SerializeField]
         private float _cooldown = .5f;
 
@@ -29,11 +24,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsInteractable { get; set; } = true;
 
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        private protected bool CanInteract { get; set; } = true;
+
         /// <summary>
         /// Returns a boolean that reflects if this Interactable is available for interaction.
         /// </summary>
         /// <returns>The status that reflects if this is interactable.</returns>
-        public virtual bool CheckIfInteractable() => IsInteractable && !IsOnCooldown;
+        public virtual bool CheckIfInteractable() => IsInteractable && !IsOnCooldown && CanInteract;
 
         /// <summary>
         /// A function that calls a RPC to the server on this Interactable.
@@ -43,24 +41,29 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         public void InteractOnServer(Interactor interactor) => Interact(interactor);
 
         /// <summary>
-        /// A function that is called from interactable to interactable.
+        /// A function that calls the Interact function when already on the server.
         /// </summary>
-        /// <param name="interactor">The origin Interactor.</param>
-        /// <returns>The status of if the Interaction was succesfull.</returns>
-        public bool InteractableInteracts(Interactor interactor) => Interact(interactor);
+        /// <param name="interactor">The origin interactor this request originates from.</param>
+        /// <returns>The result of if the interaction was succesfull.</returns>
+        public bool InteractServer(Interactor interactor) => Interact(interactor);
 
         [Server]
         private protected virtual bool Interact(Interactor interactor)
         {
-            if(!IsInteractable || IsOnCooldown)
+            if(!IsInteractable || IsOnCooldown || !CanInteract)
                 return false;
 
             StartCoroutine(ActivateCooldown());
 
-            OnInteract?.Invoke();
-
             return true;
         }
+
+        /// <summary>
+        /// A function that is called from interactable to interactable.
+        /// </summary>
+        /// <param name="interactor">The origin Interactor.</param>
+        /// <returns>The status of if the Interaction was succesfull.</returns>
+        public virtual bool InteractableInteracts(Interactable interactable) => true;
 
         private protected virtual IEnumerator ActivateCooldown()
         {

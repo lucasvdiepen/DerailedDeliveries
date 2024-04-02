@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6703346681586767465}
   - component: {fileID: 156916524191783587}
   - component: {fileID: 3938336100073716210}
-  - component: {fileID: 3233224100130758042}
+  - component: {fileID: 3305058913626210986}
   m_Layer: 0
   m_Name: TestPackage
   m_TagString: Untagged
@@ -105,11 +105,10 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 156916524191783587}
-  - {fileID: 0}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
-    Position: {x: 0, y: 1.079, z: 0}
+    Position: {x: 0, y: 1, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
@@ -203,7 +202,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3233224100130758042
+--- !u!114 &3305058913626210986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,9 +218,12 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 6073812502090828546}
   _networkObjectCache: {fileID: 0}
   _cooldown: 0.5
-  _groundCheckDistance: 5
+  _originInteractor: {fileID: 0}
   <IsOnCooldown>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
+  <CanInteract>k__BackingField: 1
   _collidingInteractables: []
   _originInteractor: {fileID: 0}
+  _groundCheckDistance: 5
+  _boxCollider: {fileID: 3938336100073716210}
   <IsBeingInteracted>k__BackingField: 0

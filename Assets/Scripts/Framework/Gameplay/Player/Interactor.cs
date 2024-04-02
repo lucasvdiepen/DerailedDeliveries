@@ -5,15 +5,14 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
-using DerailedDeliveries.Framework.TriggerArea;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
     /// <summary>
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
-    [RequireComponent(typeof(CapsuleCollider))]
-    public class Interactor : NetworkTriggerArea<Interactable>
+    [RequireComponent(typeof(SphereCollider))]
+    public class Interactor : NetworkBehaviour
     {
         /// <summary>
         /// Returns the GrabbingAnchor Transform of this Interactor.
@@ -34,23 +33,31 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private float _cooldown = .2f;
 
+        [SerializeField]
+        private SphereCollider _collider;
+
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
         private PlayerInputParser _inputParser;
         private bool _isOnCooldown;
 
-        private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
+        public Collider[] colliders;
+
+        private void Awake()
+        {
+            _inputParser = gameObject.GetComponent<PlayerInputParser>();
+            if (_collider == null)
+                _collider = GetComponent<SphereCollider>();
+        }
 
         private void OnEnable() => _inputParser.OnInteract += UseInteractable;
 
         private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
 
-
-        public Interactable[] interactables1;
         private void UseInteractable()
         {
-            Interactable[] interactables = ComponentsInCollider;
-            interactables1 = ComponentsInCollider;
+            Collider[] interactables = Physics.OverlapSphere(_collider.transform.position, _collider.radius);
+            colliders = interactables;
 
             if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
@@ -65,17 +72,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             _interactingTarget = null;
 
-            foreach(Interactable interactable in interactables)
+            foreach(Collider colliding in interactables)
             {
+                if (!colliding.TryGetComponent(out Interactable interactable))
+                    continue;
+
                 if (interactable.CheckIfInteractable())
                 {
                     _interactingTarget = interactable;
+                    _interactingTarget.InteractOnServer(this);
                     break;
                 }
             }
-
-            if(_interactingTarget != null)
-                _interactingTarget.InteractOnServer(this);
         }
 
         /// <summary>

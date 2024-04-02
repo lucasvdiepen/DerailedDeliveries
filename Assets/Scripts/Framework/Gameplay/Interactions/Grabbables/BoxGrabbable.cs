@@ -1,4 +1,5 @@
 using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
+using UnityEngine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -9,8 +10,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     {
         private protected override Interactable GetInteractableTarget()
         {
-            foreach(Interactable interactable in CollidingInteractables)
+            CollidingInteractables = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size * .5f);
+
+            foreach (Collider collider in CollidingInteractables)
             {
+                if (!collider.TryGetComponent(out Interactable interactable))
+                    continue;
+
                 if (interactable.GetType() == typeof(ShelfInteractable))
                     return interactable;
             }

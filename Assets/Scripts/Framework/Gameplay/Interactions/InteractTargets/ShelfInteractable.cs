@@ -1,8 +1,9 @@
 using FishNet.Object;
 using UnityEngine;
 
-using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
+using DG.Tweening;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
 {
@@ -22,39 +23,43 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
             if (!base.Interact(interactor))
                 return false;
 
-            return InteractWithShelfItems(interactor);
+            return GrabFromShelf(interactor);
         }
 
-        private bool InteractWithShelfItems(Interactor interactor)
+        public override bool InteractableInteracts(Interactable interactable)
         {
-            Interactable target = interactor.InteractingTarget;
-
             if (_heldInteractable == null)
             {
-                interactor.InteractingTarget.NetworkObject.SetParent(_interactableAnchor);
-                _heldInteractable = target;
+                interactable.NetworkObject.SetParent(_interactableAnchor);
 
-                if (target is Grabbable grabbable)
-                    grabbable.UpdateInteractionStatus(null, this, false);
-
-                interactor.UpdateInteractingTarget(null, false);
+                if(interactable is Grabbable grabbable)
+                {
+                    grabbable.OriginInteractor.UpdateInteractingTarget(null, false);
+                    grabbable.UpdateInteractionStatus(null, false);
+                }
+                _heldInteractable = interactable;
                 return true;
             }
-            else
+            else if (true)
             {
-                _heldInteractable.NetworkObject.SetParent(interactor.GrabbingAnchor);
-                _heldInteractable.transform.localPosition = Vector3.zero;
-
-                if (_heldInteractable is Grabbable grabbable)
-                    grabbable.UpdateInteractionStatus(interactor, null, true);
-
-                interactor.UpdateInteractingTarget(_heldInteractable, true);
-
-                _heldInteractable = null;
-                return true;
+                // If there is not _heldInteractable the only way they can use something here is by it being a repair
+                // tool.
             }
 
             return false;
+        }
+
+        private bool GrabFromShelf(Interactor interactor)
+        {
+            if (_heldInteractable == null)
+                return false;   
+
+            _heldInteractable.NetworkObject.SetParent(interactor.GrabbingAnchor);
+            _heldInteractable.transform.localPosition = Vector3.zero;
+
+            interactor.UpdateInteractingTarget(_heldInteractable, true);
+            _heldInteractable = null;
+            return true;
         }
     }
 }
