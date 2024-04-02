@@ -34,19 +34,19 @@ namespace DerailedDeliveries.Framework.Train
         /// Current train engine state.
         /// </summary>
         public TrainEngineState EngineState 
-            { get; private set; } = TrainEngineState.onStandby;
+            { get; private set; } = TrainEngineState.OnStandby;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
         public TrainEngineSpeedTypes CurrentEngineSpeedType 
-            { get; private set; } = TrainEngineSpeedTypes.still;
+            { get; private set; } = TrainEngineSpeedTypes.Still;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
         public TrainEngineSpeedTypes CurrentTargetEngineSpeedType 
-            { get; private set; } = TrainEngineSpeedTypes.still;
+            { get; private set; } = TrainEngineSpeedTypes.Still;
 
         /// <summary>
         /// Current train velocity speed.
@@ -84,9 +84,9 @@ namespace DerailedDeliveries.Framework.Train
 
         [HideInInspector]
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        private float _currentSpeed = 0f;
+        private float _currentSpeed;
         
-        private float _speedTypesCount = 0;
+        private float _speedTypesCount;
 
         private Tween _speedTween;
         private TrainController _trainController;
@@ -100,15 +100,15 @@ namespace DerailedDeliveries.Framework.Train
             // Initialize speed values dictionary.
             _speedValues = new Dictionary<TrainEngineSpeedTypes, float>()
             {
-                {TrainEngineSpeedTypes.high, _maxHighSpeed },
-                {TrainEngineSpeedTypes.low, _maxLowSpeed },
-                {TrainEngineSpeedTypes.medium, _maxMediumSpeed },
+                {TrainEngineSpeedTypes.High, _maxHighSpeed },
+                {TrainEngineSpeedTypes.Low, _maxLowSpeed },
+                {TrainEngineSpeedTypes.Medium, _maxMediumSpeed },
                 
-                {TrainEngineSpeedTypes.still, 0 },
+                {TrainEngineSpeedTypes.Still, 0 },
 
-                {TrainEngineSpeedTypes.lowReverse, -_maxLowSpeed },
-                {TrainEngineSpeedTypes.mediumReverse, -_maxMediumSpeed },
-                {TrainEngineSpeedTypes.highReverse, -_maxHighSpeed },
+                {TrainEngineSpeedTypes.LowReverse, -_maxLowSpeed },
+                {TrainEngineSpeedTypes.MediumReverse, -_maxMediumSpeed },
+                {TrainEngineSpeedTypes.HighReverse, -_maxHighSpeed },
             };
         }
 
@@ -149,8 +149,11 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void AdjustSpeed(bool increment)
         {
-            TrainEngineSpeedTypes newTargetSpeed = (TrainEngineSpeedTypes)Mathf.Clamp
-                    ((int)CurrentTargetEngineSpeedType + (increment ? 1 : -1), 0, _speedTypesCount);
+            TrainEngineSpeedTypes newTargetSpeed = (TrainEngineSpeedTypes)Mathf.Clamp(
+                (int)CurrentTargetEngineSpeedType + (increment ? 1 : -1),
+                0,
+                _speedTypesCount
+            );
 
             OnTrainTargetSpeedChanged(newTargetSpeed);
             TweenTrainSpeed(CurrentTargetEngineSpeedType);
@@ -204,8 +207,8 @@ namespace DerailedDeliveries.Framework.Train
              
             _speedTween.OnComplete(() =>
             {
-                TrainEngineState newEngineState = targetEngineSpeedType == TrainEngineSpeedTypes.still
-                    ? TrainEngineState.onStandby : TrainEngineState.on;
+                TrainEngineState newEngineState = targetEngineSpeedType == TrainEngineSpeedTypes.Still
+                    ? TrainEngineState.OnStandby : TrainEngineState.On;
 
                 SetTrainEngineState(newEngineState);
                 OnTrainSpeedChanged(targetEngineSpeedType);

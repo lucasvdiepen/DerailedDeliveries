@@ -17,26 +17,26 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         [field: SerializeField]
         public SplineContainer Spline { get; private set; }
-        
+
         [Header("Train Config")]
         [SerializeField, Range(0, 1)]
-        private float _trainFrontStartTime = 0f;
+        private float _trainFrontStartTime;
 
         [SerializeField]
-        private float _heightOffset = 1.0f;
+        private float _heightOffset;
 
         [Header("Wagons Config")]
         [SerializeField]
-        private Transform _frontWagon = null;
-        
-        [SerializeField]
-        private float _wagonFollowDistance = 0f;
+        private Transform _frontWagon;
 
         [SerializeField]
-        private float _wagonSpacing = 0f;
+        private float _wagonFollowDistance;
 
         [SerializeField]
-        private Transform[] _wagons = null;
+        private float _wagonSpacing;
+
+        [SerializeField]
+        private Transform[] _wagons;
 
         /// <summary>
         /// Current distance value along spline lenght clamped between 0-1 (same as time). <br/>
@@ -57,7 +57,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Returns the precalculated line lenght of the spline
         /// </summary>
-        public float SplineLength { get; private set; } = 0;
+        public float SplineLength { get; private set; }
 
         /// <summary>
         /// Reference to the train engine.
@@ -73,7 +73,7 @@ namespace DerailedDeliveries.Framework.Train
 
         private const float TWEAK_DIVIDE_FACTOR = 10;
 
-        private float _distanceAlongSpline = 0;
+        private float _distanceAlongSpline;
 
         private void Awake()
         {

@@ -5,14 +5,14 @@ namespace DerailedDeliveries.Framework.Train
     /// </summary>
     public enum TrainEngineSpeedTypes
     {
-        highReverse,
-        mediumReverse,
-        lowReverse,
+        HighReverse,
+        MediumReverse,
+        LowReverse,
         
-        still,
+        Still,
         
-        low,
-        medium,
-        high
+        Low,
+        Medium,
+        High
     }
 }
