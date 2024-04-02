@@ -100,41 +100,9 @@ namespace DerailedDeliveries.Framework.Train
                 return;
 
             DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
-            
-            if (DistanceAlongSpline >= 1.0f && TrainEngine.IsTraveling())
-            {
-                // Check for possible upcomming rail split.
-                if (_railSplit != null)
-                {
-                    DistanceAlongSpline = 0.0f;
-                    SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
-                    int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
-
-                    // Switch current track to the new track.
-                    SwitchCurrentTrack(nextTrackID, true);
-                }
-            }
-
-            if (DistanceAlongSpline <= CurrentOptimalStartPoint && TrainEngine.IsTravelingReverse())
-            {
-                // Check for possible backward rail split.
-                if (Spline.transform.parent != null)
-                {
-                    DistanceAlongSpline = 1.0f;
-                    SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
-                    
-                    int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
-                    
-                    // Switch current track to the new track.
-                    SwitchCurrentTrack(nextTrackID);
-                }
-                else
-                {
-                    // Start reached.
-                    DistanceAlongSpline = CurrentOptimalStartPoint;
-                }
-            }
+            CheckUpcommingRailSplit();
+            CheckReverseRailSplit();
 
             MoveTrain(DistanceAlongSpline);
         }
@@ -155,7 +123,55 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
-        /// Internally used to switch spline track.
+        /// Internally used to check for upcomming rail splits and switching tracks.
+        /// </summary>
+        [Server]
+        private void CheckUpcommingRailSplit()
+        {
+            if (DistanceAlongSpline < 1.0f || !TrainEngine.IsTraveling())
+                return;
+
+            if (_railSplit == null)
+                return;
+
+            DistanceAlongSpline = 0.0f;
+            SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
+
+            int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+
+            // Switch current track to the new track.
+            SwitchCurrentTrack(nextTrackID, true);
+        }
+
+        /// <summary>
+        /// Internally used to check for rail splits while reversing and switching tracks.
+        /// </summary>
+        [Server]
+        private void CheckReverseRailSplit()
+        {
+            if (DistanceAlongSpline > CurrentOptimalStartPoint || !TrainEngine.IsTravelingReverse())
+                return;
+
+            // Check for possible backward rail split.
+            if (Spline.transform.parent != null)
+            {
+                DistanceAlongSpline = 1.0f;
+                SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
+
+                int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+
+                // Switch current track to the new track.
+                SwitchCurrentTrack(nextTrackID);
+            }
+            else
+            {
+                // Start reached.
+                DistanceAlongSpline = CurrentOptimalStartPoint;
+            }
+        }
+
+        /// <summary>
+        /// Internally used to switch train currents spline track.
         /// </summary>
         /// <param name="trackID">ID of the track.</param>
         /// <param name="setDistanceAlongSpline">Whether the train should snap to optimal starting point.</param>
@@ -169,7 +185,7 @@ namespace DerailedDeliveries.Framework.Train
             RecalculateSplineLength();
             CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
-            if(setDistanceAlongSpline)
+            if (setDistanceAlongSpline)
                 DistanceAlongSpline = CurrentOptimalStartPoint;
 
             Spline.gameObject.TryGetComponent(out _railSplit);
@@ -199,11 +215,13 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="offset">Optional offset applied on <see cref="DistanceAlongSpline"/></param>
         public void UpdateWagonPosition(Transform trainBody, float distanceAlongSpline, float offset = 0)
         {
-            Vector3 nextPosition = Spline.EvaluatePosition(distanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
+            float totalSplineTime = distanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR);
+
+            Vector3 nextPosition = Spline.EvaluatePosition(totalSplineTime);
             nextPosition.y += _heightOffset;
             trainBody.position = nextPosition;
 
-            Vector3 nextDirection = Spline.EvaluateTangent(distanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR));
+            Vector3 nextDirection = Spline.EvaluateTangent(totalSplineTime);
             trainBody.rotation = Quaternion.LookRotation(-nextDirection, Vector3.up);
         }
         
