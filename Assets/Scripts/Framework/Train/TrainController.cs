@@ -78,6 +78,7 @@ namespace DerailedDeliveries.Framework.Train
         private void Awake()
         {
             TrainEngine = GetComponent<TrainEngine>();
+
             DistanceAlongSpline = _trainFrontStartTime;
             CurrentOptimalStartPoint = _trainFrontStartTime;
 
@@ -135,10 +136,7 @@ namespace DerailedDeliveries.Framework.Train
                 }
             }
 
-            // Loop over all wagons and update them.
-            int wagons = _wagons.Length + 1;
-            for (int i = 1; i < wagons; i++)
-                MoveTrain(DistanceAlongSpline);
+            MoveTrain(DistanceAlongSpline);
         }
 
         [ObserversRpc(RunLocally = true)]
@@ -146,14 +144,13 @@ namespace DerailedDeliveries.Framework.Train
         {
             UpdateWagonPosition(_frontWagon, distanceAlongSpline);
 
-            int wagons = _wagons.Length + 1;
-            for (int i = 1; i < wagons; i++)
+            int wagons = _wagons.Length;
+            for (int i = 0; i < wagons; i++)
             {
                 // Calculate appropriate spacing/offset.
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
-                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
-
-                UpdateWagonPosition(_wagons[i - 1], distanceAlongSpline, offset / SplineLength);
+                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * (i + 1);
+                UpdateWagonPosition(_wagons[i], distanceAlongSpline, offset / SplineLength);
             }
         }
 
@@ -232,13 +229,13 @@ namespace DerailedDeliveries.Framework.Train
             DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
             UpdateWagonPosition(_frontWagon, DistanceAlongSpline);
 
-            int wagons = _wagons.Length + 1;
-            for (int i = 1; i < wagons; i++)
+            int wagons = _wagons.Length;
+            for (int i = 0; i < wagons; i++)
             {
+                // Calculate appropriate spacing/offset.
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
-                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * i;
-                
-                UpdateWagonPosition(_wagons[i - 1], DistanceAlongSpline,  offset / SplineLength);
+                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * (i + 1);
+                UpdateWagonPosition(_wagons[i], DistanceAlongSpline, offset / SplineLength);
             }
         }
 
