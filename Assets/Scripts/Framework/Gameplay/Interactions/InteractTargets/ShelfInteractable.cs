@@ -31,18 +31,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
             if (_heldInteractable == null)
             {
                 interactable.NetworkObject.SetParent(_interactableAnchor);
+                interactable.transform.localPosition = Vector3.zero;
 
-                if(interactable is Grabbable grabbable)
+                if (interactable is Grabbable grabbable)
+                {
                     grabbable.OriginInteractor.UpdateInteractingTarget(null, false);
+                    grabbable.PlaceOnGround();
+                }
 
                 _heldInteractable = interactable;
                 return true;
             }
-            else if (true)
-            {
-                // If there is not _heldInteractable the only way they can use something here is by it being a repair
-                // tool.
-            }
+            
+            // Can add else statement here for a check if the Interactable is a repair item
 
             return false;
         }
@@ -58,6 +59,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
             Interactable targetInteractable = _heldInteractable;
 
             _heldInteractable = null;
+            interactor.UpdateInteractingTargetClient(interactor.Owner, targetInteractable, true);
             return targetInteractable.InteractServer(interactor);
         }
     }

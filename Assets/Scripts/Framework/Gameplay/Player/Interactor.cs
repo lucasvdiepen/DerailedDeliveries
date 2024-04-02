@@ -5,6 +5,7 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
+using FishNet.Connection;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -93,6 +94,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// reference set it will reset it.</param>
         [Server]
         public void UpdateInteractingTarget(Interactable interactable, bool isInteracting)
+        {
+            _interactingTarget = interactable;
+            _isInteracting = isInteracting;
+        }
+
+        /// <summary>
+        /// A function that sends an RPC to the owning client of this <see cref="Interactor"/> that needs this information.
+        /// </summary>
+        /// <param name="connection">The connection to target the RPC to.</param>
+        /// <param name="interactable">The new <see cref="Interactable"/>Target.</param>
+        /// <param name="isInteracting">The new Interacting bool status.</param>
+        [TargetRpc]
+        public void UpdateInteractingTargetClient(NetworkConnection connection, Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
             _isInteracting = isInteracting;

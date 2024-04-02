@@ -86,10 +86,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             UpdateInteractionStatus(null, false);
 
             interactor.UpdateInteractingTarget(null, IsBeingInteracted);
-            PlaceInteractableOnGround();
+            PlaceOnGround();
             return;
         }
 
+        /// <summary>
+        /// A function that updates the interaction information of this <see cref="Grabbable"/>.
+        /// </summary>
+        /// <param name="interactor">The current <see cref="Interactor"/> of this <see cref="Grabbable"/>.</param>
+        /// <param name="isBeingInteracted">The new IsBeingInteracted bool state.</param>
         public void UpdateInteractionStatus(Interactor interactor, bool isBeingInteracted)
         {
             IsBeingInteracted = isBeingInteracted;
@@ -98,7 +103,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
         private protected virtual Interactable GetInteractableTarget() => null;
 
-        private protected virtual void PlaceInteractableOnGround()
+        /// <summary>
+        /// A function that places the <see cref="Grabbable"/> on the ground, can be used for after snapping to a
+        /// transform.
+        /// </summary>
+        public virtual void PlaceOnGround()
         {
             if (!gameObject.TryGetComponent(out BoxCollider collider))
                 return;
