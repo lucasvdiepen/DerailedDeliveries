@@ -247,14 +247,7 @@ namespace DerailedDeliveries.Framework.Train
             DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
             UpdateWagonPosition(_frontWagon, DistanceAlongSpline);
 
-            int wagons = _wagons.Length;
-            for (int i = 0; i < wagons; i++)
-            {
-                // Calculate appropriate spacing/offset.
-                float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
-                float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * (i + 1);
-                UpdateWagonPosition(_wagons[i], DistanceAlongSpline, offset / SplineLength);
-            }
+            MoveTrain(DistanceAlongSpline);
         }
 
 #if UNITY_EDITOR
