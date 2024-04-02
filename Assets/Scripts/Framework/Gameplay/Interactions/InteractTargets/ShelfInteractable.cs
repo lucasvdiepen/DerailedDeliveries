@@ -33,10 +33,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
                 interactable.NetworkObject.SetParent(_interactableAnchor);
 
                 if(interactable is Grabbable grabbable)
-                {
                     grabbable.OriginInteractor.UpdateInteractingTarget(null, false);
-                    grabbable.UpdateInteractionStatus(null, false);
-                }
+
                 _heldInteractable = interactable;
                 return true;
             }
@@ -52,14 +50,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
         private bool GrabFromShelf(Interactor interactor)
         {
             if (_heldInteractable == null)
-                return false;   
+                return false;
 
-            _heldInteractable.NetworkObject.SetParent(interactor.GrabbingAnchor);
-            _heldInteractable.transform.localPosition = Vector3.zero;
+            if (_heldInteractable is Grabbable grabbable)
+                grabbable.UpdateInteractionStatus(null, false);
 
-            interactor.UpdateInteractingTarget(_heldInteractable, true);
+            Interactable targetInteractable = _heldInteractable;
+
             _heldInteractable = null;
-            return true;
+            return targetInteractable.InteractServer(interactor);
         }
     }
 }

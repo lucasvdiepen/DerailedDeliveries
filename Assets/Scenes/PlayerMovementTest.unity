@@ -266,7 +266,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -369,6 +369,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
+  - {fileID: 193772477}
   - {fileID: 1151182520}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
@@ -398,11 +399,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407b9aad86c7e1f4a97f2464b278968e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 193772476}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 193772476}
   _cooldown: 0.5
-  _originInteractor: {fileID: 0}
   <IsOnCooldown>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   <CanInteract>k__BackingField: 1
@@ -1521,7 +1521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 193772476}
   _networkObjectCache: {fileID: 193772476}
 --- !u!4 &1151182521
