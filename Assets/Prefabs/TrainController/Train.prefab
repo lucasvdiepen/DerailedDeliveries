@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 0}
+  _addedNetworkObject: {fileID: 3192052589244940169}
   _networkObjectCache: {fileID: 0}
   <Spline>k__BackingField: {fileID: 0}
   _trainFrontStartTime: 0.009929235
@@ -1040,11 +1040,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b0e8587849dc24d94752d025b9f4a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3192052589244940169}
+  _networkObjectCache: {fileID: 0}
   _maxHighSpeed: 120
   _maxMediumSpeed: 5
   _maxLowSpeed: 2.5
   _accelerationDuration: 1
   _accelerationEase: 8
+  _currentSpeed: 0
 --- !u!114 &1590013551241812897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,6 +1061,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6c828cd7fcc8d488d237ee6d876a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 3192052589244940169}
+  _networkObjectCache: {fileID: 0}
 --- !u!114 &3192052589244940169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1618,7 +1625,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7221933623378785420}
   - component: {fileID: 8507397319476748345}
-  - component: {fileID: 1846936724669309382}
   - component: {fileID: 1165143188570408410}
   m_Layer: 0
   m_Name: Main Camera
@@ -1693,14 +1699,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1846936724669309382
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5542173340716579585}
-  m_Enabled: 1
 --- !u!114 &1165143188570408410
 MonoBehaviour:
   m_ObjectHideFlags: 0
