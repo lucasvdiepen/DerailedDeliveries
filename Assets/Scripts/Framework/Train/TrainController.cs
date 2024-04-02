@@ -88,10 +88,10 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         private void OnEnable()
-            => TimeManager.OnTick += OnTick;
+            => InstanceFinder.TimeManager.OnTick += OnTick;
 
         private void OnDisable()
-            => TimeManager.OnTick -= OnTick;
+            => InstanceFinder.TimeManager.OnTick -= OnTick;
 
         // Server only.
         private void OnTick() 
