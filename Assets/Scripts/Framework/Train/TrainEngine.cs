@@ -1,10 +1,9 @@
+using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
+using FishNet.Object;
 using DG.Tweening;
 using UnityEngine;
 using System;
-
-using FishNet.Object;
-using FishNet.Object.Synchronizing;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -35,19 +34,19 @@ namespace DerailedDeliveries.Framework.Train
         /// Current train engine state.
         /// </summary>
         public TrainEngineState EngineState 
-            { get; private set; } = TrainEngineState.ON_STANDBY;
+            { get; private set; } = TrainEngineState.onStandby;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
         public TrainEngineSpeedTypes CurrentEngineSpeedType 
-            { get; private set; } = TrainEngineSpeedTypes.STILL;
+            { get; private set; } = TrainEngineSpeedTypes.still;
 
         /// <summary>
         /// Current train speed type.
         /// </summary>
         public TrainEngineSpeedTypes CurrentTargetEngineSpeedType 
-            { get; private set; } = TrainEngineSpeedTypes.STILL;
+            { get; private set; } = TrainEngineSpeedTypes.still;
 
         /// <summary>
         /// Current train velocity speed.
@@ -81,8 +80,9 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public Action<TrainEngineState> OnEngineStateChanged;
 
-        private Dictionary<TrainEngineSpeedTypes, float> _getSpeedValue;
+        private Dictionary<TrainEngineSpeedTypes, float> _speedValues;
 
+        [HideInInspector]
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private float _currentSpeed = 0f;
         
@@ -97,31 +97,32 @@ namespace DerailedDeliveries.Framework.Train
         {
             _speedTypesCount = Enum.GetValues(typeof(TrainEngineSpeedTypes)).Length - 1;
 
-            _getSpeedValue = new Dictionary<TrainEngineSpeedTypes, float>()
+            // Initialize speed values dictionary.
+            _speedValues = new Dictionary<TrainEngineSpeedTypes, float>()
             {
-                {TrainEngineSpeedTypes.HIGH, _maxHighSpeed },
-                {TrainEngineSpeedTypes.LOW, _maxLowSpeed },
-                {TrainEngineSpeedTypes.MEDIUM, _maxMediumSpeed },
+                {TrainEngineSpeedTypes.high, _maxHighSpeed },
+                {TrainEngineSpeedTypes.low, _maxLowSpeed },
+                {TrainEngineSpeedTypes.medium, _maxMediumSpeed },
                 
-                {TrainEngineSpeedTypes.STILL, 0 },
+                {TrainEngineSpeedTypes.still, 0 },
 
-                {TrainEngineSpeedTypes.LOW_REVERSE, -_maxLowSpeed },
-                {TrainEngineSpeedTypes.MEDIUM_REVERSE, -_maxMediumSpeed },
-                {TrainEngineSpeedTypes.HIGH_REVERSE, -_maxHighSpeed },
+                {TrainEngineSpeedTypes.lowReverse, -_maxLowSpeed },
+                {TrainEngineSpeedTypes.mediumReverse, -_maxMediumSpeed },
+                {TrainEngineSpeedTypes.highReverse, -_maxHighSpeed },
             };
         }
 
         /// <summary>
         /// Helper method for checking if the train is moving forwards.
         /// </summary>
-        /// <returns>Is the train moving forwards?</returns>
+        /// <returns>True if the train is moving forward.</returns>
         public bool IsTraveling()
             => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
 
         /// <summary>
         /// Helper method for checking if the train is moving backwards.
         /// </summary>
-        /// <returns>Is the train moving backwards?</returns>
+        /// <returns>True if the train moving backward.</returns>
         public bool IsTravelingReverse()
             => (int)CurrentEngineSpeedType < 3 || (int)CurrentTargetEngineSpeedType < 3;
         
@@ -140,11 +141,11 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void SetTrainEngineState(TrainEngineState newState)
             => OnTrainEngineStateChanged(newState);
-        
+
         /// <summary>
         /// Method for increasing/decreasing train speed level.
         /// </summary>
-        /// <param name="increment">Increase or decrease speed.</param>
+        /// <param name="increment">Whether to increase or decrease speed.</param>
         [ServerRpc(RequireOwnership = false)]
         public void AdjustSpeed(bool increment)
         {
@@ -190,20 +191,21 @@ namespace DerailedDeliveries.Framework.Train
         /// Internally used to tween between different levels of speed.
         /// </summary>
         /// <param name="targetEngineSpeedType">New target speed to tween towards.</param>
+        [Server]
         private void TweenTrainSpeed(TrainEngineSpeedTypes targetEngineSpeedType)
         {
             _speedTween.Kill();
 
-            float currentMaxSpeed = _getSpeedValue[targetEngineSpeedType];
+            float currentMaxSpeed = _speedValues[targetEngineSpeedType];
             float duration = _accelerationDuration;
 
             _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
                 .SetEase(_accelerationEase);
-
+             
             _speedTween.OnComplete(() =>
             {
-                TrainEngineState newEngineState = targetEngineSpeedType == TrainEngineSpeedTypes.STILL
-                    ? TrainEngineState.ON_STANDBY : TrainEngineState.ON;
+                TrainEngineState newEngineState = targetEngineSpeedType == TrainEngineSpeedTypes.still
+                    ? TrainEngineState.onStandby : TrainEngineState.on;
 
                 SetTrainEngineState(newEngineState);
                 OnTrainSpeedChanged(targetEngineSpeedType);

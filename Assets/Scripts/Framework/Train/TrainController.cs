@@ -65,7 +65,7 @@ namespace DerailedDeliveries.Framework.Train
         public TrainEngine TrainEngine { get; private set; }
         
         /// <summary>
-        /// Helper method for updating the current spline lenght.
+        /// Helper method for updating the current spline length.
         /// </summary>
         public void RecalculateSplineLength() => SplineLength = Spline.CalculateLength();
 
@@ -93,7 +93,6 @@ namespace DerailedDeliveries.Framework.Train
         private void OnDisable()
             => InstanceFinder.TimeManager.OnTick -= OnTick;
 
-        // Server only.
         private void OnTick() 
         {
             if (!IsServer)
@@ -113,10 +112,6 @@ namespace DerailedDeliveries.Framework.Train
 
                     // Switch current track to the new track.
                     SwitchCurrentTrack(nextTrackID, true);
-                }
-                else
-                {
-                    // End reached.
                 }
             }
 
@@ -166,14 +161,14 @@ namespace DerailedDeliveries.Framework.Train
         /// Internally used to switch spline track.
         /// </summary>
         /// <param name="trackID">ID of the track.</param>
-        /// <param name="setDistanceAlongSpline">Should train snap to optimal starting point.</param>
+        /// <param name="setDistanceAlongSpline">Whether the train should snap to optimal starting point.</param>
         [ObserversRpc(RunLocally = true)]
         private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline = false)
         {
             // Get correct spline by given ID.
             Spline = SplineManager.Instance.GetTrackByID(trackID);
 
-            //Refresh spline length and optimal start point.
+            // Refresh spline length and optimal start point.
             RecalculateSplineLength();
             CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
