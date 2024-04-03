@@ -26,6 +26,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
             return GrabFromShelf(interactor);
         }
 
+        /// <summary>
+        /// A function that calls an Interact from <see cref="Interactable"/> to this <see cref="Interactable"/>.
+        /// </summary>
+        /// <param name="interactable">The origin <see cref="Interactable"/>.</param>
+        /// <returns>The result of if the Interact was succesfull.</returns>
         public override bool InteractableInteracts(Interactable interactable)
         {
             // Can add else statement here for a check if the Interactable is a repair item

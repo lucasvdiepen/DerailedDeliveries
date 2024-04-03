@@ -8,7 +8,7 @@ using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
     /// <summary>
-    /// A <see cref="Interactable"/> class that is used for all grabbable Interactables.
+    /// A <see cref="Interactable"/> class that is used for all grabbable <see cref="Interactable"/>s.
     /// </summary>
     public class Grabbable : Interactable
     {
@@ -31,7 +31,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         public Interactor OriginInteractor => _originInteractor;
 
         /// <summary>
-        /// A getter that returns this interactable's <see cref="BoxCollider"/>.
+        /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
         /// </summary>
         public BoxCollider BoxCollider => _boxCollider;
 

@@ -1,11 +1,11 @@
 using FishNet.Object.Synchronizing;
+using FishNet.Connection;
 using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
-using FishNet.Connection;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -15,12 +15,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     public class Interactor : NetworkBehaviour
     {
         /// <summary>
-        /// Returns the GrabbingAnchor Transform of this Interactor.
+        /// Returns the GrabbingAnchor <see cref="Transform"/> of this <see cref="Interactor"/>.
         /// </summary>
         public NetworkBehaviour GrabbingAnchor => _grabbingAnchor;
 
         /// <summary>
-        /// A getter that returns the Interactor's InteractingTarget.
+        /// A getter that returns the <see cref="Interactor"/>'s InteractingTarget.
         /// </summary>
         public Interactable InteractingTarget => _interactingTarget;
 
@@ -38,10 +38,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private bool _isInteracting;
+
         private PlayerInputParser _inputParser;
         private bool _isOnCooldown;
-
-        public Collider[] colliders;
 
         private void Awake()
         {
@@ -58,7 +57,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private void UseInteractable()
         {
             Collider[] interactables = Physics.OverlapSphere(_collider.transform.position, _collider.radius);
-            colliders = interactables;
 
             if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
@@ -100,7 +98,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         }
 
         /// <summary>
-        /// A function that sends an RPC to the owning client of this <see cref="Interactor"/> that needs this information.
+        /// A function that sends an RPC to the owning client of this <see cref="Interactor"/> that needs this 
+        /// information.
         /// </summary>
         /// <param name="connection">The connection to target the RPC to.</param>
         /// <param name="interactable">The new <see cref="Interactable"/>Target.</param>
