@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
+using UnityEngine.Rendering;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -203,9 +204,28 @@ namespace DerailedDeliveries.Framework.Train
 
             float currentMaxSpeed = _speedValues[targetEngineSpeedType];
             float duration = _accelerationDuration;
-            
-            if (CurrentEngineSpeedType != TrainEngineSpeedTypes.Still && checkIsBraking)
+
+            bool tryReverse = (int)targetEngineSpeedType < (int)TrainEngineSpeedTypes.Still && checkIsBraking;
+            bool reverseCheck = tryReverse && (int)CurrentEngineSpeedType > 3 && IsTravelingReverse();
+
+            bool tryTravel = (int)targetEngineSpeedType > (int)TrainEngineSpeedTypes.Still && checkIsBraking;
+            bool travelCheck = tryTravel && (int)CurrentEngineSpeedType < 3 && IsTravelingReverse();
+
+            //bool travel = (int)targetEngineSpeedType > (int)TrainEngineSpeedTypes.Still && checkIsBraking;
+
+            if (reverseCheck || travelCheck)
                 currentMaxSpeed = 0;
+
+           /* if ((int)targetEngineSpeedType < (int)TrainEngineSpeedTypes.Still && checkIsBraking)
+            {
+                if ((int)CurrentEngineSpeedType  > 3 && IsTravelingReverse())
+                    currentMaxSpeed = 0;
+            }*/
+            
+            //print(CurrentEngineSpeedType + " -> " + targetEngineSpeedType + " " + ((int)targetEngineSpeedType < (int)TrainEngineSpeedTypes.Still));
+
+            /*if (CurrentEngineSpeedType != TrainEngineSpeedTypes.Still && checkIsBraking)
+                currentMaxSpeed = 0;*/
 
             _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
                 .SetEase(_accelerationEase)
@@ -213,8 +233,8 @@ namespace DerailedDeliveries.Framework.Train
 
             _speedTween.OnComplete(() =>
             {
-                float reverseSpeed = _speedValues[targetEngineSpeedType];
-                if (currentMaxSpeed != reverseSpeed) 
+                float newCurrentSpeed = _speedValues[targetEngineSpeedType];
+                if (currentMaxSpeed != newCurrentSpeed) 
                 {
                     TweenTrainSpeed(targetEngineSpeedType, false);
                     print("Switch to " + targetEngineSpeedType);
