@@ -205,10 +205,10 @@ namespace DerailedDeliveries.Framework.Train
             float duration = _accelerationDuration;
 
             bool tryReverse = (int)targetEngineSpeedType < (int)TrainEngineSpeedTypes.Still && checkIsBraking;
-            bool reverseCheck = tryReverse && (int)CurrentEngineSpeedType > 3 && IsTravelingReverse();
+            bool reverseCheck = tryReverse && (int)CurrentEngineSpeedType > 3;
 
             bool tryTravel = (int)targetEngineSpeedType > (int)TrainEngineSpeedTypes.Still && checkIsBraking;
-            bool travelCheck = tryTravel && (int)CurrentEngineSpeedType < 3 && IsTravelingReverse();
+            bool travelCheck = tryTravel && (int)CurrentEngineSpeedType < 3;
 
             //bool travel = (int)targetEngineSpeedType > (int)TrainEngineSpeedTypes.Still && checkIsBraking;
 
