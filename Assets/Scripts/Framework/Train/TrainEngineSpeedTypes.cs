@@ -8,9 +8,7 @@ namespace DerailedDeliveries.Framework.Train
         HighReverse,
         MediumReverse,
         LowReverse,
-        
         Still,
-        
         Low,
         Medium,
         High

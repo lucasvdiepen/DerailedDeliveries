@@ -36,7 +36,7 @@ namespace DerailedDeliveries.Framework.Train
         private float _wagonSpacing;
 
         [SerializeField]
-        private Transform[] _wagons;
+        private Transform[] _followingWagons;
 
         /// <summary>
         /// Current distance value along spline lenght clamped between 0-1 (same as time). <br/>
@@ -112,13 +112,13 @@ namespace DerailedDeliveries.Framework.Train
         {
             UpdateWagonPosition(_frontWagon, distanceAlongSpline);
 
-            int wagons = _wagons.Length;
+            int wagons = _followingWagons.Length;
             for (int i = 0; i < wagons; i++)
             {
                 // Calculate appropriate spacing/offset.
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * (i + 1);
-                UpdateWagonPosition(_wagons[i], distanceAlongSpline, offset / SplineLength);
+                UpdateWagonPosition(_followingWagons[i], distanceAlongSpline, offset / SplineLength);
             }
         }
 
@@ -198,7 +198,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <returns>Spline distance value.</returns>
         private float GetOptimalTrainStartPoint()
         {
-            int wagons = _wagons.Length;
+            int wagons = _followingWagons.Length;
             
             float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
             float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * wagons;
@@ -244,9 +244,11 @@ namespace DerailedDeliveries.Framework.Train
             if (_trainFrontStartTime <= CurrentOptimalStartPoint)
                 _trainFrontStartTime = CurrentOptimalStartPoint;
 
-            DistanceAlongSpline = overrideSplinePosition == 0 ? _trainFrontStartTime : overrideSplinePosition;
-            UpdateWagonPosition(_frontWagon, DistanceAlongSpline);
+            DistanceAlongSpline = overrideSplinePosition == 0
+                ? _trainFrontStartTime
+                : overrideSplinePosition;
 
+            UpdateWagonPosition(_frontWagon, DistanceAlongSpline);
             MoveTrain(DistanceAlongSpline);
         }
 

@@ -113,14 +113,14 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
-        /// Helper method for checking if the train is moving forwards.
+        /// A return method for checking if the train is moving forwards.
         /// </summary>
         /// <returns>True if the train is moving forward.</returns>
         public bool IsTraveling()
             => (int)CurrentEngineSpeedType > 3 || (int)CurrentTargetEngineSpeedType > 3;
 
         /// <summary>
-        /// Helper method for checking if the train is moving backwards.
+        /// A return method for checking if the train is moving backwards.
         /// </summary>
         /// <returns>True if the train moving backward.</returns>
         public bool IsTravelingReverse()
@@ -198,7 +198,7 @@ namespace DerailedDeliveries.Framework.Train
             TrainEngineSpeedTypes lastSpeed = CurrentTargetEngineSpeedType;
             OnTrainTargetSpeedChanged(targetSpeedType);
 
-            // Spam adjust speed check.
+            // Spam check, return early when the input target speed is the same as the current target speed.
             if(!skipSpamCheck && lastSpeed == CurrentTargetEngineSpeedType)
                 return;
 
