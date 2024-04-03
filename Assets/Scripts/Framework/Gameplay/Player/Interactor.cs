@@ -46,6 +46,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private void Awake()
         {
             _inputParser = gameObject.GetComponent<PlayerInputParser>();
+
             if (_collider == null)
                 _collider = GetComponent<SphereCollider>();
         }
@@ -77,12 +78,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 if (!colliding.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if (interactable.CheckIfInteractable())
-                {
-                    _interactingTarget = interactable;
-                    _interactingTarget.InteractOnServer(this);
-                    break;
-                }
+                if (!interactable.CheckIfInteractable())
+                    continue;
+
+                _interactingTarget = interactable;
+                _interactingTarget.InteractOnServer(this);
+                break;
             }
         }
 

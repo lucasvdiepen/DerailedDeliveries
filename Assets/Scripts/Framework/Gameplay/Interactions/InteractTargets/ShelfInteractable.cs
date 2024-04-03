@@ -28,24 +28,21 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
 
         public override bool InteractableInteracts(Interactable interactable)
         {
-            if (_heldInteractable == null)
-            {
-                interactable.NetworkObject.SetParent(_interactableAnchor);
-                interactable.transform.localPosition = Vector3.zero;
-
-                if (interactable is Grabbable grabbable)
-                {
-                    grabbable.OriginInteractor.UpdateInteractingTarget(null, false);
-                    grabbable.PlaceOnGround();
-                }
-
-                _heldInteractable = interactable;
-                return true;
-            }
-            
             // Can add else statement here for a check if the Interactable is a repair item
+            if (_heldInteractable == null)
+                return false;
 
-            return false;
+            interactable.NetworkObject.SetParent(_interactableAnchor);
+            interactable.transform.localPosition = Vector3.zero;
+
+            if (interactable is Grabbable grabbable)
+            {
+                grabbable.OriginInteractor.UpdateInteractingTarget(null, false);
+                grabbable.PlaceOnGround();
+            }
+
+            _heldInteractable = interactable;
+            return true;
         }
 
         private bool GrabFromShelf(Interactor interactor)
