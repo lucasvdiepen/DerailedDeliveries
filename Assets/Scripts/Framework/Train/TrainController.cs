@@ -89,16 +89,19 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         private void OnEnable()
-            => InstanceFinder.TimeManager.OnTick += OnTick;
-
+        {
+            if (IsServer)
+                InstanceFinder.TimeManager.OnTick += OnTick;
+        }
         private void OnDisable()
-            => InstanceFinder.TimeManager.OnTick -= OnTick;
+        {
+            if (IsServer)
+                InstanceFinder.TimeManager.OnTick -= OnTick;
+        }
 
+        [Server]
         private void OnTick() 
         {
-            if (!IsServer)
-                return;
-
             DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
 
             CheckUpcommingRailSplit();
@@ -153,21 +156,18 @@ namespace DerailedDeliveries.Framework.Train
                 return;
 
             // Check for possible backward rail split.
-            if (Spline.transform.parent != null)
+            if (Spline.transform.parent == null)
             {
-                DistanceAlongSpline = 1.0f;
-                SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
-
-                int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
-
-                // Switch current track to the new track.
-                SwitchCurrentTrack(nextTrackID);
-            }
-            else
-            {
-                // Start reached.
                 DistanceAlongSpline = CurrentOptimalStartPoint;
+                return;
             }
+
+            DistanceAlongSpline = 1.0f;
+            SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
+            int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+            
+            // Switch current track to the new track.
+            SwitchCurrentTrack(nextTrackID);
         }
 
         /// <summary>
