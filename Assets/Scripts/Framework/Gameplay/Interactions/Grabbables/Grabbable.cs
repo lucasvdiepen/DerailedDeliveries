@@ -70,11 +70,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         {
             if (!IsBeingInteracted)
             {
-                NetworkObject.SetParent(interactor.GrabbingAnchor.GetComponent<NetworkBehaviour>());
+                NetworkObject.SetParent(interactor.GrabbingAnchor);
                 transform.localPosition = Vector3.zero;
 
                 UpdateInteractionStatus(interactor, true);
-                interactor.UpdateInteractingTarget(this, IsBeingInteracted);
+                interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             NetworkObject.UnsetParent();
             UpdateInteractionStatus(null, false);
 
-            interactor.UpdateInteractingTarget(null, IsBeingInteracted);
+            interactor.UpdateInteractingTarget(interactor.Owner, null, IsBeingInteracted);
             PlaceOnGround();
             return;
         }

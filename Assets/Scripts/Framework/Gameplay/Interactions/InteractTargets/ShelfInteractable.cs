@@ -3,7 +3,6 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
-using DG.Tweening;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
 {
@@ -13,10 +12,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
     public class ShelfInteractable : Interactable
     {
         [SerializeField]
-        private Interactable _heldInteractable;
+        private Interactable _heldGrabbable;
 
         [SerializeField]
-        private NetworkBehaviour _interactableAnchor;
+        private NetworkBehaviour _grabbableAnchor;
 
         private protected override bool Interact(Interactor interactor)
         {
@@ -34,34 +33,34 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
         public override bool InteractableInteracts(Interactable interactable)
         {
             // Can add else statement here for a check if the Interactable is a repair item
-            if (_heldInteractable == null)
+            if (_heldGrabbable != null)
                 return false;
 
-            interactable.NetworkObject.SetParent(_interactableAnchor);
-            interactable.transform.localPosition = Vector3.zero;
+            if (!(interactable is Grabbable grabbable))
+                return false;
 
-            if (interactable is Grabbable grabbable)
-            {
-                grabbable.OriginInteractor.UpdateInteractingTarget(null, false);
-                grabbable.PlaceOnGround();
-            }
+            grabbable.NetworkObject.SetParent(_grabbableAnchor);
+            grabbable.transform.localPosition = Vector3.zero;
+            grabbable.PlaceOnGround();
 
-            _heldInteractable = interactable;
+            grabbable.OriginInteractor.UpdateInteractingTarget(grabbable.OriginInteractor.Owner, null, false);
+
+            _heldGrabbable = grabbable;
             return true;
         }
 
         private bool GrabFromShelf(Interactor interactor)
         {
-            if (_heldInteractable == null)
+            if (_heldGrabbable == null)
                 return false;
 
-            if (_heldInteractable is Grabbable grabbable)
+            if (_heldGrabbable is Grabbable grabbable)
                 grabbable.UpdateInteractionStatus(null, false);
 
-            Interactable targetInteractable = _heldInteractable;
+            Interactable targetInteractable = _heldGrabbable;
 
-            _heldInteractable = null;
-            interactor.UpdateInteractingTargetClient(interactor.Owner, targetInteractable, true);
+            _heldGrabbable = null;
+            interactor.UpdateInteractingTarget(interactor.Owner, targetInteractable, true);
             return targetInteractable.InteractServer(interactor);
         }
     }

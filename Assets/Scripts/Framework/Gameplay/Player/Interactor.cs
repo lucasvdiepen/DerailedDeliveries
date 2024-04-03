@@ -36,10 +36,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private SphereCollider _collider;
 
-        [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        private bool _isInteracting;
-
         private PlayerInputParser _inputParser;
+        private bool _isInteracting;
         private bool _isOnCooldown;
 
         private void Awake()
@@ -63,13 +61,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             StartCoroutine(ActivateCooldown());
 
-            if (_isInteracting)
+            if (_isInteracting && _interactingTarget != null)
             {
                 _interactingTarget.InteractOnServer(this);
                 return;
             }
-
-            _interactingTarget = null;
 
             foreach(Collider colliding in interactables)
             {
@@ -79,22 +75,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 if (!interactable.CheckIfInteractable())
                     continue;
 
-                _interactingTarget = interactable;
-                _interactingTarget.InteractOnServer(this);
+                interactable.InteractOnServer(this);
                 break;
             }
-        }
-
-        /// <summary>
-        /// A function that sets the InteractingTarget of this Interactor server sided.
-        /// </summary>
-        /// <param name="interactable">The current interacting target. If the interactor already had this
-        /// reference set it will reset it.</param>
-        [Server]
-        public void UpdateInteractingTarget(Interactable interactable, bool isInteracting)
-        {
-            _interactingTarget = interactable;
-            _isInteracting = isInteracting;
         }
 
         /// <summary>
@@ -104,8 +87,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// <param name="connection">The connection to target the RPC to.</param>
         /// <param name="interactable">The new <see cref="Interactable"/>Target.</param>
         /// <param name="isInteracting">The new Interacting bool status.</param>
-        [TargetRpc]
-        public void UpdateInteractingTargetClient(NetworkConnection connection, Interactable interactable, bool isInteracting)
+        [TargetRpc(RunLocally = true)]
+        public void UpdateInteractingTarget(NetworkConnection connection, Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
             _isInteracting = isInteracting;
