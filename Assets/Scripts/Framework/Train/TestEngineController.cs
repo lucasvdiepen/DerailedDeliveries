@@ -10,10 +10,10 @@ namespace DerailedDeliveries.Framework.Train
     {
         private void Update()
         {
-            if (Keyboard.current.backspaceKey.wasPressedThisFrame) TrainEngine.Instance.ToggleTrainDirection();
+            if (Keyboard.current.digit1Key.wasPressedThisFrame) TrainEngine.Instance.ToggleTrainDirection();
 
-            if (Keyboard.current.wKey.wasPressedThisFrame) TrainEngine.Instance.AdjustSpeed(true);
-            if (Keyboard.current.sKey.wasPressedThisFrame) TrainEngine.Instance.AdjustSpeed(false);
+            if (Keyboard.current.equalsKey.wasPressedThisFrame) TrainEngine.Instance.AdjustSpeed(true);
+            if (Keyboard.current.minusKey.wasPressedThisFrame) TrainEngine.Instance.AdjustSpeed(false);
         }
     }
 }
