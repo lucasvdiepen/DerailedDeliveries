@@ -102,6 +102,7 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private void OnTick() 
         {
+            // Update train position along spline based on its velocity.
             DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
 
             CheckUpcommingRailSplit();
