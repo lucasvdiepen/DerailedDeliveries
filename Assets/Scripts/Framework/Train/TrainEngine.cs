@@ -88,12 +88,9 @@ namespace DerailedDeliveries.Framework.Train
         [HideInInspector]
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private float _currentSpeed;
-        
         private float _speedTypesCount;
 
-        private Tween _speedTween;
         private Sequence _speedSequence;
-
         private TrainController _trainController;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
