@@ -98,12 +98,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public virtual void PlaceOnGround()
         {
-            if (!gameObject.TryGetComponent(out BoxCollider collider))
+            if (_boxCollider == null)
                 return;
 
             Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _groundCheckDistance);
 
-            hit.point += new Vector3(0, collider.size.y * .5f, 0);
+            hit.point += new Vector3(0, _boxCollider.size.y * .5f, 0);
             transform.position = hit.point;
         }
     }
