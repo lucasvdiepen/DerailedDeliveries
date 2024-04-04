@@ -4,6 +4,9 @@ using DerailedDeliveries.Framework.Gameplay.Player;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
+    /// <summary>
+    /// A <see cref="Grabbable"/> class that is able to be used on a <see cref="Interactable"/>.
+    /// </summary>
     public abstract class UseableGrabbable : Grabbable
     {
         private protected override void UseGrabbable(Interactor interactor)
