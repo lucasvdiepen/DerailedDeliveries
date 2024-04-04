@@ -17,9 +17,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
         [SerializeField]
         private NetworkBehaviour _grabbableAnchor;
 
+        /// <summary>
+        /// A getter that returns the <see cref="UseableGrabbable"/> that this <see cref="ShelfInteractable"/> is 
+        /// holding.
+        /// </summary>
         public UseableGrabbable HeldGrabbable => _heldGrabbable;
-
-        public override bool CheckIfInteractable() => base.CheckIfInteractable();
 
         private protected override bool Interact(Interactor interactor)
         {
@@ -44,7 +46,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
 
             _heldGrabbable.NetworkObject.SetParent(_grabbableAnchor);
             _heldGrabbable.transform.localPosition = Vector3.zero;
-            //_heldGrabbable.PlaceOnGround();
+            _heldGrabbable.PlaceOnGround();
 
             _heldGrabbable.OriginInteractor.UpdateInteractingTarget(_heldGrabbable.OriginInteractor.Owner, null, false);
             return true;

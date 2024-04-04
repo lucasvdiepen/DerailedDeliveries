@@ -1,11 +1,12 @@
-using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
-using DerailedDeliveries.Framework.Gameplay.Player;
 using UnityEngine;
+
+using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
     /// <summary>
-    /// A <see cref="Grabbable"/> class that is responsible for holding logic for the Box Grabbable.
+    /// A <see cref="Grabbable"/> class that is responsible for holding logic for the Box <see cref="Grabbable"/>.
     /// </summary>
     public class BoxGrabbable : UseableGrabbable
     {
@@ -18,19 +19,17 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             foreach(Collider collider in colliders)
             {
-                if(!collider.TryGetComponent(out Interactable interactable))
+                if (!collider.TryGetComponent(out ShelfInteractable shelfInteractable))
                     continue;
 
-                if(CheckCollidingType(interactable) && (interactable is ShelfInteractable shelfInteractable))
-                {
-                    if(interactor.InteractingTarget != null && shelfInteractable.HeldGrabbable != null)
-                        continue;
+                if (!CheckCollidingType(shelfInteractable))
+                    continue;
 
-                    if(interactor.InteractingTarget == null && shelfInteractable.HeldGrabbable == null)
-                        continue;
+                if (interactor.InteractingTarget != null && shelfInteractable.HeldGrabbable != null ||
+                    interactor.InteractingTarget == null && shelfInteractable.HeldGrabbable == null)
+                    continue;
 
-                    return interactable;
-                }
+                return shelfInteractable;
             }
 
             return null;
