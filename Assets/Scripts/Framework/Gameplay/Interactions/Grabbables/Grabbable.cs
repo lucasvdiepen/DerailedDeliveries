@@ -1,16 +1,15 @@
-using FishNet.Object.Synchronizing;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
-using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
     /// <summary>
     /// A <see cref="Interactable"/> class that is used for all grabbable <see cref="Interactable"/>s.
     /// </summary>
-    public class Grabbable : Interactable
+    public abstract class Grabbable : Interactable
     {
         [SerializeField]
         private Collider[] _collidingInteractables;
@@ -35,11 +34,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public BoxCollider BoxCollider => _boxCollider;
 
-        /// <summary>
-        /// A getter that returns the CollidingInteractables list.
-        /// </summary>
-        public Collider[] CollidingInteractables { get; set; }
-
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsBeingInteracted { get; set; }
 
@@ -60,13 +54,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
                 return false;
 
-            CheckPickupAndUsage(interactor);
+            UseGrabbable(interactor);
 
             return true;
         }
 
         [Server]
-        private protected virtual void CheckPickupAndUsage(Interactor interactor)
+        private protected virtual void UseGrabbable(Interactor interactor)
         {
             if (!IsBeingInteracted)
             {
@@ -77,10 +71,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
                 return;
             }
-
-            Interactable target = GetInteractableTarget();
-            if (target != null && target.InteractableInteracts(this))
-                return;
 
             NetworkObject.UnsetParent();
             UpdateInteractionStatus(null, false);
@@ -100,8 +90,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             IsBeingInteracted = isBeingInteracted;
             _originInteractor = interactor;
         }
-
-        private protected virtual Interactable GetInteractableTarget() => null;
 
         /// <summary>
         /// A function that places the <see cref="Grabbable"/> on the ground, can be used for after snapping to a

@@ -17,6 +17,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
         [SerializeField]
         private NetworkBehaviour _grabbableAnchor;
 
+        public override bool CheckIfInteractable() => base.CheckIfInteractable();
+
         private protected override bool Interact(Interactor interactor)
         {
             if (!base.Interact(interactor))
@@ -30,7 +32,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
         /// </summary>
         /// <param name="interactable">The origin <see cref="Interactable"/>.</param>
         /// <returns>The result of if the Interact was succesfull.</returns>
-        public override bool InteractableInteracts(Interactable interactable)
+        public override bool Interact(Interactable interactable)
         {
             // Can add else statement here for a check if the Interactable is a repair item
             if (_heldGrabbable != null)
@@ -61,7 +63,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
 
             _heldGrabbable = null;
             interactor.UpdateInteractingTarget(interactor.Owner, targetInteractable, true);
-            return targetInteractable.InteractServer(interactor);
+            return targetInteractable.InteractAsServer(interactor);
         }
     }
 }

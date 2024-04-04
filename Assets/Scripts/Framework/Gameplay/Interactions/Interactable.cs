@@ -13,7 +13,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
     /// A class that is responsible for holding values for an interactable object.
     /// </summary>
     [RequireComponent(typeof(NetworkObject), typeof(NetworkObserver), typeof(BoxCollider))]
-    public class Interactable : NetworkBehaviour
+    public abstract class Interactable : NetworkBehaviour
     {
         [SerializeField]
         private float _cooldown = .5f;
@@ -45,7 +45,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The origin interactor this request originates from.</param>
         /// <returns>The result of if the interaction was succesfull.</returns>
-        public bool InteractServer(Interactor interactor) => Interact(interactor);
+        public bool InteractAsServer(Interactor interactor) => Interact(interactor);
 
         [Server]
         private protected virtual bool Interact(Interactor interactor)
@@ -63,7 +63,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The origin Interactor.</param>
         /// <returns>The status of if the Interaction was succesfull.</returns>
-        public virtual bool InteractableInteracts(Interactable interactable) => true;
+        public virtual bool Interact(Interactable interactable) => false;
 
         private protected virtual IEnumerator ActivateCooldown()
         {
