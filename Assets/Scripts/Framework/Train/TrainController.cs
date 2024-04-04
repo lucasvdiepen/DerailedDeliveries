@@ -55,7 +55,7 @@ namespace DerailedDeliveries.Framework.Train
         public float CurrentOptimalStartPoint { get; private set; }
 
         /// <summary>
-        /// Returns the precalculated line lenght of the spline
+        /// Returns the precalculated line lenght of the spline.
         /// </summary>
         public float SplineLength { get; private set; }
 
@@ -213,7 +213,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Sets a wagon transform to the correct spline position and rotation.
         /// </summary>
         /// <param name="trainBody">Transform of affected wagon.</param>
-        /// <param name="offset">Optional offset applied on <see cref="DistanceAlongSpline"/></param>
+        /// <param name="offset">Optional offset applied on <see cref="DistanceAlongSpline"/>.</param>
         public void UpdateWagonPosition(Transform trainBody, float distanceAlongSpline, float offset = 0)
         {
             float totalSplineTime = distanceAlongSpline + (offset / TWEAK_DIVIDE_FACTOR);

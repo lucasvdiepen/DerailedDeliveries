@@ -87,7 +87,6 @@ namespace DerailedDeliveries.Framework.Train
         private float _currentSpeed;
         
         private float _speedTypesCount;
-
         private Tween _speedTween;
         private TrainController _trainController;
 
