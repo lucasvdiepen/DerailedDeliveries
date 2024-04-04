@@ -193,7 +193,6 @@ namespace DerailedDeliveries.Framework.Train
         }
         #endregion
 
-
         /// <summary>
         /// Internally used to tween between different levels of speed.
         /// </summary>
@@ -225,7 +224,6 @@ namespace DerailedDeliveries.Framework.Train
                 _speedSequence.PrependInterval(1.5f);
                 _speedSequence.Prepend(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, 0, duration)
                     .SetEase(_accelerationEase));
-                
             }
             
             _speedSequence.OnComplete(() =>
