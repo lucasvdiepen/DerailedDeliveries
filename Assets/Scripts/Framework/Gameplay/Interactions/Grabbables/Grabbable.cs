@@ -12,10 +12,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     public abstract class Grabbable : Interactable
     {
         [SerializeField]
-        private Collider[] _collidingInteractables;
-
-        [SerializeField]
-        private float _groundCheckDistance = 5f;
+        private float _maxGroundCheckDistance = 5f;
 
         [SerializeField]
         private Interactor _originInteractor;
@@ -87,7 +84,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if (BoxCollider == null)
                 return;
 
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _groundCheckDistance);
+            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
         }

@@ -1,10 +1,9 @@
+using FishNet.Object.Synchronizing;
 using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
-using FishNet.Connection;
-using FishNet.Object.Synchronizing;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -28,8 +27,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         public override bool CheckIfInteractable(Interactor interactor)
         {
             return base.CheckIfInteractable(interactor) 
-                && (_heldGrabbable != null && interactor.InteractingTarget == null) 
-                || (_heldGrabbable == null && interactor.InteractingTarget != null);
+                && ((_heldGrabbable != null && interactor.InteractingTarget == null) 
+                || (_heldGrabbable == null && interactor.InteractingTarget != null));
         }
 
         [Server]
