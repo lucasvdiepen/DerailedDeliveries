@@ -157,7 +157,9 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: 932441967983290627}
+  - {fileID: 8133896249021743805}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -171,7 +173,7 @@ MonoBehaviour:
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 2416550464
+  _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 5995548545789844301
 --- !u!114 &2453581383931519985
@@ -204,7 +206,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -222,13 +224,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407b9aad86c7e1f4a97f2464b278968e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 1350685379646451756}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 1350685379646451756}
   _cooldown: 0.5
   <IsOnCooldown>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
-  <CanInteract>k__BackingField: 1
   _heldGrabbable: {fileID: 0}
   _grabbableAnchor: {fileID: 8133896249021743805}
 --- !u!1 &7734805980487313984
@@ -275,6 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 1350685379646451756}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 1350685379646451756}
