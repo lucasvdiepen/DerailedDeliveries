@@ -159,7 +159,7 @@ namespace DerailedDeliveries.Framework.Train
                 0,
                 _speedTypesCount
             );
-            BetterTweenTrainSpeed(newTargetSpeed);
+            TweenTrainSpeed(newTargetSpeed);
         }
         #endregion;
         
@@ -199,7 +199,7 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         /// <param name="targetSpeedType">New target speed to tween towards.</param>
         [Server]
-        private void BetterTweenTrainSpeed(TrainEngineSpeedTypes targetSpeedType)
+        private void TweenTrainSpeed(TrainEngineSpeedTypes targetSpeedType)
         {
             TrainEngineSpeedTypes lastSpeed = CurrentTargetEngineSpeedType;
             OnTrainTargetSpeedChanged(targetSpeedType);
