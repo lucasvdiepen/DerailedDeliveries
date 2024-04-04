@@ -1,7 +1,7 @@
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
-using DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets;
+using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {

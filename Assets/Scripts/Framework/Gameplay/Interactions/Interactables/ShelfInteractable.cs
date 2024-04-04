@@ -4,7 +4,7 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 
-namespace DerailedDeliveries.Framework.Gameplay.Interactions.InteractTargets
+namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
     /// <summary>
     /// A <see cref="Interactable"/> class that handles logic for the Shelf interactable.
