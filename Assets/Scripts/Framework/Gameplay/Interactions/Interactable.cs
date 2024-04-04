@@ -3,7 +3,6 @@ using System.Collections;
 using FishNet.Observing;
 using FishNet.Object;
 using UnityEngine;
-using System;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
@@ -19,11 +18,25 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [SerializeField]
         private float _cooldown = .5f;
 
+
+        /// <summary>
+        /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
+        /// </summary>
+        public BoxCollider BoxCollider => _boxCollider;
+
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsOnCooldown { get; set; }
 
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsInteractable { get; set; } = true;
+
+        private BoxCollider _boxCollider;
+
+        private protected virtual void Awake()
+        {
+            if (_boxCollider == null)
+                _boxCollider = GetComponent<BoxCollider>();
+        }
 
         /// <summary>
         /// Returns a boolean that reflects if this Interactable is available for interaction.
@@ -43,6 +56,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The origin interactor this request originates from.</param>
         /// <returns>The result of if the interaction was succesfull.</returns>
+        [Server]
         public bool InteractAsServer(Interactor interactor) => Interact(interactor);
 
         [Server]
@@ -57,7 +71,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         }
 
         /// <summary>
-        /// A function that is called from interactable to interactable.
+        /// An interact function that is called from interactable to interactable.
         /// </summary>
         /// <param name="interactor">The origin Interactor.</param>
         /// <returns>The status of if the Interaction was succesfull.</returns>

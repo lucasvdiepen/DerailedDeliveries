@@ -18,9 +18,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         private float _groundCheckDistance = 5f;
 
         [SerializeField]
-        private BoxCollider _boxCollider;
-
-        [SerializeField]
         private Interactor _originInteractor;
 
         /// <summary>
@@ -29,19 +26,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public Interactor OriginInteractor => _originInteractor;
 
-        /// <summary>
-        /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
-        /// </summary>
-        public BoxCollider BoxCollider => _boxCollider;
-
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsBeingInteracted { get; set; }
-
-        private protected virtual void Awake()
-        {
-            if (_boxCollider == null)
-                _boxCollider = GetComponent<BoxCollider>();
-        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -98,13 +84,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public virtual void PlaceOnGround()
         {
-            if (_boxCollider == null)
+            if (BoxCollider == null)
                 return;
 
             Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _groundCheckDistance);
 
-            hit.point += new Vector3(0, _boxCollider.size.y * .5f, 0);
-            transform.position = hit.point;
+            transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
         }
     }
 }

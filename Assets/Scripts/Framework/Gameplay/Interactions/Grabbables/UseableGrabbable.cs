@@ -17,14 +17,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 return;
             }
 
-            Interactable targetInteractable = GetInteractable(interactor);
+            Interactable targetInteractable = GetCollidingInteractable(interactor);
             if(targetInteractable != null && targetInteractable.Interact(this))
                 return;
 
             base.UseGrabbable(interactor);
         }
 
-        private protected virtual Interactable GetInteractable(Interactor interactor)
+        private protected virtual Interactable GetCollidingInteractable(Interactor interactor)
         {
             Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
 

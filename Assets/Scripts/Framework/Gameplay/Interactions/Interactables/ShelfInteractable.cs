@@ -32,6 +32,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
                 || (_heldGrabbable == null && interactor.InteractingTarget != null);
         }
 
+        [Server]
         private protected override bool Interact(Interactor interactor)
         {
             if (!base.Interact(interactor))
@@ -45,6 +46,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         /// <param name="interactable">The origin <see cref="Interactable"/>.</param>
         /// <returns>The result of if the Interact was succesfull.</returns>
+        [Server]
         public override bool Interact(UseableGrabbable useableGrabbable)
         {
             // Can add else statement here for a check if the Interactable is a repair item
@@ -61,6 +63,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             return true;
         }
 
+        [Server]
         private bool GrabFromShelf(Interactor interactor)
         {
             if (_heldGrabbable == null)

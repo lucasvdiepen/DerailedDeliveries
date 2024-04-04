@@ -12,6 +12,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     /// <summary>
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
+    [RequireComponent(typeof(PlayerInputParser), typeof(SphereCollider))]
     public class Interactor : NetworkBehaviour
     {
         /// <summary>
@@ -42,7 +43,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void Awake()
         {
-            _inputParser = gameObject.GetComponent<PlayerInputParser>();
+            _inputParser = GetComponent<PlayerInputParser>();
 
             if (_collider == null)
                 _collider = GetComponent<SphereCollider>();
@@ -85,7 +86,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// information.
         /// </summary>
         /// <param name="connection">The connection to target the RPC to.</param>
-        /// <param name="interactable">The new <see cref="Interactable"/>Target.</param>
+        /// <param name="interactable">The new <see cref="Interactable"/> Target.</param>
         /// <param name="isInteracting">The new Interacting bool status.</param>
         [TargetRpc(RunLocally = true)]
         public void UpdateInteractingTarget(NetworkConnection connection, Interactable interactable, bool isInteracting)
