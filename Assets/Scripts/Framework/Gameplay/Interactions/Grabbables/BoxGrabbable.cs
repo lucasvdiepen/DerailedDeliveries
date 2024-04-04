@@ -12,27 +12,5 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     {
         private protected override bool CheckCollidingType(Interactable interactable)
             => interactable.GetType() == typeof(ShelfInteractable);
-
-        private protected override Interactable GetInteractable(Interactor interactor)
-        {
-            Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
-
-            foreach(Collider collider in colliders)
-            {
-                if (!collider.TryGetComponent(out ShelfInteractable shelfInteractable))
-                    continue;
-
-                if (!CheckCollidingType(shelfInteractable))
-                    continue;
-
-                if (interactor.InteractingTarget != null && shelfInteractable.HeldGrabbable != null ||
-                    interactor.InteractingTarget == null && shelfInteractable.HeldGrabbable == null)
-                    continue;
-
-                return shelfInteractable;
-            }
-
-            return null;
-        }
     }
 }

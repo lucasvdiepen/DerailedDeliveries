@@ -3,6 +3,7 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
+using FishNet.Connection;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -23,6 +24,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         public UseableGrabbable HeldGrabbable => _heldGrabbable;
 
+        public override bool CheckIfInteractable(Interactor interactor)
+        {
+            return base.CheckIfInteractable(interactor) 
+                && (_heldGrabbable != null && interactor.InteractingTarget == null) 
+                || (_heldGrabbable == null && interactor.InteractingTarget != null);
+        }
+
         private protected override bool Interact(Interactor interactor)
         {
             if (!base.Interact(interactor))
@@ -42,7 +50,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             if (_heldGrabbable != null)
                 return false;
 
-            _heldGrabbable = useableGrabbable;
+            UpdateHeldGrabbable(useableGrabbable.OriginInteractor.Owner, useableGrabbable);
 
             _heldGrabbable.NetworkObject.SetParent(_grabbableAnchor);
             _heldGrabbable.transform.localPosition = Vector3.zero;
@@ -60,10 +68,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             _heldGrabbable.UpdateInteractionStatus(null, false);
 
             UseableGrabbable targetInteractable = _heldGrabbable;
-            _heldGrabbable = null;
+            UpdateHeldGrabbable(interactor.Owner, null);
 
             interactor.UpdateInteractingTarget(interactor.Owner, targetInteractable, true);
             return targetInteractable.InteractAsServer(interactor);
         }
+
+        [TargetRpc(RunLocally = true)]
+        private void UpdateHeldGrabbable(NetworkConnection connection, UseableGrabbable grabbable) 
+            => _heldGrabbable = grabbable;
     }
 }

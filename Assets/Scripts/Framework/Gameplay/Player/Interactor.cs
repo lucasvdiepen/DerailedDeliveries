@@ -72,7 +72,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 if (!colliding.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if (!interactable.CheckIfInteractable())
+                if (!interactable.CheckIfInteractable(this))
                     continue;
 
                 interactable.InteractOnServer(this);

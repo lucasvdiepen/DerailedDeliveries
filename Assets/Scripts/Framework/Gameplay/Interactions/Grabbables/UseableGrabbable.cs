@@ -33,7 +33,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 if(!collider.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if(CheckCollidingType(interactable) && interactable.CheckIfInteractable())
+                if(CheckCollidingType(interactable) && interactable.CheckIfInteractable(interactor))
                     return interactable;
             }
 

@@ -1,5 +1,5 @@
-using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
@@ -46,7 +46,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override bool CheckIfInteractable() => base.CheckIfInteractable() && !IsBeingInteracted;
+        public override bool CheckIfInteractable(Interactor interactor) 
+            => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
 
         [Server]
         private protected override bool Interact(Interactor interactor)
