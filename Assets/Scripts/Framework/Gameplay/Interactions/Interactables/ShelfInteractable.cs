@@ -4,6 +4,7 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using FishNet.Connection;
+using FishNet.Object.Synchronizing;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -12,7 +13,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
     /// </summary>
     public class ShelfInteractable : Interactable
     {
-        [SerializeField]
+        [SerializeField, SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private UseableGrabbable _heldGrabbable;
 
         [SerializeField]
@@ -50,7 +51,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             if (_heldGrabbable != null)
                 return false;
 
-            UpdateHeldGrabbable(useableGrabbable.OriginInteractor.Owner, useableGrabbable);
+            _heldGrabbable = useableGrabbable;
 
             _heldGrabbable.NetworkObject.SetParent(_grabbableAnchor);
             _heldGrabbable.transform.localPosition = Vector3.zero;
@@ -68,14 +69,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             _heldGrabbable.UpdateInteractionStatus(null, false);
 
             UseableGrabbable targetInteractable = _heldGrabbable;
-            UpdateHeldGrabbable(interactor.Owner, null);
+            _heldGrabbable = null;
 
             interactor.UpdateInteractingTarget(interactor.Owner, targetInteractable, true);
             return targetInteractable.InteractAsServer(interactor);
         }
-
-        [TargetRpc(RunLocally = true)]
-        private void UpdateHeldGrabbable(NetworkConnection connection, UseableGrabbable grabbable) 
-            => _heldGrabbable = grabbable;
     }
 }
