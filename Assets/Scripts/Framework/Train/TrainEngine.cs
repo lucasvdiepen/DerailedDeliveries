@@ -194,6 +194,10 @@ namespace DerailedDeliveries.Framework.Train
         #endregion
 
 
+        /// <summary>
+        /// Internally used to tween between different levels of speed.
+        /// </summary>
+        /// <param name="targetSpeedType">New target speed to tween towards.</param>
         [Server]
         private void BetterTweenTrainSpeed(TrainEngineSpeedTypes targetSpeedType)
         {
@@ -206,9 +210,11 @@ namespace DerailedDeliveries.Framework.Train
 
             _speedSequence.Kill();
 
+            // Get max speed based on target speed type and set duration.
             float duration = _accelerationDuration;
             float currentMaxSpeed = _speedValues[targetSpeedType];
 
+            // Setup base tween for acceleration/decceleration. 
             _speedSequence = DOTween.Sequence()
                 .Append(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
                     .SetEase(_accelerationEase));
@@ -216,7 +222,6 @@ namespace DerailedDeliveries.Framework.Train
             // Check if train should brake and tween to 0 first before tweening to desired speed type.
             if (ShouldBrake(targetSpeedType))
             {
-                print("Prepend braking");
                 _speedSequence.PrependInterval(1.5f);
                 _speedSequence.Prepend(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, 0, duration)
                     .SetEase(_accelerationEase));
@@ -235,58 +240,6 @@ namespace DerailedDeliveries.Framework.Train
             });
 
             _speedSequence.Play();
-        }
-
-        /// <summary>
-        /// Internally used to tween between different levels of speed.
-        /// </summary>
-        /// <param name="targetSpeedType">New target speed to tween towards.</param>
-        [Server]
-        private void TweenTrainSpeed(TrainEngineSpeedTypes targetSpeedType, bool checkBrakes, bool skipSpamCheck = false)
-        {
-            TrainEngineSpeedTypes lastSpeed = CurrentTargetEngineSpeedType;
-            OnTrainTargetSpeedChanged(targetSpeedType);
-
-            // Spam check, return early when the input target speed is the same as the current target speed.
-            if(!skipSpamCheck && lastSpeed == CurrentTargetEngineSpeedType)
-                return;
-
-            _speedTween.Kill();
-
-            // Get current max speed and set tween duration.
-            float currentMaxSpeed = _speedValues[targetSpeedType];
-            float duration = _accelerationDuration;
-
-            // Check if train should brake and tween to 0 first before tweening to desired speed type.
-            /*if (ShouldBrake(targetSpeedType, checkBrakes))
-                currentMaxSpeed = 0;*/
-
-            // Tween train _currentSpeed to current max speed over 'duration' seconds.
-            _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
-                .SetEase(_accelerationEase);
-
-            _speedTween.OnComplete(() =>
-            {
-                // Check if train needs to tween to desired speed value from speed type TrainEngineSpeedTypes.Still.
-                float newCurrentSpeed = _speedValues[targetSpeedType];
-                if (currentMaxSpeed != newCurrentSpeed) 
-                {
-                    // Tween to desired speed type from 0. Need to skip spam check to
-                    // avoid early return since it has the same target speed type.
-                    TweenTrainSpeed(targetSpeedType, false, true);
-                    return;
-                }
-
-                // Set correct engine state based on current target engine speed type.
-                TrainEngineState newEngineState = targetSpeedType == TrainEngineSpeedTypes.Still
-                    ? TrainEngineState.OnStandby : TrainEngineState.On;
-
-                //Update all clients with new engine state and target engine speed type.
-                SetTrainEngineState(newEngineState);
-                OnTrainSpeedChanged(targetSpeedType);
-            });
-
-            _speedTween.Play();
         }
 
         /// <summary>

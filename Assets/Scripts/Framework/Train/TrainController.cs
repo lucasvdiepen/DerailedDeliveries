@@ -133,7 +133,7 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private void CheckUpcommingRailSplit()
         {
-            if (DistanceAlongSpline < 1.0f || !TrainEngine.IsTraveling())
+            if (DistanceAlongSpline < 1.0f || TrainEngine.CurrentVelocity < 0)
                 return;
 
             if (_railSplit == null)
@@ -154,7 +154,7 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private void CheckReverseRailSplit()
         {
-            if (DistanceAlongSpline > CurrentOptimalStartPoint || !TrainEngine.IsTravelingReverse())
+            if (DistanceAlongSpline > CurrentOptimalStartPoint || TrainEngine.CurrentVelocity > 0)
                 return;
 
             // Check for possible backward rail split.
