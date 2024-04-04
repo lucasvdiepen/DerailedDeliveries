@@ -93,6 +93,7 @@ namespace DerailedDeliveries.Framework.Train
             if (IsServer)
                 InstanceFinder.TimeManager.OnTick += OnTick;
         }
+
         private void OnDisable()
         {
             if (IsServer)
@@ -195,7 +196,6 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Calculates and returns the correct start distance along the current spline based on the length of the train.
         /// </summary>
-        /// <param name="currentPosition"></param>
         /// <returns>Spline distance value.</returns>
         private float GetOptimalTrainStartPoint()
         {
