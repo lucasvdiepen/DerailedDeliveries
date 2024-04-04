@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions
 {
@@ -63,7 +64,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The origin Interactor.</param>
         /// <returns>The status of if the Interaction was succesfull.</returns>
-        public virtual bool Interact(Interactable interactable) => false;
+        public virtual bool Interact(UseableGrabbable useableGrabbable) => false;
 
         private protected virtual IEnumerator ActivateCooldown()
         {

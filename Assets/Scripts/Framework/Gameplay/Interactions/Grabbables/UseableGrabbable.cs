@@ -14,23 +14,23 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 return;
             }
 
-            Interactable targetInteractable = GetInteractable();
+            Interactable targetInteractable = GetInteractable(interactor);
             if(targetInteractable != null && targetInteractable.Interact(this))
                 return;
 
             base.UseGrabbable(interactor);
         }
 
-        private Interactable GetInteractable()
+        private protected virtual Interactable GetInteractable(Interactor interactor)
         {
-            Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size * .5f);
+            Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
 
             foreach(Collider collider in colliders)
             {
                 if(!collider.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if(CheckCollidingType(interactable))
+                if(CheckCollidingType(interactable) && interactable.CheckIfInteractable())
                     return interactable;
             }
 
