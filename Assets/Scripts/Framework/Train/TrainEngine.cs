@@ -218,7 +218,7 @@ namespace DerailedDeliveries.Framework.Train
             // Check if train should brake and tween to 0 first before tweening to desired speed type.
             if (ShouldBrake(targetSpeedType))
             {
-                _speedSequence.PrependInterval(1.5f);
+                _speedSequence.PrependInterval(_brakeDuration);
                 _speedSequence.Prepend(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, 0, duration)
                     .SetEase(_accelerationEase));
             }
