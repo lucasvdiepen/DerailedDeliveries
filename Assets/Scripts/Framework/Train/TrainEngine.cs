@@ -25,6 +25,9 @@ namespace DerailedDeliveries.Framework.Train
         private float _maxLowSpeed = 2.5f;
 
         [SerializeField, Space]
+        private float _brakeDuration = 1.5f;
+        
+        [SerializeField]
         private float _accelerationDuration = 10f;
 
         [SerializeField]
@@ -87,7 +90,10 @@ namespace DerailedDeliveries.Framework.Train
         private float _currentSpeed;
         
         private float _speedTypesCount;
+
         private Tween _speedTween;
+        private Sequence _speedSequence;
+
         private TrainController _trainController;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
@@ -153,7 +159,7 @@ namespace DerailedDeliveries.Framework.Train
                 0,
                 _speedTypesCount
             );
-            TweenTrainSpeed(newTargetSpeed, true);
+            BetterTweenTrainSpeed(newTargetSpeed);
         }
         #endregion;
         
@@ -187,6 +193,50 @@ namespace DerailedDeliveries.Framework.Train
         }
         #endregion
 
+
+        [Server]
+        private void BetterTweenTrainSpeed(TrainEngineSpeedTypes targetSpeedType)
+        {
+            TrainEngineSpeedTypes lastSpeed = CurrentTargetEngineSpeedType;
+            OnTrainTargetSpeedChanged(targetSpeedType);
+            
+            // Spam check.
+            if(lastSpeed == CurrentTargetEngineSpeedType)
+                return;
+
+            _speedSequence.Kill();
+
+            float duration = _accelerationDuration;
+            float currentMaxSpeed = _speedValues[targetSpeedType];
+
+            _speedSequence = DOTween.Sequence()
+                .Append(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
+                    .SetEase(_accelerationEase));
+
+            // Check if train should brake and tween to 0 first before tweening to desired speed type.
+            if (ShouldBrake(targetSpeedType))
+            {
+                print("Prepend braking");
+                _speedSequence.PrependInterval(1.5f);
+                _speedSequence.Prepend(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, 0, duration)
+                    .SetEase(_accelerationEase));
+                
+            }
+            
+            _speedSequence.OnComplete(() =>
+            {
+                // Set correct engine state based on current target engine speed type.
+                TrainEngineState newEngineState = targetSpeedType == TrainEngineSpeedTypes.Still
+                    ? TrainEngineState.OnStandby : TrainEngineState.On;
+
+                //Update all clients with new engine state and target engine speed type.
+                SetTrainEngineState(newEngineState);
+                OnTrainSpeedChanged(targetSpeedType);
+            });
+
+            _speedSequence.Play();
+        }
+
         /// <summary>
         /// Internally used to tween between different levels of speed.
         /// </summary>
@@ -208,8 +258,8 @@ namespace DerailedDeliveries.Framework.Train
             float duration = _accelerationDuration;
 
             // Check if train should brake and tween to 0 first before tweening to desired speed type.
-            if (ShouldBrake(targetSpeedType, checkBrakes))
-                currentMaxSpeed = 0;
+            /*if (ShouldBrake(targetSpeedType, checkBrakes))
+                currentMaxSpeed = 0;*/
 
             // Tween train _currentSpeed to current max speed over 'duration' seconds.
             _speedTween = DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
@@ -245,12 +295,12 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="targetEngineSpeedType">The speed the train wants to move towards.</param>
         /// <param name="canBrake">Override bool to determine of train is allowed to brake.</param>
         /// <returns>True if train should brake to 0 speed.</returns>
-        private bool ShouldBrake(TrainEngineSpeedTypes targetEngineSpeedType, bool canBrake)
+        private bool ShouldBrake(TrainEngineSpeedTypes targetEngineSpeedType)
         {
-            bool tryReverse = (int)targetEngineSpeedType < (int)TrainEngineSpeedTypes.Still && canBrake;
+            bool tryReverse = (int)targetEngineSpeedType < (int)TrainEngineSpeedTypes.Still;
             bool reverseCheck = tryReverse && (int)CurrentEngineSpeedType > 3;
 
-            bool tryTravel = (int)targetEngineSpeedType > (int)TrainEngineSpeedTypes.Still && canBrake;
+            bool tryTravel = (int)targetEngineSpeedType > (int)TrainEngineSpeedTypes.Still;
             bool travelCheck = tryTravel && (int)CurrentEngineSpeedType < 3;
 
             return reverseCheck || travelCheck;
