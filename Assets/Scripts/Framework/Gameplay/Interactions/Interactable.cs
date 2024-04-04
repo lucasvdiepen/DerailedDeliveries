@@ -25,14 +25,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsInteractable { get; set; } = true;
 
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        private protected bool CanInteract { get; set; } = true;
-
         /// <summary>
         /// Returns a boolean that reflects if this Interactable is available for interaction.
         /// </summary>
         /// <returns>The status that reflects if this is interactable.</returns>
-        public virtual bool CheckIfInteractable() => IsInteractable && !IsOnCooldown && CanInteract;
+        public virtual bool CheckIfInteractable() => IsInteractable && !IsOnCooldown;
 
         /// <summary>
         /// A function that calls a RPC to the server on this Interactable.
@@ -51,7 +48,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [Server]
         private protected virtual bool Interact(Interactor interactor)
         {
-            if(!IsInteractable || IsOnCooldown || !CanInteract)
+            if(!IsInteractable || IsOnCooldown)
                 return false;
 
             StartCoroutine(ActivateCooldown());
