@@ -27,8 +27,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         public override bool CheckIfInteractable(Interactor interactor)
         {
             return base.CheckIfInteractable(interactor) 
-                && ((_heldGrabbable != null && interactor.InteractingTarget == null) 
-                || (_heldGrabbable == null && interactor.InteractingTarget != null));
+                && (_heldGrabbable == null ^ interactor.InteractingTarget == null);
         }
 
         [Server]

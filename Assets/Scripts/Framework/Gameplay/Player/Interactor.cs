@@ -34,9 +34,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         [SerializeField]
         private float _cooldown = .2f;
 
-        [SerializeField]
         private SphereCollider _collider;
-
         private PlayerInputParser _inputParser;
         private bool _isInteracting;
         private bool _isOnCooldown;
@@ -45,8 +43,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         {
             _inputParser = GetComponent<PlayerInputParser>();
 
-            if (_collider == null)
-                _collider = GetComponent<SphereCollider>();
+            _collider = GetComponent<SphereCollider>();
         }
 
         private void OnEnable() => _inputParser.OnInteract += UseInteractable;
@@ -55,7 +52,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UseInteractable()
         {
-            Collider[] interactables = Physics.OverlapSphere(_collider.transform.position, _collider.radius);
+            Vector3 directionVector = (transform.rotation * _collider.center) + transform.position;
+
+            Collider[] interactables = Physics.OverlapSphere(directionVector, _collider.radius);
 
             if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
