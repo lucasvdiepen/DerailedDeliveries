@@ -103,8 +103,8 @@ namespace DerailedDeliveries.Framework.Train
             _speedValues = new Dictionary<TrainEngineSpeedTypes, float>()
             {
                 {TrainEngineSpeedTypes.High, _maxHighSpeed },
-                {TrainEngineSpeedTypes.Low, _maxLowSpeed },
                 {TrainEngineSpeedTypes.Medium, _maxMediumSpeed },
+                {TrainEngineSpeedTypes.Low, _maxLowSpeed },
                 
                 {TrainEngineSpeedTypes.Still, 0 },
 
@@ -241,7 +241,6 @@ namespace DerailedDeliveries.Framework.Train
         /// Internally used to check if train should brake to 0 speed.
         /// </summary>
         /// <param name="targetEngineSpeedType">The speed the train wants to move towards.</param>
-        /// <param name="canBrake">Override bool to determine of train is allowed to brake.</param>
         /// <returns>True if train should brake to 0 speed.</returns>
         private bool ShouldBrake(TrainEngineSpeedTypes targetEngineSpeedType)
         {

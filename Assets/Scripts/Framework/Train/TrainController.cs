@@ -39,7 +39,7 @@ namespace DerailedDeliveries.Framework.Train
         private Transform[] _followingWagons;
 
         /// <summary>
-        /// Current distance value along spline lenght clamped between 0-1 (same as time). <br/>
+        /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
         /// 1 = Spline end point.<br/>
         /// </summary>
@@ -55,7 +55,7 @@ namespace DerailedDeliveries.Framework.Train
         public float CurrentOptimalStartPoint { get; private set; }
 
         /// <summary>
-        /// Returns the precalculated line lenght of the spline.
+        /// Returns the precalculated line length of the spline.
         /// </summary>
         public float SplineLength { get; private set; }
 
