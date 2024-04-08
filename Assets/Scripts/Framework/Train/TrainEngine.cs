@@ -33,15 +33,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _brakeDuration = 3;
 
-        [SerializeField]
-        private int _currentEngineSpeedIndex;
-
-        [SerializeField]
-        private float _currentEngineSpeed;
-
-        [SerializeField]
-        private float _currentEngineMaxSpeed;
-
         /// <summary>
         /// Current train engine state.
         /// </summary>
@@ -65,14 +56,24 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public Action<bool> OnDirectionChanged;
 
+        [field: HideInInspector]
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public float CurrentSpeed { get; private set; }
-        
-        private TrainController _trainController;
 
+        [field: HideInInspector]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        public int CurrentEngineSpeedIndex { get; private set; }
+
+        [field: HideInInspector]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        public float CurrentEngineSpeed { get; private set; }
+
+        private TrainController _trainController;
         private Dictionary<int, float> _speedValues;
 
         private const int SPEED_VALUES_COUNT = 3;
+        private bool isWaiting = false;
+        private float waitTimer = 0f;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
 
@@ -105,10 +106,10 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void AdjustSpeed(bool increment)
         {
-            _currentEngineSpeedIndex += increment ? 1 : -1;
-            _currentEngineSpeedIndex = Mathf.Clamp(_currentEngineSpeedIndex, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
+            CurrentEngineSpeedIndex += increment ? 1 : -1;
+            CurrentEngineSpeedIndex = Mathf.Clamp(CurrentEngineSpeedIndex, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
            
-            _currentEngineSpeed = _speedValues[_currentEngineSpeedIndex];
+            CurrentEngineSpeed = _speedValues[CurrentEngineSpeedIndex];
         }   
         #endregion;
         
@@ -120,9 +121,6 @@ namespace DerailedDeliveries.Framework.Train
             OnDirectionChanged?.Invoke(CurrentSplitDirection);
         }
         #endregion
-
-        private bool isWaiting = false;
-        private float waitTimer = 0f;
 
         private void Update()
         {
@@ -136,11 +134,11 @@ namespace DerailedDeliveries.Framework.Train
 
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
 
-            CurrentSpeed += _currentEngineSpeed * Time.deltaTime;
+            CurrentSpeed += CurrentEngineSpeed * Time.deltaTime;
             CurrentSpeed = Mathf.Clamp(CurrentSpeed, -_maxSpeed, _maxSpeed);
 
-            bool forwardCheck = CurrentSpeed > 0 && _currentEngineSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
-            bool backwardCheck = CurrentSpeed < 0 && _currentEngineSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
+            bool forwardCheck = CurrentSpeed > 0 && CurrentEngineSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
+            bool backwardCheck = CurrentSpeed < 0 && CurrentEngineSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
             if (forwardCheck || backwardCheck)
                 StartWaitTimer();
