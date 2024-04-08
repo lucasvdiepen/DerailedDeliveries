@@ -10,7 +10,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// State when train engine is running and active.
         /// </summary>
-        On,
+        Running,
         
         /// <summary>
         /// State when train engine is running and inactive.

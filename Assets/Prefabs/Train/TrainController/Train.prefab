@@ -794,12 +794,16 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 3192052589244940169}
   _networkObjectCache: {fileID: 3192052589244940169}
-  _maxHighSpeed: 7.5
-  _maxMediumSpeed: 5
-  _maxLowSpeed: 2.5
-  _accelerationDuration: 10
-  _accelerationEase: 1
-  _currentSpeed: 0
+  _maxSpeed: 15
+  _friction: 0.25
+  _high: 1
+  _medium: 0.5
+  _low: 0.25
+  _brakeDuration: 1.5
+  _currentEngineSpeedIndex: 0
+  _currentEngineSpeed: 0
+  _currentEngineMaxSpeed: 0
+  <CurrentSpeed>k__BackingField: 0
 --- !u!114 &1590013551241812897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +851,7 @@ MonoBehaviour:
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 3308168281
+  _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 11988164977122586139
 --- !u!114 &-8851588330063372758

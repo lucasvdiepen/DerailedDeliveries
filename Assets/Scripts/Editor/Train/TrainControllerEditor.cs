@@ -44,12 +44,12 @@ namespace DerailedDeliveries.Editor.Train
             EditorGUI.BeginDisabledGroup(true);
 
             EditorGUILayout.EnumPopup("Current engine state: ", trainEngine.EngineState);
-            EditorGUILayout.EnumPopup("Current engine speed state: ", trainEngine.CurrentEngineSpeedType);
+           /* EditorGUILayout.EnumPopup("Current engine speed state: ", trainEngine.CurrentEngineSpeedType);
 
             if (trainEngine.CurrentTargetEngineSpeedType != trainEngine.CurrentEngineSpeedType)
-                EditorGUILayout.EnumPopup("Target engine speed state: ", trainEngine.CurrentTargetEngineSpeedType);
+                EditorGUILayout.EnumPopup("Target engine speed state: ", trainEngine.CurrentTargetEngineSpeedType);*/
 
-            EditorGUILayout.FloatField("Current speed: ", trainEngine.CurrentVelocity);
+            EditorGUILayout.FloatField("Current speed: ", trainEngine.CurrentSpeed);
             EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
             EditorGUILayout.FloatField("Current optimal start point: ", trainController.CurrentOptimalStartPoint);
             EditorGUILayout.Toggle("Current chosen track upcomming rail split: ", trainController.TrainEngine.CurrentSplitDirection);
