@@ -101,10 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 1
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 156916524191783587}
+  - {fileID: 3305058913626210986}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -116,9 +117,9 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 12
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 0
+  _scenePathHash: 3308168281
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16485571095660775083
 --- !u!114 &6703346681586767465
@@ -214,16 +215,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e88bca8dcd4f6c4eb288735598727f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 6073812502090828546}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6073812502090828546}
   _cooldown: 0.5
-  _originInteractor: {fileID: 0}
   <IsOnCooldown>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
-  <CanInteract>k__BackingField: 1
-  _collidingInteractables: []
+  _maxGroundCheckDistance: 10
   _originInteractor: {fileID: 0}
-  _groundCheckDistance: 5
-  _boxCollider: {fileID: 3938336100073716210}
   <IsBeingInteracted>k__BackingField: 0

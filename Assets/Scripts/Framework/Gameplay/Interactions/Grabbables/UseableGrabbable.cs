@@ -1,4 +1,5 @@
 using UnityEngine;
+using FishNet.Object;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 
@@ -9,6 +10,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     /// </summary>
     public abstract class UseableGrabbable : Grabbable
     {
+        [Server]
         private protected override void UseGrabbable(Interactor interactor)
         {
             if(!IsBeingInteracted)
@@ -24,6 +26,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             base.UseGrabbable(interactor);
         }
 
+        [Server]
         private protected virtual Interactable GetCollidingInteractable(Interactor interactor)
         {
             Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);

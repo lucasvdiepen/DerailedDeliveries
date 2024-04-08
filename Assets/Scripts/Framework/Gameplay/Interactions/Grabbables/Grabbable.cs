@@ -81,9 +81,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public virtual void PlaceOnGround()
         {
-            if (BoxCollider == null)
-                return;
-
             Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);

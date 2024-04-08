@@ -18,7 +18,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [SerializeField]
         private float _cooldown = .5f;
 
-
         /// <summary>
         /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
         /// </summary>
@@ -32,11 +31,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
 
         private BoxCollider _boxCollider;
 
-        private protected virtual void Awake()
-        {
-            if (_boxCollider == null)
-                _boxCollider = GetComponent<BoxCollider>();
-        }
+        private protected virtual void Awake() => _boxCollider = GetComponent<BoxCollider>();
 
         /// <summary>
         /// Returns a boolean that reflects if this Interactable is available for interaction.
@@ -75,6 +70,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The origin Interactor.</param>
         /// <returns>The status of if the Interaction was succesfull.</returns>
+        [Server]
         public virtual bool Interact(UseableGrabbable useableGrabbable) => false;
 
         private protected virtual IEnumerator ActivateCooldown()
