@@ -43,12 +43,19 @@ namespace DerailedDeliveries.Editor.Train
             TrainEngine trainEngine = trainController.TrainEngine;
             EditorGUI.BeginDisabledGroup(true);
 
-            EditorGUILayout.EnumPopup("Current engine state: ", trainEngine.EngineState);
-            EditorGUILayout.FloatField("Current engine index: ", trainEngine.CurrentEngineSpeedIndex);
             EditorGUILayout.FloatField("Current speed: ", trainEngine.CurrentSpeed);
-            EditorGUILayout.FloatField("Current engine gear: ", trainEngine.CurrentEngineSpeed);
+            EditorGUILayout.EnumPopup("Current engine state: ", trainEngine.EngineState);
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.FloatField("Current engine index: ", trainEngine.CurrentSpeedIndex);
+            EditorGUILayout.FloatField("Current engine gear: ", trainEngine.CurrentEngineAcceleration);
+
+            EditorGUILayout.Space();
+
             EditorGUILayout.FloatField("Current distance along spline: ", trainController.DistanceAlongSpline);
             EditorGUILayout.FloatField("Current optimal start point: ", trainController.CurrentOptimalStartPoint);
+            
             EditorGUILayout.Toggle("Current chosen track upcomming rail split: ", trainController.TrainEngine.CurrentSplitDirection);
 
             EditorGUI.EndDisabledGroup();
