@@ -1,7 +1,6 @@
 using UnityEngine.Splines;
 using FishNet.Object;
 using UnityEngine;
-using FishNet;
 using System;
 
 namespace DerailedDeliveries.Framework.Train
@@ -88,16 +87,20 @@ namespace DerailedDeliveries.Framework.Train
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
 
-        private void OnEnable()
+        public override void OnStartClient()
         {
+            base.OnStartClient();
+            
             if (IsServer)
-                InstanceFinder.TimeManager.OnTick += OnTick;
+                TimeManager.OnTick += OnTick;
         }
 
-        private void OnDisable()
+        public override void OnStopClient()
         {
+            base.OnStopClient();
+            
             if (IsServer)
-                InstanceFinder.TimeManager.OnTick -= OnTick;
+                TimeManager.OnTick -= OnTick;
         }
 
         [Server]

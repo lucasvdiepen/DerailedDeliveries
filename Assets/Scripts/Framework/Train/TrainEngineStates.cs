@@ -1,6 +1,6 @@
 namespace DerailedDeliveries.Framework.Train
 {
-    public enum TrainEngineState
+    public enum TrainEngineStates
     {
         /// <summary>
         /// State when train engine is not running.

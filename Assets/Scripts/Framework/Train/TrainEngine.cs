@@ -26,18 +26,24 @@ namespace DerailedDeliveries.Framework.Train
 
         [SerializeField, Space]
         private float _brakeDuration = 1.5f;
-        
+
+        [SerializeField]
+        private float _stillAccelerationDuration = 30f;
+
         [SerializeField]
         private float _accelerationDuration = 10f;
 
         [SerializeField]
         private Ease _accelerationEase = Ease.Linear;
 
+        [SerializeField]
+        private bool _isBraking;
+
         /// <summary>
         /// Current train engine state.
         /// </summary>
-        public TrainEngineState EngineState 
-            { get; private set; } = TrainEngineState.OnStandby;
+        public TrainEngineStates EngineState 
+            { get; private set; } = TrainEngineStates.OnStandby;
 
         /// <summary>
         /// Current train speed type.
@@ -81,12 +87,11 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invoked when the train engine state is changed.
         /// </summary>
-        public Action<TrainEngineState> OnEngineStateChanged;
+        public Action<TrainEngineStates> OnEngineStateChanged;
 
         private Dictionary<TrainEngineSpeedTypes, float> _speedValues;
 
-        [HideInInspector]
-        [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        [HideInInspector, SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private float _currentSpeed;
         private float _speedTypesCount;
 
@@ -141,7 +146,7 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         /// <param name="newState">New state of the train engine.</param>
         [ServerRpc(RequireOwnership = false)]
-        public void SetTrainEngineState(TrainEngineState newState)
+        public void SetTrainEngineState(TrainEngineStates newState)
             => OnTrainEngineStateChanged(newState);
 
         /// <summary>
@@ -169,7 +174,7 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [ObserversRpc(BufferLast = true, RunLocally = true)]
-        private void OnTrainEngineStateChanged(TrainEngineState newState)
+        private void OnTrainEngineStateChanged(TrainEngineStates newState)
         {
             EngineState = newState;
             OnEngineStateChanged?.Invoke(newState);
@@ -210,6 +215,9 @@ namespace DerailedDeliveries.Framework.Train
             float duration = _accelerationDuration;
             float currentMaxSpeed = _speedValues[targetSpeedType];
 
+            if (CurrentTargetEngineSpeedType == TrainEngineSpeedTypes.Still)
+                duration = _stillAccelerationDuration;
+
             // Setup base tween for acceleration/decceleration. 
             _speedSequence = DOTween.Sequence()
                 .Append(DOTween.To(() => _currentSpeed, x => _currentSpeed = x, currentMaxSpeed, duration)
@@ -226,8 +234,8 @@ namespace DerailedDeliveries.Framework.Train
             _speedSequence.OnComplete(() =>
             {
                 // Set correct engine state based on current target engine speed type.
-                TrainEngineState newEngineState = targetSpeedType == TrainEngineSpeedTypes.Still
-                    ? TrainEngineState.OnStandby : TrainEngineState.On;
+                TrainEngineStates newEngineState = targetSpeedType == TrainEngineSpeedTypes.Still
+                    ? TrainEngineStates.OnStandby : TrainEngineStates.On;
 
                 //Update all clients with new engine state and target engine speed type.
                 SetTrainEngineState(newEngineState);
