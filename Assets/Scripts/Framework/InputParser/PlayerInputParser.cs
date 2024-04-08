@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +9,7 @@ namespace DerailedDeliveries.Framework.InputParser
     /// A class responsible for parsing player input and invoking events based on the input.
     /// </summary>
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerInputParser : MonoBehaviour
+    public class PlayerInputParser : NetworkBehaviour
     {
         /// <summary>
         /// An event invoked when the player pressed the interact button.
@@ -30,14 +31,24 @@ namespace DerailedDeliveries.Framework.InputParser
 
         private void Awake() => _playerInput = GetComponent<PlayerInput>();
 
-        private void OnEnable()
+        public override void OnStartClient()
         {
+            base.OnStartClient();
+
+            if(!IsOwner)
+                return;
+
             _playerInput.actions["Move"].performed += Move;
             _playerInput.actions["Interact"].performed += Interact;
         }
 
-        private void OnDisable()
+        public override void OnStopClient()
         {
+            base.OnStopClient();
+
+            if(!IsOwner)
+                return;
+
             _playerInput.actions["Move"].performed -= Move;
             _playerInput.actions["Interact"].performed -= Interact;
         }

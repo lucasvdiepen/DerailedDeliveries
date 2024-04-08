@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 5
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &3048916122270372580
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 4598101147158428293}
   - component: {fileID: -581960332264621981}
   - component: {fileID: 968015005501435280}
-  - component: {fileID: 1160457473163661916}
+  - component: {fileID: 8561659200602252906}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -143,6 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8b14b1a2e4f404aa0e48172c6eb626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 2499233359108512077}
+  _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!54 &2858816033031180669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -186,6 +189,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
+  - {fileID: 945120239230563089}
   - {fileID: 807764299014293325}
   - {fileID: 1002849335369828256}
   - {fileID: 4598101147158428293}
@@ -235,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _componentConfiguration: 2
@@ -280,13 +284,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f536fab566087c44a9898a0a0bfb3e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _components:
+  - {fileID: 4598101147158428293}
   - {fileID: 7486978254264253109}
   - {fileID: 945120239230563089}
   - {fileID: 350454645476312809}
+  _shouldIgnoreOnServer: 0
 --- !u!114 &4598101147158428293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,13 +305,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd71851967f753468e22850c9f687f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 2
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _interactingTarget: {fileID: 0}
-  _grabbingAnchor: {fileID: 4761326792321871254}
+  _grabbingAnchor: {fileID: 7396771209937068835}
   _cooldown: 0.2
-  _isInteracting: 0
 --- !u!114 &-581960332264621981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da560cac5ae7cc46a4337fd14066d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!114 &968015005501435280
@@ -333,12 +338,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10bc4c89055b361499ed869c391969c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _meshRenderer: {fileID: 1713660901350886004}
---- !u!136 &1160457473163661916
-CapsuleCollider:
+--- !u!135 &8561659200602252906
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -355,11 +360,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5618882
-  m_Height: 1.1237764
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 1}
+  serializedVersion: 3
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0.45, z: 1}
 --- !u!1 &6003520554306516185
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,8 +390,8 @@ Transform:
   m_GameObject: {fileID: 6003520554306516185}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 1}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalPosition: {x: 0, y: 0.45, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4531689758525466651}
