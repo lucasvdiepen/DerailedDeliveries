@@ -29,6 +29,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
         public override bool CheckIfInteractable(Interactor interactor) 
             => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
 

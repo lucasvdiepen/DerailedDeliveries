@@ -34,6 +34,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// <summary>
         /// Returns a boolean that reflects if this Interactable is available for interaction.
         /// </summary>
+        /// <param name="interactor">The interactor that is checking if this is interactable.</param>
         /// <returns>The status that reflects if this is interactable.</returns>
         public virtual bool CheckIfInteractable(Interactor interactor) => IsInteractable && !IsOnCooldown;
 
