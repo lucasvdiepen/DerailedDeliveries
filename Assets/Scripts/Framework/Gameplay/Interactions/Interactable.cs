@@ -21,7 +21,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// <summary>
         /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
         /// </summary>
-        public BoxCollider BoxCollider => _boxCollider;
+        public BoxCollider BoxCollider { get; private set; }
 
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsOnCooldown { get; set; }
@@ -29,9 +29,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsInteractable { get; set; } = true;
 
-        private BoxCollider _boxCollider;
-
-        private protected virtual void Awake() => _boxCollider = GetComponent<BoxCollider>();
+        private protected virtual void Awake() => BoxCollider = GetComponent<BoxCollider>();
 
         /// <summary>
         /// Returns a boolean that reflects if this Interactable is available for interaction.
