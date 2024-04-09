@@ -35,6 +35,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
             _popupCanvasGroup.gameObject.SetActive(false);
         }
 
+        private void LateUpdate()
+        {
+            _popupCanvasGroup.transform.rotation = Quaternion.LookRotation(
+                _popupCanvasGroup.transform.position - Camera.main.transform.position);
+        }
+
         /// <summary>
         /// Shows the popup.
         /// </summary>
