@@ -19,9 +19,7 @@ namespace DerailedDeliveries.Framework.Train
         private void OnDisable() =>
             TrainEngine.Instance.OnSpeedStateChanged -= HandleSpeedStateChanged;
 
-        private void HandleSpeedStateChanged(int newSpeedState)
-        {
-            _handle.rotation = Quaternion.Euler(0, 0, 0);
-        }
+        private void HandleSpeedStateChanged(int newSpeedState) =>
+            _handle.rotation = Quaternion.Euler(0, 0, _handlePositions[newSpeedState + 3]);
     }
 }
