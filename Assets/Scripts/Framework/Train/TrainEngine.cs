@@ -76,8 +76,8 @@ namespace DerailedDeliveries.Framework.Train
         private Dictionary<int, float> _speedValues;
 
         private const int SPEED_VALUES_COUNT = 3;
-        private bool isWaiting = false;
-        private float waitTimer = 0f;
+        private bool _IsBraking = false;
+        private float _brakeTimer = 0f;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
 
@@ -153,9 +153,9 @@ namespace DerailedDeliveries.Framework.Train
             if (!IsServer)
                 return;
 
-            UpdateWaiting();
+            UpdateBraking();
 
-            if (isWaiting)
+            if (_IsBraking)
                 return;
 
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
@@ -165,27 +165,27 @@ namespace DerailedDeliveries.Framework.Train
             bool backwardCheck = CurrentSpeed < 0 && CurrentSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
             if (forwardCheck || backwardCheck)
-                StartWaitTimer();
+                StartBrakeTimer();
         }
 
-        private void UpdateWaiting()
+        private void UpdateBraking()
         {
-            if (isWaiting)
+            if (_IsBraking)
             {
-                waitTimer -= Time.deltaTime;
+                _brakeTimer -= Time.deltaTime;
 
-                if (waitTimer <= 0f)
+                if (_brakeTimer <= 0f)
                 {
-                    isWaiting = false;
-                    waitTimer = 0f;
+                    _IsBraking = false;
+                    _brakeTimer = 0f;
                 }
             }
         }
 
-        private void StartWaitTimer()
+        private void StartBrakeTimer()
         {
-            isWaiting = true;
-            waitTimer = _brakeDuration;
+            _IsBraking = true;
+            _brakeTimer = _brakeDuration;
             CurrentSpeed = 0;
         }
     }
