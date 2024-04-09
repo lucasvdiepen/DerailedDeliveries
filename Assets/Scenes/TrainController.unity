@@ -8013,7 +8013,7 @@ MonoBehaviour:
   _frontWagon: {fileID: 0}
   _wagonFollowDistance: 0
   _wagonSpacing: 0
-  _wagons: []
+  _followingWagons: []
 --- !u!114 &1051506059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8029,12 +8029,15 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 1051506060}
   _networkObjectCache: {fileID: 1051506060}
-  _maxHighSpeed: 7.5
-  _maxMediumSpeed: 5
-  _maxLowSpeed: 2.5
-  _accelerationDuration: 10
-  _accelerationEase: 1
-  _currentSpeed: 0
+  _friction: 0.25
+  _standbyFriction: 0.1
+  _brakeDuration: 1.5
+  _high: 2
+  _medium: 1
+  _low: 0.5
+  <CurrentSpeed>k__BackingField: 0
+  <CurrentEngineAcceleration>k__BackingField: 0
+  <CurrentSpeedIndex>k__BackingField: 0
 --- !u!114 &1051506060
 MonoBehaviour:
   m_ObjectHideFlags: 0
