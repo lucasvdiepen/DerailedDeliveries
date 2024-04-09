@@ -51,7 +51,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_playerInput == Vector2.zero)
                 return;
 
-            Vector3 playerInput = new Vector3(_playerInput.x, 0, _playerInput.y);
+            Vector3 cameraForward = Camera.main.transform.forward;
+            cameraForward.y = 0;
+
+            // Transform the input from local space to world space using the camera's forward direction.
+            Vector3 playerInput = cameraForward * _playerInput.y + Camera.main.transform.right * _playerInput.x;
+            playerInput = playerInput.normalized;
 
             UpdateVelocity(playerInput);
             UpdateRotation(playerInput);
