@@ -68,22 +68,19 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// The raw train speed used to proportionally calculate <see cref="CurrentVelocity"/>. 
         /// </summary>
-        [field: HideInInspector]
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable), HideInInspector]
         public float CurrentSpeed { get; private set; }
 
         /// <summary>
         /// The current acceleration value that gets added to the <see cref="CurrentSpeed"/>.
         /// </summary>
-        [field: HideInInspector]
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable), HideInInspector]
         public float CurrentEngineAcceleration { get; private set; }
         
         /// <summary>
         /// Index used to handle switching between different levels of acceleration / deceleration.
         /// </summary>
-        [field: HideInInspector]
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable), HideInInspector]
         public int CurrentSpeedIndex { get; private set; }
         #endregion
 
