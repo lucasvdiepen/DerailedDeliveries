@@ -11,6 +11,8 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         [SerializeField]
         private int _maxHealth;
 
+        public bool CanTakeDamage { get; set; } = true;
+
         private int _health;
 
         private protected virtual void OnEnable() => _health = _maxHealth;
@@ -18,6 +20,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         [ServerRpc(RequireOwnership = false)]
         private protected virtual void TakeDamage()
         {
+            if(!CanTakeDamage)
+                return;
+
             ChangeHealth(_health - 1);
         }
 

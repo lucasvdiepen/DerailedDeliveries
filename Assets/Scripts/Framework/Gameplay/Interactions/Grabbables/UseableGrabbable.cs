@@ -20,7 +20,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             }
 
             Interactable targetInteractable = GetCollidingInteractable(interactor);
-            if(targetInteractable != null && targetInteractable.Interact(this))
+            if(targetInteractable != null && RunInteract(targetInteractable))
                 return;
 
             base.UseGrabbable(interactor);
@@ -42,6 +42,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             return null;
         }
+
+        private protected virtual bool RunInteract(Interactable interactable) => interactable.Interact(this);
 
         private protected abstract bool CheckCollidingType(Interactable interactable);
     }

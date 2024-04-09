@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 156916524191783587}
   - component: {fileID: 3938336100073716210}
   - component: {fileID: 3305058913626210986}
+  - component: {fileID: 8832820904981076586}
   m_Layer: 0
   m_Name: TestPackage
   m_TagString: Untagged
@@ -101,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 1
+  <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 156916524191783587}
@@ -224,3 +225,20 @@ MonoBehaviour:
   _maxGroundCheckDistance: 10
   _originInteractor: {fileID: 0}
   <IsBeingInteracted>k__BackingField: 0
+--- !u!114 &8832820904981076586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555197626043509476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d7445292c90e74b8c4762f06757e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6073812502090828546}
+  _networkObjectCache: {fileID: 0}
+  _maxHealth: 0
+  _damageInterval: 0
