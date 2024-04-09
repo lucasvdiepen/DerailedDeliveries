@@ -794,16 +794,15 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 3192052589244940169}
   _networkObjectCache: {fileID: 3192052589244940169}
-  _maxSpeed: 15
   _friction: 0.25
+  _standbyFriction: 0.1
+  _brakeDuration: 1.5
   _high: 1
   _medium: 0.5
   _low: 0.25
-  _brakeDuration: 1.5
-  _currentEngineSpeedIndex: 0
-  _currentEngineSpeed: 0
-  _currentEngineMaxSpeed: 0
   <CurrentSpeed>k__BackingField: 0
+  <CurrentEngineAcceleration>k__BackingField: 0
+  <CurrentSpeedIndex>k__BackingField: 0
 --- !u!114 &1590013551241812897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -849,7 +848,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 8
+  <PrefabId>k__BackingField: 9
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -1482,13 +1481,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5542173340716579585}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.773, z: 0.082}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -4.11, y: 0.82, z: 1.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6337498490736350784}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!20 &8507397319476748345
 Camera:
   m_ObjectHideFlags: 0
