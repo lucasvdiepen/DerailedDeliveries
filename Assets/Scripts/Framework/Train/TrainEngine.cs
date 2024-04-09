@@ -14,6 +14,7 @@ namespace DerailedDeliveries.Framework.Train
     [RequireComponent(typeof(TrainController))]
     public class TrainEngine : NetworkAbstractSingleton<TrainEngine>
     {
+        [Header("Engine config")]
         [Tooltip("Friction value used as an opposing force when train is traveling.")]
         [SerializeField]
         private float _friction = .25f;
@@ -22,7 +23,7 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _standbyFriction = .1f;
 
-        [SerializeField]
+        [SerializeField, Space]
         private float _brakeDuration = 1.5f;
         
         [Header("Acceleration levels")]
@@ -209,16 +210,16 @@ namespace DerailedDeliveries.Framework.Train
 
         private void UpdateBraking()
         {
-            if (_isBraking)
-            {
-                _brakeTimer -= Time.deltaTime;
+            if (!_isBraking)
+                return;
 
-                if (_brakeTimer <= 0f)
-                {
-                    _isBraking = false;
-                    _brakeTimer = 0f;
-                }
-            }
+            _brakeTimer -= Time.deltaTime;
+
+            if (_brakeTimer > 0)
+                return;
+            
+            _isBraking = false;
+            _brakeTimer = 0f;
         }
     }
 }
