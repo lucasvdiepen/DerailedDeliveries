@@ -1,5 +1,8 @@
 namespace DerailedDeliveries.Framework.Train
 {
+    /// <summary>
+    /// Represents whether the train engine is active or not.
+    /// </summary>
     public enum TrainEngineStates
     {
         /// <summary>
