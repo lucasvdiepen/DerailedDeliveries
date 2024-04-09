@@ -199,7 +199,7 @@ namespace DerailedDeliveries.Framework.Train
             bool forwardCheck = CurrentSpeed > 0 && CurrentSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
             bool backwardCheck = CurrentSpeed < 0 && CurrentSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
-            //Restart brake timer if train crosses from negative speed to positive or reversed.
+            // Restart brake timer if train crosses from negative speed to positive or reversed.
             if (forwardCheck || backwardCheck)
             {
                 _isBraking = true;
