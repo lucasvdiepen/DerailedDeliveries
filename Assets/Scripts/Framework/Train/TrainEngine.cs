@@ -14,10 +14,18 @@ namespace DerailedDeliveries.Framework.Train
     [RequireComponent(typeof(TrainController))]
     public class TrainEngine : NetworkAbstractSingleton<TrainEngine>
     {
+        [Tooltip("Friction value used as an opposing force when train is traveling.")]
         [SerializeField]
         private float _friction = .25f;
 
-        [Header("Acceleration / deceleration levels")]
+        [Tooltip("Separate friction value used when engine is turned off.")]
+        [SerializeField]
+        private float _standbyFriction = .1f;
+
+        [SerializeField]
+        private float _brakeDuration = 1.5f;
+        
+        [Header("Acceleration levels")]
         [SerializeField]
         private float _high = 2;
 
@@ -27,9 +35,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _low = .5f;
 
-        [SerializeField]
-        private float _brakeDuration = 3;
-
         /// <summary>
         /// Current train engine state.
         /// </summary>
@@ -37,7 +42,7 @@ namespace DerailedDeliveries.Framework.Train
             { get; private set; } = TrainEngineStates.Active;
 
         /// <summary>
-        /// Current train velocity speed.
+        /// Current train speed proportionally based on the length of the current spline.
         /// </summary>
         public float CurrentVelocity => CurrentSpeed / _trainController.SplineLength;
 
@@ -59,25 +64,37 @@ namespace DerailedDeliveries.Framework.Train
         public Action<TrainEngineStates, TrainEngineStates> OnEngineStateChanged;
 
         #region SyncVars
+        /// <summary>
+        /// The raw train speed used to proportionally calculate <see cref="CurrentVelocity"/>. 
+        /// </summary>
         [field: HideInInspector]
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public float CurrentSpeed { get; private set; }
 
-        [field: HideInInspector]
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        public int CurrentSpeedIndex { get; private set; }
-
+        /// <summary>
+        /// The current acceleration value that gets added to the <see cref="CurrentSpeed"/>.
+        /// </summary>
         [field: HideInInspector]
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public float CurrentEngineAcceleration { get; private set; }
+        
+        /// <summary>
+        /// Index used to handle switching between different levels of acceleration / deceleration.
+        /// </summary>
+        [field: HideInInspector]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        public int CurrentSpeedIndex { get; private set; }
         #endregion
+
+        private const int SPEED_VALUES_COUNT = 3;
 
         private TrainController _trainController;
         private Dictionary<int, float> _speedValues;
-
-        private const int SPEED_VALUES_COUNT = 3;
-        private bool _IsBraking = false;
-        private float _brakeTimer = 0f;
+        
+        private float _brakeTimer;
+        private float _startFriction;
+        
+        private bool _isBraking;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
 
@@ -93,6 +110,8 @@ namespace DerailedDeliveries.Framework.Train
                 { -2, -_medium  },
                 { -3, -_high    },
             };
+
+            _startFriction = _friction;
         }
 
         #region ServerRPCS
@@ -142,8 +161,14 @@ namespace DerailedDeliveries.Framework.Train
             // If engine is set to inactive, reset train acceleration.
             if(newState == TrainEngineStates.Inactive)
             {
+                _friction = _standbyFriction;
+
                 CurrentSpeedIndex = 0;
                 CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
+            }
+            else
+            {
+                _friction = _startFriction;
             }
         }
         #endregion
@@ -152,11 +177,20 @@ namespace DerailedDeliveries.Framework.Train
         {
             if (!IsServer)
                 return;
+         
+            UpdateCurrentSpeed();
+        }
 
-            UpdateBraking();
-
-            if (_IsBraking)
+        /// <summary>
+        /// Internally used to update current speed.
+        /// </summary>
+        private void UpdateCurrentSpeed()
+        {
+            if (_isBraking)
+            {
+                UpdateBraking();
                 return;
+            }
 
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
             CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
@@ -164,29 +198,27 @@ namespace DerailedDeliveries.Framework.Train
             bool forwardCheck = CurrentSpeed > 0 && CurrentSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
             bool backwardCheck = CurrentSpeed < 0 && CurrentSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
+            //Restart brake timer if train crosses from negative speed to positive or reversed.
             if (forwardCheck || backwardCheck)
-                StartBrakeTimer();
+            {
+                _isBraking = true;
+                _brakeTimer = _brakeDuration;
+                CurrentSpeed = 0;
+            }
         }
 
         private void UpdateBraking()
         {
-            if (_IsBraking)
+            if (_isBraking)
             {
                 _brakeTimer -= Time.deltaTime;
 
                 if (_brakeTimer <= 0f)
                 {
-                    _IsBraking = false;
+                    _isBraking = false;
                     _brakeTimer = 0f;
                 }
             }
-        }
-
-        private void StartBrakeTimer()
-        {
-            _IsBraking = true;
-            _brakeTimer = _brakeDuration;
-            CurrentSpeed = 0;
         }
     }
 }
