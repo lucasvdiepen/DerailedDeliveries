@@ -61,6 +61,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 
             _interactablesOnBelt.Remove(target);
             Destroy(target.gameObject);
+
+            // TO DO: Performance tracker broadcast + performance tracker schrijven
+
             yield return null;
         }
     }
