@@ -2,6 +2,7 @@ using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using FishNet.Object;
 using UnityEngine;
+using Cinemachine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
@@ -14,6 +15,9 @@ namespace DerailedDeliveries.Framework.Train
     [RequireComponent(typeof(TrainController))]
     public class TrainEngine : NetworkAbstractSingleton<TrainEngine>
     {
+        [SerializeField]
+        private CinemachineVirtualCamera _virtualCamera;
+
         [Header("Engine config")]
         [Tooltip("Friction value used as an opposing force when train is traveling.")]
         [SerializeField]
@@ -46,6 +50,11 @@ namespace DerailedDeliveries.Framework.Train
         /// Current train speed proportionally based on the length of the current spline.
         /// </summary>
         public float CurrentVelocity => CurrentSpeed / _trainController.SplineLength;
+
+        /// <summary>
+        /// A precalculated speed value which is the fastest the train can travel using the <see cref="_high"/> gear.
+        /// </summary>
+        public float MaxSpeed { get; private set; }
 
         /// <summary>
         /// Determines the chosen track for the next possible rail split.<br></br>
@@ -84,17 +93,24 @@ namespace DerailedDeliveries.Framework.Train
         public int CurrentSpeedIndex { get; private set; }
         #endregion
 
-        private const int SPEED_VALUES_COUNT = 3;
-
         private TrainController _trainController;
+        private CinemachineBasicMultiChannelPerlin _multiChannelPerlin;
+
         private Dictionary<int, float> _speedValues;
+
+        private const int SPEED_VALUES_COUNT = 3;
         
         private float _brakeTimer;
         private float _startFriction;
+        private float _startCameraNoiseAmplitude;
         
         private bool _isBraking;
 
-        private void Awake() => _trainController = GetComponent<TrainController>();
+        private void Awake()
+        {
+            _multiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            _trainController = GetComponent<TrainController>();
+        }
 
         private void Start()
         {
@@ -110,6 +126,8 @@ namespace DerailedDeliveries.Framework.Train
             };
 
             _startFriction = _friction;
+            _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
+            MaxSpeed = _speedValues[SPEED_VALUES_COUNT] / _friction;
         }
 
         #region ServerRPCS
@@ -203,6 +221,10 @@ namespace DerailedDeliveries.Framework.Train
                 _brakeTimer = _brakeDuration;
                 CurrentSpeed = 0;
             }
+
+            // Adjust Cinemachine noise amplitude gain based on current speed
+            float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(CurrentSpeed) / MaxSpeed);
+            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain;
         }
 
         private void UpdateBraking()

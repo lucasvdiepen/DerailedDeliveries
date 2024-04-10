@@ -48,8 +48,9 @@ namespace DerailedDeliveries.Editor.Train
 
             EditorGUILayout.Space();
 
+            EditorGUILayout.FloatField("Engine max speed: ", trainEngine.MaxSpeed);
             EditorGUILayout.FloatField("Current engine index: ", trainEngine.CurrentSpeedIndex);
-            EditorGUILayout.FloatField("Current engine gear: ", trainEngine.CurrentEngineAcceleration);
+            EditorGUILayout.FloatField("Current engine acceleration: ", trainEngine.CurrentEngineAcceleration);
 
             EditorGUILayout.Space();
 
