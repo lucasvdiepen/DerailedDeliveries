@@ -24,6 +24,12 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _heightOffset;
 
+        [SerializeField]
+        private Transform _centerPoint;
+
+        [SerializeField]
+        private Vector3 _centerPointOffset;
+
         [Header("Wagons Config")]
         [SerializeField]
         private Transform _frontWagon;
@@ -118,7 +124,10 @@ namespace DerailedDeliveries.Framework.Train
         [ObserversRpc(RunLocally = true)]
         private void MoveTrain(float distanceAlongSpline)
         {
+            Vector3 positionSum = Vector3.zero;
             UpdateWagonPosition(_frontWagon, distanceAlongSpline);
+
+            positionSum += _frontWagon.position;
 
             int wagons = _followingWagons.Length;
             for (int i = 0; i < wagons; i++)
@@ -127,7 +136,12 @@ namespace DerailedDeliveries.Framework.Train
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * (i + 1);
                 UpdateWagonPosition(_followingWagons[i], distanceAlongSpline, offset / SplineLength);
+
+                positionSum += _followingWagons[i].position;
             }
+
+            if(_centerPoint != null)
+                _centerPoint.position = (positionSum / (_followingWagons.Length + 1)) + _centerPointOffset;
         }
 
         /// <summary>
