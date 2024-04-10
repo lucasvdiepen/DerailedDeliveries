@@ -87,5 +87,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
         }
+
+        /// <summary>
+        /// A function that returns the new location if its <see cref="Transform"/> were to match the 
+        /// given target <see cref="Transform"/>.
+        /// </summary>
+        /// <param name="target">The target transform.</param>
+        /// <returns>The new location that the Grabbable would be.</returns>
+        public virtual Vector3 GetPositionOnGround(Transform target)
+        {
+            Physics.Raycast(target.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
+
+            return hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
+        }
     }
 }

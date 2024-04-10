@@ -54,6 +54,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         public bool InteractAsServer(Interactor interactor) => Interact(interactor);
 
         [Server]
+        public Collider[] GetCollidingColliders() => Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
+
+        [Server]
         private protected virtual bool Interact(Interactor interactor)
         {
             if(!IsInteractable || IsOnCooldown)

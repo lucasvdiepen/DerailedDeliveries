@@ -29,7 +29,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         [Server]
         private protected virtual Interactable GetCollidingInteractable(Interactor interactor)
         {
-            Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
+            Collider[] colliders = GetCollidingColliders();
 
             foreach(Collider collider in colliders)
             {
