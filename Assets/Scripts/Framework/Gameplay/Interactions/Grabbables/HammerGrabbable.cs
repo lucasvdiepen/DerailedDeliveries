@@ -1,12 +1,14 @@
-using DerailedDeliveries.Framework.DamageRepairManagement;
-using DerailedDeliveries.Framework.Gameplay.Player;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.DamageRepairManagement;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
+    /// <summary>
+    /// A <see cref="UseableGrabbable"/> class that handles logic for the hammer.
+    /// </summary>
     public class HammerGrabbable : UseableGrabbable
     {
         private protected override bool CheckCollidingType(Interactable interactable)

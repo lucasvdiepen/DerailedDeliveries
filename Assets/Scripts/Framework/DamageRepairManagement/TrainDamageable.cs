@@ -1,16 +1,18 @@
-using DerailedDeliveries.Framework.Train;
 using FishNet.Object;
-using System.Collections;
 using UnityEngine;
+
+using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.DamageRepairManagement
 {
+    /// <summary>
+    /// A class responsible for handling damage when the train is moving.
+    /// </summary>
     public class TrainDamageable : Damageable
     {
         [SerializeField]
         private float _damageInterval;
 
-        [SerializeField]
         private protected float p_damageIntervalElapsed;
         private bool _isTrainMoving;
 
@@ -40,6 +42,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             TakeDamage();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartServer()
         {
             base.OnStartClient();
@@ -47,6 +52,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             TrainEngine.Instance.OnSpeedChanged += OnVelocityChanged;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStopServer()
         {
             base.OnStopClient();

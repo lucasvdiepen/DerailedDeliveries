@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 156916524191783587}
   - component: {fileID: 3938336100073716210}
   - component: {fileID: 3305058913626210986}
-  - component: {fileID: 8832820904981076586}
+  - component: {fileID: 1455103187714453272}
   m_Layer: 0
   m_Name: TestPackage
   m_TagString: Untagged
@@ -107,7 +107,7 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 156916524191783587}
   - {fileID: 3305058913626210986}
-  - {fileID: 8832820904981076586}
+  - {fileID: 0}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -226,7 +226,7 @@ MonoBehaviour:
   _maxGroundCheckDistance: 10
   _originInteractor: {fileID: 0}
   <IsBeingInteracted>k__BackingField: 0
---- !u!114 &8832820904981076586
+--- !u!114 &1455103187714453272
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,11 +235,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1555197626043509476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5d7445292c90e74b8c4762f06757e81, type: 3}
+  m_Script: {fileID: 11500000, guid: f192a1a062b74204fb36245132a11d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 2
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 6073812502090828546}
-  _networkObjectCache: {fileID: 6073812502090828546}
+  _networkObjectCache: {fileID: 0}
   _maxHealth: 10
+  _canBeBelowZero: 0
   _damageInterval: 15

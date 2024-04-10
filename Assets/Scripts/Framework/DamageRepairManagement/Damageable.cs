@@ -4,8 +4,14 @@ using UnityEngine;
 
 namespace DerailedDeliveries.Framework.DamageRepairManagement
 {
+    /// <summary>
+    /// A class responsible for handling damage.
+    /// </summary>
     public class Damageable : NetworkBehaviour
     {
+        /// <summary>
+        /// Invoked when the health is changed.
+        /// </summary>
         public Action<int> OnHealthChanged;
 
         [SerializeField]
@@ -14,19 +20,23 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         [SerializeField]
         private bool _canBeBelowZero;
 
-        [field: SerializeField]
+        /// <summary>
+        /// Whether this <see cref="Damageable"/> can take damage.
+        /// </summary>
         public bool CanTakeDamage { get; set; } = true;
+
+        /// <summary>
+        /// Gets the current health.
+        /// </summary>
+        public int Health => _health;
 
         private protected int MaxHealth => _maxHealth;
 
-        public int Health => _health;
-
-        [SerializeField]
         private int _health;
 
         private protected virtual void OnEnable() => _health = _maxHealth;
 
-        [ServerRpc(RequireOwnership = false)]
+        [Server]
         private protected virtual void TakeDamage()
         {
             if(!CanTakeDamage)
