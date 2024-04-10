@@ -224,6 +224,7 @@ namespace DerailedDeliveries.Framework.Train
             _brakeTimer = 0f;
         }
 
-        private void OnSpeedStateChange(int previousValue, int newValue, bool asServer) => OnSpeedStateChanged?.Invoke(newValue);
+        private void OnSpeedStateChange(int previousValue, int newValue, bool asServer)
+            => OnSpeedStateChanged?.Invoke(newValue);
     }
 }
