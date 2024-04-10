@@ -11,6 +11,9 @@ namespace DerailedDeliveries.Framework.Train
     /// </summary>
     public class TrainStationController : AbstractSingleton<TrainStationController>
     {
+        [SerializeField]
+        private float _minRangeToNearestStation = 100;
+
         /// <summary>
         /// Method used to dock a train to the nearest available station.
         /// </summary>
@@ -18,7 +21,8 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public bool TryDockTrainAtNearestStation()
         {
-            StationManager.Instance.g
+            Vector3 possibleStationPosition = StationManager.Instance.GetNearestStationDirector(transform.position);
+            return Vector3.Distance(possibleStationPosition, transform.position) > _minRangeToNearestStation;
         }
     }
 }
