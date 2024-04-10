@@ -13,13 +13,17 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float[] _handlePositions;
 
-        private void OnEnable() =>
+        private void OnEnable()
+        {
             TrainEngine.Instance.OnSpeedStateChanged += HandleSpeedStateChanged;
+
+            HandleSpeedStateChanged(TrainEngine.Instance.CurrentSpeedIndex);
+        }
 
         private void OnDisable() =>
             TrainEngine.Instance.OnSpeedStateChanged -= HandleSpeedStateChanged;
 
         private void HandleSpeedStateChanged(int newSpeedState) =>
-            _handle.rotation = Quaternion.Euler(0, 0, _handlePositions[newSpeedState + 3]);
+            _handle.rotation = Quaternion.Euler(0, 0, _handlePositions[newSpeedState + TrainEngine.SPEED_VALUES_COUNT]);
     }
 }

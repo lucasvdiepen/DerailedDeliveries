@@ -89,7 +89,7 @@ namespace DerailedDeliveries.Framework.Train
         public int CurrentSpeedIndex { get; private set; }
         #endregion
 
-        private const int SPEED_VALUES_COUNT = 3;
+        public const int SPEED_VALUES_COUNT = 3;
 
         private TrainController _trainController;
         private Dictionary<int, float> _speedValues;
@@ -139,8 +139,8 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void AdjustSpeed(bool increment)
         {
-            CurrentSpeedIndex += increment ? 1 : -1;
-            CurrentSpeedIndex = Mathf.Clamp(CurrentSpeedIndex, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
+            int newCurrentSpeed = CurrentSpeedIndex + (increment ? 1 : -1);
+            CurrentSpeedIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
            
             CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
             OnTrainEngineStateChanged(TrainEngineState.Active);
