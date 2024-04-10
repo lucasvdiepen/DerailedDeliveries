@@ -772,6 +772,8 @@ MonoBehaviour:
   <Spline>k__BackingField: {fileID: 0}
   _trainFrontStartTime: 0.009940413
   _heightOffset: 0.08
+  _centerPoint: {fileID: 0}
+  _centerPointOffset: {x: 0, y: 1.2, z: 0}
   _frontWagon: {fileID: 6337498490736350784}
   _wagonFollowDistance: 15.1
   _wagonSpacing: 123.6
@@ -794,6 +796,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 3192052589244940169}
   _networkObjectCache: {fileID: 3192052589244940169}
+  _virtualCamera: {fileID: 0}
   _friction: 0.25
   _standbyFriction: 0.1
   _brakeDuration: 1.5
