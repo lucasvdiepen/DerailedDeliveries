@@ -43,6 +43,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             return null;
         }
 
+        [Server]
         private protected virtual bool RunInteract(Interactable interactable) => interactable.Interact(this);
 
         private protected abstract bool CheckCollidingType(Interactable interactable);

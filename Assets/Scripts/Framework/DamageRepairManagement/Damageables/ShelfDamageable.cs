@@ -4,7 +4,14 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 {
     public class ShelfDamageable : TrainDamageable, IRepairable
     {
-        [ServerRpc(RequireOwnership = false)]
-        public void Repair() => ChangeHealth(MaxHealth);
+        [Server]
+        public bool CanBeRepaired() => Health < MaxHealth;
+
+        [Server]
+        public void Repair()
+        {
+            p_damageIntervalElapsed = 0;
+            ChangeHealth(MaxHealth);
+        }
     }
 }

@@ -10,45 +10,34 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         [SerializeField]
         private float _damageInterval;
 
-        private Coroutine _damageIntervalCoroutine;
+        [SerializeField]
+        private protected float p_damageIntervalElapsed;
+        private bool _isTrainMoving;
 
         [Server]
-        private void StartDamageInterval()
+        private void OnVelocityChanged(float velocity) => _isTrainMoving = Mathf.Abs(velocity) > 0.1f;
+
+        private void Update()
         {
-            if(_damageIntervalCoroutine != null)
+            if (!IsServer)
                 return;
 
-            _damageIntervalCoroutine = StartCoroutine(DamageIntervalLoop());
+            UpdateTimer();
         }
 
         [Server]
-        private void StopDamageInterval()
+        private void UpdateTimer()
         {
-            if(_damageIntervalCoroutine == null)
+            if (!CanTakeDamage || !_isTrainMoving)
                 return;
 
-            StopCoroutine(_damageIntervalCoroutine);
+            p_damageIntervalElapsed += Time.deltaTime;
 
-            _damageIntervalCoroutine = null;
-        }
+            if (p_damageIntervalElapsed < _damageInterval)
+                return;
 
-        [Server]
-        private IEnumerator DamageIntervalLoop()
-        {
-            while(true)
-            {
-                yield return new WaitForSeconds(_damageInterval);
-                TakeDamage();
-            }
-        }
-
-        [Server]
-        private void OnVelocityChanged(float velocity)
-        {
-            if(Mathf.Abs(velocity) > 0.1f)
-                StartDamageInterval();
-            else
-                StopDamageInterval();
+            p_damageIntervalElapsed = 0;
+            TakeDamage();
         }
 
         public override void OnStartServer()
