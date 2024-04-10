@@ -1,4 +1,5 @@
 using DerailedDeliveries.Framework.Train;
+using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
 
         private Coroutine _damageIntervalCoroutine;
 
+        [Server]
         private void StartDamageInterval()
         {
             if(_damageIntervalCoroutine != null)
@@ -19,6 +21,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             _damageIntervalCoroutine = StartCoroutine(DamageIntervalLoop());
         }
 
+        [Server]
         private void StopDamageInterval()
         {
             if(_damageIntervalCoroutine == null)
@@ -29,6 +32,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             _damageIntervalCoroutine = null;
         }
 
+        [Server]
         private IEnumerator DamageIntervalLoop()
         {
             while(true)
@@ -38,6 +42,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             }
         }
 
+        [Server]
         private void OnVelocityChanged(float velocity)
         {
             if(Mathf.Abs(velocity) > 0.1f)
@@ -56,6 +61,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         public override void OnStopServer()
         {
             base.OnStopClient();
+
+            if(TrainEngine.Instance == null)
+                return;
 
             TrainEngine.Instance.OnSpeedChanged -= OnVelocityChanged;
         }

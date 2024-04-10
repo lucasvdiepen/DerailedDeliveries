@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 2453581383931519985}
   - component: {fileID: 445436200564732836}
   - component: {fileID: 932441967983290627}
+  - component: {fileID: 2770940963184090726}
   m_Layer: 0
   m_Name: Shelf
   m_TagString: Untagged
@@ -158,8 +159,9 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 932441967983290627}
+  - {fileID: 2770940963184090726}
+  - {fileID: 8133896249021743805}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -232,6 +234,26 @@ MonoBehaviour:
   <IsInteractable>k__BackingField: 1
   _heldGrabbable: {fileID: 0}
   _grabbableAnchor: {fileID: 8133896249021743805}
+--- !u!114 &2770940963184090726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552452581804561916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3177004d29e5e14bbb40ad01e07eccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 1350685379646451756}
+  _networkObjectCache: {fileID: 1350685379646451756}
+  _maxHealth: 4
+  _canBeBelowZero: 0
+  <CanTakeDamage>k__BackingField: 1
+  _health: 0
+  _damageInterval: 15
 --- !u!1 &7734805980487313984
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 1350685379646451756}
   _networkObjectCache: {fileID: 1350685379646451756}
