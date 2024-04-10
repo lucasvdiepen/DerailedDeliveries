@@ -18,34 +18,34 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         [SerializeField]
         private float _beltSpeed = 1;
 
-        private Dictionary<Interactable, float> _interactablesOnBelt = new();
+        private Dictionary<BoxGrabbable, float> _interactablesOnBelt = new();
 
         public override bool CheckIfInteractable(Interactor interactor) => 
             base.CheckIfInteractable(interactor) && interactor.InteractingTarget != null;
         
         private protected override bool Interact(Interactor interactor) => false;
 
-        public override bool Interact(UseableGrabbable useableGrabbable)
+        public override bool Interact(UseableGrabbable target)
         {
-            if (!(useableGrabbable is BoxGrabbable boxGrabbable))
+            if (!(target is BoxGrabbable deliveryTarget))
                 return false;
 
-            Interactor originInteractor = useableGrabbable.OriginInteractor;
+            Interactor originInteractor = deliveryTarget.OriginInteractor;
             originInteractor.UpdateInteractingTarget(originInteractor.Owner, null, false);
 
-            useableGrabbable.NetworkObject.SetParent(this);
-            useableGrabbable.transform.position = _startTransform.position;
+            deliveryTarget.NetworkObject.SetParent(this);
+            deliveryTarget.transform.position = _startTransform.position;
 
-            _interactablesOnBelt.Add(useableGrabbable, 0);
+            _interactablesOnBelt.Add(deliveryTarget, 0);
 
-            Vector3 startPos = useableGrabbable.GetPositionOnGround(_startTransform);
-            Vector3 endPos = useableGrabbable.GetPositionOnGround(_endTransform);
-            StartCoroutine(LerpBoxToPosition(useableGrabbable, startPos, endPos));
+            Vector3 startPos = deliveryTarget.GetPositionOnGround(_startTransform);
+            Vector3 endPos = deliveryTarget.GetPositionOnGround(_endTransform);
+            StartCoroutine(LerpBoxToPosition(deliveryTarget, startPos, endPos));
 
             return true;
         }
 
-        private IEnumerator LerpBoxToPosition(UseableGrabbable target, Vector3 startPos, Vector3 endPos)
+        private IEnumerator LerpBoxToPosition(BoxGrabbable target, Vector3 startPos, Vector3 endPos)
         {
             while(_interactablesOnBelt.ContainsKey(target) && _interactablesOnBelt[target] < 1)
             {
