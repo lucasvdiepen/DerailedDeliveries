@@ -1,3 +1,4 @@
+using DerailedDeliveries.Framework.Train;
 using System.Collections;
 using UnityEngine;
 
@@ -24,6 +25,8 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
                 return;
 
             StopCoroutine(_damageIntervalCoroutine);
+
+            _damageIntervalCoroutine = null;
         }
 
         private IEnumerator DamageIntervalLoop()
@@ -47,14 +50,14 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         {
             base.OnStartClient();
 
-            // todo: subscribe to velocity changed event.
+            TrainEngine.Instance.OnSpeedChanged += OnVelocityChanged;
         }
 
         public override void OnStopServer()
         {
             base.OnStopClient();
 
-            // todo: unsubscribe from velocity changed event.
+            TrainEngine.Instance.OnSpeedChanged -= OnVelocityChanged;
         }
     }
 }

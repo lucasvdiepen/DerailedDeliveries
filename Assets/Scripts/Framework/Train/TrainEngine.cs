@@ -64,11 +64,21 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public Action<TrainEngineStates, TrainEngineStates> OnEngineStateChanged;
 
+        /// <summary>
+        /// Invokes when the train speed is changed.
+        /// </summary>
+        public Action<float> OnSpeedChanged;
+
+        /// <summary>
+        /// Invokes when the train velocity is changed.
+        /// </summary>
+        public Action<float> OnVelocityChanged;
+
         #region SyncVars
         /// <summary>
         /// The raw train speed used to proportionally calculate <see cref="CurrentVelocity"/>. 
         /// </summary>
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable), HideInInspector]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable, OnChange = nameof(OnSpeedChange)), HideInInspector]
         public float CurrentSpeed { get; private set; }
 
         /// <summary>
@@ -217,6 +227,12 @@ namespace DerailedDeliveries.Framework.Train
             
             _isBraking = false;
             _brakeTimer = 0f;
+        }
+
+        private void OnSpeedChange(float oldSpeed, float newSpeed, bool asServer)
+        {
+            OnSpeedChanged?.Invoke(newSpeed);
+            OnVelocityChanged?.Invoke(CurrentVelocity);
         }
     }
 }
