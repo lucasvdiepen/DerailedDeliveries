@@ -140,8 +140,11 @@ namespace DerailedDeliveries.Framework.Train
                 positionSum += _followingWagons[i].position;
             }
 
-            if(_centerPoint != null)
-                _centerPoint.position = (positionSum / (_followingWagons.Length + 1)) + _centerPointOffset;
+            if (_centerPoint == null)
+                return;
+
+            _centerPoint.rotation = _frontWagon.rotation;
+            _centerPoint.position = (positionSum / (_followingWagons.Length + 1)) + _centerPointOffset;
         }
 
         /// <summary>
