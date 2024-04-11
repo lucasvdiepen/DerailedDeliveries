@@ -621,54 +621,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b1dc99f928f2d8479c8f1f0c917d880, type: 3}
---- !u!1 &36310028
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 36310029}
-  - component: {fileID: 36310030}
-  m_Layer: 0
-  m_Name: CameraController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &36310029
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36310028}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1855778721}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &36310030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36310028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c49a5674705c8d4cb0abd5363d38e8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cinemachineVirtualCameras:
-  - {fileID: 914909507}
-  - {fileID: 9321860}
-  <TrainCamera>k__BackingField: {fileID: 914909507}
 --- !u!1001 &54337471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4715,12 +4667,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b1dc99f928f2d8479c8f1f0c917d880, type: 3}
---- !u!4 &1855778721 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4166816153331793207, guid: 2388d4516f1c42e49a9603d7badee6c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2043026373}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1886341154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5085,21 +5031,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4588599401832783999, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
-      propertyPath: <SceneId>k__BackingField
-      value: 14208474580769402061
+      propertyPath: _scenePathHash
+      value: 3308168281
       objectReference: {fileID: 0}
+    - target: {fileID: 4588599401832783999, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 14208474577261403603
+      objectReference: {fileID: 0}
+    - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <TrainCamera>k__BackingField
+      value: 
+      objectReference: {fileID: 914909507}
+    - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _cinemachineVirtualCameras.Array.data[0]
+      value: 
+      objectReference: {fileID: 914909507}
+    - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _cinemachineVirtualCameras.Array.data[1]
+      value: 
+      objectReference: {fileID: 9321860}
     - target: {fileID: 7135134361265728856, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
       propertyPath: _spawnPoint
       value: 
       objectReference: {fileID: 1919586734}
+    - target: {fileID: 8306312660675083715, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <TrainCamera>k__BackingField
+      value: 
+      objectReference: {fileID: 914909507}
+    - target: {fileID: 8306312660675083715, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _cinemachineVirtualCameras.Array.data[0]
+      value: 
+      objectReference: {fileID: 914909507}
+    - target: {fileID: 8306312660675083715, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _cinemachineVirtualCameras.Array.data[1]
+      value: 
+      objectReference: {fileID: 9321860}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4166816153331793207, guid: 2388d4516f1c42e49a9603d7badee6c2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 36310029}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2388d4516f1c42e49a9603d7badee6c2, type: 3}
 --- !u!114 &2045968917 stripped
