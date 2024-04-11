@@ -12,6 +12,9 @@ namespace DerailedDeliveries.Framework.Networking
         [SerializeField]
         private MonoBehaviour[] _components;
 
+        [SerializeField]
+        private bool _shouldIgnoreOnServer;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -44,7 +47,7 @@ namespace DerailedDeliveries.Framework.Networking
 
         private void DestroyAll()
         {
-            if (Owner.IsLocalClient)
+            if (_shouldIgnoreOnServer || Owner.IsLocalClient)
                 return;
 
             foreach (MonoBehaviour component in _components)

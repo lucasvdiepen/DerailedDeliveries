@@ -1,43 +1,50 @@
 using FishNet.Object.Synchronizing;
+using FishNet.Connection;
 using System.Collections;
 using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.InputParser;
-using DerailedDeliveries.Framework.TriggerArea;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
     /// <summary>
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
-    [RequireComponent(typeof(CapsuleCollider))]
-    public class Interactor : NetworkTriggerArea<Interactable>
+    [RequireComponent(typeof(PlayerInputParser), typeof(SphereCollider))]
+    public class Interactor : NetworkBehaviour
     {
         /// <summary>
-        /// Returns the GrabbingAnchor Transform of this Interactor.
+        /// Returns the GrabbingAnchor <see cref="Transform"/> of this <see cref="Interactor"/>.
         /// </summary>
-        public Transform GrabbingAnchor => _grabbingAnchor;
+        public NetworkBehaviour GrabbingAnchor => _grabbingAnchor;
+
+        /// <summary>
+        /// A getter that returns the <see cref="Interactor"/>'s InteractingTarget.
+        /// </summary>
+        public Interactable InteractingTarget => _interactingTarget;
 
         [SerializeField]
         private Interactable _interactingTarget;
 
         [SerializeField]
-        private Transform _grabbingAnchor;
+        private NetworkBehaviour _grabbingAnchor;
 
         [SerializeField]
         private float _cooldown = .2f;
 
-
-        [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        private bool _isInteracting;
-
+        private SphereCollider _collider;
         private PlayerInputParser _inputParser;
+        private bool _isInteracting;
         private bool _isOnCooldown;
 
+        private void Awake()
+        {
+            _inputParser = GetComponent<PlayerInputParser>();
 
-        private void Awake() => _inputParser = gameObject.GetComponent<PlayerInputParser>();
+            _collider = GetComponent<SphereCollider>();
+        }
 
         private void OnEnable() => _inputParser.OnInteract += UseInteractable;
 
@@ -45,41 +52,43 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UseInteractable()
         {
-            Interactable[] interactables = ComponentsInCollider;
+            Vector3 directionVector = (transform.rotation * _collider.center) + transform.position;
+
+            Collider[] interactables = Physics.OverlapSphere(directionVector, _collider.radius);
 
             if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
 
             StartCoroutine(ActivateCooldown());
 
-            if (_isInteracting)
+            if (_isInteracting && _interactingTarget != null)
             {
                 _interactingTarget.InteractOnServer(this);
                 return;
             }
 
-            _interactingTarget = null;
-
-            foreach(Interactable interactable in interactables)
+            foreach(Collider colliding in interactables)
             {
-                if (interactable.CheckIfInteractable())
-                {
-                    _interactingTarget = interactable;
-                    break;
-                }
-            }
+                if (!colliding.TryGetComponent(out Interactable interactable))
+                    continue;
 
-            if(_interactingTarget != null)
-                _interactingTarget.InteractOnServer(this);
+                if (!interactable.CheckIfInteractable(this))
+                    continue;
+
+                interactable.InteractOnServer(this);
+                break;
+            }
         }
 
         /// <summary>
-        /// A function that sets the InteractingTarget of this Interactor server sided.
+        /// A function that sends an RPC to the owning client of this <see cref="Interactor"/> that needs this 
+        /// information.
         /// </summary>
-        /// <param name="interactable">The current interacting target. If the interactor already had this
-        /// reference set it will reset it.</param>
-        [Server]
-        public void UpdateInteractingTarget(Interactable interactable, bool isInteracting)
+        /// <param name="connection">The connection to target the RPC to.</param>
+        /// <param name="interactable">The new <see cref="Interactable"/> Target.</param>
+        /// <param name="isInteracting">The new Interacting bool status.</param>
+        [TargetRpc(RunLocally = true)]
+        public void UpdateInteractingTarget(NetworkConnection connection, Interactable interactable, bool isInteracting)
         {
             _interactingTarget = interactable;
             _isInteracting = isInteracting;
