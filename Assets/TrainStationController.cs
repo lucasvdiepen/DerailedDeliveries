@@ -21,8 +21,6 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void TryDockTrainAtNearestStation()
         {
-            Vector3 possibleStationPosition = StationManager.Instance.GetNearestStationDirector(transform.position);
-            //return Vector3.Distance(possibleStationPosition, transform.position) > _minRangeToNearestStation;
         }
     }
 }
