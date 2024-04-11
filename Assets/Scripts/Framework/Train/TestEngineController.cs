@@ -10,9 +10,6 @@ namespace DerailedDeliveries.Framework.Train
     /// </summary>
     public class TestEngineController : NetworkBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera CinemachineVirtualCamera;
-        [SerializeField] private Animator animator;
-
         private void Update()
         {
             if (Keyboard.current.backspaceKey.wasPressedThisFrame) TrainEngine.Instance.ToggleTrainDirection();
@@ -20,12 +17,6 @@ namespace DerailedDeliveries.Framework.Train
 
             if (Keyboard.current.equalsKey.wasPressedThisFrame) TrainEngine.Instance.AdjustSpeed(true);
             if (Keyboard.current.minusKey.wasPressedThisFrame) TrainEngine.Instance.AdjustSpeed(false);
-
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                CameraController.Instance.ChangeActiveCamera(CinemachineVirtualCamera);
-                animator.SetTrigger("Enter");
-            }
         }
     }
 }

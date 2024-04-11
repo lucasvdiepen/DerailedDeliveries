@@ -24,8 +24,8 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _heightOffset;
 
-        [SerializeField]
-        private Transform _centerPoint;
+        [field: SerializeField]
+        public Transform CenterPoint { get; private set; }
 
         [SerializeField]
         private Vector3 _centerPointOffset;
@@ -140,11 +140,11 @@ namespace DerailedDeliveries.Framework.Train
                 positionSum += _followingWagons[i].position;
             }
 
-            if (_centerPoint == null)
+            if (CenterPoint == null)
                 return;
 
-            _centerPoint.rotation = _frontWagon.rotation;
-            _centerPoint.position = (positionSum / (_followingWagons.Length + 1)) + _centerPointOffset;
+            CenterPoint.rotation = _frontWagon.rotation;
+            CenterPoint.position = (positionSum / (_followingWagons.Length + 1)) + _centerPointOffset;
         }
 
         /// <summary>
