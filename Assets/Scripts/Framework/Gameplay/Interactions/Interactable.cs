@@ -21,6 +21,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// <summary>
         /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
         /// </summary>
+        [field: SerializeField]
         public BoxCollider BoxCollider { get; private set; }
 
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]

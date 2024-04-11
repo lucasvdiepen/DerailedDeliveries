@@ -16,5 +16,9 @@ MonoBehaviour:
   - StationLevelData:
     - RandomizeSpawns: 0
       StationID: 0
-      MinDeliverablePackages: 0
-      TotalPackages: 0
+      MinDeliverablePackages: 12
+      MaxPackagesAmount: 18
+    - RandomizeSpawns: 0
+      StationID: 1
+      MinDeliverablePackages: 12
+      MaxPackagesAmount: 18

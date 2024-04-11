@@ -3,6 +3,7 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
 using System.Reflection.Emit;
+using TMPro;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -20,13 +21,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         [SerializeField]
         private int _deliveryQuality = 10;
 
+        [SerializeField]
+        private TextMeshProUGUI[] _textDisplays;
+
         /// <summary>
         /// A getter to get the Package's quality.
         /// </summary>
         public int PackageQuality => _deliveryQuality;
 
         /// <summary>
-        /// 
+        /// A getter that is used to return the package's ID.
         /// </summary>
         public int PackageID => _packageID;
 
@@ -39,6 +43,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         {
             _packageLabel = label;
             _packageID = id;
+            _deliveryQuality = 10;
+
+            for(int i = 0; i < _textDisplays.Length; i++)
+                _textDisplays[i].text = _packageLabel;
         }
 
         private protected override Interactable GetCollidingInteractable(Interactor interactor)

@@ -34,24 +34,48 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
-        [ContextMenu("Gather TrainStation's in scene")]
-        private void GatherAllStationsInScene() => _allStations = FindObjectsOfType<TrainStation>();
-
         public void SelectLevelToLoad(int index)
         {
+            Dictionary<int, string> labelsAndIDs = new();
+
             StationLevelData[] levelData = _levels.levels[index].StationLevelData;
+            System.Random random = new System.Random();
 
             for(int i = 0; i < levelData.Length; i++)
             {
-                StationLevelData stationData = levelData[i];
-                TrainStation targetStation = _allStations[stationData.StationID];
-                List<Transform> spawns = targetStation.SpawnTransforms.ToList();
-
+                TrainStation targetStation = _allStations[levelData[i].StationID];
                 string label = "";
 
-                targetStation.AssignStationID(label, i);
+                while(label == "" || labelsAndIDs.ContainsValue(label))
+                {
+                    label 
+                        = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString() 
+                        + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
+                }
 
-                System.Random random = new System.Random();
+                targetStation.UpdateLabelAndReturnID(label);
+                labelsAndIDs.Add(targetStation.StationID, label);
+            }
+
+            for(int i = 0; i < levelData.Length; i++)
+            {
+                string stationLabel = labelsAndIDs[levelData[i].StationID];
+            }
+
+            // TO DO: Per station ... hoeveelheid packets worden gegenerate op een gehusselde lijst aan available stations die al geweeest zijn
+            // De hoeveelheid packets die nog moeten gegenerate worden:
+            // 15 / 1 chance to generate met random int decide
+            // if random.Next(1, 15) == 1, int-- en 15--.
+
+
+
+
+            for (int i = 0; i < levelData.Length - 1; i++)
+            {
+                StationLevelData stationData = levelData[i];
+                int stationID = levelData[i].StationID;
+                List<Transform> spawns = _allStations[stationID].SpawnTransforms.ToList();
+                spawns.Shuffle();
 
                 int maxSpawns = stationData.MaxPackagesAmount <= spawns.Count 
                     ? stationData.MaxPackagesAmount 
@@ -61,11 +85,17 @@ namespace DerailedDeliveries.Framework.Gameplay
                     ? random.Next(0, maxSpawns)
                     : stationData.MinDeliverablePackages;
 
-                for(int j = 0; j < amountOfSpawns; i++)
+                for(int j = 0; j < amountOfSpawns; j++)
                 {
                     GameObject spawnedPackage = Instantiate(_packagePrefab);
 
-                    spawnedPackage.GetComponent<BoxGrabbable>().UpdateLabelAndID(label, i);
+                    if (!spawnedPackage.TryGetComponent(out BoxGrabbable boxGrabbable))
+                        return;
+
+                    boxGrabbable.transform.position = spawns[j].transform.position;
+                    boxGrabbable.transform.rotation = spawns[j].transform.rotation;
+                    boxGrabbable.UpdateLabelAndID(_allStations[stationID + 1].StationLabel, stationID + 1);
+                    boxGrabbable.PlaceOnGround();
                 }
             }
         }

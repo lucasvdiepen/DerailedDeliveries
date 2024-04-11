@@ -24,14 +24,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         public int StationID => _stationID;
 
         /// <summary>
+        /// A getter that returns this Station's Label.
+        /// </summary>
+        public string StationLabel => _stationLabel;
+
+        /// <summary>
         /// A getter that returns the SpawnTransforms of this station.
         /// </summary>
         public Transform[] SpawnTransforms => _spawnTransforms;
 
-        public void AssignStationID(string label, int id)
+        public int UpdateLabelAndReturnID(string label)
         {
-            _stationID = id;
             _stationLabel = label;
+            return _stationID;
         }
     }
 }
