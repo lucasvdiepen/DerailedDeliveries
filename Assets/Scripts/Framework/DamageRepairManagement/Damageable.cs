@@ -18,7 +18,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         private int _maxHealth;
 
         [SerializeField]
-        private bool _canBeBelowZero;
+        private bool _canHaveNegativeHealth;
 
         /// <summary>
         /// Whether this <see cref="Damageable"/> can take damage.
@@ -55,7 +55,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             if(!CanTakeDamage)
                 return;
 
-            if (_health <= 0 && !_canBeBelowZero)
+            if (_health <= 0 && !_canHaveNegativeHealth)
                 return;
 
             ChangeHealth(_health - 1);

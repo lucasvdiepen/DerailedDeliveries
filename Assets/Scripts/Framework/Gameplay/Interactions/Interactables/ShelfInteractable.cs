@@ -111,8 +111,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             _heldGrabbableDamageable.CanTakeDamage = health <= 0;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public void Repair() => _shelfDamageable.Repair();
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <returns><inheritdoc/></returns>
         public bool CanBeRepaired() => _shelfDamageable.CanBeRepaired();
     }
 }
