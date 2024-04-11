@@ -3,6 +3,7 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.DamageRepairManagement;
+using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -12,7 +13,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     public class HammerGrabbable : UseableGrabbable
     {
         private protected override bool CheckCollidingType(Interactable interactable)
-            => interactable.GetComponent<IRepairable>() != null;
+            => interactable is IRepairable || interactable is ShelfInteractable;
 
         [Server]
         private protected override Interactable GetCollidingInteractable(Interactor interactor)
@@ -27,14 +28,25 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 if (!CheckCollidingType(interactable))
                     continue;
 
-                IRepairable[] repairables = interactable.GetComponents<IRepairable>();
-                foreach(IRepairable repairable in repairables)
-                {
-                    if (!repairable.CanBeRepaired())
-                        continue;
+                IRepairable repairable = (IRepairable)interactable;
+                if(!repairable.CanBeRepaired())
+                    continue;
 
-                    return interactable;
-                }
+                return interactable;
+            }
+
+            foreach(Collider collider in colliders)
+            {
+                if(!collider.TryGetComponent(out Interactable interactable))
+                    continue;
+
+                if(!CheckCollidingType(interactable))
+                    continue;
+
+                if(!interactable.CheckIfInteractable(interactor))
+                    continue;
+
+                return interactable;
             }
 
             return null;
@@ -43,17 +55,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         [Server]
         private protected override bool RunInteract(Interactable interactable)
         {
-            IRepairable[] repairables = interactable.GetComponents<IRepairable>();
-
-            foreach (IRepairable repairable in repairables)
+            IRepairable repairable = (IRepairable)interactable;
+            if(repairable.CanBeRepaired())
             {
-                if(!repairable.CanBeRepaired())
-                    continue;
-
                 repairable.Repair();
+                return true;
             }
 
-            return true;
+            return base.RunInteract(interactable);
         }
     }
 }

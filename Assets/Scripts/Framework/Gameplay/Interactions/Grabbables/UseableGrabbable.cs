@@ -36,8 +36,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 if(!collider.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if(CheckCollidingType(interactable) && interactable.CheckIfInteractable(interactor))
-                    return interactable;
+                if(!CheckCollidingType(interactable))
+                    continue;
+
+                if(!interactable.CheckIfInteractable(interactor))
+                    continue;
+
+                return interactable;
             }
 
             return null;

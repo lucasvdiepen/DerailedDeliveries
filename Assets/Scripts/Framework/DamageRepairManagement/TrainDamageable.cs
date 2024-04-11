@@ -45,6 +45,17 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        [Server]
+        public override void Repair()
+        {
+            base.Repair();
+
+            p_damageIntervalElapsed = 0;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartServer()
         {
             base.OnStartClient();

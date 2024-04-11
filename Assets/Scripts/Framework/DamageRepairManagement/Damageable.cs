@@ -36,6 +36,19 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
 
         private protected virtual void OnEnable() => _health = _maxHealth;
 
+        /// <summary>
+        /// Checks if the object can be repaired.
+        /// </summary>
+        /// <returns>True if the object can be repaired, otherwise false.</returns>
+        [Server]
+        public virtual bool CanBeRepaired() => Health < MaxHealth;
+
+        /// <summary>
+        /// Repairs the object.
+        /// </summary>
+        [Server]
+        public virtual void Repair() => ChangeHealth(MaxHealth);
+
         [Server]
         private protected virtual void TakeDamage()
         {

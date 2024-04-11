@@ -12,8 +12,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
     /// <summary>
     /// A <see cref="Interactable"/> class that handles logic for the Shelf interactable.
     /// </summary>
-    [RequireComponent(typeof(ShelfDamageable))]
-    public class ShelfInteractable : Interactable
+    [RequireComponent(typeof(Damageable))]
+    public class ShelfInteractable : Interactable, IRepairable
     {
         [SerializeField, SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private UseableGrabbable _heldGrabbable;
@@ -27,14 +27,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         public UseableGrabbable HeldGrabbable => _heldGrabbable;
 
-        private ShelfDamageable _shelfDamageable;
+        private Damageable _shelfDamageable;
         private Damageable _heldGrabbableDamageable;
 
         private protected override void Awake()
         {
             base.Awake();
 
-            _shelfDamageable = GetComponent<ShelfDamageable>();
+            _shelfDamageable = GetComponent<Damageable>();
         }
 
         /// <summary>
@@ -90,7 +90,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
                 return false;
 
             _shelfDamageable.OnHealthChanged -= OnHealthChanged;
-            _heldGrabbableDamageable.CanTakeDamage = true;
+            if(_heldGrabbableDamageable != null)
+                _heldGrabbableDamageable.CanTakeDamage = true;
 
             _heldGrabbable.UpdateInteractionStatus(null, false);
 
@@ -104,7 +105,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         [Server]
         private void OnHealthChanged(int health)
         {
+            if(_heldGrabbableDamageable == null)
+                return;
+
             _heldGrabbableDamageable.CanTakeDamage = health <= 0;
         }
+
+        public void Repair() => _shelfDamageable.Repair();
+
+        public bool CanBeRepaired() => _shelfDamageable.CanBeRepaired();
     }
 }
