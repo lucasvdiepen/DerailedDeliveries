@@ -4,9 +4,14 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Gameplay.Level;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
+    /// <summary>
+    /// A class that is responsible for handling the delivery of <see cref="BoxGrabbable"/>'s.
+    /// On succesfull delivery gets tracked by the <see cref="LevelTracker"/>.
+    /// </summary>
     public class DeliveryBelt : Interactable
     {
         [SerializeField]
@@ -17,6 +22,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 
         [SerializeField]
         private float _beltSpeed = 1;
+
+        [SerializeField]
+        private TrainStation _parentStation;
 
         private Dictionary<BoxGrabbable, float> _interactablesOnBelt = new();
 
@@ -41,7 +49,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             Vector3 startPos = deliveryTarget.GetPositionOnGround(_startTransform);
             Vector3 endPos = deliveryTarget.GetPositionOnGround(_endTransform);
             StartCoroutine(LerpBoxToPosition(deliveryTarget, startPos, endPos));
-
+            
             return true;
         }
 
@@ -60,11 +68,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             }
 
             _interactablesOnBelt.Remove(target);
-            Destroy(target.gameObject);
-
-            // TO DO: Performance tracker broadcast + performance tracker schrijven
-
+            CompleteDelivery(target);
             yield return null;
         }
+
+        private void CompleteDelivery(BoxGrabbable delivery) =>
+            LevelTracker.Instance.HandlePackageDelivery(delivery, _parentStation.StationID);
     }
 }

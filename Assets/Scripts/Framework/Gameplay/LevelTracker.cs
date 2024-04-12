@@ -1,19 +1,25 @@
+using System.Collections.Generic;
+using GameKit.Utilities;
 using UnityEngine;
 using System;
+
 
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
-using System.Collections.Generic;
-using GameKit.Utilities;
-using System.Linq;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
+    /// <summary>
+    /// A class that generates the objectives and tracks the Level's progress.
+    /// </summary>
     public class LevelTracker : AbstractSingleton<LevelTracker>
     {
         [SerializeField]
         private Levels _levels;
+
+        [SerializeField]
+        private int _succesfullDeliveryBonus = 5;
 
         [SerializeField]
         private int _totalScore;
@@ -34,77 +40,119 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
+        [ContextMenu("Test Package Generation")]
+        private void TestGeneration() => SelectLevelToLoad(0);
+
+        /// <summary>
+        /// A function that is used to load a new level.
+        /// </summary>
+        /// <param name="index">The level ID.</param>
         public void SelectLevelToLoad(int index)
         {
-            Dictionary<int, string> labelsAndIDs = new();
+            _currentScore = 0;
 
+            List<string> labels = new();
             StationLevelData[] levelData = _levels.levels[index].StationLevelData;
             System.Random random = new System.Random();
 
             for(int i = 0; i < levelData.Length; i++)
             {
-                TrainStation targetStation = _allStations[levelData[i].StationID];
+                TrainStation targetStation = _allStations[i];
                 string label = "";
 
-                while(label == "" || labelsAndIDs.ContainsValue(label))
+                while(label == "" || labels.Contains(label))
                 {
                     label 
                         = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString() 
                         + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
                 }
 
-                targetStation.UpdateLabelAndReturnID(label);
-                labelsAndIDs.Add(targetStation.StationID, label);
+                labels.Add(label);
+                targetStation.UpdateLabelAndID(label, i);
             }
 
-            for(int i = 0; i < levelData.Length; i++)
+            List<Transform> usedSpawns = new();
+
+            for(int i = levelData.Length - 1; i >= 0; i--)
             {
-                string stationLabel = labelsAndIDs[levelData[i].StationID];
-            }
+                List<Transform> availableSpawns = new();
+                int amountToSpawn = levelData[i].MinDeliverablePackages;
 
-            // TO DO: Per station ... hoeveelheid packets worden gegenerate op een gehusselde lijst aan available stations die al geweeest zijn
-            // De hoeveelheid packets die nog moeten gegenerate worden:
-            // 15 / 1 chance to generate met random int decide
-            // if random.Next(1, 15) == 1, int-- en 15--.
+                for (int j = i - 1; j >= 0; j--)
+                    for (int k = 0; k < _allStations[j].SpawnTransforms.Length; k++)
+                        if (!usedSpawns.Contains(_allStations[j].SpawnTransforms[k]))
+                            availableSpawns.Add(_allStations[j].SpawnTransforms[k]);
 
-
-
-
-            for (int i = 0; i < levelData.Length - 1; i++)
-            {
-                StationLevelData stationData = levelData[i];
-                int stationID = levelData[i].StationID;
-                List<Transform> spawns = _allStations[stationID].SpawnTransforms.ToList();
-                spawns.Shuffle();
-
-                int maxSpawns = stationData.MaxPackagesAmount <= spawns.Count 
-                    ? stationData.MaxPackagesAmount 
-                    : spawns.Count;
-
-                int amountOfSpawns = stationData.RandomizeSpawns
-                    ? random.Next(0, maxSpawns)
-                    : stationData.MinDeliverablePackages;
-
-                for(int j = 0; j < amountOfSpawns; j++)
+                while(amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
-                    GameObject spawnedPackage = Instantiate(_packagePrefab);
+                    availableSpawns.Shuffle();
+                    Transform targetSpawn = availableSpawns[0];
 
-                    if (!spawnedPackage.TryGetComponent(out BoxGrabbable boxGrabbable))
-                        return;
+                    if (usedSpawns.Contains(targetSpawn))
+                        continue;
 
-                    boxGrabbable.transform.position = spawns[j].transform.position;
-                    boxGrabbable.transform.rotation = spawns[j].transform.rotation;
-                    boxGrabbable.UpdateLabelAndID(_allStations[stationID + 1].StationLabel, stationID + 1);
+                    GameObject newPackage = Instantiate(_packagePrefab);
+                    BoxGrabbable boxGrabbable = newPackage.GetComponent<BoxGrabbable>();
+
+                    newPackage.transform.position = targetSpawn.position;
+                    newPackage.transform.rotation = targetSpawn.rotation;
+
+                    amountToSpawn--;
+                    usedSpawns.Add(targetSpawn);
+                    availableSpawns.Remove(targetSpawn);
+
+                    _totalScore += _succesfullDeliveryBonus + boxGrabbable.DeliveryQuality;
+
+                    boxGrabbable.UpdateLabelAndID(labels[i], i);
                     boxGrabbable.PlaceOnGround();
                 }
             }
+
+            List<Transform> freeSpawns = new();
+
+            for (int i = 0; i < _allStations.Length; i++)
+                for (int j = 0; j < _allStations[i].SpawnTransforms.Length; j++)
+                    if (!usedSpawns.Contains(_allStations[i].SpawnTransforms[j]))
+                        freeSpawns.Add(_allStations[i].SpawnTransforms[j]);
+
+            int fakeDeliverySpawns = random.Next(0, freeSpawns.Count);
+            freeSpawns.Shuffle();
+
+            for (int i = 0; i < fakeDeliverySpawns; i++)
+            {
+                string label = "";
+                while (label == "" || labels.Contains(label))
+                {
+                    label
+                        = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString()
+                        + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
+                }
+
+                GameObject newFakeDelivery = Instantiate(_packagePrefab);
+                BoxGrabbable boxGrabbable = newFakeDelivery.GetComponent<BoxGrabbable>();
+
+                newFakeDelivery.transform.position = freeSpawns[i].position;
+                newFakeDelivery.transform.rotation = freeSpawns[i].rotation;
+
+                boxGrabbable.PlaceOnGround();
+                boxGrabbable.UpdateLabelAndID(label, -1);
+            }
         }
 
-        public void HandlePackageDelivery(BoxGrabbable delivery)
+        /// <summary>
+        /// A function that handles the delivery of a package.
+        /// </summary>
+        /// <param name="delivery">The package that was delivered.</param>
+        /// <param name="stationID">The ID of the station it was delivered to.</param>
+        public void HandlePackageDelivery(BoxGrabbable delivery, int stationID)
         {
-            _currentScore += delivery.PackageQuality;
+            if (delivery.PackageID == stationID)
+                _currentScore += _succesfullDeliveryBonus + delivery.DeliveryQuality;
+            else
+                _currentScore -= _succesfullDeliveryBonus;
 
             OnPackageDelivered?.Invoke(delivery.PackageID);
+            Destroy(delivery.gameObject);
         }
     }
 }

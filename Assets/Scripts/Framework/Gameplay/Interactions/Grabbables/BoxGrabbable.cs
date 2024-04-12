@@ -27,7 +27,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <summary>
         /// A getter to get the Package's quality.
         /// </summary>
-        public int PackageQuality => _deliveryQuality;
+        public int DeliveryQuality => _deliveryQuality;
 
         /// <summary>
         /// A getter that is used to return the package's ID.

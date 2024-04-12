@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
@@ -33,10 +34,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         /// </summary>
         public Transform[] SpawnTransforms => _spawnTransforms;
 
-        public int UpdateLabelAndReturnID(string label)
+        /// <summary>
+        /// Updates the stations Label and ID.
+        /// </summary>
+        /// <param name="label">The new label to assign.</param>
+        /// <param name="id">The new ID to assign.</param>
+        public void UpdateLabelAndID(string label, int id)
         {
             _stationLabel = label;
-            return _stationID;
+            _stationID = id;
         }
     }
 }
