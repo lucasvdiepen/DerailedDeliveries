@@ -1,3 +1,4 @@
+using FishNet.Object;
 using UnityEngine;
 
 namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
@@ -12,6 +13,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 
         private int _amountInTrain;
 
+        [Server]
         private protected override void UpdateTimer()
         {
             if(_amountInTrain == 0)
@@ -20,6 +22,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
             base.UpdateTimer();
         }
 
+        [Server]
         private protected override void TakeDamage()
         {
             if(_amountInTrain == 0)
