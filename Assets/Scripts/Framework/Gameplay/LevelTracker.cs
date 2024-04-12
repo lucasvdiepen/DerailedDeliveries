@@ -7,6 +7,7 @@ using System;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -101,7 +102,7 @@ namespace DerailedDeliveries.Framework.Gameplay
                     usedSpawns.Add(targetSpawn);
                     availableSpawns.Remove(targetSpawn);
 
-                    _totalScore += _succesfullDeliveryBonus + boxGrabbable.DeliveryQuality;
+                    _totalScore += _succesfullDeliveryBonus + boxGrabbable.GetComponent<BoxDamageable>().Health;
 
                     boxGrabbable.UpdateLabelAndID(labels[i], i);
                     boxGrabbable.PlaceOnGround();
@@ -147,7 +148,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         public void HandlePackageDelivery(BoxGrabbable delivery, int stationID)
         {
             if (delivery.PackageID == stationID)
-                _currentScore += _succesfullDeliveryBonus + delivery.DeliveryQuality;
+                _currentScore += _succesfullDeliveryBonus + delivery.GetComponent<BoxDamageable>().Health;
             else
                 _currentScore -= _succesfullDeliveryBonus;
 

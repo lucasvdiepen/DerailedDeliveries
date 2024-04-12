@@ -45,8 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levels: {fileID: 11400000, guid: 4df3baa351747d1448d5bb13d02d5ed4, type: 2}
+  _succesfullDeliveryBonus: 5
   _totalScore: 0
   _currentScore: 0
   _packagePrefab: {fileID: 1555197626043509476, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
     type: 3}
-  _allStations: []
+  _allStations:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

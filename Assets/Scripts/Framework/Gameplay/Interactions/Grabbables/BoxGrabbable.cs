@@ -1,6 +1,8 @@
-using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
-using System.Reflection.Emit;
+using UnityEngine;
 using TMPro;
+
+using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
+using DerailedDeliveries.Framework.Gameplay.Player;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -16,15 +18,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         private string _packageLabel;
 
         [SerializeField]
-        private int _deliveryQuality = 10;
-
-        [SerializeField]
         private TextMeshProUGUI[] _textDisplays;
-
-        /// <summary>
-        /// A getter to get the Package's quality.
-        /// </summary>
-        public int DeliveryQuality => _deliveryQuality;
 
         /// <summary>
         /// A getter that is used to return the package's ID.
@@ -40,7 +34,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         {
             _packageLabel = label;
             _packageID = id;
-            _deliveryQuality = 10;
 
             for(int i = 0; i < _textDisplays.Length; i++)
                 _textDisplays[i].text = _packageLabel;

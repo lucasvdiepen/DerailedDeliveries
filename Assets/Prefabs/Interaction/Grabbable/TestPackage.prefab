@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 156916524191783587}
   - component: {fileID: 3938336100073716210}
   - component: {fileID: 3305058913626210986}
+  - component: {fileID: 8014447142163542073}
   m_Layer: 0
   m_Name: TestPackage
   m_TagString: Untagged
@@ -339,6 +340,27 @@ MonoBehaviour:
   - {fileID: 7549018812455267900}
   - {fileID: 3817186670490259703}
   - {fileID: 4882277460817444130}
+--- !u!114 &8014447142163542073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555197626043509476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f192a1a062b74204fb36245132a11d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6073812502090828546}
+  _networkObjectCache: {fileID: 0}
+  _maxHealth: 10
+  _canHaveNegativeHealth: 0
+  _damageInterval: 15
+  _trainLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &6778020772806241344
 GameObject:
   m_ObjectHideFlags: 0
