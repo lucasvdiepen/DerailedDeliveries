@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using DerailedDeliveries.Framework.Utils;
-using DerailedDeliveries.Framework.CameraController;
+using DerailedDeliveries.Framework.Camera;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -17,7 +17,7 @@ namespace DerailedDeliveries.Framework.Train
         private float _minRangeToNearestStation = 25;
 
         private TrainController _trainController;
-
+       
         private void Awake()
         {
             _trainController = GetComponent<TrainController>();
@@ -29,11 +29,23 @@ namespace DerailedDeliveries.Framework.Train
                 return;
 
             if (Keyboard.current.spaceKey.wasPressedThisFrame)
-                OnVelocityChanged();
+                TryParkTrain();
         }
 
-        private void OnVelocityChanged()
+        private bool CanParkTrain()
         {
+            return TrainEngine.Instance.CurrentSpeedIndex == 0 
+                && Mathf.Abs(TrainEngine.Instance.CurrentVelocity) < .1f;
+        }
+
+        private void TryParkTrain()
+        {
+            if (!CanParkTrain())
+            {
+                print("Park denied");
+                return;
+            }
+
             CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
             CinemachineVirtualCamera nearestCamera = CameraManager.Instance.GetNearestCamera(_trainController.CenterPoint.transform.position, out float distance, trainCamera);
 
@@ -41,6 +53,7 @@ namespace DerailedDeliveries.Framework.Train
                 return;
 
             _trainController.TrainEngine.ToggleEngineState();
+
             CameraManager.Instance.ChangeActiveCamera(nearestCamera);
             Animator anim = nearestCamera.transform.parent.GetComponent<Animator>();
 

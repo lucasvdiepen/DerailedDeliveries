@@ -6,6 +6,7 @@ using Cinemachine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Camera;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -105,8 +106,6 @@ namespace DerailedDeliveries.Framework.Train
 
         private Dictionary<int, float> _speedValues;
 
-        private const int SPEED_VALUES_COUNT = 3;
-        
         private float _brakeTimer;
         private float _startFriction;
         private float _startCameraNoiseAmplitude;
@@ -117,6 +116,8 @@ namespace DerailedDeliveries.Framework.Train
         {
             _multiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             _trainController = GetComponent<TrainController>();
+
+            CameraManager.Instance.TrainCamera = _virtualCamera;
         }
 
         private void Start()

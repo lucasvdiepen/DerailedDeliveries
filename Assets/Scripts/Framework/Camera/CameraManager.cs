@@ -3,7 +3,7 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Utils;
 
-namespace DerailedDeliveries.Framework.CameraController
+namespace DerailedDeliveries.Framework.Camera
 {
     /// <summary>
     /// Class responsible for controlling and switching between virtual cameras.
@@ -11,10 +11,9 @@ namespace DerailedDeliveries.Framework.CameraController
     public class CameraManager : AbstractSingleton<CameraManager>
     {
         [SerializeField]
-        private CinemachineVirtualCamera[] _cinemachineVirtualCameras;
+        private CinemachineVirtualCamera[] _stationCameras;
 
-        [field: SerializeField]
-        public CinemachineVirtualCamera TrainCamera { get; private set; }
+        public CinemachineVirtualCamera TrainCamera { get; set; }
 
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.
@@ -26,7 +25,7 @@ namespace DerailedDeliveries.Framework.CameraController
             CinemachineVirtualCamera bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
 
-            foreach (CinemachineVirtualCamera virtualCamera in _cinemachineVirtualCameras)
+            foreach (CinemachineVirtualCamera virtualCamera in _stationCameras)
             {
                 Vector3 directionToTarget = virtualCamera.transform.position - originPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
@@ -62,11 +61,11 @@ namespace DerailedDeliveries.Framework.CameraController
         /// <param name="targetCamera"></param>
         public void ChangeActiveCamera(CinemachineVirtualCamera targetCamera)
         {
-            int cameras = _cinemachineVirtualCameras.Length;
+            int cameras = _stationCameras.Length;
 
             for (int i = 0; i < cameras; i++)
             {
-                _cinemachineVirtualCameras[i].Priority = 0;
+                _stationCameras[i].Priority = 0;
             }
 
             targetCamera.Priority = 1;
