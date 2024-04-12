@@ -140,11 +140,6 @@ namespace DerailedDeliveries.Framework.Train
             }
         }
 
-        private void Update()
-        {
-            CameraManager.Instance.CinemachineBrain.ManualUpdate();
-        }
-
         /// <summary>
         /// Internally used to check for upcomming rail splits and switching tracks.
         /// </summary>
