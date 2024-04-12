@@ -46,7 +46,7 @@ namespace DerailedDeliveries.Framework.Train
                 return;
             }
 
-            CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
+            /*CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
             CinemachineVirtualCamera nearestCamera = CameraManager.Instance.GetNearestCamera(_trainController.CenterPoint.transform.position, out float distance, trainCamera);
 
             if (distance > _minRangeToNearestStation)
@@ -57,7 +57,7 @@ namespace DerailedDeliveries.Framework.Train
             CameraManager.Instance.ChangeActiveCamera(nearestCamera);
             Animator anim = nearestCamera.transform.parent.GetComponent<Animator>();
 
-            anim.SetTrigger("Enter");
+            anim.SetTrigger("Enter");*/
         }
     }
 }

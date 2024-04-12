@@ -16,9 +16,6 @@ namespace DerailedDeliveries.Framework.Train
     [RequireComponent(typeof(TrainController))]
     public class TrainEngine : NetworkAbstractSingleton<TrainEngine>
     {
-        [SerializeField]
-        private CinemachineVirtualCamera _virtualCamera;
-
         [Header("Engine config")]
         [Tooltip("Friction value used as an opposing force when train is traveling.")]
         [SerializeField]
@@ -114,10 +111,7 @@ namespace DerailedDeliveries.Framework.Train
 
         private void Awake()
         {
-            _multiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             _trainController = GetComponent<TrainController>();
-
-            CameraManager.Instance.TrainCamera = _virtualCamera;
         }
 
         private void Start()
@@ -134,8 +128,12 @@ namespace DerailedDeliveries.Framework.Train
             };
 
             _startFriction = _friction;
-            _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
             MaxSpeed = _speedValues[SPEED_VALUES_COUNT] / _friction;
+
+            CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
+            _multiChannelPerlin = trainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            
+            _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
         }
 
         #region ServerRPCS

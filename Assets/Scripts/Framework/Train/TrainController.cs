@@ -2,6 +2,8 @@ using UnityEngine.Splines;
 using FishNet.Object;
 using UnityEngine;
 using System;
+using DerailedDeliveries.Framework.Camera;
+using Cinemachine;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -23,9 +25,6 @@ namespace DerailedDeliveries.Framework.Train
 
         [SerializeField]
         private float _heightOffset;
-
-        [field: SerializeField]
-        public Transform CenterPoint { get; private set; }
 
         [SerializeField]
         private Vector3 _centerPointOffset;
@@ -139,12 +138,11 @@ namespace DerailedDeliveries.Framework.Train
 
                 positionSum += _followingWagons[i].position;
             }
+        }
 
-            if (CenterPoint == null)
-                return;
-
-            CenterPoint.rotation = _frontWagon.rotation;
-            CenterPoint.position = (positionSum / (_followingWagons.Length + 1)) + _centerPointOffset;
+        private void Update()
+        {
+            CameraManager.Instance.CinemachineBrain.ManualUpdate();
         }
 
         /// <summary>

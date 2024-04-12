@@ -2578,6 +2578,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b1dc99f928f2d8479c8f1f0c917d880, type: 3}
+--- !u!114 &1730206802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2446544696331219433, guid: ec390ca61a43ec747a0a401223c9c516,
+    type: 3}
+  m_PrefabInstance: {fileID: 1644865592}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1745780703
 GameObject:
   m_ObjectHideFlags: 0
@@ -3070,6 +3082,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1855291573 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5309098310680217216, guid: ec390ca61a43ec747a0a401223c9c516,
+    type: 3}
+  m_PrefabInstance: {fileID: 1644865592}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1886341154
 GameObject:
   m_ObjectHideFlags: 0
@@ -3431,6 +3455,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
+      propertyPath: <TrainCamera>k__BackingField
+      value: 
+      objectReference: {fileID: 1855291573}
+    - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
       propertyPath: _stationCameras.Array.data[0]
       value: 
       objectReference: {fileID: 1160558596}
@@ -3449,6 +3478,11 @@ PrefabInstance:
       propertyPath: _stationCameras.Array.data[3]
       value: 
       objectReference: {fileID: 1147456957}
+    - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <CinemachineBrain>k__BackingField
+      value: 
+      objectReference: {fileID: 1730206802}
     - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
       propertyPath: _cinemachineVirtualCameras.Array.size
@@ -3577,6 +3611,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.04897015
       objectReference: {fileID: 0}
+    - target: {fileID: 5142576653863284277, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _virtualCamera
+      value: 
+      objectReference: {fileID: 1855291573}
     - target: {fileID: 5552596949075366985, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: m_LocalPosition.x
