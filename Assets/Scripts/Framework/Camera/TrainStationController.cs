@@ -51,12 +51,9 @@ namespace DerailedDeliveries.Framework.Train
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             CinemachineVirtualCamera nearestCamera = CameraManager.Instance.GetNearestCamera(trainPosition, out float distance, trainCamera);
 
-            print(distance);
-
             if (distance > _minRangeToNearestStation)
                 return;
 
-            print("Yes");
             _trainController.TrainEngine.ToggleEngineState();
 
             CameraManager.Instance.ChangeActiveCamera(nearestCamera);
