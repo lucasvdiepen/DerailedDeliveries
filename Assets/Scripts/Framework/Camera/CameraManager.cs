@@ -16,9 +16,6 @@ namespace DerailedDeliveries.Framework.Camera
         [field: SerializeField]
         public CinemachineVirtualCamera TrainCamera { get; private set; }
 
-        [field: SerializeField]
-        public CinemachineBrain CinemachineBrain { get; private set; }
-
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.
         /// </summary>
@@ -72,6 +69,7 @@ namespace DerailedDeliveries.Framework.Camera
                 _stationCameras[i].Priority = 0;
             }
 
+            TrainCamera.Priority = 0;
             targetCamera.Priority = 1;
         }
     }

@@ -34,8 +34,8 @@ namespace DerailedDeliveries.Framework.Train
 
         private bool CanParkTrain()
         {
-            return TrainEngine.Instance.CurrentSpeedIndex == 0 
-                && Mathf.Abs(TrainEngine.Instance.CurrentVelocity) < .1f;
+            return TrainEngine.Instance.CurrentSpeedIndex != 0 
+                && Mathf.Abs(TrainEngine.Instance.CurrentSpeed) > .1f;
         }
 
         private void TryParkTrain()
@@ -46,18 +46,23 @@ namespace DerailedDeliveries.Framework.Train
                 return;
             }
 
-            /*CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
-            CinemachineVirtualCamera nearestCamera = CameraManager.Instance.GetNearestCamera(_trainController.CenterPoint.transform.position, out float distance, trainCamera);
+            CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
+
+            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+            CinemachineVirtualCamera nearestCamera = CameraManager.Instance.GetNearestCamera(trainPosition, out float distance, trainCamera);
+
+            print(distance);
 
             if (distance > _minRangeToNearestStation)
                 return;
 
+            print("Yes");
             _trainController.TrainEngine.ToggleEngineState();
 
             CameraManager.Instance.ChangeActiveCamera(nearestCamera);
             Animator anim = nearestCamera.transform.parent.GetComponent<Animator>();
 
-            anim.SetTrigger("Enter");*/
+            anim.SetTrigger("Enter");
         }
     }
 }
