@@ -178,15 +178,14 @@ namespace DerailedDeliveries.Framework.Train
                 return;
 
             // Check for possible backward rail split.
-            if (Spline.transform.parent == null)
+            if (!Spline.transform.parent.TryGetComponent(out SplineContainer nextSplineContainer))
             {
                 DistanceAlongSpline = CurrentOptimalStartPoint;
                 return;
             }
 
             DistanceAlongSpline = 1.0f;
-            SplineContainer nextContainer = Spline.transform.parent.GetComponent<SplineContainer>();
-            int nextTrackID = SplineManager.Instance.GetIDByTrack(nextContainer);
+            int nextTrackID = SplineManager.Instance.GetIDByTrack(nextSplineContainer);
             
             // Switch current track to the new track.
             SwitchCurrentTrack(nextTrackID);
