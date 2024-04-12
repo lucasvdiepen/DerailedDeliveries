@@ -107,7 +107,7 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 156916524191783587}
   - {fileID: 3305058913626210986}
-  - {fileID: 0}
+  - {fileID: 1455103187714453272}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -119,7 +119,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 12
+  <PrefabId>k__BackingField: 15
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -238,9 +238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f192a1a062b74204fb36245132a11d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 6073812502090828546}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6073812502090828546}
   _maxHealth: 10
-  _canBeBelowZero: 0
+  _canHaveNegativeHealth: 0
   _damageInterval: 15
+  _trainLayer:
+    serializedVersion: 2
+    m_Bits: 64

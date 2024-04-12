@@ -28,7 +28,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         }
 
         [Server]
-        private void UpdateTimer()
+        private protected virtual void UpdateTimer()
         {
             if (!CanTakeDamage || !_isTrainMoving)
                 return;

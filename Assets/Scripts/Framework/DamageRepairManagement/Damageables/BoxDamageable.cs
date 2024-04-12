@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 {
     /// <summary>
@@ -5,6 +7,41 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
     /// </summary>
     public class BoxDamageable : TrainDamageable
     {
-        // todo: check if box is inside the train.
+        [SerializeField]
+        private LayerMask _trainLayer;
+
+        private int _amountInTrain;
+
+        private protected override void UpdateTimer()
+        {
+            if(_amountInTrain == 0)
+                return;
+
+            base.UpdateTimer();
+        }
+
+        private protected override void TakeDamage()
+        {
+            if(_amountInTrain == 0)
+                return;
+
+            base.TakeDamage();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if((_trainLayer.value & 1 << other.gameObject.layer) == 0)
+                return;
+
+            _amountInTrain++;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if((_trainLayer.value & 1 << other.gameObject.layer) == 0)
+                return;
+
+            _amountInTrain--;
+        }
     }
 }
