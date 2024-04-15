@@ -1,27 +1,17 @@
-using DerailedDeliveries.Framework.PopupManagement;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+using DerailedDeliveries.Framework.PopupManagement;
 
 namespace DerailedDeliveries.Framework.CoalOvenSystem
 {
     public class CoalPopup : Popup
     {
         [SerializeField]
-        private Sprite _lowCoalSprite;
-
-        [SerializeField]
-        private Sprite _criticalLowCoalSprite;
-
-        [SerializeField]
         private Image _coalImage;
 
         [SerializeField]
         private float _lowCoalAmount = 40f;
-
-        [SerializeField]
-        private float _criticalLowCoalAmount = 20f;
 
         private void OnEnable()
         {
@@ -35,14 +25,6 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         {
             if(coalAmount <= _lowCoalAmount)
             {
-                _coalImage.sprite = _lowCoalSprite;
-                Show();
-                return;
-            }
-
-            if(coalAmount <= _criticalLowCoalAmount)
-            {
-                _coalImage.sprite = _criticalLowCoalSprite;
                 Show();
                 return;
             }
