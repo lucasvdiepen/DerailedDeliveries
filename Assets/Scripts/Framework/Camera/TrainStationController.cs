@@ -19,7 +19,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _minRangeToNearestStation = 25;
 
-        [field: SerializeField]
         public bool IsParked { get; private set; }
 
         private float _distance;
@@ -27,19 +26,13 @@ namespace DerailedDeliveries.Framework.Train
         private Animator _currentStationAnimator;
 
         private void Awake()
-        {
-            _trainController = GetComponent<TrainController>();
-        }
+            => _trainController = GetComponent<TrainController>();
 
         private void OnEnable()
-        {
-            TrainEngine.Instance.OnSpeedStateChanged += HandleSpeedStateChanged;
-        }
+            => TrainEngine.Instance.OnSpeedStateChanged += HandleSpeedStateChanged;
 
         private void OnDisable()
-        {
-            TrainEngine.Instance.OnSpeedStateChanged -= HandleSpeedStateChanged;
-        }
+            => TrainEngine.Instance.OnSpeedStateChanged -= HandleSpeedStateChanged;
 
         private void HandleSpeedStateChanged(int newSpeedState)
         {
@@ -51,9 +44,10 @@ namespace DerailedDeliveries.Framework.Train
                     return;
 
                 IsParked = false;
+
                 _currentStationAnimator.SetTrigger("Exit");
                 CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
-                //DOVirtual.Float(0, 1, .4f, null).OnComplete(() => CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera));
+                
                 _currentStationAnimator = null;
             }
         }
