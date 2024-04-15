@@ -2206,22 +2206,22 @@ PrefabInstance:
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99259895
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.12143844
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
@@ -2231,7 +2231,7 @@ PrefabInstance:
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3297980177325243252, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
@@ -2267,6 +2267,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4869329565345068159}
     m_Modifications:
+    - target: {fileID: 5268587990540612218, guid: e73ddf88526eb92469ed913337e47cd6,
+        type: 3}
+      propertyPath: m_Waypoints.Array.data[0].position.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268587990540612218, guid: e73ddf88526eb92469ed913337e47cd6,
+        type: 3}
+      propertyPath: m_Waypoints.Array.data[0].position.z
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268587990540612218, guid: e73ddf88526eb92469ed913337e47cd6,
+        type: 3}
+      propertyPath: m_Waypoints.Array.data[1].position.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268587990540612218, guid: e73ddf88526eb92469ed913337e47cd6,
+        type: 3}
+      propertyPath: m_Waypoints.Array.data[1].position.z
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5469083337029414752, guid: e73ddf88526eb92469ed913337e47cd6,
         type: 3}
       propertyPath: m_LocalScale.x

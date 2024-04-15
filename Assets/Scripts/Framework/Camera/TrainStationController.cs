@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Camera;
+using System.Linq;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -17,10 +18,22 @@ namespace DerailedDeliveries.Framework.Train
         private float _minRangeToNearestStation = 25;
 
         private TrainController _trainController;
+
+        public int NextStationID { get; private set; } = 1;
+
+        private Vector3[] _stationPositions;
        
         private void Awake()
         {
             _trainController = GetComponent<TrainController>();
+        }
+
+        private void Start()
+        {
+            CinemachineVirtualCamera[] stationCameras = CameraManager.Instance.StationCameras;
+            stationCameras = new CinemachineVirtualCamera[stationCameras.Length];
+
+            _stationPositions = (Vector3[])stationCameras.Select(camera => camera.transform.position);
         }
 
         private void Update()
@@ -34,22 +47,25 @@ namespace DerailedDeliveries.Framework.Train
 
         private bool CanParkTrain()
         {
-            return TrainEngine.Instance.CurrentSpeedIndex != 0 
-                && Mathf.Abs(TrainEngine.Instance.CurrentSpeed) > .1f;
+            return TrainEngine.Instance.CurrentSpeedIndex == 0 
+                && Mathf.Abs(TrainEngine.Instance.CurrentSpeed) < .1f;
         }
 
         private void TryParkTrain()
         {
+            print(NextStationID);
             if (!CanParkTrain())
             {
                 print("Park denied");
                 return;
             }
 
-            CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
+            CinemachineVirtualCamera nearestCamera = CameraManager.Instance.StationCameras[NextStationID];
 
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            CinemachineVirtualCamera nearestCamera = CameraManager.Instance.GetNearestCamera(trainPosition, out float distance, trainCamera);
+            float distance = Vector3.Distance(trainPosition, nearestCamera.transform.position);
+
+            print(distance);
 
             if (distance > _minRangeToNearestStation)
                 return;
