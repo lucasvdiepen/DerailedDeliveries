@@ -23,7 +23,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
         [SerializeField]
         private float _hoverDuration = 1.5f;
 
-        private TweenerCore<float, float, FloatOptions> _hoverAnimation;
+        private Tween _hoverAnimation;
         private Coroutine _popupCoroutine;
         private float _initialYPosition;
         private float _endYPosition;
@@ -39,6 +39,9 @@ namespace DerailedDeliveries.Framework.PopupManagement
 
         private void LateUpdate()
         {
+            if(Camera.main == null)
+                return;
+
             _popupCanvasGroup.transform.rotation = Quaternion.LookRotation(
                 _popupCanvasGroup.transform.position - Camera.main.transform.position);
         }
