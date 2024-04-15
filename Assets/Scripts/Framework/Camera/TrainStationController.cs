@@ -1,12 +1,9 @@
-using UnityEngine.InputSystem;
+using FishNet.Object;
 using Cinemachine;
 using UnityEngine;
 
-using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Camera;
-using FishNet.Object;
-using System;
-using DG.Tweening;
+using DerailedDeliveries.Framework.Utils;
 
 namespace DerailedDeliveries.Framework.Train
 {

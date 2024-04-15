@@ -2,8 +2,6 @@ using UnityEngine.Splines;
 using FishNet.Object;
 using UnityEngine;
 using System;
-using DerailedDeliveries.Framework.Camera;
-using Cinemachine;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -128,8 +126,8 @@ namespace DerailedDeliveries.Framework.Train
 
             positionSum += _frontWagon.position;
 
-            int wagons = _followingWagons.Length;
-            for (int i = 0; i < wagons; i++)
+            int wagonsAmount = _followingWagons.Length;
+            for (int i = 0; i < wagonsAmount; i++)
             {
                 // Calculate appropriate spacing/offset.
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;

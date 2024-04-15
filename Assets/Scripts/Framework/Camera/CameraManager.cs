@@ -1,8 +1,8 @@
 using Cinemachine;
 using UnityEngine;
+using System;
 
 using DerailedDeliveries.Framework.Utils;
-using System;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -14,6 +14,9 @@ namespace DerailedDeliveries.Framework.Camera
         [SerializeField]
         private CinemachineVirtualCamera[] _stationCameras;
 
+        /// <summary>
+        /// Reference to the train camera.
+        /// </summary>
         [field: SerializeField]
         public CinemachineVirtualCamera TrainCamera { get; private set; }
 
@@ -38,8 +41,8 @@ namespace DerailedDeliveries.Framework.Camera
         /// </summary>
         /// <param name="originPosition">Position from which to look from.</param>
         /// <param name="distance">Distance to the nearest camera.</param>
-        /// <param name="ignore"></param>
-        /// <returns></returns>
+        /// <param name="ignore">Cameras to ignore in search.</param>
+        /// <returns>Index of nearest camera.</returns>
         public int GetNearestCamera(Vector3 originPosition, out float distance, params CinemachineVirtualCamera[] ignore)
         {
             CinemachineVirtualCamera bestTarget = null;
@@ -65,9 +68,9 @@ namespace DerailedDeliveries.Framework.Camera
         }
 
         /// <summary>
-        /// Method to change priority to a specific camera, disables all other cameras.
+        /// Method for setting a specific camera to active using priority, disables all other cameras.
         /// </summary>
-        /// <param name="targetCamera"></param>
+        /// <param name="targetCamera">Camera to set active.</param>
         public void ChangeActiveCamera(CinemachineVirtualCamera targetCamera)
         {
             int cameras = _stationCameras.Length;

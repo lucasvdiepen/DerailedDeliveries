@@ -110,9 +110,7 @@ namespace DerailedDeliveries.Framework.Train
         private bool _isBraking;
 
         private void Awake()
-        {
-            _trainController = GetComponent<TrainController>();
-        }
+            => _trainController = GetComponent<TrainController>();
 
         private void Start()
         {
