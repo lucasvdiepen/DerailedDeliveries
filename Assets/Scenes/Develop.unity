@@ -3289,6 +3289,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.12954141
       objectReference: {fileID: 0}
+    - target: {fileID: 3238317283352830350, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 3998546362561372804, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: m_Name
@@ -3824,6 +3829,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 8143415198499866036}
   _networkObjectCache: {fileID: 8143415198499866036}
   _minRangeToNearestStation: 25
+  _stationPositions: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
