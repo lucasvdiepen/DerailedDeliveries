@@ -16,6 +16,9 @@ namespace DerailedDeliveries.Framework.PlayerManagement
     public class PlayerManager : NetworkAbstractSingleton<PlayerManager>
     {
         [SerializeField]
+        private Transform _spawnPoint;
+
+        [SerializeField]
         private PlayerInputManager _playerInputManager;
 
         [SerializeField]
@@ -175,7 +178,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
                 return;
             }
 
-            GameObject spawnedPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+            GameObject spawnedPlayer = Instantiate(_playerPrefab, _spawnPoint.position, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
