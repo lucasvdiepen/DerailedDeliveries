@@ -1,7 +1,5 @@
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
-using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
+using TMPro;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
@@ -15,6 +13,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
 
         [SerializeField]
         private string _stationLabel;
+
+        [SerializeField]
+        private TextMeshProUGUI _stationText;
 
         [SerializeField]
         private Transform[] _spawnTransforms;
@@ -34,6 +35,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         /// </summary>
         public Transform[] SpawnTransforms => _spawnTransforms;
 
+        private void Awake()
+        {
+            if(_stationLabel != "" && _stationText != null)
+                _stationText.text = "Station " + _stationLabel;
+        }
+
         /// <summary>
         /// Updates the stations Label and ID.
         /// </summary>
@@ -43,6 +50,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         {
             _stationLabel = label;
             _stationID = id;
+
+            if (_stationText != null)
+                _stationText.text = "Station " + _stationLabel;
         }
     }
 }

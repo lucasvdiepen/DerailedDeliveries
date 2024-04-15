@@ -3,7 +3,6 @@ using GameKit.Utilities;
 using UnityEngine;
 using System;
 
-
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
@@ -14,7 +13,7 @@ namespace DerailedDeliveries.Framework.Gameplay
     /// <summary>
     /// A class that generates the objectives and tracks the Level's progress.
     /// </summary>
-    public class LevelTracker : AbstractSingleton<LevelTracker>
+    public class LevelTracker : NetworkAbstractSingleton<LevelTracker>
     {
         [SerializeField]
         private Levels _levels;
@@ -95,6 +94,8 @@ namespace DerailedDeliveries.Framework.Gameplay
                     GameObject newPackage = Instantiate(_packagePrefab);
                     BoxGrabbable boxGrabbable = newPackage.GetComponent<BoxGrabbable>();
 
+                    ServerManager.Spawn(newPackage);
+
                     newPackage.transform.position = targetSpawn.position;
                     newPackage.transform.rotation = targetSpawn.rotation;
 
@@ -131,6 +132,7 @@ namespace DerailedDeliveries.Framework.Gameplay
 
                 GameObject newFakeDelivery = Instantiate(_packagePrefab);
                 BoxGrabbable boxGrabbable = newFakeDelivery.GetComponent<BoxGrabbable>();
+                ServerManager.Spawn(newFakeDelivery);
 
                 newFakeDelivery.transform.position = freeSpawns[i].position;
                 newFakeDelivery.transform.rotation = freeSpawns[i].rotation;
@@ -153,7 +155,7 @@ namespace DerailedDeliveries.Framework.Gameplay
                 _currentScore -= _succesfullDeliveryBonus;
 
             OnPackageDelivered?.Invoke(delivery.PackageID);
-            Destroy(delivery.gameObject);
+            ServerManager.Despawn(delivery.gameObject);
         }
     }
 }

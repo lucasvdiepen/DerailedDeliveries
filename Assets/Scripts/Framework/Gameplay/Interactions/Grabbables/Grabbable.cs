@@ -81,12 +81,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// A function that places the <see cref="Grabbable"/> on the ground, can be used for after snapping to a
         /// transform.
         /// </summary>
-        public virtual void PlaceOnGround()
-        {
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
-
-            transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
-        }
+        public virtual void PlaceOnGround() => transform.position = GetPositionOnGround(transform);
 
         /// <summary>
         /// A function that returns the new location if its <see cref="Transform"/> were to match the 

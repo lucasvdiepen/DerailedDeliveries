@@ -47,7 +47,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             _interactablesOnBelt.Add(deliveryTarget, 0);
 
             Vector3 startPos = deliveryTarget.GetPositionOnGround(_startTransform);
-            Vector3 endPos = deliveryTarget.GetPositionOnGround(_endTransform);
+            Vector3 endPos = new Vector3(_endTransform.position.x, startPos.y, _endTransform.position.z);
             StartCoroutine(LerpBoxToPosition(deliveryTarget, startPos, endPos));
             
             return true;
