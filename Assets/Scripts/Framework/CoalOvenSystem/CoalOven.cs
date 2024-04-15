@@ -24,6 +24,8 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
 
         public float CoalAmount { get; private set; }
 
+        public float MaxCoalAmount => _maxCoalAmount;
+
         private float _coalToBurn;
         private float _coalBurnIntervalElapsed;
 

@@ -1,0 +1,27 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+using DerailedDeliveries.Framework.PopupManagement;
+
+namespace DerailedDeliveries.Framework.CoalOvenSystem
+{
+    public class CoalBarPopup : Popup
+    {
+        [SerializeField]
+        private Image _coalProgressionBarImage;
+
+        private void OnEnable()
+        {
+            CoalOven.Instance.OnCoalAmountChanged += OnCoalAmountChanged;
+            OnCoalAmountChanged(CoalOven.Instance.CoalAmount);
+        }
+
+        private void OnDisable() => CoalOven.Instance.OnCoalAmountChanged -= OnCoalAmountChanged;
+
+        private void OnCoalAmountChanged(float coalAmount)
+        {
+            float percentage = coalAmount / CoalOven.Instance.MaxCoalAmount;
+            _coalProgressionBarImage.fillAmount = percentage;
+        }
+    }
+}
