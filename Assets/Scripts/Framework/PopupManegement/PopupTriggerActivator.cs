@@ -9,7 +9,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
     /// A class that is responsible for showing and hiding a popup when the player is in range.
     /// </summary>
     [RequireComponent(typeof(Popup))]
-    public class PopupTriggerActivator : TriggerArea<PlayerId>
+    public class PopupTriggerActivator<T> : TriggerArea<T> where T : Component
     {
         private Popup _popup;
 
@@ -19,7 +19,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
 
         private void Awake() => _popup = GetComponentInChildren<Popup>();
 
-        private void OnColliderChanged(PlayerId[] players)
+        private void OnColliderChanged(T[] players)
         {
             if (players.Length == 0)
             {
