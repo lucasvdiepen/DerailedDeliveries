@@ -23,6 +23,8 @@ namespace DerailedDeliveries.Framework.PopupManagement
         [SerializeField]
         private float _hoverDuration = 1.5f;
 
+        public bool IsShowing { get; private set; }
+
         private TweenerCore<Vector3, Vector3, VectorOptions> _hoverAnimation;
         private Coroutine _popupCoroutine;
         private Vector3 _initialPosition;
@@ -40,8 +42,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
         /// </summary>
         public void Show()
         {
-            StopPopupCoroutine();
+            if(IsShowing)
+                return;
 
+            IsShowing = true;
+
+            StopPopupCoroutine();
             _popupCoroutine = StartCoroutine(ShowPopup());
         } 
 
@@ -50,8 +56,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
         /// </summary>
         public void Close()
         {
-            StopPopupCoroutine();
+            if(!IsShowing)
+                return;
 
+            IsShowing = false;
+
+            StopPopupCoroutine();
             _popupCoroutine = StartCoroutine(ClosePopup());
         }
 
