@@ -20,9 +20,12 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private Vector3[] _stationPositions;
 
+        [field: SerializeField]
+        public bool IsParked { get; private set; }
+
         private float _distance;
         private TrainController _trainController;
-       
+
         private void Awake()
         {
             _trainController = GetComponent<TrainController>();
@@ -65,13 +68,14 @@ namespace DerailedDeliveries.Framework.Train
             Animator anim = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
             anim.SetTrigger("Enter");
+            IsParked = true;
         }
        
         [Server]
         private bool CanParkTrain()
         {
             return TrainEngine.Instance.CurrentSpeedIndex == 0 
-                && Mathf.Abs(TrainEngine.Instance.CurrentSpeed) < .1f;
+                && Mathf.Abs(TrainEngine.Instance.CurrentSpeed) < 1f;
         }
     }
 }
