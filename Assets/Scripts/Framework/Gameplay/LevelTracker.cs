@@ -3,11 +3,10 @@ using GameKit.Utilities;
 using UnityEngine;
 using System;
 
+using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
-using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
-using System.Threading;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -148,8 +147,7 @@ namespace DerailedDeliveries.Framework.Gameplay
             BoxGrabbable boxGrabbable = Instantiate(_packagePrefab).GetComponent<BoxGrabbable>();
             ServerManager.Spawn(boxGrabbable.gameObject);
 
-            boxGrabbable.transform.position = spawnTransform.position;
-            boxGrabbable.transform.rotation = spawnTransform.rotation;
+            boxGrabbable.transform.SetPositionAndRotation(spawnTransform.position, spawnTransform.rotation);
 
             boxGrabbable.PlaceOnGround();
             boxGrabbable.UpdateLabelAndID(label, id);
