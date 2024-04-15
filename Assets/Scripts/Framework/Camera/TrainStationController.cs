@@ -5,6 +5,8 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Camera;
 using FishNet.Object;
+using System;
+using DG.Tweening;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -17,35 +19,49 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _minRangeToNearestStation = 25;
 
-        [SerializeField]
-        private Vector3[] _stationPositions;
-
         [field: SerializeField]
         public bool IsParked { get; private set; }
 
         private float _distance;
         private TrainController _trainController;
+        private Animator _currentStationAnimator;
 
         private void Awake()
         {
             _trainController = GetComponent<TrainController>();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-                TryParkTrainAtClosestStation();
+            TrainEngine.Instance.OnSpeedStateChanged += HandleSpeedStateChanged;
         }
 
+        private void OnDisable()
+        {
+            TrainEngine.Instance.OnSpeedStateChanged -= HandleSpeedStateChanged;
+        }
+
+        private void HandleSpeedStateChanged(int newSpeedState)
+        {
+            if (newSpeedState == 0)
+                TryParkTrainAtClosestStation();
+            else if (newSpeedState > 0)
+            {
+                if (!IsParked)
+                    return;
+
+                IsParked = false;
+                _currentStationAnimator.SetTrigger("Exit");
+                CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
+                //DOVirtual.Float(0, 1, .4f, null).OnComplete(() => CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera));
+                _currentStationAnimator = null;
+            }
+        }
 
         [ServerRpc(RequireOwnership = false)]
         public void TryParkTrainAtClosestStation()
         {
-            if (!CanParkTrain())
-            {
-                print("Park denied");
-                return;
-            }
+            print("TryParkTrainAtClosestStation");
 
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out _distance);
@@ -60,22 +76,16 @@ namespace DerailedDeliveries.Framework.Train
         private void TryParkTrain(int nearestStationCameraIndex)
         {
             print("Observer camera: " + nearestStationCameraIndex);
+            TrainEngine.Instance.ToggleEngineState();
 
             _trainController.TrainEngine.ToggleEngineState();
             CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
 
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
-            Animator anim = nearestStationCamera.transform.parent.GetComponent<Animator>();
+            _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
-            anim.SetTrigger("Enter");
+            _currentStationAnimator.SetTrigger("Enter");
             IsParked = true;
-        }
-       
-        [Server]
-        private bool CanParkTrain()
-        {
-            return TrainEngine.Instance.CurrentSpeedIndex == 0 
-                && Mathf.Abs(TrainEngine.Instance.CurrentSpeed) < 1f;
         }
     }
 }

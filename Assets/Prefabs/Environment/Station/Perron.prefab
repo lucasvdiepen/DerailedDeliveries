@@ -2282,6 +2282,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3988407063424119999, guid: b4649d8bcc4feda4fa696351b1841cf0,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 8453125642477387296, guid: b4649d8bcc4feda4fa696351b1841cf0,
         type: 3}
       propertyPath: m_Path
@@ -2324,7 +2329,7 @@ PrefabInstance:
     - target: {fileID: 5268587990540612218, guid: e73ddf88526eb92469ed913337e47cd6,
         type: 3}
       propertyPath: m_Waypoints.Array.data[1].position.y
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5268587990540612218, guid: e73ddf88526eb92469ed913337e47cd6,
         type: 3}
