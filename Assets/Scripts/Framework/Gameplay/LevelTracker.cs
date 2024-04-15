@@ -7,6 +7,7 @@ using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
+using System.Threading;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -20,6 +21,9 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         [SerializeField]
         private int _succesfullDeliveryBonus = 5;
+
+        [SerializeField]
+        private int _incorrectDeliveryPenalty = 5;
 
         [SerializeField]
         private int _totalScore;
@@ -58,9 +62,9 @@ namespace DerailedDeliveries.Framework.Gameplay
             for(int i = 0; i < levelData.Length; i++)
             {
                 TrainStation targetStation = _allStations[i];
-                string label = "";
+                string label = string.Empty;
 
-                while(label == "" || labels.Contains(label))
+                while(label == string.Empty || labels.Contains(label))
                 {
                     label 
                         = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString() 
@@ -75,13 +79,8 @@ namespace DerailedDeliveries.Framework.Gameplay
 
             for(int i = levelData.Length - 1; i >= 0; i--)
             {
-                List<Transform> availableSpawns = new();
+                List<Transform> availableSpawns = GetAvailableSpawnsForStation(i);
                 int amountToSpawn = levelData[i].MinDeliverablePackages;
-
-                for (int j = i - 1; j >= 0; j--)
-                    for (int k = 0; k < _allStations[j].SpawnTransforms.Length; k++)
-                        if (!usedSpawns.Contains(_allStations[j].SpawnTransforms[k]))
-                            availableSpawns.Add(_allStations[j].SpawnTransforms[k]);
 
                 while(amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
@@ -91,25 +90,49 @@ namespace DerailedDeliveries.Framework.Gameplay
                     if (usedSpawns.Contains(targetSpawn))
                         continue;
 
-                    GameObject newPackage = Instantiate(_packagePrefab);
-                    BoxGrabbable boxGrabbable = newPackage.GetComponent<BoxGrabbable>();
-
-                    ServerManager.Spawn(newPackage);
-
-                    newPackage.transform.position = targetSpawn.position;
-                    newPackage.transform.rotation = targetSpawn.rotation;
+                    BoxGrabbable boxGrabbable = SpawnBoxDelivery(targetSpawn, labels[i], i);
 
                     amountToSpawn--;
                     usedSpawns.Add(targetSpawn);
                     availableSpawns.Remove(targetSpawn);
 
                     _totalScore += _succesfullDeliveryBonus + boxGrabbable.GetComponent<BoxDamageable>().Health;
-
-                    boxGrabbable.UpdateLabelAndID(labels[i], i);
-                    boxGrabbable.PlaceOnGround();
                 }
             }
 
+            List<Transform> freeSpawns = GetAllFreeSpawns(usedSpawns);
+
+            int fakeDeliverySpawns = random.Next(0, freeSpawns.Count);
+            freeSpawns.Shuffle();
+
+            for (int i = 0; i < fakeDeliverySpawns; i++)
+            {
+                string label = string.Empty;
+                while (label == string.Empty || labels.Contains(label))
+                {
+                    label
+                        = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString()
+                        + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
+                }
+
+                SpawnBoxDelivery(freeSpawns[i], label, -1);
+            }
+        }
+
+        private List<Transform> GetAvailableSpawnsForStation(int stationIndex)
+        {
+            List<Transform> spawns = new();
+
+            for (int i = stationIndex - 1; i >= 0; i--)
+                for (int j = 0; j < _allStations[i].SpawnTransforms.Length; j++)
+                    if (!spawns.Contains(_allStations[i].SpawnTransforms[j]))
+                        spawns.Add(_allStations[i].SpawnTransforms[j]);
+
+            return spawns;
+        }
+
+        private List<Transform> GetAllFreeSpawns(List<Transform> usedSpawns)
+        {
             List<Transform> freeSpawns = new();
 
             for (int i = 0; i < _allStations.Length; i++)
@@ -117,29 +140,21 @@ namespace DerailedDeliveries.Framework.Gameplay
                     if (!usedSpawns.Contains(_allStations[i].SpawnTransforms[j]))
                         freeSpawns.Add(_allStations[i].SpawnTransforms[j]);
 
-            int fakeDeliverySpawns = random.Next(0, freeSpawns.Count);
-            freeSpawns.Shuffle();
+            return freeSpawns;
+        }
 
-            for (int i = 0; i < fakeDeliverySpawns; i++)
-            {
-                string label = "";
-                while (label == "" || labels.Contains(label))
-                {
-                    label
-                        = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString()
-                        + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
-                }
+        private BoxGrabbable SpawnBoxDelivery(Transform spawnTransform, string label, int id)
+        {
+            BoxGrabbable boxGrabbable = Instantiate(_packagePrefab).GetComponent<BoxGrabbable>();
+            ServerManager.Spawn(boxGrabbable.gameObject);
 
-                GameObject newFakeDelivery = Instantiate(_packagePrefab);
-                BoxGrabbable boxGrabbable = newFakeDelivery.GetComponent<BoxGrabbable>();
-                ServerManager.Spawn(newFakeDelivery);
+            boxGrabbable.transform.position = spawnTransform.position;
+            boxGrabbable.transform.rotation = spawnTransform.rotation;
 
-                newFakeDelivery.transform.position = freeSpawns[i].position;
-                newFakeDelivery.transform.rotation = freeSpawns[i].rotation;
+            boxGrabbable.PlaceOnGround();
+            boxGrabbable.UpdateLabelAndID(label, id);
 
-                boxGrabbable.PlaceOnGround();
-                boxGrabbable.UpdateLabelAndID(label, -1);
-            }
+            return boxGrabbable;
         }
 
         /// <summary>
@@ -152,7 +167,7 @@ namespace DerailedDeliveries.Framework.Gameplay
             if (delivery.PackageID == stationID)
                 _currentScore += _succesfullDeliveryBonus + delivery.GetComponent<BoxDamageable>().Health;
             else
-                _currentScore -= _succesfullDeliveryBonus;
+                _currentScore -= _incorrectDeliveryPenalty;
 
             OnPackageDelivered?.Invoke(delivery.PackageID);
             ServerManager.Despawn(delivery.gameObject);

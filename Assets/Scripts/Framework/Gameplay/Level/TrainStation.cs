@@ -37,7 +37,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
 
         private void Awake()
         {
-            if(_stationLabel != "" && _stationText != null)
+            if(_stationLabel != string.Empty && _stationText != null)
                 _stationText.text = "Station " + _stationLabel;
         }
 

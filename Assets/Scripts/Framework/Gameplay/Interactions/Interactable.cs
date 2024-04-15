@@ -54,8 +54,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [Server]
         public bool InteractAsServer(Interactor interactor) => Interact(interactor);
 
+        /// <summary>
+        /// A function that returns all colliding colliders.
+        /// </summary>
+        /// <returns>An array of colliding <see cref="Collider"/>'s.</returns>
         [Server]
-        public Collider[] GetCollidingColliders() => Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
+        public Collider[] GetCollidingColliders() => 
+            Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
 
         [Server]
         private protected virtual bool Interact(Interactor interactor)

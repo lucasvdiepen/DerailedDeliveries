@@ -35,7 +35,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 
         public override bool Interact(UseableGrabbable target)
         {
-            if (!(target is BoxGrabbable deliveryTarget))
+            if (target is not BoxGrabbable deliveryTarget)
                 return false;
 
             Interactor originInteractor = deliveryTarget.OriginInteractor;
