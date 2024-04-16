@@ -4,16 +4,27 @@ using UnityEngine;
 using DerailedDeliveries.Framework.CoalOvenSystem;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.DamageRepairManagement;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
     /// <summary>
     /// An <see cref="Interactable"/> responsible for handling the coal oven.
     /// </summary>
-    public class CoalOvenInteractable : Interactable
+    [RequireComponent(typeof(TrainDamageable))]
+    public class CoalOvenInteractable : Interactable, IRepairable
     {
         [SerializeField]
         private int _coalToAdd = 10;
+
+        private TrainDamageable _damageable;
+
+        private protected override void Awake()
+        {
+            base.Awake();
+
+            _damageable = GetComponent<TrainDamageable>();
+        }
 
         [Server]
         private protected override bool Interact(Interactor interactor)
@@ -41,5 +52,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 
             return base.Interact(useableGrabbable);
         }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public void Repair() => _damageable.Repair();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <returns><inheritdoc/></returns>
+        public bool CanBeRepaired() => _damageable.CanBeRepaired();
     }
 }

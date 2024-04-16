@@ -11,10 +11,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
     public class CoalPopup : Popup
     {
         [SerializeField]
-        private Image _coalImage;
-
-        [SerializeField]
-        private float _lowCoalAmount = 40f;
+        private float _lowCoalThreshold = 40f;
 
         private void OnEnable()
         {
@@ -26,7 +23,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
 
         private void OnCoalAmountChanged(float coalAmount)
         {
-            if(coalAmount <= _lowCoalAmount)
+            if(coalAmount <= _lowCoalThreshold)
             {
                 Show();
                 return;

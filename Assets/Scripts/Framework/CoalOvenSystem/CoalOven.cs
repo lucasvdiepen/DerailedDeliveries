@@ -4,12 +4,14 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Train;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.DamageRepairManagement;
 
 namespace DerailedDeliveries.Framework.CoalOvenSystem
 {
     /// <summary>
     /// A class responsible for controlling the coal oven.
     /// </summary>
+    [RequireComponent(typeof(TrainDamageable))]
     public class CoalOven : NetworkAbstractSingleton<CoalOven>
     {
         [SerializeField]
@@ -46,6 +48,17 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
 
         private float _coalToBurn;
         private float _coalBurnIntervalElapsed;
+        private TrainDamageable _damageable;
+
+        private void Awake() => _damageable = GetComponent<TrainDamageable>();
+
+        private void OnEnable()
+        {
+            _damageable.OnHealthChanged += OnHealthChanged;
+            OnHealthChanged(_damageable.Health);
+        }
+
+        private void OnDisable() => _damageable.OnHealthChanged -= OnHealthChanged;
 
         private void Update()
         {
@@ -61,7 +74,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         [Server]
         public void EnableOven()
         {
-            if((IsOvenEnabled || CoalAmount < 0.0001f) && !_ignoreCoalBurn)
+            if((IsOvenEnabled || CoalAmount < 0.0001f || _damageable.Health <= 0) && !_ignoreCoalBurn)
                 return;
 
             TrainEngine.Instance.SetEngineState(TrainEngineState.Active);
@@ -112,6 +125,14 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
             }
 
             OnCoalAmountChanged?.Invoke(CoalAmount);
+        }
+
+        private void OnHealthChanged(int health)
+        {
+            if(health > 0)
+                return;
+
+            TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
         }
     }
 }
