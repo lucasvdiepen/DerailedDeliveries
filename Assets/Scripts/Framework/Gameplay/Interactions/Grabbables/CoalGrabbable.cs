@@ -3,7 +3,7 @@ using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
     /// <summary>
-    /// A <see cref="UseableGrabbable"/> responsible for handling the coal.
+    /// An <see cref="UseableGrabbable"/> responsible for handling the coal.
     /// </summary>
     public class CoalGrabbable : UseableGrabbable
     {

@@ -12,11 +12,6 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
     /// </summary>
     public class CoalOven : NetworkAbstractSingleton<CoalOven>
     {
-        /// <summary>
-        /// Invoked when the coal amount changes.
-        /// </summary>
-        public Action<float> OnCoalAmountChanged;
-
         [SerializeField]
         private float _maxCoalAmount = 100;
 
@@ -28,6 +23,11 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
 
         [SerializeField]
         private bool _ignoreCoalBurn;
+
+        /// <summary>
+        /// Invoked when the coal amount changes.
+        /// </summary>
+        public Action<float> OnCoalAmountChanged;
 
         /// <summary>
         /// Gets whether the oven is enabled or not.
@@ -72,20 +72,14 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         /// </summary>
         /// <param name="amount">The amount of coal to add.</param>
         [Server]
-        public void AddCoal(float amount)
-        {
-            SetCoalAmount(Mathf.Min(CoalAmount + amount, _maxCoalAmount));
-        }
+        public void AddCoal(float amount) => SetCoalAmount(Mathf.Min(CoalAmount + amount, _maxCoalAmount));
 
         /// <summary>
         /// Removes coal from the oven.
         /// </summary>
         /// <param name="amount">The amount of coal to remove.</param>
         [Server]
-        public void RemoveCoal(float amount)
-        {
-            SetCoalAmount(Mathf.Max(CoalAmount - amount, 0));
-        }
+        public void RemoveCoal(float amount) => SetCoalAmount(Mathf.Max(CoalAmount - amount, 0));
 
         [Server]
         private void BurnCoal()
