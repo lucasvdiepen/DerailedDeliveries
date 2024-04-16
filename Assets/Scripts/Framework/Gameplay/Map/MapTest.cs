@@ -5,36 +5,46 @@ using UnityEngine;
 
 public class MapTest : MonoBehaviour
 {
+    [Header("World Transforms")]
+    [SerializeField] 
+    private Transform _bottomRightWorld;
+
+    [Header("Map Transforms")]
     [SerializeField]
-    private RectTransform _mapIndicator;
+    private Transform _bottomRightMap;
 
     [SerializeField]
-    private RectTransform _parentTransform;
+    private Transform _vectorZeroMap;
+
+    [Header("Map Settings")]
+    [SerializeField]
+    private Transform _mapIndicator;
 
     [SerializeField]
     private Transform _trackingTransform;
 
     [SerializeField]
-    private float _scale = 10;
+    private Vector3 _offset;
 
-    private Vector3 _positionTranslateOffset;
+    [SerializeField]
+    private float _xRectScale;
 
-    private void Awake()
-    {
-        _positionTranslateOffset = _parentTransform.position;
-    }
-
+    [SerializeField]
+    private float _yRectScale;
 
     void Update()
     {
-        _mapIndicator.position = _positionTranslateOffset;
+        _xRectScale = _bottomRightMap.position.x / _bottomRightWorld.position.z;
+        _yRectScale = _bottomRightMap.position.y / _bottomRightWorld.position.x;
 
-        if (_trackingTransform == null)
-            return;
+        _mapIndicator.position = _vectorZeroMap.position;
 
-        Vector3 translatedTrackingLocation = 
-            new Vector3(_trackingTransform.position.x, _trackingTransform.position.z, 0) / _scale;
-
-        _mapIndicator.position += translatedTrackingLocation;
+        _mapIndicator.localPosition += 
+            new Vector3
+                (
+                    _trackingTransform.position.z * _xRectScale,
+                    _trackingTransform.position.x * _yRectScale,
+                    0
+                ) + _offset;
     }
 }
