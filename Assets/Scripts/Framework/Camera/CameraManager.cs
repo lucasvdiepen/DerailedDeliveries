@@ -25,17 +25,6 @@ namespace DerailedDeliveries.Framework.Camera
         /// </summary>
         public CinemachineVirtualCamera[] StationCameras => _stationCameras;
 
-        private bool CheckIgnore(CinemachineVirtualCamera[] ignore, CinemachineVirtualCamera cameraToCheck)
-        {
-            for (int i = 0; i < ignore.Length; i++)
-            {
-                if (ignore[i] == cameraToCheck)
-                    return false;
-            }
-
-            return true;
-        }
-
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.
         /// </summary>
@@ -79,6 +68,17 @@ namespace DerailedDeliveries.Framework.Camera
 
             TrainCamera.Priority = 0;
             targetCamera.Priority = 1;
+        }
+
+        private bool CheckIgnore(CinemachineVirtualCamera[] ignore, CinemachineVirtualCamera cameraToCheck)
+        {
+            for (int i = 0; i < ignore.Length; i++)
+            {
+                if (ignore[i] == cameraToCheck)
+                    return false;
+            }
+
+            return true;
         }
     }
 }

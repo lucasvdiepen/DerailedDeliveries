@@ -16,14 +16,26 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _minRangeToNearestStation = 25;
 
+        /// <summary>
+        /// Getter for when the train is parked at a station.
+        /// </summary>
         public bool IsParked { get; private set; }
 
         private float _distance;
         private TrainController _trainController;
         private Animator _currentStationAnimator;
 
+        private int _enterAnimationHash;
+        private int _exitAnimationHash;
+
         private void Awake()
             => _trainController = GetComponent<TrainController>();
+
+        private void Start()
+        {
+            _enterAnimationHash = Animator.StringToHash("Enter");
+            _exitAnimationHash = Animator.StringToHash("Exit");
+        }
 
         private void OnEnable()
             => TrainEngine.Instance.OnSpeedStateChanged += HandleSpeedStateChanged;
@@ -42,7 +54,7 @@ namespace DerailedDeliveries.Framework.Train
 
                 IsParked = false;
 
-                _currentStationAnimator.SetTrigger("Exit");
+                _currentStationAnimator.SetTrigger(_exitAnimationHash);
                 CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
                 
                 _currentStationAnimator = null;
@@ -52,8 +64,6 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void TryParkTrainAtClosestStation()
         {
-            print("TryParkTrainAtClosestStation");
-
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out _distance);
 
@@ -66,7 +76,6 @@ namespace DerailedDeliveries.Framework.Train
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void TryParkTrain(int nearestStationCameraIndex)
         {
-            print("Observer camera: " + nearestStationCameraIndex);
             TrainEngine.Instance.ToggleEngineState();
 
             _trainController.TrainEngine.ToggleEngineState();
@@ -75,7 +84,7 @@ namespace DerailedDeliveries.Framework.Train
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
             _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
-            _currentStationAnimator.SetTrigger("Enter");
+            _currentStationAnimator.SetTrigger(_enterAnimationHash);
             IsParked = true;
         }
     }
