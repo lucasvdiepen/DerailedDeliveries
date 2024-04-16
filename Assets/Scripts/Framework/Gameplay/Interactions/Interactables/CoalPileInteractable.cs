@@ -1,17 +1,24 @@
+using FishNet.Object;
+using UnityEngine;
+
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
-using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
+    /// <summary>
+    /// A <see cref="Interactable"/> responsible for handling the coal pile.
+    /// </summary>
     public class CoalPileInteractable : Interactable
     {
         [SerializeField]
         private GameObject _coalPrefab;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
         public override bool CheckIfInteractable(Interactor interactor)
             => base.CheckIfInteractable(interactor) && interactor.InteractingTarget == null;
 

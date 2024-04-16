@@ -7,6 +7,9 @@ using DerailedDeliveries.Framework.Gameplay.Player;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
+    /// <summary>
+    /// A <see cref="Interactable"/> responsible for handling the coal oven.
+    /// </summary>
     public class CoalOvenInteractable : Interactable
     {
         [SerializeField]
@@ -23,6 +26,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             return true;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="useableGrabbable"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
         [Server]
         public override bool Interact(UseableGrabbable useableGrabbable)
         {

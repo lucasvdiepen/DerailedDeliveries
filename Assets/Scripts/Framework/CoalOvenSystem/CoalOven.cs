@@ -7,23 +7,38 @@ using DerailedDeliveries.Framework.Utils;
 
 namespace DerailedDeliveries.Framework.CoalOvenSystem
 {
+    /// <summary>
+    /// A class responsible for controlling the coal oven.
+    /// </summary>
     public class CoalOven : NetworkAbstractSingleton<CoalOven>
     {
+        /// <summary>
+        /// Invoked when the coal amount changes.
+        /// </summary>
         public Action<float> OnCoalAmountChanged;
 
         [SerializeField]
         private float _maxCoalAmount = 100;
 
         [SerializeField]
-        private float _coalBurnRate = 0.833f;
+        private float _coalBurnRate = 0.25f;
 
         [SerializeField]
         private float _coalBurnInterval = 1f;
 
+        /// <summary>
+        /// Gets whether the oven is enabled or not.
+        /// </summary>
         public bool IsOvenEnabled => TrainEngine.Instance.EngineState == TrainEngineState.Active;
 
+        /// <summary>
+        /// Gets the current coal amount.
+        /// </summary>
         public float CoalAmount { get; private set; }
 
+        /// <summary>
+        /// Gets the maximum coal amount.
+        /// </summary>
         public float MaxCoalAmount => _maxCoalAmount;
 
         private float _coalToBurn;
@@ -35,6 +50,38 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
                 return;
 
             BurnCoal();
+        }
+
+        /// <summary>
+        /// Enables the oven.
+        /// </summary>
+        [Server]
+        public void EnableOven()
+        {
+            if(IsOvenEnabled || CoalAmount < 0.0001f)
+                return;
+
+            TrainEngine.Instance.SetEngineState(TrainEngineState.Active);
+        }
+
+        /// <summary>
+        /// Adds coal to the oven.
+        /// </summary>
+        /// <param name="amount">The amount of coal to add.</param>
+        [Server]
+        public void AddCoal(float amount)
+        {
+            SetCoalAmount(Mathf.Min(CoalAmount + amount, _maxCoalAmount));
+        }
+
+        /// <summary>
+        /// Removes coal from the oven.
+        /// </summary>
+        /// <param name="amount">The amount of coal to remove.</param>
+        [Server]
+        public void RemoveCoal(float amount)
+        {
+            SetCoalAmount(Mathf.Max(CoalAmount - amount, 0));
         }
 
         [Server]
@@ -52,27 +99,6 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
                 _coalToBurn = 0;
                 _coalBurnIntervalElapsed = 0;
             }
-        }
-
-        [Server]
-        public void EnableOven()
-        {
-            if(IsOvenEnabled || CoalAmount < 0.0001f)
-                return;
-
-            TrainEngine.Instance.SetEngineState(TrainEngineState.Active);
-        }
-
-        [Server]
-        public void AddCoal(float amount)
-        {
-            SetCoalAmount(Mathf.Min(CoalAmount + amount, _maxCoalAmount));
-        }
-
-        [Server]
-        public void RemoveCoal(float amount)
-        {
-            SetCoalAmount(Mathf.Max(CoalAmount - amount, 0));
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]

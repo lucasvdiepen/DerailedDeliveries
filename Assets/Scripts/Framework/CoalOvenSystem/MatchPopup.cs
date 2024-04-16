@@ -3,6 +3,9 @@ using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.CoalOvenSystem
 {
+    /// <summary>
+    /// A <see cref="Popup"/> that handles the match popup.
+    /// </summary>
     public class MatchPopup : Popup
     {
         private void OnEnable()
