@@ -1,6 +1,4 @@
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using System.Collections;
 using UnityEngine;
 
@@ -23,6 +21,9 @@ namespace DerailedDeliveries.Framework.PopupManagement
         [SerializeField]
         private float _hoverDuration = 1.5f;
 
+        /// <summary>
+        /// Gets whether the popup is showing or not.
+        /// </summary>
         public bool IsShowing { get; private set; }
         
         private Tween _hoverAnimation;
