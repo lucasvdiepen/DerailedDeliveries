@@ -24,6 +24,8 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public bool IsParked { get; private set; }
 
+        private const float UNPARK_TOLERANCE = .05f;
+
         private float _distance;
         private TrainController _trainController;
         private Animator _currentStationAnimator;
@@ -49,14 +51,10 @@ namespace DerailedDeliveries.Framework.Train
         private void HandleSpeedChanged(float newSpeed)
         {
             if (newSpeed <= _minTrainSpeedToPark && !IsParked)
-            {
                 TryParkTrainAtClosestStation();
-            }
 
-            else if (Mathf.Abs(newSpeed) > _minTrainSpeedToPark)
-            {
+            else if (Mathf.Abs(newSpeed) > (_minTrainSpeedToPark + UNPARK_TOLERANCE))
                 UnparkTrain();
-            }
         }
 
         private void UnparkTrain()
