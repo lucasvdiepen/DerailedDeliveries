@@ -153,6 +153,13 @@ namespace DerailedDeliveries.Framework.Train
             => OnTrainEngineStateChanged((TrainEngineState)(EngineState == TrainEngineState.Inactive ? 1 : 0));
 
         /// <summary>
+        /// Used to toggle if the engine should be on/off.
+        /// </summary>
+        [ServerRpc(RequireOwnership = false)]
+        public void SetEngineState(bool state)
+            => OnTrainEngineStateChanged(state ? TrainEngineState.Active : TrainEngineState.Inactive);
+
+        /// <summary>
         /// Used to toggle direction of upcomming rail split.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
@@ -216,7 +223,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Internally used to update current speed.
         /// </summary>
-        [Server]
+        [Server]    
         private void UpdateCurrentSpeed()
         {
             if (_isBraking)
