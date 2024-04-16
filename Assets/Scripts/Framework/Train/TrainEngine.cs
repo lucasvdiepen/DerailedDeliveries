@@ -205,10 +205,12 @@ namespace DerailedDeliveries.Framework.Train
 
         private void Update()
         {
-            if (!IsServer)
-                return;
-         
-            UpdateCurrentSpeed();
+            if (IsServer)
+                UpdateCurrentSpeed();
+
+            // Adjust Cinemachine noise amplitude gain based on current speed
+            float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(CurrentSpeed) / MaxSpeed);
+            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain;
         }
 
         /// <summary>
@@ -235,10 +237,6 @@ namespace DerailedDeliveries.Framework.Train
                 _brakeTimer = _brakeDuration;
                 CurrentSpeed = 0;
             }
-
-            // Adjust Cinemachine noise amplitude gain based on current speed
-            float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(CurrentSpeed) / MaxSpeed);
-            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain;
         }
 
         private void UpdateBraking()

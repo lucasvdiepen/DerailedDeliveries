@@ -123,6 +123,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &7904191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1913828250751714285, guid: 129170a3f055e084ba9347f93364881a,
+    type: 3}
+  m_PrefabInstance: {fileID: 597875898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &11247996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1760,11 +1772,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.12930301
-      objectReference: {fileID: 0}
-    - target: {fileID: 4694904008688846712, guid: 129170a3f055e084ba9347f93364881a,
-        type: 3}
-      propertyPath: _trainFrontStartTime
-      value: 0.016270477
       objectReference: {fileID: 0}
     - target: {fileID: 4694904008688846712, guid: 129170a3f055e084ba9347f93364881a,
         type: 3}
@@ -3533,7 +3540,7 @@ PrefabInstance:
         type: 3}
       propertyPath: <TrainCamera>k__BackingField
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7904191}
     - target: {fileID: 4729823481979525061, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
       propertyPath: _stationCameras.Array.data[0]
