@@ -189,7 +189,7 @@ namespace DerailedDeliveries.Framework.Train
             OnDirectionChanged?.Invoke(CurrentSplitDirection);
 
             // If engine is set to inactive, reset train acceleration.
-            if(newState == TrainEngineState.Inactive)
+            if(newState == TrainEngineState.Inactive && IsServer)
             {
                 _friction = _standbyFriction;
 
