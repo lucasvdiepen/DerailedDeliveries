@@ -24,9 +24,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _heightOffset;
 
-        [SerializeField]
-        private Vector3 _centerPointOffset;
-
         [Header("Wagons Config")]
         [SerializeField]
         private Transform _frontWagon;
