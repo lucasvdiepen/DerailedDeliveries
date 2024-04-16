@@ -156,7 +156,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 10
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -193,13 +193,13 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 8057311849413527246}
   <Spline>k__BackingField: {fileID: 0}
   _trainFrontStartTime: 0.017611483
-  _heightOffset: 2.53
+  _heightOffset: 2.1
   _frontWagon: {fileID: 7640492346968642029}
   _wagonFollowDistance: 540
   _wagonSpacing: 1800
   _followingWagons:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1727611534515989209}
+  - {fileID: 3813624059706690898}
 --- !u!114 &5142576653863284277
 MonoBehaviour:
   m_ObjectHideFlags: 0
