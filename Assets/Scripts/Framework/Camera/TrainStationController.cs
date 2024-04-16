@@ -62,7 +62,7 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void TryParkTrainAtClosestStation()
+        private void TryParkTrainAtClosestStation()
         {
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out _distance);
