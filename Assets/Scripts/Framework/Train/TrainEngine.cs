@@ -216,6 +216,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Internally used to update current speed.
         /// </summary>
+        [Server]
         private void UpdateCurrentSpeed()
         {
             if (_isBraking)
