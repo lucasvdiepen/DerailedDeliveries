@@ -1,10 +1,11 @@
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using FishNet.Connection;
 using FishNet.Object;
-using System;
-using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -23,6 +24,9 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
         [SerializeField]
         private GameObject _playerPrefab;
+
+        [SerializeField]
+        private CinemachineTargetGroup _targetGroup;
 
         [SerializeField]
         private int _maxPlayers = 6;
@@ -180,6 +184,8 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             GameObject spawnedPlayer = Instantiate(_playerPrefab, _spawnPoint.position, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
+
+            _targetGroup.AddMember(spawnedPlayer.transform, 1, 1);
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
             SceneManager.AddOwnerToDefaultScene(networkObject);
