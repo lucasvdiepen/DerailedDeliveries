@@ -26,6 +26,9 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         [SerializeField]
         private float _coalBurnInterval = 1f;
 
+        [SerializeField]
+        private bool _ignoreCoalBurn;
+
         /// <summary>
         /// Gets whether the oven is enabled or not.
         /// </summary>
@@ -58,7 +61,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         [Server]
         public void EnableOven()
         {
-            if(IsOvenEnabled || CoalAmount < 0.0001f)
+            if((IsOvenEnabled || CoalAmount < 0.0001f) && !_ignoreCoalBurn)
                 return;
 
             TrainEngine.Instance.SetEngineState(TrainEngineState.Active);
@@ -87,7 +90,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         [Server]
         private void BurnCoal()
         {
-            if(!IsOvenEnabled)
+            if(!IsOvenEnabled || _ignoreCoalBurn)
                 return;
 
             _coalToBurn += _coalBurnRate * Mathf.Abs(TrainEngine.Instance.CurrentSpeedIndex) * Time.deltaTime;
