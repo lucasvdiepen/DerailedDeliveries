@@ -62,7 +62,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invokes when train engine state is changed.
         /// </summary>
-        public Action<TrainEngineState, TrainEngineState> OnEngineStateChanged;
+        public Action<TrainEngineState> OnEngineStateChanged;
 
         /// <summary>
         /// Invokes when train speed state is changed.
@@ -168,7 +168,7 @@ namespace DerailedDeliveries.Framework.Train
         private void OnTrainEngineStateChanged(TrainEngineState newState)
         {
             EngineState = newState;
-            OnDirectionChanged?.Invoke(CurrentSplitDirection);
+            OnEngineStateChanged?.Invoke(EngineState);
 
             _friction = newState == TrainEngineState.Inactive ? _standbyFriction : _startFriction;
         }
