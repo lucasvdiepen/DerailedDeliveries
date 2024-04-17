@@ -7,6 +7,7 @@ using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
+using Unity.Mathematics;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -54,19 +55,30 @@ namespace DerailedDeliveries.Framework.Gameplay
         {
             _currentScore = 0;
 
-            List<string> labels = new();
             StationLevelData[] levelData = _levels.levels[index].StationLevelData;
-            System.Random random = new System.Random();
+            List<string> labels = GenerateLabelsForStations(levelData);
 
-            for(int i = 0; i < levelData.Length; i++)
+            List<Transform> usedSpawns = SpawnDeliveries(levelData, labels);
+
+            List<Transform> freeSpawns = GetAllFreeSpawns(usedSpawns);
+
+            SpawnFakeDeliveries(freeSpawns, labels);
+        }
+
+        private List<string> GenerateLabelsForStations(StationLevelData[] stationData)
+        {
+            System.Random random = new System.Random();
+            List<string> labels = new();
+
+            for (int i = 0; i < stationData.Length; i++)
             {
                 TrainStation targetStation = _allStations[i];
                 string label = string.Empty;
 
-                while(label == string.Empty || labels.Contains(label))
+                while (label == string.Empty || labels.Contains(label))
                 {
-                    label 
-                        = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString() 
+                    label
+                        = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString()
                         + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
                 }
 
@@ -74,14 +86,19 @@ namespace DerailedDeliveries.Framework.Gameplay
                 targetStation.UpdateLabelAndID(label, i);
             }
 
+            return labels;
+        }
+
+        private List<Transform> SpawnDeliveries(StationLevelData[] levelData, List<string> labels)
+        {
             List<Transform> usedSpawns = new();
 
-            for(int i = levelData.Length - 1; i >= 0; i--)
+            for (int i = levelData.Length - 1; i >= 0; i--)
             {
                 List<Transform> availableSpawns = GetAvailableSpawnsForStation(i);
                 int amountToSpawn = levelData[i].MinDeliverablePackages;
 
-                while(amountToSpawn > 0 && availableSpawns.Count > 0)
+                while (amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
                     availableSpawns.Shuffle();
                     Transform targetSpawn = availableSpawns[0];
@@ -99,22 +116,26 @@ namespace DerailedDeliveries.Framework.Gameplay
                 }
             }
 
-            List<Transform> freeSpawns = GetAllFreeSpawns(usedSpawns);
+            return usedSpawns;
+        }
 
-            int fakeDeliverySpawns = random.Next(0, freeSpawns.Count);
-            freeSpawns.Shuffle();
+        private void SpawnFakeDeliveries(List<Transform> spawns, List<string> usedLabels)
+        {
+            System.Random random = new System.Random();
+            spawns.Shuffle();
+            int fakeDeliverySpawns = random.Next(0, spawns.Count);
 
             for (int i = 0; i < fakeDeliverySpawns; i++)
             {
                 string label = string.Empty;
-                while (label == string.Empty || labels.Contains(label))
+                while (label == string.Empty || usedLabels.Contains(label))
                 {
                     label
                         = CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString()
                         + CHARACTERS[random.Next(0, CHARACTERS.Length)].ToString();
                 }
 
-                SpawnBoxDelivery(freeSpawns[i], label, -1);
+                SpawnBoxDelivery(spawns[i], label, -1);
             }
         }
 
