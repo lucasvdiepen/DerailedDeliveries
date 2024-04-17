@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &3048916122270372580
@@ -314,6 +314,7 @@ MonoBehaviour:
   - {fileID: 4598101147158428293}
   - {fileID: -581960332264621981}
   - {fileID: 968015005501435280}
+  - {fileID: 3288458834946721602}
   - {fileID: 7396771209937068835}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
@@ -413,6 +414,7 @@ MonoBehaviour:
   - {fileID: 350454645476312809}
   - {fileID: 3074924858106231759}
   - {fileID: 4434121101895074578}
+  - {fileID: 3288458834946721602}
   _shouldIgnoreOnServer: 0
 --- !u!114 &4598101147158428293
 MonoBehaviour:
@@ -524,9 +526,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6f7388b8c84ed47a228c71cac735cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2499233359108512077}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &5492449899307018159
 GameObject:
   m_ObjectHideFlags: 0
