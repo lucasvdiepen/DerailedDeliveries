@@ -1,12 +1,13 @@
 using UnityEngine;
 using TMPro;
+using FishNet.Object;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
     /// <summary>
     /// A class that is responsible for holding values of a Train Station.
     /// </summary>
-    public class TrainStation : MonoBehaviour
+    public class TrainStation : NetworkBehaviour
     {
         [SerializeField]
         private int _stationID = -1;
@@ -35,17 +36,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         /// </summary>
         public Transform[] SpawnTransforms => _spawnTransforms;
 
-        private void Awake()
-        {
-            if(_stationLabel != string.Empty && _stationText != null)
-                _stationText.text = "Station " + _stationLabel;
-        }
-
         /// <summary>
         /// Updates the stations Label and ID.
         /// </summary>
         /// <param name="label">The new label to assign.</param>
         /// <param name="id">The new ID to assign.</param>
+        [ObserversRpc(RunLocally = true, BufferLast = true)]
         public void UpdateLabelAndID(string label, int id)
         {
             _stationLabel = label;

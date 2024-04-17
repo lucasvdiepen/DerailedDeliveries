@@ -8,6 +8,8 @@ using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
 using Unity.Mathematics;
+using FishNet.Object;
+using static UnityEngine.Rendering.ReloadAttribute;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -51,6 +53,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// A function that is used to load a new level.
         /// </summary>
         /// <param name="index">The level ID.</param>
+        [Server]
         public void SelectLevelToLoad(int index)
         {
             _currentScore = 0;
@@ -180,6 +183,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// </summary>
         /// <param name="delivery">The package that was delivered.</param>
         /// <param name="stationID">The ID of the station it was delivered to.</param>
+        [Server]
         public void HandlePackageDelivery(PackageData package, int stationID)
         {
             if (package.PackageID == stationID)
@@ -187,8 +191,16 @@ namespace DerailedDeliveries.Framework.Gameplay
             else
                 _currentScore -= _incorrectDeliveryPenalty;
 
-            OnPackageDelivered?.Invoke(package.PackageID);
+            HandleScoreUpdate(_currentScore, package.PackageID);
             ServerManager.Despawn(package.gameObject);
+        }
+
+        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        private void HandleScoreUpdate(int newScore, int packageID)
+        {
+            _currentScore = newScore;
+
+            OnPackageDelivered?.Invoke(packageID);
         }
     }
 }

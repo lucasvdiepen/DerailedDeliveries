@@ -26,9 +26,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsBeingInteracted { get; set; }
 
-        public override void OnStartServer()
+        private void Start()
         {
-            base.OnStartServer();
             PlaceOnGround();
         }
 
@@ -87,7 +86,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// A function that places the <see cref="Grabbable"/> on the ground, can be used for after snapping to a
         /// transform.
         /// </summary>
-        public virtual void PlaceOnGround() => transform.position = GetPositionOnGround(transform);
+        public virtual void PlaceOnGround() => transform.position = GetPositionOnGround(transform.position);
 
         /// <summary>
         /// A function that returns the new location if its <see cref="Transform"/> were to match the 
@@ -95,9 +94,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         /// <param name="target">The target transform.</param>
         /// <returns>The new location that the Grabbable would be.</returns>
-        public virtual Vector3 GetPositionOnGround(Transform target)
+        public virtual Vector3 GetPositionOnGround(Vector3 position)
         {
-            Physics.Raycast(target.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
+            Physics.Raycast(position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
 
             return hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
         }

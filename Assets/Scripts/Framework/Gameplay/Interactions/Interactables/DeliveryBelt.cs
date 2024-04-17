@@ -7,6 +7,7 @@ using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DG.Tweening;
 using DG.Tweening.Core;
+using FishNet.Object;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -35,7 +36,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// <returns><inheritdoc/></returns>
         public override bool CheckIfInteractable(Interactor interactor) => 
             base.CheckIfInteractable(interactor) && interactor.InteractingTarget != null;
-        
+
+        [Server]
         private protected override bool Interact(Interactor interactor) => false;
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         /// <param name="target"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
+        [Server]
         public override bool Interact(UseableGrabbable target)
         {
             if (target is not BoxGrabbable deliveryTarget)
@@ -54,7 +57,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             deliveryTarget.NetworkObject.SetParent(this);
             deliveryTarget.transform.position = _startTransform.position;
 
-            Vector3 startPos = deliveryTarget.GetPositionOnGround(_startTransform);
+            Vector3 startPos = deliveryTarget.GetPositionOnGround(_startTransform.position);
             Vector3 endPos = new Vector3(_endTransform.position.x, startPos.y, _endTransform.position.z);
 
             PackageData package = target.GetComponent<PackageData>();
@@ -70,6 +73,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             return true;
         }
 
+        [Server]
         private void CompleteDelivery(PackageData package) =>
             LevelTracker.Instance.HandlePackageDelivery(package, _parentStation.StationID);
     }
