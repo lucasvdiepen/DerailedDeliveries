@@ -1,7 +1,5 @@
 using FishNet.Object;
 using UnityEngine.InputSystem;
-using UnityEngine;
-using Cinemachine;
 
 namespace DerailedDeliveries.Framework.Train
 {

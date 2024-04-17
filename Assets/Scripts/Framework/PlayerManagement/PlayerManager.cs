@@ -120,6 +120,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             }
 
             OnPlayerJoined?.Invoke(playerId);
+            _targetGroup.AddMember(playerId.transform, 1, 1);
         }
 
         /// <summary>
@@ -184,8 +185,6 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             GameObject spawnedPlayer = Instantiate(_playerPrefab, _spawnPoint.position, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
-
-            _targetGroup.AddMember(spawnedPlayer.transform, 1, 1);
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
             SceneManager.AddOwnerToDefaultScene(networkObject);
