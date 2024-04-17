@@ -1035,6 +1035,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 8253373257522351945}
   _networkObjectCache: {fileID: 8253373257522351945}
   _minRangeToNearestStation: 25
+  _minTrainSpeedToPark: 0.35
 --- !u!1 &3469689095161243682
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,8 +2745,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0.5
+  m_SoftZoneHeight: 0.5
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -2757,8 +2758,8 @@ MonoBehaviour:
   m_MaxDollyOut: 5000
   m_MinimumDistance: 1
   m_MaximumDistance: 5000
-  m_MinimumFOV: 57.5
-  m_MaximumFOV: 98.3
+  m_MinimumFOV: 30
+  m_MaximumFOV: 100
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
 --- !u!4 &6670178409804286618 stripped
