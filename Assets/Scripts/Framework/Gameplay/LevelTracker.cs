@@ -89,13 +89,13 @@ namespace DerailedDeliveries.Framework.Gameplay
                     if (usedSpawns.Contains(targetSpawn))
                         continue;
 
-                    BoxGrabbable boxGrabbable = SpawnBoxDelivery(targetSpawn, labels[i], i);
+                    PackageData package = SpawnBoxDelivery(targetSpawn, labels[i], i);
 
                     amountToSpawn--;
                     usedSpawns.Add(targetSpawn);
                     availableSpawns.Remove(targetSpawn);
 
-                    _totalScore += _succesfullDeliveryBonus + boxGrabbable.GetComponent<BoxDamageable>().Health;
+                    _totalScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
                 }
             }
 
@@ -142,17 +142,16 @@ namespace DerailedDeliveries.Framework.Gameplay
             return freeSpawns;
         }
 
-        private BoxGrabbable SpawnBoxDelivery(Transform spawnTransform, string label, int id)
+        private PackageData SpawnBoxDelivery(Transform spawnTransform, string label, int id)
         {
-            BoxGrabbable boxGrabbable = Instantiate(_packagePrefab).GetComponent<BoxGrabbable>();
-            ServerManager.Spawn(boxGrabbable.gameObject);
+            PackageData package = Instantiate(_packagePrefab).GetComponent<PackageData>();
+            ServerManager.Spawn(package.gameObject);
 
-            boxGrabbable.transform.SetPositionAndRotation(spawnTransform.position, spawnTransform.rotation);
+            package.transform.SetPositionAndRotation(spawnTransform.position, spawnTransform.rotation);
 
-            boxGrabbable.PlaceOnGround();
-            boxGrabbable.UpdateLabelAndID(label, id);
+            package.UpdateLabelAndID(label, id);
 
-            return boxGrabbable;
+            return package;
         }
 
         /// <summary>
@@ -160,15 +159,15 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// </summary>
         /// <param name="delivery">The package that was delivered.</param>
         /// <param name="stationID">The ID of the station it was delivered to.</param>
-        public void HandlePackageDelivery(BoxGrabbable delivery, int stationID)
+        public void HandlePackageDelivery(PackageData package, int stationID)
         {
-            if (delivery.PackageID == stationID)
-                _currentScore += _succesfullDeliveryBonus + delivery.GetComponent<BoxDamageable>().Health;
+            if (package.PackageID == stationID)
+                _currentScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
             else
                 _currentScore -= _incorrectDeliveryPenalty;
 
-            OnPackageDelivered?.Invoke(delivery.PackageID);
-            ServerManager.Despawn(delivery.gameObject);
+            OnPackageDelivered?.Invoke(package.PackageID);
+            ServerManager.Despawn(package.gameObject);
         }
     }
 }

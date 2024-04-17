@@ -26,6 +26,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsBeingInteracted { get; set; }
 
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+            PlaceOnGround();
+        }
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

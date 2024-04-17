@@ -21,7 +21,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// <summary>
         /// A getter that returns this interactable's <see cref="UnityEngine.BoxCollider"/>.
         /// </summary>
-        [field: SerializeField]
         public BoxCollider BoxCollider { get; private set; }
 
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
@@ -33,23 +32,23 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         private protected virtual void Awake() => BoxCollider = GetComponent<BoxCollider>();
 
         /// <summary>
-        /// Returns a boolean that reflects if this Interactable is available for interaction.
+        /// Returns a boolean that reflects if this <see cref="Interactable"/> is available for interaction.
         /// </summary>
-        /// <param name="interactor">The interactor that is checking if this is interactable.</param>
+        /// <param name="interactor">The <see cref="Interactor"/> that is checking if this is interactable.</param>
         /// <returns>The status that reflects if this is interactable.</returns>
         public virtual bool CheckIfInteractable(Interactor interactor) => IsInteractable && !IsOnCooldown;
 
         /// <summary>
-        /// A function that calls a RPC to the server on this Interactable.
+        /// A function that calls a RPC to the server on this <see cref="Interactable"/>.
         /// </summary>
-        /// <param name="interactor">The interactor that this request originates from.</param>
+        /// <param name="interactor">The <see cref="Interactor"/> that this request originates from.</param>
         [ServerRpc(RequireOwnership = false)]
         public void InteractOnServer(Interactor interactor) => Interact(interactor);
 
         /// <summary>
         /// A function that calls the Interact function when already on the server.
         /// </summary>
-        /// <param name="interactor">The origin interactor this request originates from.</param>
+        /// <param name="interactor">The origin <see cref="Interactor"/> this request originates from.</param>
         /// <returns>The result of if the interaction was succesfull.</returns>
         [Server]
         public bool InteractAsServer(Interactor interactor) => Interact(interactor);
@@ -74,7 +73,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         }
 
         /// <summary>
-        /// An interact function that is called from interactable to interactable.
+        /// An interact function that is called from <see cref="Interactable"/> to <see cref="Interactable"/>.
         /// </summary>
         /// <param name="interactor">The origin Interactor.</param>
         /// <returns>The status of if the Interaction was succesfull.</returns>

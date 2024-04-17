@@ -12,7 +12,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
     /// A class that is responsible for handling the delivery of <see cref="BoxGrabbable"/>'s.
     /// On succesfull delivery gets tracked by the <see cref="LevelTracker"/>.
     /// </summary>
-    public class DeliveryBelt : Interactable
+    public class DeliveryBeltInteractable : Interactable
     {
         [SerializeField]
         private Transform _startTransform;
@@ -26,13 +26,23 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         [SerializeField]
         private TrainStation _parentStation;
 
-        private Dictionary<BoxGrabbable, float> _interactablesOnBelt = new();
+        private Dictionary<PackageData, float> _packagesOnBelt = new();
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
         public override bool CheckIfInteractable(Interactor interactor) => 
             base.CheckIfInteractable(interactor) && interactor.InteractingTarget != null;
         
         private protected override bool Interact(Interactor interactor) => false;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="target"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
         public override bool Interact(UseableGrabbable target)
         {
             if (target is not BoxGrabbable deliveryTarget)
@@ -44,35 +54,37 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             deliveryTarget.NetworkObject.SetParent(this);
             deliveryTarget.transform.position = _startTransform.position;
 
-            _interactablesOnBelt.Add(deliveryTarget, 0);
 
             Vector3 startPos = deliveryTarget.GetPositionOnGround(_startTransform);
             Vector3 endPos = new Vector3(_endTransform.position.x, startPos.y, _endTransform.position.z);
-            StartCoroutine(LerpBoxToPosition(deliveryTarget, startPos, endPos));
+
+            PackageData package = target.GetComponent<PackageData>();
+            _packagesOnBelt.Add(package, 0);
+
+            StartCoroutine(LerpBoxToPosition(package, startPos, endPos));
             
             return true;
         }
 
-        private IEnumerator LerpBoxToPosition(BoxGrabbable target, Vector3 startPos, Vector3 endPos)
+        private IEnumerator LerpBoxToPosition(PackageData package, Vector3 startPos, Vector3 endPos)
         {
-            while(_interactablesOnBelt.ContainsKey(target) && _interactablesOnBelt[target] < 1)
+            while(_packagesOnBelt.ContainsKey(package) && _packagesOnBelt[package] < 1)
             {
-                float lerpFloat = _interactablesOnBelt[target];
+                float lerpFloat = _packagesOnBelt[package];
                 lerpFloat = Mathf.Clamp01(lerpFloat + (Time.deltaTime * _beltSpeed));
-                _interactablesOnBelt[target] = lerpFloat;
+                _packagesOnBelt[package] = lerpFloat;
 
-                target.transform.position = Vector3.Lerp(startPos, endPos, lerpFloat);
+                package.transform.position = Vector3.Lerp(startPos, endPos, lerpFloat);
 
                 yield return null;
-                continue;
             }
 
-            _interactablesOnBelt.Remove(target);
-            CompleteDelivery(target);
+            _packagesOnBelt.Remove(package);
+            CompleteDelivery(package);
             yield return null;
         }
 
-        private void CompleteDelivery(BoxGrabbable delivery) =>
-            LevelTracker.Instance.HandlePackageDelivery(delivery, _parentStation.StationID);
+        private void CompleteDelivery(PackageData package) =>
+            LevelTracker.Instance.HandlePackageDelivery(package, _parentStation.StationID);
     }
 }

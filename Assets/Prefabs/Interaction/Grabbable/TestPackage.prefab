@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 156916524191783587}
   - component: {fileID: 3938336100073716210}
   - component: {fileID: 3305058913626210986}
+  - component: {fileID: 3209575921346191832}
   - component: {fileID: 8014447142163542073}
   m_Layer: 0
   m_Name: TestPackage
@@ -213,6 +214,7 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 156916524191783587}
   - {fileID: 3305058913626210986}
+  - {fileID: 8014447142163542073}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -326,15 +328,25 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 6073812502090828546}
   _networkObjectCache: {fileID: 6073812502090828546}
   _cooldown: 0.5
-  <BoxCollider>k__BackingField: {fileID: 3938336100073716210}
   <IsOnCooldown>k__BackingField: 0
   <IsInteractable>k__BackingField: 1
   _maxGroundCheckDistance: 10
   _originInteractor: {fileID: 0}
   <IsBeingInteracted>k__BackingField: 0
+--- !u!114 &3209575921346191832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555197626043509476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f3e9b95a6ef42449b6c8e96350f7f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _packageID: -1
   _packageLabel: 
-  _deliveryQuality: 10
   _textDisplays:
   - {fileID: 4487334883270354525}
   - {fileID: 7549018812455267900}
@@ -352,9 +364,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f192a1a062b74204fb36245132a11d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 6073812502090828546}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6073812502090828546}
   _maxHealth: 10
   _canHaveNegativeHealth: 0
   _damageInterval: 15
