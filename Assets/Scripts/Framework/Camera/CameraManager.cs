@@ -11,19 +11,17 @@ namespace DerailedDeliveries.Framework.Camera
     /// </summary>
     public class CameraManager : AbstractSingleton<CameraManager>
     {
-        [SerializeField]
-        private CinemachineVirtualCamera[] _stationCameras;
+        /// <summary>
+        /// Getter/Setter for all available station cameras.
+        /// </summary>
+        [field: SerializeField]
+        public CinemachineVirtualCamera[] StationCameras { get; private set; }
 
         /// <summary>
         /// Reference to the train camera.
         /// </summary>
         [field: SerializeField]
         public CinemachineVirtualCamera TrainCamera { get; private set; }
-
-        /// <summary>
-        /// Getter for all available station cameras.
-        /// </summary>
-        public CinemachineVirtualCamera[] StationCameras => _stationCameras;
 
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.
@@ -37,7 +35,7 @@ namespace DerailedDeliveries.Framework.Camera
             CinemachineVirtualCamera bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
 
-            foreach (CinemachineVirtualCamera virtualCamera in _stationCameras)
+            foreach (CinemachineVirtualCamera virtualCamera in StationCameras)
             {
                 Vector3 directionToTarget = virtualCamera.transform.position - originPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
@@ -53,7 +51,7 @@ namespace DerailedDeliveries.Framework.Camera
             }
 
             distance = Mathf.Sqrt(closestDistanceSqr);
-            return Array.IndexOf(_stationCameras, bestTarget);
+            return Array.IndexOf(StationCameras, bestTarget);
         }
 
         /// <summary>
@@ -62,9 +60,9 @@ namespace DerailedDeliveries.Framework.Camera
         /// <param name="targetCamera">Camera to set active.</param>
         public void ChangeActiveCamera(CinemachineVirtualCamera targetCamera)
         {
-            int cameras = _stationCameras.Length;
+            int cameras = StationCameras.Length;
             for (int i = 0; i < cameras; i++)
-                _stationCameras[i].Priority = 0;
+                StationCameras[i].Priority = 0;
 
             TrainCamera.Priority = 0;
             targetCamera.Priority = 1;
