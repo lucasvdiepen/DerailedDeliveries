@@ -27,10 +27,6 @@ namespace DerailedDeliveries.Framework.ParentingSystem
                 return;
 
             SetOrUnsetParent(objectParent, false);
-
-            // If the parent is unset, check if there are any other parents inside collidingParents.
-            foreach(ObjectParent parent in _collidingParents)
-                parent.SetParent(NetworkObject);
         }
 
         private void SetOrUnsetParent(ObjectParent objectParent, bool isEntering)
@@ -42,8 +38,16 @@ namespace DerailedDeliveries.Framework.ParentingSystem
                 return;
             }
 
-            NetworkObject.UnsetParent();
             _collidingParents.Remove(objectParent);
+
+            // If the parent is unset, check if there are any other parents inside collidingParents.
+            if (_collidingParents.Count > 0)
+            {
+                _collidingParents[^1].SetParent(NetworkObject);
+                return;
+            }
+
+            NetworkObject.UnsetParent();
         }
     }
 }
