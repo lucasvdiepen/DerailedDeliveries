@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
     /// <summary>
-    /// A scriptable objeect holding a list of all levels.
+    /// A scriptable object holding a list of all levels.
     /// </summary>
     [CreateAssetMenu(fileName = "Levels", menuName = "ScriptableObjects/Levels")]
     public class Levels : ScriptableObject

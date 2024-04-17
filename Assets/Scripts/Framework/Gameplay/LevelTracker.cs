@@ -95,8 +95,8 @@ namespace DerailedDeliveries.Framework.Gameplay
 
             for (int i = levelData.Length - 1; i >= 0; i--)
             {
-                List<Transform> availableSpawns = GetAvailableSpawnsForStation(i);
-                int amountToSpawn = levelData[i].MinDeliverablePackages;
+                List<Transform> availableSpawns = GetAvailableSpawnsForStation(i, usedSpawns);
+                int amountToSpawn = levelData[i].minDeliverablePackages;
 
                 while (amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
@@ -139,13 +139,13 @@ namespace DerailedDeliveries.Framework.Gameplay
             }
         }
 
-        private List<Transform> GetAvailableSpawnsForStation(int stationIndex)
+        private List<Transform> GetAvailableSpawnsForStation(int stationIndex, List<Transform> usedSpawns)
         {
             List<Transform> spawns = new();
 
             for (int i = stationIndex - 1; i >= 0; i--)
                 for (int j = 0; j < _allStations[i].SpawnTransforms.Length; j++)
-                    if (!spawns.Contains(_allStations[i].SpawnTransforms[j]))
+                    if (!usedSpawns.Contains(_allStations[i].SpawnTransforms[j]))
                         spawns.Add(_allStations[i].SpawnTransforms[j]);
 
             return spawns;
