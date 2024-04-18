@@ -2287,12 +2287,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7729426240705543750}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1258914210 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6872001306394958068, guid: ec04a114bee5141408603a302383a667,
-    type: 3}
-  m_PrefabInstance: {fileID: 2220954708020609914}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1343933568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2509,7 +2503,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _trackingTransform
       value: 
-      objectReference: {fileID: 1258914210}
+      objectReference: {fileID: 2220954708020609915}
     - target: {fileID: 5539318740861562338, guid: 1afcf008c6d1e23419bb710094a400f2,
         type: 3}
       propertyPath: m_Name
@@ -3847,6 +3841,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec04a114bee5141408603a302383a667, type: 3}
+--- !u!4 &2220954708020609915 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7640492346968642029, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6886064103473630743
 PrefabInstance:
   m_ObjectHideFlags: 0
