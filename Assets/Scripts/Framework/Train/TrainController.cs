@@ -1,5 +1,6 @@
 using UnityEngine.Splines;
 using FishNet.Object;
+using Cinemachine;
 using UnityEngine;
 using System;
 
@@ -23,6 +24,9 @@ namespace DerailedDeliveries.Framework.Train
 
         [SerializeField]
         private float _heightOffset;
+
+        [SerializeField]
+        private CinemachineTargetGroup _targetGroup;
 
         [Header("Wagons Config")]
         [SerializeField]
@@ -133,6 +137,8 @@ namespace DerailedDeliveries.Framework.Train
 
                 positionSum += _followingWagons[i].position;
             }
+
+            _targetGroup.transform.rotation = _followingWagons[0].transform.rotation;
         }
 
         /// <summary>

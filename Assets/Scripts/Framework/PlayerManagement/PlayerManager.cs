@@ -26,6 +26,9 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private GameObject _playerPrefab;
 
         [SerializeField]
+        private Transform _testParent;
+
+        [SerializeField]
         private CinemachineTargetGroup _targetGroup;
 
         [SerializeField]
@@ -121,6 +124,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             OnPlayerJoined?.Invoke(playerId);
             _targetGroup.AddMember(playerId.transform, 1, 1);
+            playerId.transform.SetParent(_testParent); //TODO: NEED TO REMOVE THIS IS TEMPORARY.
         }
 
         /// <summary>
