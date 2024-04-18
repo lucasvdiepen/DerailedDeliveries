@@ -40,14 +40,11 @@ namespace DerailedDeliveries.Framework.Camera
                 Vector3 directionToTarget = virtualCamera.transform.position - originPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
 
-                if (dSqrToTarget < closestDistanceSqr)
-                {
-                    if (!CheckIgnore(ignore, virtualCamera))
-                        continue;
+                if (dSqrToTarget > closestDistanceSqr || !CheckIgnore(ignore, virtualCamera))
+                    continue;
 
-                    closestDistanceSqr = dSqrToTarget;
-                    bestTarget = virtualCamera;
-                }
+                closestDistanceSqr = dSqrToTarget;
+                bestTarget = virtualCamera;
             }
 
             distance = Mathf.Sqrt(closestDistanceSqr);
@@ -60,8 +57,8 @@ namespace DerailedDeliveries.Framework.Camera
         /// <param name="targetCamera">Camera to set active.</param>
         public void ChangeActiveCamera(CinemachineVirtualCamera targetCamera)
         {
-            int cameras = StationCameras.Length;
-            for (int i = 0; i < cameras; i++)
+            int camerasAmount = StationCameras.Length;
+            for (int i = 0; i < camerasAmount; i++)
                 StationCameras[i].Priority = 0;
 
             TrainCamera.Priority = 0;
