@@ -23,6 +23,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if(targetInteractable != null && RunInteract(targetInteractable))
                 return;
 
+            if(IsDeinitializing)
+                return;
+
             base.UseGrabbable(interactor);
         }
 
