@@ -44,15 +44,19 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
-        [ContextMenu("Test Package Generation")]
-        private void TestGeneration() => SelectLevelToLoad(0);
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            SelectLevelToLoad(0);
+        }
 
         /// <summary>
         /// A function that is used to load a new level.
         /// </summary>
         /// <param name="index">The level ID.</param>
         [Server]
-        public void SelectLevelToLoad(int index)
+        private void SelectLevelToLoad(int index)
         {
             _currentScore = 0;
 

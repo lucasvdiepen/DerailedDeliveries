@@ -322,6 +322,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 148179860525672389}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4614009502620222220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8567207491870260109}
+  - component: {fileID: 2881810979835290817}
+  m_Layer: 0
+  m_Name: Pallet_02_Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8567207491870260109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4614009502620222220}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.028930008, z: -0, w: 0.99958146}
+  m_LocalPosition: {x: -0.56805956, y: -0.343, z: -5.154618}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5522526432254833416}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.316, z: 0}
+--- !u!65 &2881810979835290817
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4614009502620222220}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.931868, y: 0.5, z: 4.459094}
+  m_Center: {x: 0.78821605, y: 2.62, z: 0.02149267}
 --- !u!1 &4730853709080308706
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +1014,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5848792193133170772}
+    - targetCorrespondingSourceObject: {fileID: 5061376176465143329, guid: 3d7f299e2829b4141b6a23e1c99efd35,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8567207491870260109}
     - targetCorrespondingSourceObject: {fileID: 3413366115693265687, guid: 3d7f299e2829b4141b6a23e1c99efd35,
         type: 3}
       insertIndex: -1
@@ -994,6 +1051,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3640618656059418044}
+    - targetCorrespondingSourceObject: {fileID: -2678515004537769313, guid: 3d7f299e2829b4141b6a23e1c99efd35,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9127445742407492201}
   m_SourcePrefab: {fileID: 100100000, guid: 3d7f299e2829b4141b6a23e1c99efd35, type: 3}
 --- !u!4 &148179860525672389 stripped
 Transform:
@@ -1040,6 +1101,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 765165909157696809}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5522526432254833416 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5061376176465143329, guid: 3d7f299e2829b4141b6a23e1c99efd35,
+    type: 3}
+  m_PrefabInstance: {fileID: 765165909157696809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5785553890991515574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2678515004537769313, guid: 3d7f299e2829b4141b6a23e1c99efd35,
+    type: 3}
+  m_PrefabInstance: {fileID: 765165909157696809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &9127445742407492201
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5785553890991515574}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.766, y: 0.5152211, z: 5.603045}
+  m_Center: {x: 9.189226, y: 2.2662833, z: -5.118889}
 --- !u!1 &8870331111514488614 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8180741930464832015, guid: 3d7f299e2829b4141b6a23e1c99efd35,
