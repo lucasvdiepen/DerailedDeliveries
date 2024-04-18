@@ -88,7 +88,7 @@ namespace DerailedDeliveries.Framework.Train
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void TryParkTrain(int nearestStationCameraIndex)
         {
-            TrainEngine.Instance.SetEngineState(false);
+            TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
             CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
 
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);

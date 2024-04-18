@@ -69,7 +69,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invokes when train engine state is changed.
         /// </summary>
-        public Action<TrainEngineState, TrainEngineState> OnEngineStateChanged;
+        public Action<TrainEngineState> OnEngineStateChanged;
 
         /// <summary>
         /// Invokes when train speed state is changed.
@@ -156,8 +156,8 @@ namespace DerailedDeliveries.Framework.Train
         /// Used to toggle if the engine should be on/off.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
-        public void SetEngineState(bool state)
-            => OnTrainEngineStateChanged(state ? TrainEngineState.Active : TrainEngineState.Inactive);
+        public void SetEngineState(TrainEngineState trainEngineState)
+            => OnTrainEngineStateChanged(trainEngineState);
 
         /// <summary>
         /// Used to toggle direction of upcomming rail split.
