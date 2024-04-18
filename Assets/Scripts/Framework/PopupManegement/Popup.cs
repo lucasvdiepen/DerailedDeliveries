@@ -1,6 +1,4 @@
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using System.Collections;
 using UnityEngine;
 
@@ -23,6 +21,11 @@ namespace DerailedDeliveries.Framework.PopupManagement
         [SerializeField]
         private float _hoverDuration = 1.5f;
 
+        /// <summary>
+        /// Gets whether the popup is showing or not.
+        /// </summary>
+        public bool IsShowing { get; private set; }
+        
         private Tween _hoverAnimation;
         private Coroutine _popupCoroutine;
         private float _initialYPosition;
@@ -51,8 +54,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
         /// </summary>
         public void Show()
         {
-            StopPopupCoroutine();
+            if(IsShowing)
+                return;
 
+            IsShowing = true;
+
+            StopPopupCoroutine();
             _popupCoroutine = StartCoroutine(ShowPopup());
         } 
 
@@ -61,8 +68,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
         /// </summary>
         public void Close()
         {
-            StopPopupCoroutine();
+            if(!IsShowing)
+                return;
 
+            IsShowing = false;
+
+            StopPopupCoroutine();
             _popupCoroutine = StartCoroutine(ClosePopup());
         }
 
