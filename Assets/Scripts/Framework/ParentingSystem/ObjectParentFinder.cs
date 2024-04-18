@@ -11,22 +11,48 @@ namespace DerailedDeliveries.Framework.ParentingSystem
     /// </summary>
     public class ObjectParentFinder : NetworkBehaviour
     {
+        [SerializeField]
+        private SphereCollider _sphereCollider;
+
+        [SerializeField]
+        private LayerMask _collisionLayer;
+
         private readonly List<ObjectParent> _collidingParents = new();
+        private ObjectParent _currentParent;
 
-        private void OnCollisionEnter(Collision collision)
+        private void FixedUpdate()
         {
-            if(!ObjectParentUtils.TryGetObjectParent(collision.gameObject, out ObjectParent objectParent))
+            List<ObjectParent> currentCollidingParents = new();
+            Collider[] colliders = Physics.OverlapSphere(transform.position + _sphereCollider.center, _sphereCollider.radius, _collisionLayer);
+            foreach(Collider collider in colliders)
+            {
+                if (!ObjectParentUtils.TryGetObjectParent(collider.gameObject, out ObjectParent objectParent))
+                    continue;
+
+                Debug.Log("Collider with object parent: " + collider.gameObject.name);
+
+                if(currentCollidingParents.Contains(objectParent))
+                    continue;
+
+                currentCollidingParents.Add(objectParent);
+            }
+
+            Debug.Log("collider count: " + colliders.Length);
+            Debug.Log("object parent count: " + currentCollidingParents.Count);
+
+            if(currentCollidingParents.Count > 0)
+            {
+                if(currentCollidingParents.Contains(_currentParent))
+                    return;
+
+                NetworkObject.UnsetParent();
+                currentCollidingParents[0].SetParent(NetworkObject);
+                _currentParent = currentCollidingParents[0];
                 return;
+            }
 
-            SetOrUnsetParent(objectParent, true);
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (!ObjectParentUtils.TryGetObjectParent(collision.gameObject, out ObjectParent objectParent))
-                return;
-
-            SetOrUnsetParent(objectParent, false);
+            _currentParent = null;
+            NetworkObject.UnsetParent();
         }
 
         private void SetOrUnsetParent(ObjectParent objectParent, bool isEntering)
@@ -34,18 +60,18 @@ namespace DerailedDeliveries.Framework.ParentingSystem
             if (isEntering)
             {
                 objectParent.SetParent(NetworkObject);
-                _collidingParents.Add(objectParent);
+                //_collidingParents.Add(objectParent);
                 return;
             }
 
-            _collidingParents.Remove(objectParent);
+            //_collidingParents.Remove(objectParent);
 
             // If the parent is unset, check if there are any other parents inside collidingParents.
-            if (_collidingParents.Count > 0)
+            /*if (_collidingParents.Count > 0)
             {
                 _collidingParents[^1].SetParent(NetworkObject);
                 return;
-            }
+            }*/
 
             NetworkObject.UnsetParent();
         }
