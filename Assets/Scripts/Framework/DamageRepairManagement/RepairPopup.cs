@@ -47,19 +47,23 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         {
             if(health <= _criticalLowHealthThreshold)
             {
-                _repairPopupImage.sprite = _criticalLowHealthSprite;
-                Show();
+                UpdateAndShowPopup(_criticalLowHealthSprite);
                 return;
             }
 
             if(health <= _lowHealthThreshold)
             {
-                _repairPopupImage.sprite = _lowHealthSprite;
-                Show();
+                UpdateAndShowPopup(_lowHealthSprite);
                 return;
             }
 
             Close();
+        }
+
+        private void UpdateAndShowPopup(Sprite sprite)
+        {
+            _repairPopupImage.sprite = _criticalLowHealthSprite;
+            Show();
         }
     }
 }

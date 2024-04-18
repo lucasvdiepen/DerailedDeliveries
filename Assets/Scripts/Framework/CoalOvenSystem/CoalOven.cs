@@ -116,13 +116,8 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         {
             CoalAmount = coalAmount;
 
-            if(IsServer)
-            {
-                if(CoalAmount <= 0.0001f)
-                {
-                    TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
-                }
-            }
+            if(IsServer && CoalAmount <= 0.0001f)
+                TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
 
             OnCoalAmountChanged?.Invoke(CoalAmount);
         }

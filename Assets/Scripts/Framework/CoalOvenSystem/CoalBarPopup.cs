@@ -6,7 +6,7 @@ using DerailedDeliveries.Framework.PopupManagement;
 namespace DerailedDeliveries.Framework.CoalOvenSystem
 {
     /// <summary>
-    /// A <see cref="Popup"/> that handles the coal bar popup.
+    /// A <see cref="Popup"/> class that handles the coal bar popup logic.
     /// </summary>
     public class CoalBarPopup : Popup
     {

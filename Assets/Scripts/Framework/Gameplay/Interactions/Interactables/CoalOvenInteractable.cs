@@ -9,7 +9,7 @@ using DerailedDeliveries.Framework.DamageRepairManagement;
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
     /// <summary>
-    /// An <see cref="Interactable"/> responsible for handling the coal oven.
+    /// A <see cref="Interactable"/> class responsible for handling the coal oven.
     /// </summary>
     [RequireComponent(typeof(TrainDamageable))]
     public class CoalOvenInteractable : Interactable, IRepairable

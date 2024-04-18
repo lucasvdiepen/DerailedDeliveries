@@ -7,7 +7,7 @@ using DerailedDeliveries.Framework.Gameplay.Player;
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
     /// <summary>
-    /// An <see cref="Interactable"/> responsible for handling the coal pile.
+    /// A <see cref="Interactable"/> class responsible for handling the coal pile.
     /// </summary>
     public class CoalPileInteractable : Interactable
     {
