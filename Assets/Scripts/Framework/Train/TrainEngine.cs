@@ -40,7 +40,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Current train engine state.
         /// </summary>
         public TrainEngineState EngineState 
-            { get; private set; } = TrainEngineState.Active;
+            { get; private set; } = TrainEngineState.Inactive;
 
         /// <summary>
         /// Current train speed proportionally based on the length of the current spline.
@@ -62,18 +62,28 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invokes when train engine state is changed.
         /// </summary>
-        public Action<TrainEngineState, TrainEngineState> OnEngineStateChanged;
+        public Action<TrainEngineState> OnEngineStateChanged;
 
         /// <summary>
         /// Invokes when train speed state is changed.
         /// </summary>
         public Action<int> OnSpeedStateChanged;
 
+        /// <summary>
+        /// Invokes when the train speed is changed.
+        /// </summary>
+        public Action<float> OnSpeedChanged;
+
+        /// <summary>
+        /// Invokes when the train velocity is changed.
+        /// </summary>
+        public Action<float> OnVelocityChanged;
+
         #region SyncVars
         /// <summary>
         /// The raw train speed used to proportionally calculate <see cref="CurrentVelocity"/>. 
         /// </summary>
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable), HideInInspector]
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable, OnChange = nameof(OnSpeedChange)), HideInInspector]
         public float CurrentSpeed { get; private set; }
 
         /// <summary>
@@ -122,8 +132,8 @@ namespace DerailedDeliveries.Framework.Train
         /// Used to toggle if the engine should be on/off.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
-        public void ToggleEngineState()
-            => OnTrainEngineStateChanged((TrainEngineState)(EngineState == TrainEngineState.Inactive ? 1 : 0));
+        public void SetEngineState(TrainEngineState trainEngineState)
+            => OnTrainEngineStateChanged(trainEngineState);
 
         /// <summary>
         /// Used to toggle direction of upcomming rail split.
@@ -143,7 +153,6 @@ namespace DerailedDeliveries.Framework.Train
             CurrentSpeedIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
            
             CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
-            OnTrainEngineStateChanged(TrainEngineState.Active);
         }   
         #endregion;
         
@@ -159,20 +168,9 @@ namespace DerailedDeliveries.Framework.Train
         private void OnTrainEngineStateChanged(TrainEngineState newState)
         {
             EngineState = newState;
-            OnDirectionChanged?.Invoke(CurrentSplitDirection);
+            OnEngineStateChanged?.Invoke(EngineState);
 
-            // If engine is set to inactive, reset train acceleration.
-            if(newState == TrainEngineState.Inactive)
-            {
-                _friction = _standbyFriction;
-
-                CurrentSpeedIndex = 0;
-                CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
-            }
-            else
-            {
-                _friction = _startFriction;
-            }
+            _friction = newState == TrainEngineState.Inactive ? _standbyFriction : _startFriction;
         }
         #endregion
 
@@ -196,7 +194,9 @@ namespace DerailedDeliveries.Framework.Train
             }
 
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
-            CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
+
+            if(EngineState == TrainEngineState.Active)
+                CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
 
             bool forwardCheck = CurrentSpeed > 0 && CurrentSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
             bool backwardCheck = CurrentSpeed < 0 && CurrentSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
@@ -224,6 +224,12 @@ namespace DerailedDeliveries.Framework.Train
             _brakeTimer = 0f;
         }
 
+        private void OnSpeedChange(float oldSpeed, float newSpeed, bool asServer)
+        {
+            OnSpeedChanged?.Invoke(newSpeed);
+            OnVelocityChanged?.Invoke(CurrentVelocity);
+        }
+        
         private void OnSpeedStateChange(int previousValue, int newValue, bool asServer)
             => OnSpeedStateChanged?.Invoke(newValue);
     }
