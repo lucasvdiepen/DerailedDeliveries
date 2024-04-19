@@ -138,6 +138,9 @@ namespace DerailedDeliveries.Framework.Train
                 positionSum += _followingWagons[i].position;
             }
 
+            if (!Application.isPlaying)
+                return;
+
             _targetGroup.transform.rotation = _followingWagons[0].transform.rotation;
         }
 
