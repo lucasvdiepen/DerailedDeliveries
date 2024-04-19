@@ -64,11 +64,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void UpdateRotation(Vector3 input)
         {
+            Vector3 upwardsVector = transform.parent == null
+                ? Vector3.up
+                : transform.parent.up;
+
             gameObject.transform.rotation =
                     Quaternion.Slerp
                     (
                         gameObject.transform.rotation,
-                        Quaternion.LookRotation(input),
+                        Quaternion.LookRotation(input, upwardsVector),
                         Mathf.Clamp01(_rotationSpeed * Time.deltaTime)
                     );
         }
