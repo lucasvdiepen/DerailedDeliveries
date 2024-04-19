@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2986831152944562076}
   - component: {fileID: 3679562772017331169}
   - component: {fileID: 2431945045782229721}
-  - component: {fileID: 7442251488079644791}
   - component: {fileID: 5689699897604584708}
+  - component: {fileID: 5952852073632318993}
   m_Layer: 0
   m_Name: Coal
   m_TagString: Untagged
@@ -104,7 +104,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
-  - {fileID: 7442251488079644791}
+  - {fileID: 5689699897604584708}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -157,27 +157,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7442251488079644791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5086636477680894588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf928bbb3418a414abf8658a4fe71287, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 2986831152944562076}
-  _networkObjectCache: {fileID: 2986831152944562076}
-  _cooldown: 0.5
-  <IsOnCooldown>k__BackingField: 0
-  <IsInteractable>k__BackingField: 1
-  _maxGroundCheckDistance: 5
-  _originInteractor: {fileID: 0}
-  <IsBeingInteracted>k__BackingField: 0
 --- !u!114 &5689699897604584708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,9 +169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 2986831152944562076}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2986831152944562076}
   _componentConfiguration: 0
   _synchronizeParent: 1
   _packing:
@@ -223,3 +202,24 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &5952852073632318993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5086636477680894588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f2fa0f2a0e8ee4eae26c1b31615d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2986831152944562076}
+  _networkObjectCache: {fileID: 0}
+  _cooldown: 0.5
+  <IsOnCooldown>k__BackingField: 0
+  <IsInteractable>k__BackingField: 1
+  _maxGroundCheckDistance: 5
+  _originInteractor: {fileID: 0}
+  <IsBeingInteracted>k__BackingField: 0
