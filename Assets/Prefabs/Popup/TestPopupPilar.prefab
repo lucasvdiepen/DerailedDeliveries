@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 368123091102548510}
   - component: {fileID: 108791898222106633}
   - component: {fileID: 8397084787975984413}
-  - component: {fileID: 1567009710382008809}
+  - component: {fileID: 7924453681684889264}
   m_Layer: 0
   m_Name: TestPopupPilar
   m_TagString: Untagged
@@ -471,7 +471,7 @@ MonoBehaviour:
   _fadeDuration: 0.5
   _hoverHeight: 0.5
   _hoverDuration: 1
---- !u!114 &1567009710382008809
+--- !u!114 &7924453681684889264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -480,6 +480,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 9051566154340666356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bca3cd31110ea3e4d8804463b9992990, type: 3}
+  m_Script: {fileID: 11500000, guid: ccdf77f894f281c48a65684e8d674dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _popups:
+  - {fileID: 8397084787975984413}
