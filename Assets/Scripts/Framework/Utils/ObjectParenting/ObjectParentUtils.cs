@@ -10,7 +10,7 @@ namespace DerailedDeliveries.Framework.Utils.ObjectParenting
     public static class ObjectParentUtils
     {
         /// <summary>
-        /// Tries to get the <see cref="ObjectParent"/> of the given <see cref="GameObject"/>. This will also look in parents.
+        /// Tries to get the <see cref="ObjectParent"/> of the given <see cref="GameObject"/>. This will also look over all connected parents until the root is reached.
         /// </summary>
         /// <param name="gameObject">The <see cref="GameObject"/> to get the <see cref="ObjectParent"/> from.</param>
         /// <param name="objectParent">The object parent when found.</param>
