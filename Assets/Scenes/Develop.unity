@@ -3118,37 +3118,6 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
---- !u!1 &1919586733
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1919586734}
-  m_Layer: 0
-  m_Name: SpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1919586734
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919586733}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 398.14, y: 23, z: 511.96}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1930573038 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1455103187714453272, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
@@ -3411,7 +3380,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _spawnPoint
       value: 
-      objectReference: {fileID: 1919586734}
+      objectReference: {fileID: 2220954708020609915}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3770,6 +3739,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec04a114bee5141408603a302383a667, type: 3}
+--- !u!4 &2220954708020609915 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2707785037791308439, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6886064103473630743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4054,7 +4029,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2043026373}
-  - {fileID: 1919586734}
   - {fileID: 1813438465}
   - {fileID: 2220954708020609914}
   - {fileID: 7729426240705543750}
