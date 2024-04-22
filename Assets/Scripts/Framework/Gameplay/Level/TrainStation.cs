@@ -1,6 +1,6 @@
+using FishNet.Object;
 using UnityEngine;
 using TMPro;
-using FishNet.Object;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {

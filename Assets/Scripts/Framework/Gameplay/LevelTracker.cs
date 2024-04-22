@@ -5,7 +5,6 @@ using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
-using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
 

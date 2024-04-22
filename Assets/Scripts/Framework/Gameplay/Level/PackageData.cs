@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using FishNet.Object;
 
-namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
+namespace DerailedDeliveries.Framework.Gameplay.Level
 {
     /// <summary>
     /// A class that is responsible for holding all the data related to a deliverable package and updating visuals.
