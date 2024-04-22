@@ -42,6 +42,15 @@ namespace DerailedDeliveries.Framework.Camera
             _exitAnimationHash = Animator.StringToHash("Exit");
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStartClient()
+        {
+            if (IsServer)
+                TryParkTrainAtClosestStation();
+        }
+
         private void OnEnable()
             => TrainEngine.Instance.OnSpeedChanged += HandleSpeedChanged;
 
@@ -72,14 +81,17 @@ namespace DerailedDeliveries.Framework.Camera
         [ServerRpc(RequireOwnership = false)]
         private void TryParkTrainAtClosestStation()
         {
+            print("Hallo???");
             if (IsParked)
                 return;
 
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out _distance);
 
+            print("befow");
             if (_distance > _minRangeToNearestStation)
                 return;
+            print("afta");
 
             TryParkTrain(nearestCameraIndex);
         }
@@ -92,6 +104,7 @@ namespace DerailedDeliveries.Framework.Camera
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
             _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
+            print("Park");
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
             IsParked = true;
         }
@@ -102,6 +115,8 @@ namespace DerailedDeliveries.Framework.Camera
             IsParked = false;
 
             _currentStationAnimator.SetTrigger(_exitAnimationHash);
+            print("Unpark");
+
             CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
 
             _currentStationAnimator = null;
