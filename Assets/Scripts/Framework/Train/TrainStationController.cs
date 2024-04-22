@@ -2,10 +2,10 @@ using FishNet.Object;
 using Cinemachine;
 using UnityEngine;
 
-using DerailedDeliveries.Framework.Camera;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Train;
 
-namespace DerailedDeliveries.Framework.Train
+namespace DerailedDeliveries.Framework.Camera
 {
     /// <summary>
     /// Class responsible for stopping train and opening doors by stations.
@@ -50,24 +50,23 @@ namespace DerailedDeliveries.Framework.Train
 
         private void HandleSpeedChanged(float newSpeed)
         {
+            if (!IsServer)
+                return;
+
             if (newSpeed <= _minTrainSpeedToPark && !IsParked)
                 TryParkTrainAtClosestStation();
 
             else if (Mathf.Abs(newSpeed) > (_minTrainSpeedToPark + UNPARK_TOLERANCE))
-                UnparkTrain();
+                TryUnparkTrain();
         }
 
-        private void UnparkTrain()
+        [ServerRpc(RequireOwnership = false)]
+        private void TryUnparkTrain()
         {
             if (!IsParked || IsAnnimatorPlaying())
                 return;
 
-            IsParked = false;
-
-            _currentStationAnimator.SetTrigger(_exitAnimationHash);
-            CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
-
-            _currentStationAnimator = null;
+            UnparkTrain();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -95,6 +94,17 @@ namespace DerailedDeliveries.Framework.Train
 
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
             IsParked = true;
+        }
+
+        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        private void UnparkTrain()
+        {
+            IsParked = false;
+
+            _currentStationAnimator.SetTrigger(_exitAnimationHash);
+            CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
+
+            _currentStationAnimator = null;
         }
 
         private bool IsAnnimatorPlaying()

@@ -43,21 +43,21 @@ namespace DerailedDeliveries.Framework.Camera
         public int GetNearestCamera(Vector3 originPosition, out float distance, params CinemachineVirtualCamera[] ignore)
         {
             CinemachineVirtualCamera bestTarget = null;
-            float closestDistanceSqr = Mathf.Infinity;
+            float closestDistanceSquare = Mathf.Infinity;
 
             foreach (CinemachineVirtualCamera virtualCamera in StationCameras)
             {
                 Vector3 directionToTarget = virtualCamera.transform.position - originPosition;
-                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                float distanceSquared = directionToTarget.sqrMagnitude;
 
-                if (dSqrToTarget > closestDistanceSqr || !CheckIgnore(ignore, virtualCamera))
+                if (distanceSquared > closestDistanceSquare || !CheckIgnore(ignore, virtualCamera))
                     continue;
 
-                closestDistanceSqr = dSqrToTarget;
+                closestDistanceSquare = distanceSquared;
                 bestTarget = virtualCamera;
             }
 
-            distance = Mathf.Sqrt(closestDistanceSqr);
+            distance = Mathf.Sqrt(closestDistanceSquare);
             return Array.IndexOf(StationCameras, bestTarget);
         }
 
