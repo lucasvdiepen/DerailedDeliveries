@@ -35,8 +35,7 @@ namespace DerailedDeliveries.Framework.Camera
         private int _enterAnimationHash;
         private int _exitAnimationHash;
 
-        private void Awake()
-            => _trainController = GetComponent<TrainController>();
+        private void Awake() => _trainController = GetComponent<TrainController>();
 
         private void Start()
         {
