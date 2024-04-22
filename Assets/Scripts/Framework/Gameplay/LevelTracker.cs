@@ -111,14 +111,11 @@ namespace DerailedDeliveries.Framework.Gameplay
                     availableSpawns.Shuffle();
                     Transform targetSpawn = availableSpawns[0];
 
-                    if (usedSpawns.Contains(targetSpawn))
-                        continue;
-
-                    PackageData package = SpawnBoxDelivery(targetSpawn, labels[i], i);
+                    PackageData package = SpawnBoxDelivery(availableSpawns[0], labels[i], i);
 
                     amountToSpawn--;
-                    usedSpawns.Add(targetSpawn);
-                    availableSpawns.Remove(targetSpawn);
+                    usedSpawns.Add(availableSpawns[0]);
+                    availableSpawns.RemoveAt(0);
 
                     _totalScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
                 }
