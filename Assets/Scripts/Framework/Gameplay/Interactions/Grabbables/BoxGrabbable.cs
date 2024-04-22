@@ -12,6 +12,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     public class BoxGrabbable : UseableGrabbable
     {
         private protected override bool CheckCollidingType(Interactable interactable)
-            => interactable.GetType() == typeof(ShelfInteractable) || interactable.GetType() == typeof(DeliveryBeltInteractable);
+            => interactable.GetType() == typeof(ShelfInteractable) 
+            || interactable.GetType() == typeof(DeliveryBeltInteractable);
     }
 }
