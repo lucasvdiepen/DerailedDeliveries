@@ -149,19 +149,16 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private List<Transform> GetAvailableSpawnsForStation(int stationIndex, List<Transform> usedSpawns)
         {
-            List<Transform> spawns = new();
-
-            for (int i = stationIndex - 1; i >= 0; i--)
-                for (int j = 0; j < _allStations[i].SpawnTransforms.Length; j++)
-                    if (!usedSpawns.Contains(_allStations[i].SpawnTransforms[j]))
-                        spawns.Add(_allStations[i].SpawnTransforms[j]);
-
-            return spawns;
+            return Enumerable.Range(0, stationIndex)
+                .SelectMany(i => _allStations[i].SpawnTransforms)
+                .Except(usedSpawns)
+                .ToList();
         }
 
         private List<Transform> GetAllFreeSpawns(List<Transform> usedSpawns)
         {
-            return _allStations.SelectMany(station => station.SpawnTransforms)
+            return _allStations
+                .SelectMany(station => station.SpawnTransforms)
                 .Except(usedSpawns)
                 .ToList();
         }
