@@ -582,8 +582,6 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 705422381774063824}
   _networkObjectCache: {fileID: 705422381774063824}
-  _stationID: -1
-  _stationLabel: 
   _stationText: {fileID: 813477489408142919}
   _spawnTransforms:
   - {fileID: 1162157171661711212}
@@ -1026,7 +1024,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d7f299e2829b4141b6a23e1c99efd35,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1514564643453973937}
+      addedObject: {fileID: 8950347110263173074}
     - targetCorrespondingSourceObject: {fileID: 8180741930464832015, guid: 3d7f299e2829b4141b6a23e1c99efd35,
         type: 3}
       insertIndex: -1
@@ -1068,8 +1066,8 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 765165909157696809}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1514564643453973937
-BoxCollider:
+--- !u!64 &8950347110263173074
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1086,9 +1084,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 43.32678, y: 1.982997, z: 9.671543}
-  m_Center: {x: -7.601717, y: 1.0336938, z: -3.814617}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8391756642302721117, guid: 3d7f299e2829b4141b6a23e1c99efd35, type: 3}
 --- !u!4 &942610400965833410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3d7f299e2829b4141b6a23e1c99efd35,
