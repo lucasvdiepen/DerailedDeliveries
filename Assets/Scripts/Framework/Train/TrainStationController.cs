@@ -24,6 +24,8 @@ namespace DerailedDeliveries.Framework.Camera
         /// </summary>
         public bool IsParked { get; private set; }
 
+        private bool isTransitioning;
+
         private const float UNPARK_TOLERANCE = .05f;
 
         private float _distance;
@@ -61,37 +63,31 @@ namespace DerailedDeliveries.Framework.Camera
         {
             if (!IsServer)
                 return;
-
-            if (newSpeed <= _minTrainSpeedToPark && !IsParked)
+            
+            if (newSpeed == 0 && !IsParked && !isTransitioning)
+            {
+                isTransitioning = true;
                 TryParkTrainAtClosestStation();
+            }
 
-            else if (Mathf.Abs(newSpeed) > (_minTrainSpeedToPark + UNPARK_TOLERANCE))
+            else if (Mathf.Abs(newSpeed) >= _minTrainSpeedToPark && IsParked && !isTransitioning)
+            {
+                isTransitioning = true;
                 TryUnparkTrain();
+            }
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void TryUnparkTrain()
-        {
-            if (!IsParked || IsAnnimatorPlaying())
-                return;
-
-            UnparkTrain();
-        }
+        private void TryUnparkTrain() => UnparkTrain();
 
         [ServerRpc(RequireOwnership = false)]
         private void TryParkTrainAtClosestStation()
         {
-            print("Hallo???");
-            if (IsParked)
-                return;
-
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out _distance);
 
-            print("befow");
             if (_distance > _minRangeToNearestStation)
                 return;
-            print("afta");
 
             TryParkTrain(nearestCameraIndex);
         }
@@ -99,14 +95,16 @@ namespace DerailedDeliveries.Framework.Camera
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void TryParkTrain(int nearestStationCameraIndex)
         {
+            IsParked = true;
+            
             CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
 
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
             _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
-            print("Park");
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
-            IsParked = true;
+
+            isTransitioning = false;
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
@@ -114,18 +112,13 @@ namespace DerailedDeliveries.Framework.Camera
         {
             IsParked = false;
 
-            _currentStationAnimator.SetTrigger(_exitAnimationHash);
-            print("Unpark");
+            if(_currentStationAnimator != null )
+                _currentStationAnimator.SetTrigger(_exitAnimationHash);
 
             CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
-
             _currentStationAnimator = null;
-        }
 
-        private bool IsAnnimatorPlaying()
-        {
-            AnimatorStateInfo currentAnimatorStateInfo = _currentStationAnimator.GetCurrentAnimatorStateInfo(0);
-            return currentAnimatorStateInfo.length > currentAnimatorStateInfo.normalizedTime;
+            isTransitioning = false;
         }
     }
 }
