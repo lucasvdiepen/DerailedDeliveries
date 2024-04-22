@@ -23,36 +23,30 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         [SerializeField]
         private TextMeshProUGUI _minutesText;
 
+        [SyncObject]
         private readonly SyncTimer _timer = new();
 
-        private void OnEnable()
+        private void Awake()
         {
-            _timer.StartTimer(100f, true);
-
-            _timer.OnChange += UpdateText;
-        }
-
-        private void OnDisable()
-        {
-            _timer.StopTimer();
-
-            _timer.OnChange -= UpdateText;
+            _timer.StartTimer(100f, false);
         }
 
         private void Update()
         {
             if (IsServer)
                 _timer.Update(Time.deltaTime);
+
+            UpdateText(_timer.Remaining);
         }
 
-        private void UpdateText(SyncTimerOperation timer, float previousTime, float newTime, bool isServer)
+        private void UpdateText(float newTime)
         {
-            _minutesText.text = (60 / newTime).ToString();
+            int minutes = (int)(newTime / 60);
+            int seconds = (int)(newTime % 60);
+            int milliseconds = (int)(100 * (newTime % 1));
 
-            _secondsText.text = (newTime % 60).ToString();
-
-            int milliseconds = (int)Mathf.Clamp(100 * (newTime % 1), 0f, 99f);
-
+            _minutesText.text = minutes.ToString();
+            _secondsText.text = seconds.ToString();
             _milliSecondsText.text = milliseconds.ToString();
         }
     }
