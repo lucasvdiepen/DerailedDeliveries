@@ -42,12 +42,12 @@ namespace DerailedDeliveries.Framework.PopupManagement
 
         private void LateUpdate()
         {
-            if(Camera.main == null)
+            if(UnityEngine.Camera.main == null)
                 return;
 
             _popupCanvasGroup.transform.rotation = Quaternion.LookRotation(
-                _popupCanvasGroup.transform.position - Camera.main.transform.position);
-        }
+                _popupCanvasGroup.transform.position - UnityEngine.Camera.main.transform.position);
+        }   
 
         /// <summary>
         /// Shows the popup.
