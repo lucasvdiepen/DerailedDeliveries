@@ -1658,6 +1658,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 505613132}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &508953411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 655386712450914768, guid: 3a3759ed9e306934cbc136c7e0ba1d94,
+    type: 3}
+  m_PrefabInstance: {fileID: 1965637074}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &575357993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2646,6 +2658,76 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2043026374}
     m_Modifications:
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _scenePathHash
+      value: 3308168281
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 14208474577063670888
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _networkBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _networkBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: SerializedTransformProperties.Rotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: SerializedTransformProperties.LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: SerializedTransformProperties.LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6448338776376958158, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: SerializedTransformProperties.LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146226094409018560, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _scenePathHash
+      value: 3308168281
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146226094409018560, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 14208474580802180987
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695432199933018277, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695432199933018277, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _componentIndexCache
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5611300778462494362, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: _targetGroup
+      value: 
+      objectReference: {fileID: 283349582}
+    - target: {fileID: 5611300778462494362, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
+        type: 3}
+      propertyPath: <TrainCamera>k__BackingField
+      value: 
+      objectReference: {fileID: 508953411}
     - target: {fileID: 8218657289009932205, guid: 10453eb90c1a09a4b8e42d66018e9cdf,
         type: 3}
       propertyPath: m_Name
@@ -3904,6 +3986,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3516951749390559386, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _targetGroup
+      value: 
+      objectReference: {fileID: 283349582}
     - target: {fileID: 3516951749390559386, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _trainFrontStartTime

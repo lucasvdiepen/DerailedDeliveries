@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.PlayerManagement;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -22,6 +23,15 @@ namespace DerailedDeliveries.Framework.Camera
         /// </summary>
         [field: SerializeField]
         public CinemachineVirtualCamera TrainCamera { get; private set; }
+
+        [SerializeField]
+        private CinemachineTargetGroup _targetGroup;
+
+        private void OnEnable() => PlayerManager.Instance.OnPlayerJoined += HandlePlayerJoined;
+
+        private void OnDisable() => PlayerManager.Instance.OnPlayerJoined -= HandlePlayerJoined;
+
+        private void HandlePlayerJoined(PlayerId playerId) => _targetGroup.AddMember(playerId.transform, 1, 1);
 
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.

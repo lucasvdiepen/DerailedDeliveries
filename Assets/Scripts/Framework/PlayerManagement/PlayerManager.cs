@@ -26,9 +26,6 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private GameObject _playerPrefab;
 
         [SerializeField]
-        private CinemachineTargetGroup _targetGroup;
-
-        [SerializeField]
         private int _maxPlayers = 6;
 
         [SerializeField]
@@ -120,7 +117,6 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             }
 
             OnPlayerJoined?.Invoke(playerId);
-            _targetGroup.AddMember(playerId.transform, 1, 1);
         }
 
         /// <summary>
