@@ -43,6 +43,9 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartServer()
         {
             base.OnStartServer();

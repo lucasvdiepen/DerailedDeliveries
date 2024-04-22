@@ -9,11 +9,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
     /// </summary>
     public class TrainStation : NetworkBehaviour
     {
-        [SerializeField]
-        private int _stationID = -1;
-
-        [SerializeField]
-        private string _stationLabel;
 
         [SerializeField]
         private TextMeshProUGUI _stationText;
@@ -35,6 +30,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         /// A getter that returns the SpawnTransforms of this station.
         /// </summary>
         public Transform[] SpawnTransforms => _spawnTransforms;
+
+        private int _stationID = -1;
+        private string _stationLabel;
 
         /// <summary>
         /// Updates the stations Label and ID.
