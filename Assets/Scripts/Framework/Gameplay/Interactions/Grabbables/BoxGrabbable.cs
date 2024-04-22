@@ -1,8 +1,4 @@
-using UnityEngine;
-using TMPro;
-
 using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
-using DerailedDeliveries.Framework.Gameplay.Player;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
