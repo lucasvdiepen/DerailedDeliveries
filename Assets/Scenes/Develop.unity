@@ -4406,6 +4406,16 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8698901074674195663, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8698901074674195663, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _canHaveNegativeHealth
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _networkObjectCache

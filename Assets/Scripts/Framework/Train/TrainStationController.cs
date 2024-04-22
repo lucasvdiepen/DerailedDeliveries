@@ -59,7 +59,7 @@ namespace DerailedDeliveries.Framework.Train
 
         private void UnparkTrain()
         {
-            if (!IsParked)
+            if (!IsParked || IsAnnimatorPlaying())
                 return;
 
             IsParked = false;
@@ -88,7 +88,6 @@ namespace DerailedDeliveries.Framework.Train
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void TryParkTrain(int nearestStationCameraIndex)
         {
-            TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
             CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
 
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
@@ -96,6 +95,12 @@ namespace DerailedDeliveries.Framework.Train
 
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
             IsParked = true;
+        }
+
+        private bool IsAnnimatorPlaying()
+        {
+            AnimatorStateInfo currentAnimatorStateInfo = _currentStationAnimator.GetCurrentAnimatorStateInfo(0);
+            return currentAnimatorStateInfo.length > currentAnimatorStateInfo.normalizedTime;
         }
     }
 }
