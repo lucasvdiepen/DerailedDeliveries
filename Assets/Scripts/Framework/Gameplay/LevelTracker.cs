@@ -7,6 +7,7 @@ using System;
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
+using System.Linq;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -103,7 +104,7 @@ namespace DerailedDeliveries.Framework.Gameplay
             for (int i = levelData.Length - 1; i >= 0; i--)
             {
                 List<Transform> availableSpawns = GetAvailableSpawnsForStation(i, usedSpawns);
-                int amountToSpawn = levelData[i].minDeliverablePackages;
+                int amountToSpawn = levelData[i].minDeliverablePackagesAmount;
 
                 while (amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
@@ -160,14 +161,9 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private List<Transform> GetAllFreeSpawns(List<Transform> usedSpawns)
         {
-            List<Transform> freeSpawns = new();
-
-            for (int i = 0; i < _allStations.Length; i++)
-                for (int j = 0; j < _allStations[i].SpawnTransforms.Length; j++)
-                    if (!usedSpawns.Contains(_allStations[i].SpawnTransforms[j]))
-                        freeSpawns.Add(_allStations[i].SpawnTransforms[j]);
-
-            return freeSpawns;
+            return _allStations.SelectMany(station => station.SpawnTransforms)
+                .Except(usedSpawns)
+                .ToList();
         }
 
         private PackageData SpawnBoxDelivery(Transform spawnTransform, string label, int id)
