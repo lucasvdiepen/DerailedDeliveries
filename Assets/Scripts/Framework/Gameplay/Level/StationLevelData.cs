@@ -11,11 +11,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         /// <summary>
         /// The minimum amount of deliverable packages to spawn on this station.
         /// </summary>
-        public int minDeliverablePackages;
-
-        /// <summary>
-        /// The maximum amount of packages to spawn on this station.
-        /// </summary>
-        public int maxPackagesAmount;
+        public int minDeliverablePackagesAmount;
     }
 }
