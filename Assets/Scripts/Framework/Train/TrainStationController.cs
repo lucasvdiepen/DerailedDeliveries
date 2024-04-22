@@ -79,6 +79,7 @@ namespace DerailedDeliveries.Framework.Camera
         [ServerRpc(RequireOwnership = false)]
         private void TryUnparkTrain() => UnparkTrain();
 
+
         [ServerRpc(RequireOwnership = false)]
         private void TryParkTrainAtClosestStation()
         {
