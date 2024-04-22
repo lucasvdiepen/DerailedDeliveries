@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5280102052399864776}
   - component: {fileID: 7997715398668244361}
   - component: {fileID: 1961007210495815414}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InteractionHelpCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4761326792321871254}
   - component: {fileID: 7396771209937068835}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GrabAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &3048916122270372580
@@ -184,7 +184,8 @@ GameObject:
   - component: {fileID: 8561659200602252906}
   - component: {fileID: 4434121101895074578}
   - component: {fileID: 3074924858106231759}
-  m_Layer: 0
+  - component: {fileID: 6382568447217689505}
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,6 +314,7 @@ MonoBehaviour:
   - {fileID: 4598101147158428293}
   - {fileID: -581960332264621981}
   - {fileID: 968015005501435280}
+  - {fileID: 6382568447217689505}
   - {fileID: 7396771209937068835}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
@@ -513,6 +515,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _popups:
   - {fileID: 4434121101895074578}
+--- !u!114 &6382568447217689505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048916122270372580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd6f7388b8c84ed47a228c71cac735cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 6
+  _addedNetworkObject: {fileID: 2499233359108512077}
+  _networkObjectCache: {fileID: 2499233359108512077}
+  _sphereCollider: {fileID: 5373803672204770867}
+  _collisionLayer:
+    serializedVersion: 2
+    m_Bits: 119
 --- !u!1 &5492449899307018159
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +545,7 @@ GameObject:
   - component: {fileID: 7749306175422365410}
   - component: {fileID: 3866115416658707512}
   - component: {fileID: 6171554726073240939}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +620,7 @@ GameObject:
   - component: {fileID: 6580232108310759109}
   - component: {fileID: 9128612081974849442}
   - component: {fileID: 6955069754470019180}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -683,7 +704,8 @@ GameObject:
   - component: {fileID: 7580765671433782552}
   - component: {fileID: 1713660901350886004}
   - component: {fileID: 7048204848588695632}
-  m_Layer: 0
+  - component: {fileID: 5373803672204770867}
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,3 +800,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &5373803672204770867
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7344955885029037493}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.58
+  m_Center: {x: 0, y: -0.9, z: 0}

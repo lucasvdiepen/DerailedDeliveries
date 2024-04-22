@@ -3,6 +3,8 @@ using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Utils.ObjectParenting;
+using DerailedDeliveries.Framework.ParentingSystem;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -83,9 +85,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         public virtual void PlaceOnGround()
         {
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
+            if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance))
+                return;
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
+
+            if(ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
+            {
+                objectParent.SetParent(NetworkObject);
+                return;
+            }
+
+            NetworkObject.UnsetParent();
         }
     }
 }
