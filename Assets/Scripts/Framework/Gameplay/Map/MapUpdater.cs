@@ -9,7 +9,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
     {
         [Header("World Transforms")]
         [SerializeField]
-        private Transform _bottomRightWorld;
+        private Transform _bottomRightWorldTransform;
 
         [Header("Map Settings")]
         [SerializeField]
@@ -18,16 +18,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         [SerializeField]
         private Transform _trackingTransform;
 
-        private RectTransform _mapTransform;
         private float _xRectScale;
         private float _yRectScale;
 
         private void Awake()
         {
-            _mapTransform = GetComponent<RectTransform>();
+            RectTransform _mapTransform = GetComponent<RectTransform>();
 
-            _xRectScale = _mapTransform.rect.width / _bottomRightWorld.position.z;
-            _yRectScale = _mapTransform.rect.height / _bottomRightWorld.position.x;
+            _xRectScale = _mapTransform.rect.width / _bottomRightWorldTransform.position.z;
+            _yRectScale = _mapTransform.rect.height / _bottomRightWorldTransform.position.x;
         }
 
         private void LateUpdate()
