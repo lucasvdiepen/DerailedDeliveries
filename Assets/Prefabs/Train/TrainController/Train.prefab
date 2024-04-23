@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5936087b6ca6ca94fb6e1a3c7f3ca95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8369684628205275528}
   _networkObjectCache: {fileID: 8369684628205275528}
 --- !u!114 &8369684628205275528
@@ -66,7 +66,6 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 4
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
-  - {fileID: 0}
   - {fileID: 8367873490357598839}
   <ParentNetworkObject>k__BackingField: {fileID: 8057311849413527246}
   <ChildNetworkObjects>k__BackingField:
@@ -77,7 +76,7 @@ MonoBehaviour:
     LocalScale: {x: 0, y: 0, z: 0}
   _isNetworked: 1
   _isGlobal: 0
-  _initializeOrder: 0
+  _initializeOrder: 1
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
@@ -171,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5936087b6ca6ca94fb6e1a3c7f3ca95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 2856174469343471813}
   _networkObjectCache: {fileID: 2856174469343471813}
 --- !u!114 &2856174469343471813
@@ -190,7 +189,6 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 1
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
-  - {fileID: 0}
   - {fileID: 3756083732810655472}
   <ParentNetworkObject>k__BackingField: {fileID: 8057311849413527246}
   <ChildNetworkObjects>k__BackingField:
@@ -201,7 +199,7 @@ MonoBehaviour:
     LocalScale: {x: 0, y: 0, z: 0}
   _isNetworked: 1
   _isGlobal: 0
-  _initializeOrder: 0
+  _initializeOrder: 1
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
@@ -595,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5936087b6ca6ca94fb6e1a3c7f3ca95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 1078872656869404394}
   _networkObjectCache: {fileID: 1078872656869404394}
 --- !u!114 &1078872656869404394
@@ -614,7 +612,6 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 3
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
-  - {fileID: 0}
   - {fileID: 8580835918672825728}
   <ParentNetworkObject>k__BackingField: {fileID: 8057311849413527246}
   <ChildNetworkObjects>k__BackingField: []
@@ -624,7 +621,7 @@ MonoBehaviour:
     LocalScale: {x: 0, y: 0, z: 0}
   _isNetworked: 1
   _isGlobal: 0
-  _initializeOrder: 0
+  _initializeOrder: 1
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
@@ -810,7 +807,7 @@ PrefabInstance:
     - target: {fileID: 359404748359413708, guid: 5be466de1c732ff47804ea60f29c7522,
         type: 3}
       propertyPath: _scenePathHash
-      value: 3308168281
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 359404748359413708, guid: 5be466de1c732ff47804ea60f29c7522,
         type: 3}
@@ -1070,7 +1067,7 @@ PrefabInstance:
     - target: {fileID: 8802916496405150200, guid: 6fea4d63554d08a4d93c213b4b28d949,
         type: 3}
       propertyPath: _scenePathHash
-      value: 3308168281
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8802916496405150200, guid: 6fea4d63554d08a4d93c213b4b28d949,
         type: 3}
