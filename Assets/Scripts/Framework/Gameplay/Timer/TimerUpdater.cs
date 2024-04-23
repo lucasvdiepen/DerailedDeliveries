@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using DerailedDeliveries.Framework.StateMachine.States;
-using TMPro;
 using FishNet.Object.Synchronizing;
 using FishNet.Object;
+using UnityEngine;
+using TMPro;
+
+using DerailedDeliveries.Framework.StateMachine.States;
+using DerailedDeliveries.Framework.UI.TextUpdaters;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
@@ -15,13 +14,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
     public class TimerUpdater : NetworkBehaviour
     {
         [SerializeField]
-        private TextMeshProUGUI _milliSecondsText;
+        private TextUpdater _milliSecondsText;
 
         [SerializeField]
-        private TextMeshProUGUI _secondsText;
+        private TextUpdater _secondsText;
 
         [SerializeField]
-        private TextMeshProUGUI _minutesText;
+        private TextUpdater _minutesText;
 
         [SyncObject]
         private readonly SyncTimer _timer = new();
@@ -33,8 +32,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         private void Update()
         {
-            if (IsServer)
-                _timer.Update(Time.deltaTime);
+            if (!_milliSecondsText || !_secondsText || !_minutesText)
+                return;
+
+            if (!_timer.Paused)
+                UpdateTimer();
+        }
+
+        private void UpdateTimer()
+        {
+            _timer.Update(Time.deltaTime);
 
             UpdateText(_timer.Remaining);
         }
@@ -45,9 +52,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             int seconds = (int)(newTime % 60);
             int milliseconds = (int)(100 * (newTime % 1));
 
-            _minutesText.text = minutes.ToString();
-            _secondsText.text = seconds.ToString();
-            _milliSecondsText.text = milliseconds.ToString();
+            _minutesText.ReplaceTag(GetIntString(minutes));
+            _secondsText.ReplaceTag(GetIntString(seconds));
+            _milliSecondsText.ReplaceTag(GetIntString(milliseconds));
+        }
+
+        private string GetIntString(int number)
+        {
+            return number < 10 
+                ? "0" + number 
+                : number.ToString();
         }
     }
 }

@@ -523,56 +523,30 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6886064103473630743}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &154459245
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 154459247}
-  - component: {fileID: 154459246}
-  m_Layer: 0
-  m_Name: TimerUpdater
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &154459246
+--- !u!114 &154459246 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2952597371782206993, guid: 2388d4516f1c42e49a9603d7badee6c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2043026373}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 154459245}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79ddc825216287428bc150693b442c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 547523372}
-  _networkObjectCache: {fileID: 547523372}
-  _milliSecondsText: {fileID: 489469156}
-  _secondsText: {fileID: 1946416749}
-  _minutesText: {fileID: 1514232415}
---- !u!4 &154459247
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!114 &154459248 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4723135970590195446, guid: 2388d4516f1c42e49a9603d7badee6c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2043026373}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 154459245}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 547523371}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &182232606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1696,6 +1670,7 @@ GameObject:
   - component: {fileID: 489469155}
   - component: {fileID: 489469157}
   - component: {fileID: 489469156}
+  - component: {fileID: 489469158}
   m_Layer: 5
   m_Name: TimerTextMilliseconds
   m_TagString: Untagged
@@ -1742,7 +1717,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 30
+  m_text: '[milliseconds]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b074bf1176a22ed4c8efedc64c5b7696, type: 2}
   m_sharedMaterial: {fileID: -2552318843305285234, guid: b074bf1176a22ed4c8efedc64c5b7696,
@@ -1820,6 +1795,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489469154}
   m_CullTransparentMesh: 1
+--- !u!114 &489469158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489469154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d75bab96dbc6540b19a2a714a17b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tag: '[milliseconds]'
 --- !u!1001 &505613132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1998,52 +1986,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 505613132}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &547523370 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 327903177119935330, guid: 2388d4516f1c42e49a9603d7badee6c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2043026373}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &547523371 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4166816153331793207, guid: 2388d4516f1c42e49a9603d7badee6c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2043026373}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &547523372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 547523370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
-  - {fileID: 154459246}
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField:
-  - {fileID: 949913348}
-  SerializedTransformProperties:
-    Position: {x: 659.9, y: -38.56, z: 770}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
-  _isNetworked: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _defaultDespawnType: 0
-  NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
-  <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 1641397761
-  <SceneId>k__BackingField: 7049749703519207697
-  <AssetPathHash>k__BackingField: 0
 --- !u!1 &575357993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2702,18 +2644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1dd0d8e85beed94e9c29fee818eb0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &949913348 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4588599401832783999, guid: 2388d4516f1c42e49a9603d7badee6c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2043026373}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1100405640 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1455103187714453272, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
@@ -3024,6 +2954,7 @@ GameObject:
   - component: {fileID: 1514232414}
   - component: {fileID: 1514232416}
   - component: {fileID: 1514232415}
+  - component: {fileID: 1514232417}
   m_Layer: 5
   m_Name: TimerTextMinutes
   m_TagString: Untagged
@@ -3070,7 +3001,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: '[minutes]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b074bf1176a22ed4c8efedc64c5b7696, type: 2}
   m_sharedMaterial: {fileID: -2552318843305285234, guid: b074bf1176a22ed4c8efedc64c5b7696,
@@ -3148,6 +3079,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514232413}
   m_CullTransparentMesh: 1
+--- !u!114 &1514232417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514232413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d75bab96dbc6540b19a2a714a17b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tag: '[minutes]'
 --- !u!114 &1542814548 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1455103187714453272, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
@@ -3967,6 +3911,7 @@ GameObject:
   - component: {fileID: 1946416748}
   - component: {fileID: 1946416750}
   - component: {fileID: 1946416749}
+  - component: {fileID: 1946416751}
   m_Layer: 5
   m_Name: TimerTextSeconds
   m_TagString: Untagged
@@ -4013,9 +3958,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '20
-
-'
+  m_text: '[seconds]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b074bf1176a22ed4c8efedc64c5b7696, type: 2}
   m_sharedMaterial: {fileID: -2552318843305285234, guid: b074bf1176a22ed4c8efedc64c5b7696,
@@ -4093,6 +4036,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946416747}
   m_CullTransparentMesh: 1
+--- !u!114 &1946416751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946416747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d75bab96dbc6540b19a2a714a17b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tag: '[seconds]'
 --- !u!1 &1997683761
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,6 +4188,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Systems
       objectReference: {fileID: 0}
+    - target: {fileID: 2952597371782206993, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _minutesText
+      value: 
+      objectReference: {fileID: 1514232417}
+    - target: {fileID: 2952597371782206993, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _secondsText
+      value: 
+      objectReference: {fileID: 1946416751}
+    - target: {fileID: 2952597371782206993, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _milliSecondsText
+      value: 
+      objectReference: {fileID: 489469158}
+    - target: {fileID: 2952597371782206993, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 154459248}
+    - target: {fileID: 2952597371782206993, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 154459248}
     - target: {fileID: 3405002528562771520, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
       propertyPath: _splineContainers.Array.size
@@ -4332,6 +4313,41 @@ PrefabInstance:
       propertyPath: <SceneId>k__BackingField
       value: 7049749703488071390
       objectReference: {fileID: 0}
+    - target: {fileID: 4588599401832783999, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <IsNested>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588599401832783999, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588599401832783999, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <ParentNetworkObject>k__BackingField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723135970590195446, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 7049749704713536393
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723135970590195446, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: <IsNested>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723135970590195446, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _networkBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723135970590195446, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _networkBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 154459246}
     - target: {fileID: 7135134361265728856, guid: 2388d4516f1c42e49a9603d7badee6c2,
         type: 3}
       propertyPath: _spawnPoint
@@ -4339,16 +4355,8 @@ PrefabInstance:
       objectReference: {fileID: 1919586734}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4166816153331793207, guid: 2388d4516f1c42e49a9603d7badee6c2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 154459247}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 327903177119935330, guid: 2388d4516f1c42e49a9603d7badee6c2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 547523372}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2388d4516f1c42e49a9603d7badee6c2, type: 3}
 --- !u!1001 &2220954708020609914
 PrefabInstance:
