@@ -24,8 +24,6 @@ namespace DerailedDeliveries.Framework.Camera
         /// </summary>
         public bool IsParked { get; private set; }
 
-        private bool isTransitioning;
-
         private TrainController _trainController;
         private Animator _currentStationAnimator;
 
@@ -49,32 +47,20 @@ namespace DerailedDeliveries.Framework.Camera
                 TryParkTrainAtClosestStation();
         }
 
-        private void OnEnable()
-            => TrainEngine.Instance.OnSpeedChanged += HandleSpeedChanged;
-
-        private void OnDisable()
-            => TrainEngine.Instance.OnSpeedChanged -= HandleSpeedChanged;
-
-        private void HandleSpeedChanged(float newSpeed)
+        private void Update()
         {
             if (!IsServer)
                 return;
-            
-            if (newSpeed <= 0.01f && !IsParked && !isTransitioning)
-            {
-                isTransitioning = true;
-                TryParkTrainAtClosestStation();
-            }
 
-            else if (Mathf.Abs(newSpeed) >= _minTrainSpeedToPark && IsParked && !isTransitioning)
-            {
-                isTransitioning = true;
-                TryUnparkTrain();
-            }
+            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= _minTrainSpeedToPark && !IsParked)
+                TryParkTrainAtClosestStation();
+
+            else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && IsParked)
+                UnparkTrain();
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void TryUnparkTrain() => UnparkTrain();
+        private void UnparkTrain() => UnparkTrainObserver();
 
 
         [ServerRpc(RequireOwnership = false)]
@@ -100,12 +86,10 @@ namespace DerailedDeliveries.Framework.Camera
             _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
-
-            isTransitioning = false;
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void UnparkTrain()
+        private void UnparkTrainObserver()
         {
             IsParked = false;
 
@@ -114,8 +98,6 @@ namespace DerailedDeliveries.Framework.Camera
 
             CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
             _currentStationAnimator = null;
-
-            isTransitioning = false;
         }
     }
 }
