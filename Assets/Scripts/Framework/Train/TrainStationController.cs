@@ -63,7 +63,7 @@ namespace DerailedDeliveries.Framework.Camera
             if (!IsServer)
                 return;
             
-            if (newSpeed == 0 && !IsParked && !isTransitioning)
+            if (newSpeed <= 0.01f && !IsParked && !isTransitioning)
             {
                 isTransitioning = true;
                 TryParkTrainAtClosestStation();
@@ -96,7 +96,7 @@ namespace DerailedDeliveries.Framework.Camera
         private void TryParkTrain(int nearestStationCameraIndex)
         {
             IsParked = true;
-            
+
             CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
 
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
