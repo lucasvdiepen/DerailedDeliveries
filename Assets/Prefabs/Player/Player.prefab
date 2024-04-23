@@ -317,6 +317,7 @@ MonoBehaviour:
   - {fileID: 968015005501435280}
   - {fileID: 6382568447217689505}
   - {fileID: 7396771209937068835}
+  - {fileID: 4046295834369320071}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -409,6 +410,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _components:
+  - {fileID: -1424917087407433126}
   - {fileID: 4598101147158428293}
   - {fileID: 7486978254264253109}
   - {fileID: 945120239230563089}
@@ -548,6 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 968719039263636698}
+  _networkAnimator: {fileID: 4046295834369320071}
 --- !u!1 &5492449899307018159
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,6 +783,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cd11ae12417f004ab0915ccf17f891e,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 4046295834369320071}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cd11ae12417f004ab0915ccf17f891e,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 668241329773511076}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cd11ae12417f004ab0915ccf17f891e,
         type: 3}
@@ -819,6 +826,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4046295834369320071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165298383067996090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 8
+  _addedNetworkObject: {fileID: 2499233359108512077}
+  _networkObjectCache: {fileID: 2499233359108512077}
+  IgnoredParameters: []
+  _animator: {fileID: 968719039263636698}
+  _smoothFloats: 1
+  _interpolation: 2
+  _clientAuthoritative: 1
+  _sendToOwner: 0
 --- !u!136 &668241329773511076
 CapsuleCollider:
   m_ObjectHideFlags: 0
