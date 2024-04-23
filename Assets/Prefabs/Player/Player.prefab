@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 4434121101895074578}
   - component: {fileID: 3074924858106231759}
   - component: {fileID: 6382568447217689505}
+  - component: {fileID: -1424917087407433126}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -327,7 +328,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 2
+  <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -463,7 +464,7 @@ MonoBehaviour:
   _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
-  _meshRenderer: {fileID: 0}
+  _meshRenderer: {fileID: 3329094844788226567}
 --- !u!135 &8561659200602252906
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -534,6 +535,19 @@ MonoBehaviour:
   _collisionLayer:
     serializedVersion: 2
     m_Bits: 119
+--- !u!114 &-1424917087407433126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048916122270372580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c88077406d32a6479aa8ae212d353c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 968719039263636698}
 --- !u!1 &5492449899307018159
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +786,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3692805369229429567}
   m_SourcePrefab: {fileID: 100100000, guid: 6cd11ae12417f004ab0915ccf17f891e, type: 3}
+--- !u!137 &3329094844788226567 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4502901282409785108, guid: 6cd11ae12417f004ab0915ccf17f891e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8048259344153699051}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7165298383067996090 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cd11ae12417f004ab0915ccf17f891e,

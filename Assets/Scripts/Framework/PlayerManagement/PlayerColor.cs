@@ -9,7 +9,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
     public class PlayerColor : NetworkBehaviour
     {
         [SerializeField]
-        private MeshRenderer _meshRenderer;
+        private SkinnedMeshRenderer _meshRenderer;
 
         /// <summary>
         /// The color of the player.
