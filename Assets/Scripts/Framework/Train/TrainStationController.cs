@@ -26,9 +26,6 @@ namespace DerailedDeliveries.Framework.Camera
 
         private bool isTransitioning;
 
-        private const float UNPARK_TOLERANCE = .05f;
-
-        private float _distance;
         private TrainController _trainController;
         private Animator _currentStationAnimator;
 
@@ -84,7 +81,7 @@ namespace DerailedDeliveries.Framework.Camera
         private void TryParkTrainAtClosestStation()
         {
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out _distance);
+            int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out float _distance);
 
             if (_distance > _minRangeToNearestStation)
                 return;
@@ -98,8 +95,8 @@ namespace DerailedDeliveries.Framework.Camera
             IsParked = true;
 
             CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
-
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
+
             _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
 
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
