@@ -3,6 +3,7 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Gameplay.Interactions;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.InputParser;
+using DerailedDeliveries.Framework.Gameplay.Interactions.Interactables;
 
 namespace DerailedDeliveries.Framework.Gameplay.Player
 {
@@ -50,7 +51,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void OnInteract(Interactable interactable)
         {
-            if(interactable is Grabbable)
+            if(interactable is Grabbable || interactable is CoalPileInteractable)
                 return;
 
             _animator.SetTrigger(_interactAnimatioHash);
