@@ -49,7 +49,7 @@ namespace DerailedDeliveries.Framework.Camera
 
         private void Update()
         {
-            if (!IsServer)
+            if (!IsServer || TrainEngine.Instance.EngineState == TrainEngineState.Inactive)
                 return;
 
             if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= _minTrainSpeedToPark && !IsParked)
