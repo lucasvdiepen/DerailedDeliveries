@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3813624059706690898}
-  - component: {fileID: 4430077260460801295}
   - component: {fileID: 8367873490357598839}
+  - component: {fileID: 8369684628205275528}
+  - component: {fileID: 9164033717195742985}
   m_Layer: 6
   m_Name: TrainSideCabinParent2
   m_TagString: Untagged
@@ -34,21 +35,6 @@ Transform:
   - {fileID: 4682445343253345490}
   m_Father: {fileID: 5552596949075366985}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &4430077260460801295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1584277515297292834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 8057311849413527246}
-  _networkObjectCache: {fileID: 0}
 --- !u!114 &8367873490357598839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +47,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5936087b6ca6ca94fb6e1a3c7f3ca95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 8369684628205275528}
+  _networkObjectCache: {fileID: 8369684628205275528}
+--- !u!114 &8369684628205275528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584277515297292834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 1
+  <ComponentIndex>k__BackingField: 4
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  _networkBehaviours:
+  - {fileID: 0}
+  - {fileID: 8367873490357598839}
+  <ParentNetworkObject>k__BackingField: {fileID: 8057311849413527246}
+  <ChildNetworkObjects>k__BackingField:
+  - {fileID: 5216006927920020546}
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    LocalScale: {x: 0, y: 0, z: 0}
+  _isNetworked: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: 0
+  <SpawnableCollectionId>k__BackingField: 0
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+--- !u!114 &9164033717195742985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584277515297292834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _overrideType: 3
+  _updateHostVisibility: 1
+  _observerConditions: []
 --- !u!1 &5509368192721790931
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,8 +110,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7640492346968642029}
   - component: {fileID: 5319049334049572323}
-  - component: {fileID: 1057330432832622630}
   - component: {fileID: 3756083732810655472}
+  - component: {fileID: 2856174469343471813}
+  - component: {fileID: 3978612790477023593}
   m_Layer: 6
   m_Name: FrontCabinParent
   m_TagString: Untagged
@@ -119,21 +159,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.7418246, y: 5.1715813, z: 9.422368}
   m_Center: {x: -0.089842476, y: 2.2442055, z: -1.8613706}
---- !u!114 &1057330432832622630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5509368192721790931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 8057311849413527246}
-  _networkObjectCache: {fileID: 0}
 --- !u!114 &3756083732810655472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +171,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5936087b6ca6ca94fb6e1a3c7f3ca95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 2856174469343471813}
+  _networkObjectCache: {fileID: 2856174469343471813}
+--- !u!114 &2856174469343471813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5509368192721790931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 1
+  <ComponentIndex>k__BackingField: 1
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  _networkBehaviours:
+  - {fileID: 0}
+  - {fileID: 3756083732810655472}
+  <ParentNetworkObject>k__BackingField: {fileID: 8057311849413527246}
+  <ChildNetworkObjects>k__BackingField:
+  - {fileID: 1495263105287209196}
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    LocalScale: {x: 0, y: 0, z: 0}
+  _isNetworked: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: 0
+  <SpawnableCollectionId>k__BackingField: 0
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+--- !u!114 &3978612790477023593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5509368192721790931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _overrideType: 3
+  _updateHostVisibility: 1
+  _observerConditions: []
 --- !u!1 &6651371374402392462
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +314,10 @@ MonoBehaviour:
   - {fileID: 5142576653863284277}
   - {fileID: 2229436681252859813}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField: []
+  <ChildNetworkObjects>k__BackingField:
+  - {fileID: 2856174469343471813}
+  - {fileID: 1078872656869404394}
+  - {fileID: 8369684628205275528}
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
@@ -246,7 +327,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 10
+  <PrefabId>k__BackingField: 13
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -475,8 +556,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1727611534515989209}
-  - component: {fileID: 8268117708394891044}
   - component: {fileID: 8580835918672825728}
+  - component: {fileID: 1078872656869404394}
+  - component: {fileID: 7584849719640098156}
   m_Layer: 6
   m_Name: TrainSideCabinParent
   m_TagString: Untagged
@@ -501,21 +583,6 @@ Transform:
   - {fileID: 2707785037791308439}
   m_Father: {fileID: 5552596949075366985}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &8268117708394891044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8751652286285840472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 8057311849413527246}
-  _networkObjectCache: {fileID: 0}
 --- !u!114 &8580835918672825728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +595,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5936087b6ca6ca94fb6e1a3c7f3ca95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 1078872656869404394}
+  _networkObjectCache: {fileID: 1078872656869404394}
+--- !u!114 &1078872656869404394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751652286285840472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 1
+  <ComponentIndex>k__BackingField: 3
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  _networkBehaviours:
+  - {fileID: 0}
+  - {fileID: 8580835918672825728}
+  <ParentNetworkObject>k__BackingField: {fileID: 8057311849413527246}
+  <ChildNetworkObjects>k__BackingField: []
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    LocalScale: {x: 0, y: 0, z: 0}
+  _isNetworked: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: 0
+  <SpawnableCollectionId>k__BackingField: 0
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+--- !u!114 &7584849719640098156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751652286285840472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _overrideType: 3
+  _updateHostVisibility: 1
+  _observerConditions: []
 --- !u!1001 &4098273263478031885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -703,6 +822,21 @@ PrefabInstance:
       propertyPath: <IsNested>k__BackingField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 359404748359413708, guid: 5be466de1c732ff47804ea60f29c7522,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 359404748359413708, guid: 5be466de1c732ff47804ea60f29c7522,
+        type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 359404748359413708, guid: 5be466de1c732ff47804ea60f29c7522,
+        type: 3}
+      propertyPath: <ParentNetworkObject>k__BackingField
+      value: 
+      objectReference: {fileID: 8369684628205275528}
     - target: {fileID: 4136184180523202718, guid: 5be466de1c732ff47804ea60f29c7522,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -763,6 +897,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5be466de1c732ff47804ea60f29c7522, type: 3}
+--- !u!114 &5216006927920020546 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 359404748359413708, guid: 5be466de1c732ff47804ea60f29c7522,
+    type: 3}
+  m_PrefabInstance: {fileID: 5520892097859359630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8500697703054306064 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4136184180523202718, guid: 5be466de1c732ff47804ea60f29c7522,
@@ -936,11 +1082,33 @@ PrefabInstance:
       propertyPath: <IsNested>k__BackingField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8802916496405150200, guid: 6fea4d63554d08a4d93c213b4b28d949,
+        type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802916496405150200, guid: 6fea4d63554d08a4d93c213b4b28d949,
+        type: 3}
+      propertyPath: <ParentNetworkObject>k__BackingField
+      value: 
+      objectReference: {fileID: 2856174469343471813}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fea4d63554d08a4d93c213b4b28d949, type: 3}
+--- !u!114 &1495263105287209196 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8802916496405150200, guid: 6fea4d63554d08a4d93c213b4b28d949,
+    type: 3}
+  m_PrefabInstance: {fileID: 7992200724404762900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8013012266341701232 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 133401569523068772, guid: 6fea4d63554d08a4d93c213b4b28d949,
