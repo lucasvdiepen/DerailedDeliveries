@@ -30,6 +30,9 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
         /// <param name="text">The text to replace the tag with.</param>
         public void ReplaceTag(string tag, string text)
         {
+            if (_text == null)
+                return;
+
             _tags[tag] = text;
 
             string defaultText = _defaultText;

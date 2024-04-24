@@ -24,18 +24,42 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         [SerializeField]
         private float _chaosSpeedMultiplier = 1.5f;
 
+        /// <summary>
+        /// A getter that returns the seconds that are left on the timer.
+        /// </summary>
+        public float TimeRemaining => _timer.Remaining;
+
+        /// <summary>
+        /// An action that broadcasts when the timer is updated and the new time that comes with it.
+        /// </summary>
         public Action<float> OnTimerUpdated;
 
+        /// <summary>
+        /// An action that brodcasts when the timer is completed.
+        /// </summary>
         public Action OnTimerCompleted;
 
         [SyncObject]
         private readonly SyncTimer _timer = new();
+
+        [ContextMenu("Set Timer To Zero")]
+        public void setTimerToZero() => _timer.Update(_timer.Remaining - 0.1f);
+
+        [ContextMenu("Reset Timer")]
+        public void ResetTimer() => _timer.StartTimer(_baseTime);
 
         public override void OnStartServer()
         {
             base.OnStartServer();
 
             _timer.StartTimer(_baseTime);
+        }
+
+        public void OnStationReached()
+        {
+            _timer.Update(-_stationArrivalTimeBonus);
+
+            OnTimerUpdated?.Invoke(_timer.Remaining);
         }
 
         /// <summary>
