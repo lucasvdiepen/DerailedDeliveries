@@ -8,6 +8,7 @@ using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
 using System.Linq;
+using Unity.VisualScripting;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -99,6 +100,7 @@ namespace DerailedDeliveries.Framework.Gameplay
 
         private List<Transform> SpawnDeliveries(StationLevelData[] levelData, List<string> labels)
         {
+            System.Random random = new System.Random();
             List<Transform> usedSpawns = new();
 
             for (int i = levelData.Length - 1; i >= 0; i--)
@@ -108,14 +110,13 @@ namespace DerailedDeliveries.Framework.Gameplay
 
                 while (amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
-                    availableSpawns.Shuffle();
-                    Transform targetSpawn = availableSpawns[0];
+                    int spawnIndex = random.Next(0, availableSpawns.Count - 1);
 
-                    PackageData package = SpawnBoxDelivery(availableSpawns[0], labels[i], i);
+                    PackageData package = SpawnBoxDelivery(availableSpawns[spawnIndex], labels[i], i);
 
                     amountToSpawn--;
-                    usedSpawns.Add(availableSpawns[0]);
-                    availableSpawns.RemoveAt(0);
+                    usedSpawns.Add(availableSpawns[spawnIndex]);
+                    availableSpawns.RemoveAt(spawnIndex);
 
                     _totalScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
                 }
