@@ -22,10 +22,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         {
             base.OnStartClient();
 
+            if (!IsOwner)
+                return;
+
             _teleportTarget = PlayerManager.Instance.SpawnPoint;
+            TimeManager.OnPostTick += OnPostTick;
         }
 
-        private void LateUpdate()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+
+            TimeManager.OnPostTick -= OnPostTick;
+        }
+
+        private void OnPostTick()
         {
             if (Vector3.Distance(transform.position, _teleportTarget.position) <= _maxDistance)
                 return;
