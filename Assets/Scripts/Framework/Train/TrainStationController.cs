@@ -68,7 +68,7 @@ namespace DerailedDeliveries.Framework.Camera
 
             _canPark = ParkCheck(out int nearestStationIndex);
 
-            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= _minTrainSpeedToPark && !IsParked)
+            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= 0 && !IsParked)
             {
                 if (TrainEngine.Instance.CurrentGearIndex != 0 || !_canPark)
                     return;
