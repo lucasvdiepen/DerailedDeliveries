@@ -342,7 +342,7 @@ Transform:
   m_GameObject: {fileID: 5300488647314691931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 399.05, y: 21.16, z: 506.64}
+  m_LocalPosition: {x: 399.05, y: 21.16, z: 506.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -350,7 +350,7 @@ Transform:
   - {fileID: 7314928487735827766}
   - {fileID: 768363070542065559}
   - {fileID: 5074887823787835083}
-  - {fileID: 2178679734523550798}
+  - {fileID: 7553269664861856555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8802916496405150200
@@ -375,7 +375,7 @@ MonoBehaviour:
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
-    Position: {x: 399.05, y: 21.16, z: 506.64}
+    Position: {x: 399.05, y: 21.16, z: 506.27}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1001 &1852809934415281061
+--- !u!1001 &8023202046862574784
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1180,20 +1180,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 133401569523068772}
     m_Modifications:
-    - target: {fileID: -8792858798533908929, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
-        type: 3}
-      propertyPath: m_Name
-      value: Ovenmodel
-      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.37
+      value: -1.41
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
@@ -1203,12 +1198,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
@@ -1218,7 +1213,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
@@ -1238,16 +1233,16 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
         type: 3}
       propertyPath: m_Name
-      value: 'SM_Oven '
+      value: SM_Oven
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 524e7b922c6c81d418fcb8e1301ec1ca, type: 3}
---- !u!4 &2178679734523550798 stripped
+--- !u!4 &7553269664861856555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 524e7b922c6c81d418fcb8e1301ec1ca,
     type: 3}
-  m_PrefabInstance: {fileID: 1852809934415281061}
+  m_PrefabInstance: {fileID: 8023202046862574784}
   m_PrefabAsset: {fileID: 0}
