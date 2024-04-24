@@ -27,21 +27,30 @@ namespace DerailedDeliveries.Framework.Gameplay
         private int _incorrectDeliveryPenalty = 5;
 
         [SerializeField]
-        private int _totalScore;
-
-        [SerializeField]
-        private int _currentScore;
-
-        [SerializeField]
         private GameObject _packagePrefab;
 
         [SerializeField]
         private TrainStation[] _allStations;
 
         /// <summary>
-        /// An action that broadcasts when a package is delivered and the amount of points that is added.
+        /// An action that broadcasts when a package is delivered and the ID of the package.
         /// </summary>
         public Action<int> OnPackageDelivered;
+
+        /// <summary>
+        /// Invoked when the current score changes.
+        /// </summary>
+        public Action<int> OnScoreChanged;
+
+        /// <summary>
+        /// The total amount of points that can be achieved in this session.
+        /// </summary>
+        public int TotalAchievableScore { get; private set; }
+
+        /// <summary>
+        /// The current score of this session.
+        /// </summary>
+        public int CurrentScore { get; private set; }
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
@@ -62,7 +71,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         [Server]
         private void SelectLevelToLoad(int index)
         {
-            _currentScore = 0;
+            CurrentScore = 0;
 
             StationLevelData[] levelData = _levels.levels[index].StationLevelData;
             List<string> labels = GenerateLabelsForStations(levelData);
@@ -108,7 +117,7 @@ namespace DerailedDeliveries.Framework.Gameplay
                     usedSpawns.Add(availableSpawns[spawnIndex]);
                     availableSpawns.RemoveAt(spawnIndex);
 
-                    _totalScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+                    TotalAchievableScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
                 }
             }
 
@@ -177,21 +186,24 @@ namespace DerailedDeliveries.Framework.Gameplay
         [Server]
         public void HandlePackageDelivery(PackageData package, int stationID)
         {
-            if (package.PackageID == stationID)
-                _currentScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
-            else
-                _currentScore -= _incorrectDeliveryPenalty;
+            int newScore = CurrentScore;
 
-            HandleScoreUpdate(_currentScore, package.PackageID);
+            if (package.PackageID == stationID)
+                newScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+            else
+                newScore -= _incorrectDeliveryPenalty;
+
+            HandleScoreUpdate(newScore, package.PackageID);
             ServerManager.Despawn(package.gameObject);
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void HandleScoreUpdate(int newScore, int packageID)
         {
-            _currentScore = newScore;
+            CurrentScore = newScore;
 
             OnPackageDelivered?.Invoke(packageID);
+            OnScoreChanged?.Invoke(CurrentScore);
         }
     }
 }
