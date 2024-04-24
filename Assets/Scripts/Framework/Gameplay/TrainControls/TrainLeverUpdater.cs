@@ -4,6 +4,9 @@ using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Gameplay.TrainControls
 {
+    /// <summary>
+    /// A class that updates the rotation of a lever based on the current direction of the train.
+    /// </summary>
     public class TrainLeverUpdater : MonoBehaviour
     {
         [SerializeField]
