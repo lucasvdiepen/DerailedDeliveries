@@ -10,18 +10,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
     public class PackageData : NetworkBehaviour
     {
         [SerializeField]
-        private int _packageID = -1;
-
-        [SerializeField]
-        private string _packageLabel;
-
-        [SerializeField]
         private TextMeshProUGUI[] _textDisplays;
 
         /// <summary>
         /// A getter that is used to return the package's ID.
         /// </summary>
-        public int PackageID => _packageID;
+        public int PackageID { get; private set; } = -1;
+
+        private string _packageLabel;
 
         /// <summary>
         /// A function that updates the packageLabel and packageID.
@@ -32,7 +28,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         public void UpdateLabelAndID(string label, int id)
         {
             _packageLabel = label;
-            _packageID = id;
+            PackageID = id;
 
             for (int i = 0; i < _textDisplays.Length; i++)
                 _textDisplays[i].text = _packageLabel;

@@ -509,6 +509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1509504476217249451}
   - component: {fileID: 705422381774063824}
+  - component: {fileID: 186778976930175725}
   - component: {fileID: 4934548024729301519}
   m_Layer: 0
   m_Name: Platform
@@ -554,8 +555,8 @@ MonoBehaviour:
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 313201970411871474}
   SerializedTransformProperties:
-    Position: {x: 394.7, y: 20.5696, z: 480.8}
-    Rotation: {x: -0, y: -0.7780549, z: -0, w: 0.62819636}
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
   _isGlobal: 0
@@ -567,6 +568,21 @@ MonoBehaviour:
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 71899665067729222
+--- !u!114 &186778976930175725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648324097391679306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71fd7f855ec523429999fc4e14a1928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _overrideType: 3
+  _updateHostVisibility: 1
+  _observerConditions: []
 --- !u!114 &4934548024729301519
 MonoBehaviour:
   m_ObjectHideFlags: 0

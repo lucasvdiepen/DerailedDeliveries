@@ -4,11 +4,11 @@ using FishNet.Object;
 using UnityEngine;
 using System.Linq;
 using System;
+using Random = UnityEngine.Random;
 
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
-using Unity.Mathematics;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -80,9 +80,7 @@ namespace DerailedDeliveries.Framework.Gameplay
 
             for (int i = 0; i < stationData.Length; i++)
             {
-                string label = string.Empty;
-                while (label == string.Empty || labels.Contains(label))
-                    label = GenerateNewLabel();
+                string label = GenerateNewLabel(labels);
 
                 labels.Add(label);
                 _allStations[i].UpdateLabelAndID(label, i);
@@ -102,7 +100,7 @@ namespace DerailedDeliveries.Framework.Gameplay
 
                 while (amountToSpawn > 0 && availableSpawns.Count > 0)
                 {
-                    int spawnIndex = UnityEngine.Random.Range(0, availableSpawns.Count - 1);
+                    int spawnIndex = Random.Range(0, availableSpawns.Count - 1);
 
                     PackageData package = SpawnBoxDelivery(availableSpawns[spawnIndex], labels[i], i);
 
@@ -120,22 +118,27 @@ namespace DerailedDeliveries.Framework.Gameplay
         private void SpawnFakeDeliveries(List<Transform> spawns, List<string> usedLabels)
         {
             spawns.Shuffle();
-            int fakeDeliverySpawns = UnityEngine.Random.Range(0, spawns.Count - 1);
+            int fakeDeliverySpawns = Random.Range(0, spawns.Count - 1);
 
             for (int i = 0; i < fakeDeliverySpawns; i++)
             {
-                string label = string.Empty;
-                while (label == string.Empty || usedLabels.Contains(label))
-                    label = GenerateNewLabel();
+                string label = GenerateNewLabel(usedLabels);
 
                 SpawnBoxDelivery(spawns[i], label, -1);
             }
         }
 
-        private string GenerateNewLabel()
+        private string GenerateNewLabel(List<string> usedLabels)
         {
-            return CHARACTERS[UnityEngine.Random.Range(0, CHARACTERS.Length - 1)].ToString()
-                + CHARACTERS[UnityEngine.Random.Range(0, CHARACTERS.Length - 1)].ToString();
+            string label = string.Empty;
+            while (label == string.Empty || usedLabels.Contains(label))
+            {
+                label
+                    = CHARACTERS[Random.Range(0, CHARACTERS.Length - 1)].ToString()
+                    + CHARACTERS[Random.Range(0, CHARACTERS.Length - 1)].ToString();
+            }
+
+            return label;
         }
 
         private List<Transform> GetAvailableSpawnsForStation(int stationIndex, List<Transform> usedSpawns)
