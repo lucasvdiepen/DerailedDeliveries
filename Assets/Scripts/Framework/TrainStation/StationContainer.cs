@@ -15,15 +15,9 @@ namespace DerailedDeliveries.Framework.TrainStation
         public CinemachineVirtualCamera StationCamera { get; private set; }
 
         /// <summary>
-        /// Getter for the left-most transform point of this station
+        /// Getter for the bounding box of this station.
         /// </summary>
         [field: SerializeField]
-        public Transform LeftCornerPoint { get; private set; }
-
-        /// <summary>
-        /// Getter for the right-most transform point of this station
-        /// </summary>
-        [field: SerializeField]
-        public Transform RightCornerPoint { get; private set; }
+        public BoxCollider StationBoundingBoxCollider { get; private set; }
     }
 }

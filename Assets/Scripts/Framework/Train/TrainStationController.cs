@@ -20,13 +20,7 @@ namespace DerailedDeliveries.Framework.Camera
         [SerializeField]
         private float _minTrainSpeedToPark = 0.35f;
 
-        [SerializeField]
-        private float _minimumDistanceToPark;
-
-        [SerializeField]
-        private float _maximumDistanceToPark;
-
-        [SerializeField]
+        [SerializeField, Space]
         private Transform _minimumPoint;
 
         [SerializeField]
@@ -36,6 +30,8 @@ namespace DerailedDeliveries.Framework.Camera
         /// Getter for when the train is parked at a station.
         /// </summary>
         public bool IsParked { get; private set; }
+
+        private bool _canPark;
 
         private TrainController _trainController;
         private Animator _currentStationAnimator;
@@ -56,8 +52,13 @@ namespace DerailedDeliveries.Framework.Camera
         /// </summary>
         public override void OnStartClient()
         {
-            if (IsServer)
-                TryParkTrainAtClosestStation();
+            if (!IsServer)
+                return;
+
+            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
+
+            ParkTrainAtClosestStation(nearestStationIndex);
         }
 
         private void Update()
@@ -65,16 +66,32 @@ namespace DerailedDeliveries.Framework.Camera
             if (!IsServer || TrainEngine.Instance.EngineState == TrainEngineState.Inactive)
                 return;
 
+            _canPark = ParkCheck(out int nearestStationIndex);
+
             if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= _minTrainSpeedToPark && !IsParked)
             {
-                if (TrainEngine.Instance.CurrentGearIndex != 0)
+                if (TrainEngine.Instance.CurrentGearIndex != 0 || !_canPark)
                     return;
 
-                TryParkTrainAtClosestStation();
+                ParkTrainAtClosestStation(nearestStationIndex);
             }
 
             else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && IsParked)
                 UnparkTrain();
+        }
+
+        [Server]
+        private bool ParkCheck(out int nearestStationIndex)
+        {
+            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+            nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
+
+            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+
+            bool min = closestStation.StationBoundingBoxCollider.bounds.Contains(_minimumPoint.position);
+            bool max = closestStation.StationBoundingBoxCollider.bounds.Contains(_maximumPoint.position);
+
+            return min && max;
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -82,27 +99,10 @@ namespace DerailedDeliveries.Framework.Camera
 
 
         [ServerRpc(RequireOwnership = false)]
-        private void TryParkTrainAtClosestStation()
-        {
-            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out float _distance);
-
-            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
-
-            Vector3 minPosition = _minimumPoint.transform.position;
-            Vector3 maxPosition = _maximumPoint.transform.position;
-
-            float minDist = Vector2.Distance(minPosition, closestStation.LeftCornerPoint.position);
-            float maxDist = Vector2.Distance(maxPosition, closestStation.RightCornerPoint.position);
-
-            if (_distance > _minRangeToNearestStation)
-                return;
-
-            TryParkTrain(nearestStationIndex);
-        }
+        private void ParkTrainAtClosestStation(int nearestStationIndex) => ParkTrain(nearestStationIndex);
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void TryParkTrain(int closestStationIndex)
+        private void ParkTrain(int closestStationIndex)
         {
             IsParked = true;
 
