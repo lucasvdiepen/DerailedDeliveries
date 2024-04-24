@@ -5,6 +5,7 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Utils.ObjectParenting;
 using DerailedDeliveries.Framework.ParentingSystem;
+using FishNet.Connection;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -28,10 +29,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private protected bool IsBeingInteracted { get; set; }
 
-        private protected virtual void Start()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="connection"><inheritdoc/></param>
+        public override void OnSpawnServer(NetworkConnection connection)
         {
-            if (!IsServer)
-                return;
+            base.OnSpawnServer(connection);
 
             PlaceOnGround();
         }
