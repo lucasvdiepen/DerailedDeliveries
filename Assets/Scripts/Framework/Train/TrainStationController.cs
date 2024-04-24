@@ -4,7 +4,6 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
-using UnityEngine.InputSystem;
 using DerailedDeliveries.Framework.TrainStation;
 
 namespace DerailedDeliveries.Framework.Camera
@@ -67,7 +66,12 @@ namespace DerailedDeliveries.Framework.Camera
                 return;
 
             if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= _minTrainSpeedToPark && !IsParked)
+            {
+                if (TrainEngine.Instance.CurrentGearIndex != 0)
+                    return;
+
                 TryParkTrainAtClosestStation();
+            }
 
             else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && IsParked)
                 UnparkTrain();

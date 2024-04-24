@@ -96,7 +96,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Index used to handle switching between different levels of acceleration / deceleration.
         /// </summary>
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable, OnChange = nameof(OnSpeedStateChange)), HideInInspector]
-        public int CurrentSpeedIndex { get; private set; }
+        public int CurrentGearIndex { get; private set; }
         #endregion
 
         public const int SPEED_VALUES_COUNT = 3;
@@ -149,10 +149,10 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void AdjustSpeed(bool increment)
         {
-            int newCurrentSpeed = CurrentSpeedIndex + (increment ? 1 : -1);
-            CurrentSpeedIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
+            int newCurrentSpeed = CurrentGearIndex + (increment ? 1 : -1);
+            CurrentGearIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
            
-            CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
+            CurrentEngineAcceleration = _speedValues[CurrentGearIndex];
         }   
         #endregion;
         
@@ -198,8 +198,8 @@ namespace DerailedDeliveries.Framework.Train
             if(EngineState == TrainEngineState.Active)
                 CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
 
-            bool forwardCheck = CurrentSpeed > 0 && CurrentSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
-            bool backwardCheck = CurrentSpeed < 0 && CurrentSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
+            bool forwardCheck = CurrentSpeed > 0 && CurrentGearIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
+            bool backwardCheck = CurrentSpeed < 0 && CurrentGearIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
             // Restart brake timer if train crosses from negative speed to positive or reversed.
             if (forwardCheck || backwardCheck)

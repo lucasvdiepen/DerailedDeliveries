@@ -1,9 +1,7 @@
 using UnityEngine;
+using System;
 
 using DerailedDeliveries.Framework.Utils;
-using Cinemachine;
-using System;
-using System.Linq;
 
 namespace DerailedDeliveries.Framework.TrainStation
 {

@@ -1,11 +1,10 @@
 using Cinemachine;
 using UnityEngine;
-using System;
+using System.Linq;
 
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.PlayerManagement;
 using DerailedDeliveries.Framework.TrainStation;
-using System.Linq;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -38,7 +37,7 @@ namespace DerailedDeliveries.Framework.Camera
         }
 
         /// <summary>
-        /// Method for setting a specific camera to active using priority, disables all other cameras.
+        /// Method for setting a specific camera active by changing the priority, disables all other cameras.
         /// </summary>
         /// <param name="targetCamera">Camera to set active.</param>
         public void ChangeActiveCamera(CinemachineVirtualCamera targetCamera)
