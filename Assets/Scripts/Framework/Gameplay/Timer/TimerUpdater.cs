@@ -1,29 +1,42 @@
 using FishNet.Object.Synchronizing;
-using FishNet.Object;
 using UnityEngine;
-using TMPro;
+using System;
 
 using DerailedDeliveries.Framework.StateMachine.States;
-using DerailedDeliveries.Framework.UI.TextUpdaters;
+using DerailedDeliveries.Framework.Utils;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
     /// <summary>
     /// A class that is responsible for updating the timer text in the <see cref="GameState"/>.
     /// </summary>
-    public class TimerUpdater : NetworkBehaviour
+    public class TimerUpdater : NetworkAbstractSingleton<TimerUpdater>
     {
         [SerializeField]
-        private TextUpdater _milliSecondsText;
+        private float _baseTime = 120f;
 
         [SerializeField]
-        private TextUpdater _secondsText;
+        private float _stationArrivalTimeBonus = 40f;
 
         [SerializeField]
-        private TextUpdater _minutesText;
+        private float _chaosSpeedMultiplierThreshold = 60f;
+
+        [SerializeField]
+        private float _chaosSpeedMultiplier = 1.5f;
+
+        public Action<float> OnTimerUpdated;
+
+        public Action OnTimerCompleted;
 
         [SyncObject]
         private readonly SyncTimer _timer = new();
+
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            _timer.StartTimer(_baseTime);
+        }
 
         /// <summary>
         /// A function that starts/stops the timer.
@@ -39,36 +52,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         private void Update()
         {
-            if (!_milliSecondsText || !_secondsText || !_minutesText)
+            if (_timer.Paused)
                 return;
 
-            if (!_timer.Paused)
-                UpdateTimer();
-        }
-
-        private void UpdateTimer()
-        {
             _timer.Update(Time.deltaTime);
+            OnTimerUpdated?.Invoke(_timer.Remaining);
 
-            UpdateText(_timer.Remaining);
-        }
-
-        private void UpdateText(float newTime)
-        {
-            int minutes = (int)(newTime / 60);
-            int seconds = (int)(newTime % 60);
-            int milliseconds = (int)(100 * (newTime % 1));
-
-            _minutesText.ReplaceTag(GetIntString(minutes));
-            _secondsText.ReplaceTag(GetIntString(seconds));
-            _milliSecondsText.ReplaceTag(GetIntString(milliseconds));
-        }
-
-        private string GetIntString(int number)
-        {
-            return number < 10 
-                ? "0" + number 
-                : number.ToString();
+            if (_timer.Remaining <= 0)
+                OnTimerCompleted?.Invoke();
         }
     }
 }
