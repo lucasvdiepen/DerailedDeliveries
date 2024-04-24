@@ -1370,6 +1370,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 385723059}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &457301695 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6911264559413902186, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &505613132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1806,6 +1818,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &609419360 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 135817325857942583, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &632454234
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,6 +2227,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1dd0d8e85beed94e9c29fee818eb0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &879037652 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4874668471624638960, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1100405640 stripped
@@ -3472,6 +3508,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 135817325857942583, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _scenePathHash
+      value: 3308168281
+      objectReference: {fileID: 0}
+    - target: {fileID: 135817325857942583, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 14208474579108026932
+      objectReference: {fileID: 0}
     - target: {fileID: 1057330432832622630, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _networkObjectCache
@@ -3491,6 +3537,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <SceneId>k__BackingField
       value: 14208474580843343039
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078872656869404394, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1495263105287209196, guid: ec04a114bee5141408603a302383a667,
         type: 3}
@@ -3552,6 +3603,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2541033618920323715, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: m_Name
+      value: TrainSpeedBackwardButton
+      objectReference: {fileID: 0}
     - target: {fileID: 2856174469343471813, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -3562,6 +3618,26 @@ PrefabInstance:
       propertyPath: <SceneId>k__BackingField
       value: 14208474577957547234
       objectReference: {fileID: 0}
+    - target: {fileID: 2856174469343471813, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ChildNetworkObjects>k__BackingField.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856174469343471813, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ChildNetworkObjects>k__BackingField.Array.data[1]
+      value: 
+      objectReference: {fileID: 457301695}
+    - target: {fileID: 2856174469343471813, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ChildNetworkObjects>k__BackingField.Array.data[2]
+      value: 
+      objectReference: {fileID: 609419360}
+    - target: {fileID: 2856174469343471813, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ChildNetworkObjects>k__BackingField.Array.data[3]
+      value: 
+      objectReference: {fileID: 879037652}
     - target: {fileID: 3516951749390559386, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _trainFrontStartTime
@@ -3662,10 +3738,25 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4543115830567968793, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: m_Name
+      value: TrainSpeedForwardButton
+      objectReference: {fileID: 0}
     - target: {fileID: 4682445343253345490, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874668471624638960, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _scenePathHash
+      value: 3308168281
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874668471624638960, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 14208474579353032665
       objectReference: {fileID: 0}
     - target: {fileID: 5216006927920020546, guid: ec04a114bee5141408603a302383a667,
         type: 3}
@@ -3680,7 +3771,7 @@ PrefabInstance:
     - target: {fileID: 5216006927920020546, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5216006927920020546, guid: ec04a114bee5141408603a302383a667,
         type: 3}
@@ -3772,6 +3863,26 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.06560246
       objectReference: {fileID: 0}
+    - target: {fileID: 6911264559413902186, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _scenePathHash
+      value: 3308168281
+      objectReference: {fileID: 0}
+    - target: {fileID: 6911264559413902186, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 14208474580337363838
+      objectReference: {fileID: 0}
+    - target: {fileID: 6911264559413902186, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6911264559413902186, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ParentNetworkObject>k__BackingField
+      value: 
+      objectReference: {fileID: 2220954708020609919}
     - target: {fileID: 7010479336168531180, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3946,6 +4057,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <SceneId>k__BackingField
       value: 14208474576950985228
+      objectReference: {fileID: 0}
+    - target: {fileID: 8369684628205275528, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
