@@ -1,6 +1,5 @@
-using UnityEngine;
-using TMPro;
 using FishNet.Object;
+using System;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
@@ -9,15 +8,20 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
     /// </summary>
     public class PackageData : NetworkBehaviour
     {
-        [SerializeField]
-        private TextMeshProUGUI[] _textDisplays;
+        /// <summary>
+        /// Invoked when the package data changes.
+        /// </summary>
+        public Action<int, string> OnPackageDataChanged;
 
         /// <summary>
         /// A getter that is used to return the package's ID.
         /// </summary>
         public int PackageID { get; private set; } = -1;
 
-        private string _packageLabel;
+        /// <summary>
+        /// A getter that is used to return the package's label.
+        /// </summary>
+        public string PackageLabel { get; private set; }
 
         /// <summary>
         /// A function that updates the packageLabel and packageID.
@@ -27,11 +31,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         public void UpdateLabelAndID(string label, int id)
         {
-            _packageLabel = label;
+            PackageLabel = label;
             PackageID = id;
 
-            for (int i = 0; i < _textDisplays.Length; i++)
-                _textDisplays[i].text = _packageLabel;
+            OnPackageDataChanged?.Invoke(PackageID, PackageLabel);
         }
     }
 }

@@ -13,7 +13,11 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
             UpdateText(LevelTracker.Instance.CurrentScore);
         }
 
-        private void OnDisable() => LevelTracker.Instance.OnScoreChanged -= UpdateText;
+        private void OnDisable()
+        {
+            if(LevelTracker.Instance != null)
+                LevelTracker.Instance.OnScoreChanged -= UpdateText;
+        }
 
         private void UpdateText(int score) => ReplaceTag(score.ToString());
     }
