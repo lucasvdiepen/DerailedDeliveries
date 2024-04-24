@@ -4,6 +4,8 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
+using UnityEngine.InputSystem;
+using DerailedDeliveries.Framework.TrainStation;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -18,6 +20,18 @@ namespace DerailedDeliveries.Framework.Camera
 
         [SerializeField]
         private float _minTrainSpeedToPark = 0.35f;
+
+        [SerializeField]
+        private float _minimumDistanceToPark;
+
+        [SerializeField]
+        private float _maximumDistanceToPark;
+
+        [SerializeField]
+        private Transform _minimumPoint;
+
+        [SerializeField]
+        private Transform _maximumPoint;
 
         /// <summary>
         /// Getter for when the train is parked at a station.
@@ -67,24 +81,33 @@ namespace DerailedDeliveries.Framework.Camera
         private void TryParkTrainAtClosestStation()
         {
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            int nearestCameraIndex = CameraManager.Instance.GetNearestCamera(trainPosition, out float _distance);
+            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out float _distance);
+
+            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+
+            Vector3 minPosition = _minimumPoint.transform.position;
+            Vector3 maxPosition = _maximumPoint.transform.position;
+
+            float minDist = Vector2.Distance(minPosition, closestStation.LeftCornerPoint.position);
+            float maxDist = Vector2.Distance(maxPosition, closestStation.RightCornerPoint.position);
 
             if (_distance > _minRangeToNearestStation)
                 return;
 
-            TryParkTrain(nearestCameraIndex);
+            TryParkTrain(nearestStationIndex);
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void TryParkTrain(int nearestStationCameraIndex)
+        private void TryParkTrain(int closestStationIndex)
         {
             IsParked = true;
 
-            CinemachineVirtualCamera nearestStationCamera = CameraManager.Instance.StationCameras[nearestStationCameraIndex];
+            CinemachineVirtualCamera nearestStationCamera 
+                = StationManager.Instance.StationContainers[closestStationIndex].StationCamera;
+            
             CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
-
+            
             _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
-
             _currentStationAnimator.SetTrigger(_enterAnimationHash);
         }
 

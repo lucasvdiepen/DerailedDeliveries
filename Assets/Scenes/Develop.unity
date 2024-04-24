@@ -1804,6 +1804,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6de7eb539849443b978b2deab0cc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &580644881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 580644882}
+  m_Layer: 6
+  m_Name: TrainParkMaximumPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &580644882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580644881}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0024654171, y: 0.003930505, z: 0.000008673508, w: 0.9999892}
+  m_LocalPosition: {x: -2.6, y: 1.73, z: -4.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 725162339}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &591029448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1963,6 +1994,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &725162339 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1727611534515989209, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &801771039 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1455103187714453272, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
@@ -2400,6 +2437,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cb7ec942986fc441b46799e7d2640dd, type: 3}
+--- !u!1 &1000830378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1000830379}
+  - component: {fileID: 1000830380}
+  m_Layer: 0
+  m_Name: StationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1000830379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000830378}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2043026374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1000830380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000830378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded1b92cc4a827044ac5681cbc87a798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <StationContainers>k__BackingField:
+  - {fileID: 7729426240705543758}
+  - {fileID: 7729426240705543757}
+  - {fileID: 7729426240705543756}
+  - {fileID: 7729426240705543755}
 --- !u!114 &1100405640 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1455103187714453272, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
@@ -2650,6 +2736,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1505056388 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3813624059706690898, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1523035960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3694,6 +3786,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a3759ed9e306934cbc136c7e0ba1d94, type: 3}
+--- !u!1 &1993559222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1993559223}
+  m_Layer: 6
+  m_Name: TrainParkMinimumPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1993559223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993559222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.87, y: 1.9, z: 4.029}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1505056388}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1997683761
 GameObject:
   m_ObjectHideFlags: 0
@@ -3945,6 +4068,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1523035961}
+    - targetCorrespondingSourceObject: {fileID: 4166816153331793207, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1000830379}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2388d4516f1c42e49a9603d7badee6c2, type: 3}
 --- !u!4 &2043026374 stripped
@@ -4036,6 +4163,11 @@ PrefabInstance:
       propertyPath: _targetGroup
       value: 
       objectReference: {fileID: 283349582}
+    - target: {fileID: 3516951749390559386, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _trainFrontStartTime
+      value: 0.029
+      objectReference: {fileID: 0}
     - target: {fileID: 3516951749390559386, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: <Spline>k__BackingField
@@ -4438,17 +4570,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
         type: 3}
-      propertyPath: _networkObjectCache
+      propertyPath: _maximumPoint
       value: 
-      objectReference: {fileID: 2220954708020609916}
+      objectReference: {fileID: 580644882}
     - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
         type: 3}
-      propertyPath: _componentIndexCache
-      value: 3
+      propertyPath: _minimumPoint
+      value: 
+      objectReference: {fileID: 1993559223}
+    - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _maximumDistanceToPark
+      value: 25.247
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _minimumDistanceToPark
+      value: 25.881
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _minimumDistanceToPark.x
+      value: 26.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108270871782288806, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _minimumDistanceToPark.y
+      value: 25.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1727611534515989209, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 580644882}
+    - targetCorrespondingSourceObject: {fileID: 3813624059706690898, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1993559223}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec04a114bee5141408603a302383a667, type: 3}
 --- !u!114 &2220954708020609915 stripped
@@ -4830,6 +4990,54 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7729426240705543755 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5063002769306593610, guid: 30dcc2271bf2a3f4394b8617767b38af,
+    type: 3}
+  m_PrefabInstance: {fileID: 7729426240705543750}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f1bfe9a1b79254aa2b69e62c30a102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7729426240705543756 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4135814490794450173, guid: 30dcc2271bf2a3f4394b8617767b38af,
+    type: 3}
+  m_PrefabInstance: {fileID: 7729426240705543750}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f1bfe9a1b79254aa2b69e62c30a102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7729426240705543757 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2651220014629938551, guid: 30dcc2271bf2a3f4394b8617767b38af,
+    type: 3}
+  m_PrefabInstance: {fileID: 7729426240705543750}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f1bfe9a1b79254aa2b69e62c30a102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7729426240705543758 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 351933145177973204, guid: 30dcc2271bf2a3f4394b8617767b38af,
+    type: 3}
+  m_PrefabInstance: {fileID: 7729426240705543750}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f1bfe9a1b79254aa2b69e62c30a102, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
