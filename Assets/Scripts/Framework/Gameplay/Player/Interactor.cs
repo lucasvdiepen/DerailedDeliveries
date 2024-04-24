@@ -1,4 +1,4 @@
-using FishNet.Object.Synchronizing;
+using System;
 using FishNet.Connection;
 using System.Collections;
 using FishNet.Object;
@@ -24,6 +24,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         /// A getter that returns the <see cref="Interactor"/>'s InteractingTarget.
         /// </summary>
         public Interactable InteractingTarget => _interactingTarget;
+
+        /// <summary>
+        /// Invoked when the player interacts with an <see cref="Interactable"/>.
+        /// </summary>
+        public Action<Interactable> OnInteract;
+
+        /// <summary>
+        /// Invoked when the <see cref="Interactor"/>'s interactingTarget changes.
+        /// </summary>
+        public Action<Interactable> OnInteractingTargetChanged;
 
         [SerializeField]
         private Interactable _interactingTarget;
@@ -64,6 +74,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_isInteracting && _interactingTarget != null)
             {
                 _interactingTarget.InteractOnServer(this);
+                OnInteract?.Invoke(_interactingTarget);
                 return;
             }
 
@@ -76,6 +87,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                     continue;
 
                 interactable.InteractOnServer(this);
+                OnInteract?.Invoke(interactable);
                 break;
             }
         }
@@ -92,6 +104,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         {
             _interactingTarget = interactable;
             _isInteracting = isInteracting;
+
+            OnInteractingTargetChanged?.Invoke(interactable);
         }
 
         private protected virtual IEnumerator ActivateCooldown()
