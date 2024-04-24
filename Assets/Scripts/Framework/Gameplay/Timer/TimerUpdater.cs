@@ -9,7 +9,7 @@ using DerailedDeliveries.Framework.UI.TextUpdaters;
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
     /// <summary>
-    /// A class that is responsible for updating the Timer text in the <see cref="GameState"/>.
+    /// A class that is responsible for updating the timer text in the <see cref="GameState"/>.
     /// </summary>
     public class TimerUpdater : NetworkBehaviour
     {
@@ -25,9 +25,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         [SyncObject]
         private readonly SyncTimer _timer = new();
 
-        private void Awake()
+        /// <summary>
+        /// A function that starts/stops the timer.
+        /// </summary>
+        /// <param name="newTime">The new time for the timer, is automatically 0 when not entered.</param>
+        public void ToggleTimer(float newTime = 0f)
         {
-            _timer.StartTimer(100f, false);
+            if(!_timer.Paused || newTime == 0)
+                _timer.StopTimer();
+            else
+                _timer.StartTimer(newTime, false);
         }
 
         private void Update()
