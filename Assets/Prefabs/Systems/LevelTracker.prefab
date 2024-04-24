@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3777511056063426851}
   - component: {fileID: 1973872862619839811}
-  - component: {fileID: 4075938850015905015}
+  - component: {fileID: 2942597059500551649}
   - component: {fileID: 7323627558237471926}
   m_Layer: 0
   m_Name: LevelTracker
@@ -67,7 +67,7 @@ MonoBehaviour:
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 3243294533289674084
---- !u!114 &4075938850015905015
+--- !u!114 &2942597059500551649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,8 +100,6 @@ MonoBehaviour:
   _levels: {fileID: 11400000, guid: 4df3baa351747d1448d5bb13d02d5ed4, type: 2}
   _succesfullDeliveryBonus: 5
   _incorrectDeliveryPenalty: 5
-  _totalScore: 0
-  _currentScore: 0
   _packagePrefab: {fileID: 1555197626043509476, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
     type: 3}
   _allStations:
