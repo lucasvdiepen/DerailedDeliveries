@@ -65,11 +65,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             base.OnStartServer();
 
             _timer.StartTimer(_baseTime);
+
+
         }
 
+        /// <summary>
+        /// A function that updates the time when the train arrives at a station.
+        /// </summary>
         public void OnStationReached()
         {
-            _timer.Update(-_stationArrivalTimeBonus);
+            if (_timer.Paused)
+                return;
+
+            _timer.StartTimer(_timer.Remaining + _stationArrivalTimeBonus);
 
             OnTimerUpdated?.Invoke(_timer.Remaining);
         }
