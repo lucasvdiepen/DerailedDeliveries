@@ -1,4 +1,3 @@
-using FishNet;
 using FishNet.Object;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,12 +19,30 @@ namespace DerailedDeliveries.Framework.ParentingSystem
 
         private ObjectParent _currentParent;
 
-        private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
-
-        private void OnDisable()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStartClient()
         {
-            if(InstanceFinder.TimeManager != null)
-                InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
+            base.OnStartClient();
+
+            if(!IsOwner)
+                return;
+
+            TimeManager.OnPostTick += OnPostTick;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+
+            if(!IsOwner)
+                return;
+
+            TimeManager.OnPostTick -= OnPostTick;
         }
 
         private void OnPostTick()
