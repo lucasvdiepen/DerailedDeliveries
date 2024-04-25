@@ -55,8 +55,6 @@ namespace DerailedDeliveries.Framework.ParentingSystem
                 ObjectParent objectParent = collidingParents[0];
 
                 _currentParent = objectParent;
-
-                NetworkObject.UnsetParent();
                 objectParent.SetParent(NetworkObject);
 
                 return;
