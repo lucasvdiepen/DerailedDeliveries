@@ -65,7 +65,11 @@ namespace DerailedDeliveries.Framework.Train
 
         private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
 
-        private void OnDisable() => InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
+        private void OnDisable()
+        {
+            if(InstanceFinder.TimeManager != null)
+                InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
+        }
 
         /// <summary>
         /// <inheritdoc/>
