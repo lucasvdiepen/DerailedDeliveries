@@ -25,6 +25,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private int _isWalkingAnimationHash;
         private int _interactAnimatioHash;
         private int _isCarryingAnimationHash;
+        private int _walkSpeedMultiplierAnimationHash;
 
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _isWalkingAnimationHash = Animator.StringToHash("IsWalking");
             _interactAnimatioHash = Animator.StringToHash("Interact");
             _isCarryingAnimationHash = Animator.StringToHash("IsCarrying");
+            _walkSpeedMultiplierAnimationHash = Animator.StringToHash("WalkSpeedMultiplier");
         }
 
         private void OnEnable()
@@ -51,7 +53,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         }
 
         private void OnMove(Vector2 moveDirection)
-            =>_animator.SetBool(_isWalkingAnimationHash, moveDirection != Vector2.zero);
+        {
+            // todo: set the correct animation speed. Maybe using velocity?
+            _animator.SetFloat(_walkSpeedMultiplierAnimationHash, moveDirection.magnitude);
+            _animator.SetBool(_isWalkingAnimationHash, moveDirection != Vector2.zero);
+        }
 
         private void OnInteract(Interactable interactable)
         {
