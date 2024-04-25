@@ -17,6 +17,11 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
         private string _defaultText;
         private Dictionary<string, string> _tags = new();
 
+        /// <summary>
+        /// A getter that retrieves this <see cref="TextUpdater"/>'s <see cref="TextMeshProUGUI"/> component.
+        /// </summary>
+        public TextMeshProUGUI Text => _text;
+
         private protected virtual void Awake()
         {
             _text = GetComponent<TextMeshProUGUI>();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 using DerailedDeliveries.Framework.UI.TextUpdaters;
 using DerailedDeliveries.Framework.Gameplay.Timer;
@@ -8,6 +9,17 @@ using DerailedDeliveries.Framework.Gameplay.Timer;
 /// </summary>
 public class TimerTextUpdater : TextUpdater
 {
+    [SerializeField]
+    private Color _chaosColor;
+
+    [SerializeField]
+    private Color _baseColor;
+
+    [SerializeField]
+    private float _chaosColorFadeDuration = 1f;
+
+    private bool _switchedColor;
+
     private void OnEnable()
     {
         TimerUpdater.Instance.OnTimerUpdated += UpdateText;
@@ -23,6 +35,25 @@ public class TimerTextUpdater : TextUpdater
 
     private void UpdateText(float newTime)
     {
+        if(newTime < TimerUpdater.Instance.ChaosSpeedMultiplierThreshold && !_switchedColor)
+        {
+            DOTween.To
+            (
+                () => _baseColor,
+                (Color newColor) => { Text.color = newColor; },
+                _chaosColor,
+                _chaosColorFadeDuration
+            );
+
+            _switchedColor = true;
+        }
+        else if(newTime > TimerUpdater.Instance.ChaosSpeedMultiplierThreshold)
+        {
+            Text.color = _baseColor;
+
+            _switchedColor = false;
+        }
+
         int minutes = (int)(newTime / 60);
         int seconds = (int)(newTime % 60);
         int milliseconds = (int)(100 * (newTime % 1));

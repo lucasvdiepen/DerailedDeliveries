@@ -2,6 +2,7 @@ using FishNet.Object.Synchronizing;
 using UnityEngine;
 using System;
 
+using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
 using DerailedDeliveries.Framework.Utils;
 
@@ -23,6 +24,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         [SerializeField]
         private float _chaosSpeedMultiplier = 1.5f;
+
+        /// <summary>
+        /// A getter to get the ChaosSpeedMultiplierThreshold.
+        /// </summary>
+        public float ChaosSpeedMultiplierThreshold => _chaosSpeedMultiplierThreshold;
 
         /// <summary>
         /// A getter that returns the seconds that are left on the timer.
@@ -47,6 +53,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         [ContextMenu("Reset Timer")]
         public void ResetTimer() => _timer.StartTimer(_baseTime);
+
+        [ContextMenu("Decrease timer")]
+        public void DecreaseTimer() => _timer.StartTimer(_timer.Remaining - 10);
+
+        [ContextMenu("Increase timer")]
+        public void IncreaseTimer() => _timer.StartTimer(_timer.Remaining + 10);
 
         public override void OnStartServer()
         {
@@ -84,6 +96,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
             if (_timer.Remaining <= 0)
                 OnTimerCompleted?.Invoke();
+
+            if(_timer.Remaining <= _chaosSpeedMultiplierThreshold)
+                ApplyChaosMultiplier();
+        }
+
+        private void ApplyChaosMultiplier()
+        {
+            TrainDamageable[] damageables = FindObjectsOfType<TrainDamageable>();
+
+            int damageablesCount = damageables.Length;
+            for (int i = 0; i < damageablesCount; i++)
+                damageables[i].ApplyChaosMultiplier(_chaosSpeedMultiplier);
         }
     }
 }
