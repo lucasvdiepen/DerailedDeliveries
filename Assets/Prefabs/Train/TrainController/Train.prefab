@@ -486,7 +486,6 @@ MonoBehaviour:
   <Spline>k__BackingField: {fileID: 0}
   _trainFrontStartTime: 0.017611483
   _heightOffset: 2.1
-  _targetGroup: {fileID: 0}
   _frontWagon: {fileID: 7640492346968642029}
   _wagonFollowDistance: 540
   _wagonSpacing: 1800
@@ -801,6 +800,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035383049875019501, guid: 1db62065847b5df459a65e97d769c4e3,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2035383049875019501, guid: 1db62065847b5df459a65e97d769c4e3,
         type: 3}
@@ -1278,6 +1282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035383049875019501, guid: 1db62065847b5df459a65e97d769c4e3,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2035383049875019501, guid: 1db62065847b5df459a65e97d769c4e3,
         type: 3}
