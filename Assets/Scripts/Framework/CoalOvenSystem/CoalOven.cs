@@ -100,7 +100,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
             if(!IsOvenEnabled || _ignoreCoalBurn)
                 return;
 
-            _coalToBurn += _coalBurnRate * Mathf.Abs(TrainEngine.Instance.CurrentSpeedIndex) * Time.deltaTime;
+            _coalToBurn += _coalBurnRate * Mathf.Abs(TrainEngine.Instance.CurrentGearIndex) * Time.deltaTime;
             _coalBurnIntervalElapsed += Time.deltaTime;
 
             if(_coalBurnIntervalElapsed >= _coalBurnInterval)

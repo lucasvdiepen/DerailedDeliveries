@@ -16,7 +16,7 @@ namespace DerailedDeliveries.Framework.Train
         private void OnEnable()
         {
             TrainEngine.Instance.OnSpeedStateChanged += HandleSpeedStateChanged;
-            HandleSpeedStateChanged(TrainEngine.Instance.CurrentSpeedIndex);
+            HandleSpeedStateChanged(TrainEngine.Instance.CurrentGearIndex);
         }
 
         private void OnDisable()
