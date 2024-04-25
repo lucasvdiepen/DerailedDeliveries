@@ -463,7 +463,7 @@ MonoBehaviour:
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
   _isGlobal: 0
-  _initializeOrder: 0
+  _initializeOrder: 1
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 3
@@ -561,8 +561,7 @@ MonoBehaviour:
   _fadeDuration: 0.5
   _hoverHeight: 0.5
   _hoverDuration: 1.5
-  _coalImage: {fileID: 8271089391458247590}
-  _lowCoalAmount: 40
+  _lowCoalThreshold: 40
 --- !u!114 &3974059642369721789
 MonoBehaviour:
   m_ObjectHideFlags: 0

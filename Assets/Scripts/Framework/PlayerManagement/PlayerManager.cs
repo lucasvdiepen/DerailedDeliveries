@@ -47,6 +47,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public int PlayerCount => _players.Count;
 
         /// <summary>
+        /// The spawn point for new players.
+        /// </summary>
+        public Transform SpawnPoint => _spawnPoint;
+
+        /// <summary>
         /// Whether spawning new players is enabled.
         /// </summary>
         public bool IsSpawnEnabled
