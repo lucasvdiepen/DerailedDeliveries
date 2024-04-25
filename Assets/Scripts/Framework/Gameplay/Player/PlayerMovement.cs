@@ -51,7 +51,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_playerInput == Vector2.zero)
                 return;
 
-            Vector3 cameraForward = Camera.main.transform.forward;
+            Vector3 cameraForward = UnityEngine.Camera.main.transform.forward;
             cameraForward.y = 0;
 
             // Transform the input from local space to world space using the camera's forward direction.
