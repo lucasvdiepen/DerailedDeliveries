@@ -25,9 +25,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private float _heightOffset;
 
-        [SerializeField]
-        private CinemachineTargetGroup _targetGroup;
-
         [Header("Wagons Config")]
         [SerializeField]
         private Transform _frontWagon;
@@ -40,6 +37,18 @@ namespace DerailedDeliveries.Framework.Train
 
         [SerializeField]
         private Transform[] _followingWagons;
+
+        /// <summary>
+        /// Getter for getting the middle wagon.
+        /// </summary>
+        public Transform MiddleWagon
+        {
+            get
+            {
+                float wagons = _followingWagons.Length + 1;
+                return _followingWagons[(int)Mathf.Floor(wagons / 2f)];
+            }
+        }
 
         /// <summary>
         /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
@@ -137,11 +146,6 @@ namespace DerailedDeliveries.Framework.Train
 
                 positionSum += _followingWagons[i].position;
             }
-
-            if (!Application.isPlaying)
-                return;
-
-            _targetGroup.transform.rotation = _followingWagons[0].transform.rotation;
         }
 
         /// <summary>

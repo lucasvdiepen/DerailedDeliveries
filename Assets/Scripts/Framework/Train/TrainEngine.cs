@@ -2,11 +2,9 @@ using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using FishNet.Object;
 using UnityEngine;
-using Cinemachine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
-using DerailedDeliveries.Framework.Camera;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -55,6 +53,11 @@ namespace DerailedDeliveries.Framework.Train
         /// <br>True = right.</br>
         /// </summary>
         public bool CurrentSplitDirection { get; set; }
+        
+        /// <summary>
+        /// The max speed the train can go.
+        /// </summary>
+        public float MaxSpeed { get; private set; }
 
         /// <summary>
         /// Invokes when train direction is changed.
@@ -103,15 +106,13 @@ namespace DerailedDeliveries.Framework.Train
 
         public const int SPEED_VALUES_COUNT = 3;
 
-        private CinemachineBasicMultiChannelPerlin _multiChannelPerlin;
         private TrainController _trainController;
 
         private Dictionary<int, float> _speedValues;
         
         private float _brakeTimer;
         private float _startFriction;
-        private float _startCameraNoiseAmplitude;
-        private float _maxSpeed;
+        
 
         private bool _isBraking;
 
@@ -131,13 +132,7 @@ namespace DerailedDeliveries.Framework.Train
             };
 
             _startFriction = _friction;
-
-            _maxSpeed = _speedValues[SPEED_VALUES_COUNT] / _friction;
-
-            CinemachineVirtualCamera trainCamera = CameraManager.Instance.TrainCamera;
-            _multiChannelPerlin = trainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-            _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
+            MaxSpeed = _speedValues[SPEED_VALUES_COUNT] / _friction;
         }
 
         #region ServerRPCS
@@ -191,10 +186,6 @@ namespace DerailedDeliveries.Framework.Train
         {
             if (IsServer)
                 UpdateCurrentSpeed();
-
-            // Adjust Cinemachine noise amplitude gain based on current speed
-            float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(CurrentSpeed) / _maxSpeed);
-            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain;
         }
 
         /// <summary>

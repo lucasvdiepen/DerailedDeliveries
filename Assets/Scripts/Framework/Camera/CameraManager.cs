@@ -19,16 +19,7 @@ namespace DerailedDeliveries.Framework.Camera
         [field: SerializeField]
         public CinemachineVirtualCamera TrainCamera { get; private set; }
 
-        [SerializeField]
-        private CinemachineTargetGroup _targetGroup;
-
         private CinemachineVirtualCamera[] _stationCameras;
-      
-        private void OnEnable() => PlayerManager.Instance.OnPlayerJoined += HandlePlayerJoined;
-
-        private void OnDisable() => PlayerManager.Instance.OnPlayerJoined -= HandlePlayerJoined;
-
-        private void HandlePlayerJoined(PlayerId playerId) => _targetGroup.AddMember(playerId.transform, 1, 1);
 
         private void Start()
         {
