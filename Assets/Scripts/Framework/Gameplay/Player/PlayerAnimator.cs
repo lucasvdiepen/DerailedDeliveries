@@ -59,7 +59,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void OnMove(Vector2 moveDirection)
         {
-            // todo: set the correct animation speed. Maybe using velocity?
             _animator.SetFloat(_walkSpeedMultiplierAnimationHash, _rigidbody.velocity.magnitude / _walkAnimationBaseVelocity);
             _animator.SetBool(_isWalkingAnimationHash, moveDirection != Vector2.zero);
         }
