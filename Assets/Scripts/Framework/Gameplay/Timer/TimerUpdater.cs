@@ -5,6 +5,7 @@ using System;
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
@@ -60,21 +61,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         [ContextMenu("Increase timer")]
         public void IncreaseTimer() => _timer.StartTimer(_timer.Remaining + 10);
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartServer()
         {
             base.OnStartServer();
 
             _timer.StartTimer(_baseTime);
 
-
+            TrainStationController.Instance.OnParkStateChanged += OnStationArrival;
         }
 
         /// <summary>
         /// A function that updates the time when the train arrives at a station.
         /// </summary>
-        public void OnStationReached()
+        private void OnStationArrival(bool isParked)
         {
-            if (_timer.Paused)
+            if (_timer.Paused || !isParked)
                 return;
 
             _timer.StartTimer(_timer.Remaining + _stationArrivalTimeBonus);

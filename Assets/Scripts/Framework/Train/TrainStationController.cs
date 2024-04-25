@@ -44,7 +44,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invoked when train <see cref="IsParked"/> state is changed.
         /// </summary>
-        public Action<bool> OnParkStateChanged { get; private set; }
+        public Action<bool> OnParkStateChanged;
 
         private bool _isParked;
         private bool _canPark;
