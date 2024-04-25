@@ -45,7 +45,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// <summary>
         /// The total amount of points that can be achieved in this session.
         /// </summary>
-        public int TotalAchievableScore { get; private set; }
+        public int MaxScore { get; private set; }
 
         /// <summary>
         /// The current score of this session.
@@ -117,7 +117,7 @@ namespace DerailedDeliveries.Framework.Gameplay
                     usedSpawns.Add(availableSpawns[spawnIndex]);
                     availableSpawns.RemoveAt(spawnIndex);
 
-                    TotalAchievableScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+                    MaxScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
                 }
             }
 
