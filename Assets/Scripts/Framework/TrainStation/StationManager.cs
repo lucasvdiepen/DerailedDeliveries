@@ -3,7 +3,7 @@ using System;
 
 using DerailedDeliveries.Framework.Utils;
 
-namespace DerailedDeliveries.Framework.TrainStation
+namespace DerailedDeliveries.Framework.Gameplay.Level
 {
     /// <summary>
     /// Class responsible for holding all available tran stations for easy access.
@@ -14,7 +14,7 @@ namespace DerailedDeliveries.Framework.TrainStation
         /// Getter for all available train stations.
         /// </summary>
         [field: SerializeField]
-        public StationContainer[] StationContainers { get; private set; }
+        public StationCameraBlendingContainer[] StationContainers { get; private set; }
 
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.
@@ -25,10 +25,10 @@ namespace DerailedDeliveries.Framework.TrainStation
         /// <returns>Index of nearest camera.</returns>
         public int GetNearestStationIndex(Vector3 originPosition, out float distance)
         {
-            StationContainer bestTarget = null;
+            StationCameraBlendingContainer bestTarget = null;
             float closestDistanceSquare = Mathf.Infinity;
 
-            foreach (StationContainer stationContainer in StationContainers)
+            foreach (StationCameraBlendingContainer stationContainer in StationContainers)
             {
                 Vector3 directionToTarget = stationContainer.StationCamera.transform.position - originPosition;
                 float distanceSquared = directionToTarget.sqrMagnitude;

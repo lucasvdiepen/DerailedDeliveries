@@ -4,7 +4,7 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
-using DerailedDeliveries.Framework.TrainStation;
+using DerailedDeliveries.Framework.Gameplay.Level;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -86,7 +86,7 @@ namespace DerailedDeliveries.Framework.Camera
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
-            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+            StationCameraBlendingContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
 
             bool min = closestStation.StationBoundingBoxCollider.bounds.Contains(_minimumPoint.position);
             bool max = closestStation.StationBoundingBoxCollider.bounds.Contains(_maximumPoint.position);

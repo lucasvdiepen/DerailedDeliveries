@@ -1,12 +1,12 @@
 using UnityEngine;
 using Cinemachine;
 
-namespace DerailedDeliveries.Framework.TrainStation
+namespace DerailedDeliveries.Framework.Gameplay.Level
 {
     /// <summary>
     /// Class responsible for holding all necessary station components for easy access.
     /// </summary>
-    public class StationContainer : MonoBehaviour
+    public class StationCameraBlendingContainer : MonoBehaviour
     {
         /// <summary>
         /// Getter for <see cref="CinemachineVirtualCamera"/> camera attached to this station.
