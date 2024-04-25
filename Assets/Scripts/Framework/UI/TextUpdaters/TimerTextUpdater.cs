@@ -29,9 +29,9 @@ public class TimerTextUpdater : TextUpdater
 
         string timerText 
             = GetIntString(minutes) 
-            + " : "
+            + "\u00A0 : \u00A0"
             + GetIntString(seconds) 
-            + " : "
+            + "\u00A0 : \u00A0"
             + GetIntString(milliseconds);
 
         ReplaceTag(timerText);
