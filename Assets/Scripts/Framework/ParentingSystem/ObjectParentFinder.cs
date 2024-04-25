@@ -26,6 +26,9 @@ namespace DerailedDeliveries.Framework.ParentingSystem
         {
             base.OnStartClient();
 
+            if(!IsOwner)
+                return;
+
             TimeManager.OnPostTick += OnPostTick;
         }
 
@@ -35,6 +38,9 @@ namespace DerailedDeliveries.Framework.ParentingSystem
         public override void OnStopClient()
         {
             base.OnStopClient();
+
+            if(!IsOwner)
+                return;
 
             TimeManager.OnPostTick -= OnPostTick;
         }
