@@ -27,13 +27,25 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private Transform _maximumPoint;
 
-        private bool _isParked;
+        /// <summary>
+        /// Getter for when train is parked.
+        /// </summary>
+        public bool IsParked
+        {
+            get => _isParked;
+            set 
+            {
+                _isParked = value;
+                OnParkStateChanged?.Invoke(this);
+            }
+        }
 
         /// <summary>
-        /// Invoked when train <see cref="_isParked"/> state is changed.
+        /// Invoked when train <see cref="IsParked"/> state is changed.
         /// </summary>
         public Action<bool> OnParkStateChanged { get; private set; }
 
+        private bool _isParked;
         private bool _canPark;
 
         private TrainController _trainController;
@@ -53,15 +65,12 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override void OnStartClient()
+        public override void OnStartServer()
         {
-            if (!IsServer)
-                return;
-
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
-            ParkTrainAtClosestStation(nearestStationIndex);
+            ParkTrain(nearestStationIndex);
         }
 
         private void Update()
@@ -71,21 +80,21 @@ namespace DerailedDeliveries.Framework.Train
 
             _canPark = ParkCheck(out int nearestStationIndex);
 
-            if(!_canPark && _isParked)
+            if(!_canPark && IsParked)
             {
                 UnparkTrain();
                 return;
             }
 
-            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= 0.005f && !_isParked)
+            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= 0.005f && !IsParked)
             {
                 if (TrainEngine.Instance.CurrentGearIndex != 0 || !_canPark)
                     return;
 
-                ParkTrainAtClosestStation(nearestStationIndex);
+                ParkTrain(nearestStationIndex);
             }
 
-            else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && _isParked)
+            else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && IsParked)
                 UnparkTrain();
         }
 
@@ -103,17 +112,10 @@ namespace DerailedDeliveries.Framework.Train
             return min && max;
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void UnparkTrain() => UnparkTrainObserver();
-
-
-        [ServerRpc(RequireOwnership = false)]
-        private void ParkTrainAtClosestStation(int nearestStationIndex) => ParkTrain(nearestStationIndex);
-
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void ParkTrain(int closestStationIndex)
         {
-            SetIsParked(true);
+            IsParked = true;
 
             CinemachineVirtualCamera nearestStationCamera 
                 = StationManager.Instance.StationContainers[closestStationIndex].StationCamera;
@@ -125,21 +127,15 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void UnparkTrainObserver()
+        private void UnparkTrain()
         {
-            SetIsParked(false);
+            IsParked = false;
 
             if (_currentStationAnimator != null )
                 _currentStationAnimator.SetTrigger(_exitAnimationHash);
 
             CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
             _currentStationAnimator = null;
-        }
-
-        private void SetIsParked(bool state)
-        {
-            _isParked = state;
-            OnParkStateChanged?.Invoke(state);
         }
     }
 }
