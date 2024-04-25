@@ -1,6 +1,7 @@
 using FishNet.Object;
 using Cinemachine;
 using UnityEngine;
+using System;
 
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
@@ -26,10 +27,12 @@ namespace DerailedDeliveries.Framework.Camera
         [SerializeField]
         private Transform _maximumPoint;
 
+        private bool _isParked;
+
         /// <summary>
-        /// Getter for when the train is parked at a station.
+        /// Invoked when train <see cref="_isParked"/> state is changed.
         /// </summary>
-        public bool IsParked { get; private set; }
+        public Action<bool> OnParkStateChanged { get; private set; }
 
         private bool _canPark;
 
@@ -68,13 +71,13 @@ namespace DerailedDeliveries.Framework.Camera
 
             _canPark = ParkCheck(out int nearestStationIndex);
 
-            if(!_canPark && IsParked)
+            if(!_canPark && _isParked)
             {
                 UnparkTrain();
                 return;
             }
 
-            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= 0.005f && !IsParked)
+            if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= 0.005f && !_isParked)
             {
                 if (TrainEngine.Instance.CurrentGearIndex != 0 || !_canPark)
                     return;
@@ -82,7 +85,7 @@ namespace DerailedDeliveries.Framework.Camera
                 ParkTrainAtClosestStation(nearestStationIndex);
             }
 
-            else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && IsParked)
+            else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && _isParked)
                 UnparkTrain();
         }
 
@@ -110,7 +113,7 @@ namespace DerailedDeliveries.Framework.Camera
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void ParkTrain(int closestStationIndex)
         {
-            IsParked = true;
+            SetIsParked(true);
 
             CinemachineVirtualCamera nearestStationCamera 
                 = StationManager.Instance.StationContainers[closestStationIndex].StationCamera;
@@ -124,13 +127,20 @@ namespace DerailedDeliveries.Framework.Camera
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void UnparkTrainObserver()
         {
-            IsParked = false;
+            SetIsParked(false);
 
-            if(_currentStationAnimator != null )
+            if (_currentStationAnimator != null )
                 _currentStationAnimator.SetTrigger(_exitAnimationHash);
 
             CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
             _currentStationAnimator = null;
+        }
+
+        private void SetIsParked(bool state)
+        {
+            print("eiheihoehoni");
+            _isParked = state;
+            OnParkStateChanged?.Invoke(state);
         }
     }
 }
