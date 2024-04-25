@@ -1,6 +1,7 @@
 using FishNet.Object;
 using Cinemachine;
 using UnityEngine;
+using FishNet;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
@@ -62,6 +63,10 @@ namespace DerailedDeliveries.Framework.Train
             _exitAnimationHash = Animator.StringToHash("Exit");
         }
 
+        private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
+
+        private void OnDisable() => InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -73,7 +78,7 @@ namespace DerailedDeliveries.Framework.Train
             ParkTrain(nearestStationIndex);
         }
 
-        private void Update()
+        private void OnPostTick()
         {
             if (!IsServer || TrainEngine.Instance.EngineState == TrainEngineState.Inactive)
                 return;
