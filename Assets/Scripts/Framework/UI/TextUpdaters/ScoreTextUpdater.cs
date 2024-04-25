@@ -3,7 +3,7 @@ using DerailedDeliveries.Framework.Gameplay;
 namespace DerailedDeliveries.Framework.UI.TextUpdaters
 {
     /// <summary>
-    /// A <see cref="TextUpdater"/> class that updates the current score text."/>
+    /// A <see cref="TextUpdater"/> class that updates the current score text.
     /// </summary>
     public class ScoreTextUpdater : TextUpdater
     {
