@@ -13,8 +13,12 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         [SerializeField]
         private float _damageInterval;
 
+        private float _baseDamageInterval;
+
         private protected float p_damageIntervalElapsed;
         private bool _isTrainMoving;
+
+        private void Awake() => _baseDamageInterval = _damageInterval;
 
         [Server]
         private void OnVelocityChanged(float velocity) => _isTrainMoving = Mathf.Abs(velocity) > 0.1f;
@@ -26,6 +30,8 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
 
             UpdateTimer();
         }
+
+
 
         [Server]
         private protected virtual void UpdateTimer()
@@ -57,7 +63,8 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         /// A function to apply the ChaosMultiplier to the <see cref="_damageInterval"/> of this damageable.
         /// </summary>
         /// <param name="chaosMultiplier">The multiplier of how much faster the damage must occur.</param>
-        public void ApplyChaosMultiplier(float chaosMultiplier) => _damageInterval /= chaosMultiplier;
+        public void ApplyChaosMultiplier(float chaosMultiplier) 
+            => _damageInterval = _baseDamageInterval / chaosMultiplier;
 
         /// <summary>
         /// <inheritdoc/>

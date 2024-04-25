@@ -15,7 +15,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
     public class TimerUpdater : NetworkAbstractSingleton<TimerUpdater>
     {
         [SerializeField]
-        private float _baseTime = 120f;
+        private float _baseTime = 240f;
 
         [SerializeField]
         private float _stationArrivalTimeBonus = 40f;
