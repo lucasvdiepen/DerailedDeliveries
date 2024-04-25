@@ -138,7 +138,6 @@ namespace DerailedDeliveries.Framework.Camera
 
         private void SetIsParked(bool state)
         {
-            print("eiheihoehoni");
             _isParked = state;
             OnParkStateChanged?.Invoke(state);
         }
