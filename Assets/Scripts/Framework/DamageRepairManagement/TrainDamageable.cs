@@ -21,7 +21,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
 
         private void Update()
         {
-            if (!IsServer)
+            if (!IsServer || IsDeinitializing)
                 return;
 
             UpdateTimer();
