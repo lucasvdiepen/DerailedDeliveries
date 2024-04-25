@@ -47,7 +47,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
 
             _popupCanvasGroup.transform.rotation = Quaternion.LookRotation(
                 _popupCanvasGroup.transform.position - UnityEngine.Camera.main.transform.position);
-        }   
+        }
 
         /// <summary>
         /// Shows the popup.

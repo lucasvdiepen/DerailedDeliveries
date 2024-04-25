@@ -1,7 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 
-namespace DerailedDeliveries.Framework.Gameplay.Level
+namespace DerailedDeliveries.Framework.Station
 {
     /// <summary>
     /// Class responsible for holding all necessary station components for easy access.

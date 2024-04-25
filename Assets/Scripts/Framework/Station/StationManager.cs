@@ -3,10 +3,10 @@ using System;
 
 using DerailedDeliveries.Framework.Utils;
 
-namespace DerailedDeliveries.Framework.Gameplay.Level
+namespace DerailedDeliveries.Framework.Station
 {
     /// <summary>
-    /// Class responsible for holding all available tran stations for easy access.
+    /// Class responsible for holding all available trains stations for easy access.
     /// </summary>
     public class StationManager : AbstractSingleton<StationManager>
     {

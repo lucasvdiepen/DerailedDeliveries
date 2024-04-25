@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 
 using DerailedDeliveries.Framework.Utils;
-using DerailedDeliveries.Framework.Train;
-using DerailedDeliveries.Framework.Gameplay.Level;
+using DerailedDeliveries.Framework.Station;
+using DerailedDeliveries.Framework.Camera;
 
-namespace DerailedDeliveries.Framework.Camera
+namespace DerailedDeliveries.Framework.Train
 {
     /// <summary>
     /// Class responsible for stopping train and opening doors by stations.
