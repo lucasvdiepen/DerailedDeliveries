@@ -1,6 +1,5 @@
 using UnityEngine.Splines;
 using FishNet.Object;
-using Cinemachine;
 using UnityEngine;
 using System;
 
