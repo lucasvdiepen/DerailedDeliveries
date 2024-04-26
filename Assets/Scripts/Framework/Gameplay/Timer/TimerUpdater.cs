@@ -4,6 +4,7 @@ using System;
 
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
+using DerailedDeliveries.Framework.Station;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
 
@@ -25,6 +26,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         [SerializeField]
         private float _chaosSpeedMultiplier = 1.5f;
+
+        [SerializeField]
+        private List<int> _arrivedStations = new();
 
         /// <summary>
         /// A getter to get the ChaosSpeedMultiplierThreshold.
@@ -80,6 +84,17 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         {
             if (_timer.Paused || !isParked)
                 return;
+
+            int stationIndex = StationManager.Instance.GetNearestStationIndex
+                (
+                    TrainStationController.Instance.CurrentTrainLocation, 
+                    out _
+                );
+
+            if (_arrivedStations.Contains(stationIndex))
+                return;
+
+            _arrivedStations.Add(stationIndex);
 
             _timer.StartTimer(_timer.Remaining + _stationArrivalTimeBonus);
 

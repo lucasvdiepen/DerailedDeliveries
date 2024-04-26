@@ -42,6 +42,11 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
+        /// A getter for the train's current location.
+        /// </summary>
+        public Vector3 CurrentTrainLocation => _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+
+        /// <summary>
         /// Invoked when train <see cref="IsParked"/> state is changed.
         /// </summary>
         public Action<bool> OnParkStateChanged;
@@ -76,7 +81,7 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public override void OnStartServer()
         {
-            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+            Vector3 trainPosition = CurrentTrainLocation;
             int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
             ParkTrain(nearestStationIndex);
@@ -110,7 +115,7 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private bool ParkCheck(out int nearestStationIndex)
         {
-            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+            Vector3 trainPosition = CurrentTrainLocation;
             nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
             StationCameraBlendingContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
