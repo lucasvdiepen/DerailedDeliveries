@@ -62,6 +62,9 @@ namespace DerailedDeliveries.Framework.StateMachine.States
 
         private void StopSearchingServer()
         {
+            if (!_networkDiscovery.IsSearching)
+                return;
+
             _networkDiscovery.StopSearchingOrAdvertising();
             _networkDiscovery.ServerFoundCallback -= OnServerFound;
         }
