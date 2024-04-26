@@ -1,6 +1,9 @@
+using System.Net;
 using FishNet;
+using FishNet.Discovery;
 using FishNet.Transporting;
 using System.Collections;
+using UnityEngine;
 
 using DerailedDeliveries.Framework.PlayerManagement;
 
@@ -11,6 +14,9 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     /// </summary>
     public class JoinState : MenuState
     {
+        [SerializeField]
+        private NetworkDiscovery _networkDiscovery;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -18,7 +24,8 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         {
             InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnnectionStateChanged;
 
-            InstanceFinder.ClientManager.StartConnection();
+            _networkDiscovery.ServerFoundCallback += OnServerFound;
+            _networkDiscovery.SearchForServers();
 
             yield return base.OnStateEnter();
         }
@@ -28,6 +35,8 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// </summary>
         public override IEnumerator OnStateExit()
         {
+            StopSearchingServer();
+
             InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
 
             if (InstanceFinder.NetworkManager.IsClient)
@@ -42,6 +51,19 @@ namespace DerailedDeliveries.Framework.StateMachine.States
                 return;
 
             StateMachine.Instance.GoToState<GameState>();
+        }
+
+        private void OnServerFound(IPEndPoint ipEndPoint)
+        {
+            InstanceFinder.ClientManager.StartConnection(ipEndPoint.Address.ToString());
+
+            StopSearchingServer();
+        }
+
+        private void StopSearchingServer()
+        {
+            _networkDiscovery.StopSearchingOrAdvertising();
+            _networkDiscovery.ServerFoundCallback -= OnServerFound;
         }
     }
 }
