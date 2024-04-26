@@ -63,24 +63,30 @@ namespace DerailedDeliveries.Framework.Train
             _exitAnimationHash = Animator.StringToHash("Exit");
         }
 
-        private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
+        /// <summary>
+        /// Temporary disabled.
+        /// </summary>
+        //private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
 
-        private void OnDisable()
+        /// <summary>
+        /// Temporary disabled.
+        /// </summary>
+        /*private void OnDisable()
         {
             if(InstanceFinder.TimeManager != null)
                 InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
-        }
+        }*/
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override void OnStartServer()
+        /*public override void OnStartServer()
         {
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
             int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
             ParkTrain(nearestStationIndex);
-        }
+        }*/
 
         private void OnPostTick()
         {
