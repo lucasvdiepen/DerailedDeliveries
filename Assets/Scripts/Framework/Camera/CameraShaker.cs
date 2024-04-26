@@ -29,7 +29,11 @@ namespace DerailedDeliveries.Framework.Camera
             _multiChannelPerlin = _trainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         }
 
-        private void Start() => _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
+        private void Start()
+        {
+            _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
+            _multiChannelPerlin.m_AmplitudeGain = 0;
+        }
 
         private void HandleSpeedChanged(float newSpeed)
         {
