@@ -2,7 +2,6 @@ using FishNet;
 using FishNet.Transporting;
 using System.Collections;
 
-using DerailedDeliveries.Framework.PlayerManagement;
 using DerailedDeliveries.Framework.StateMachine.Attributes;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
@@ -31,9 +30,6 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         public override IEnumerator OnStateExit()
         {
             InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
-
-            if (InstanceFinder.NetworkManager.IsClient)
-                PlayerManager.Instance.IsSpawnEnabled = false;
 
             yield return base.OnStateExit();
         }

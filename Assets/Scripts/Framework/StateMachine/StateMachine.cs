@@ -242,19 +242,10 @@ namespace DerailedDeliveries.Framework.StateMachine
             
             _states.Add(state.GetType(), state);
 
-            DefaultStateAttribute defaultStateAttribute =
-                (DefaultStateAttribute)Attribute.GetCustomAttribute(state.GetType(), typeof(DefaultStateAttribute));
-
-            if (!isDefault && defaultStateAttribute == null)
+            if(!isDefault && !IsDefaultState(state))
                 return;
 
-            if(CurrentState != null)
-            {
-                Debug.LogError($"Default state is already set to {CurrentState.GetType()}");
-                return;
-            }
-
-            StartCoroutine(TransitionToState(state));
+            SetDefaultState(state);
         }
 
         /// <summary>
@@ -397,6 +388,53 @@ namespace DerailedDeliveries.Framework.StateMachine
             tree.Reverse();
 
             return tree;
+        }
+
+        /// <summary>
+        /// Invoked when all states are initialized and the state machine is ready.
+        /// </summary>
+        private void Start() => DisableAllStates();
+
+        /// <summary>
+        /// Disables all the states except the current state.
+        /// </summary>
+        private void DisableAllStates()
+        {
+            foreach (State state in _states.Values)
+            {
+                if(state == CurrentState)
+                    continue;
+
+                state.gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// Whether the given state has the default state attribute.
+        /// </summary>
+        /// <param name="state">The state to check.</param>
+        /// <returns>True if the given state has the default state attribute, otherwise false.</returns>
+        private bool IsDefaultState(State state)
+        {
+            DefaultStateAttribute defaultStateAttribute =
+                (DefaultStateAttribute)Attribute.GetCustomAttribute(state.GetType(), typeof(DefaultStateAttribute));
+
+            return defaultStateAttribute != null;
+        }
+
+        /// <summary>
+        /// Sets the default state if it hasn't been set yet.
+        /// </summary>
+        /// <param name="state">The state to set as the default state.</param>
+        private void SetDefaultState(State state)
+        {
+            if(CurrentState != null)
+            {
+                Debug.LogError($"Default state is already set to {CurrentState.GetType()}");
+                return;
+            }
+
+            StartCoroutine(TransitionToState(state));
         }
 
         /// <summary>

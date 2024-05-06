@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
+using DerailedDeliveries.Framework.PlayerManagement;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
@@ -9,6 +9,11 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     /// </summary>
     public class LobbyState : MenuState
     {
+        public override IEnumerator OnStateExit()
+        {
+            yield return base.OnStateExit();
 
+            PlayerManager.Instance.IsSpawnEnabled = false;
+        }
     }
 }
