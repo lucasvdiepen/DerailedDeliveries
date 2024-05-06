@@ -3,12 +3,14 @@ using FishNet.Transporting;
 using System.Collections;
 
 using DerailedDeliveries.Framework.PlayerManagement;
+using DerailedDeliveries.Framework.StateMachine.Attributes;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
     /// <summary>
     /// The state that represents the join menu.
     /// </summary>
+    [ParentState(typeof(LobbyState))]
     public class JoinState : MenuState
     {
         /// <summary>
@@ -41,7 +43,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             if (args.ConnectionState != LocalConnectionState.Started)
                 return;
 
-            StateMachine.Instance.GoToState<GameState>();
+            //StateMachine.Instance.GoToState<GameState>();
         }
     }
 }

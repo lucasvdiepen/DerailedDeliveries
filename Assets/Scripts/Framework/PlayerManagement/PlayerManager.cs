@@ -83,17 +83,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         {
             base.OnStartClient();
 
-            _playerInputManager.EnableJoining();
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void OnStopClient()
-        {
-            base.OnStopClient();
-
-            _playerInputManager.DisableJoining();
+            IsSpawnEnabled = true;
         }
 
         /// <summary>
