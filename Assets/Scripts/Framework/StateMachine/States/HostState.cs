@@ -36,8 +36,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// </summary>
         public override IEnumerator OnStateExit()
         {
-            // todo: we need to call StopSearchingOrAdvertising when we have finished the host screen.
-            //_networkDiscovery.StopSearchingOrAdvertising();
+            _networkDiscovery.StopSearchingOrAdvertising();
 
             InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
 

@@ -16,6 +16,9 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters.Lobby
 
         private void OnDisable()
         {
+            if(PlayerManager.Instance == null)
+                return;
+
             PlayerManager.Instance.OnPlayerJoined -= PlayerJoined;
             PlayerManager.Instance.OnPlayerLeft -= UpdateText;
         }
