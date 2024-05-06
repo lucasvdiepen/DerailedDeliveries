@@ -38,6 +38,16 @@ namespace DerailedDeliveries.Framework.Train
         private Transform[] _followingWagons;
 
         /// <summary>
+        /// An action that broadcasts the new TrackID when the train switches tracks.
+        /// </summary>
+        public Action<int> OnTrackSwitch;
+
+        /// <summary>
+        /// An action that broadcasts the new <see cref="DistanceAlongSpline"/> when the train moves.
+        /// </summary>
+        public Action<float> OnDistanceAlongSplineChanged;
+
+        /// <summary>
         /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
         /// 1 = Spline end point.<br/>
@@ -119,6 +129,7 @@ namespace DerailedDeliveries.Framework.Train
         private void MoveTrain(float distanceAlongSpline)
         {
             UpdateWagonPosition(_frontWagon, distanceAlongSpline);
+            OnDistanceAlongSplineChanged?.Invoke(distanceAlongSpline);
 
             int wagons = _followingWagons.Length;
             for (int i = 0; i < wagons; i++)
@@ -193,6 +204,7 @@ namespace DerailedDeliveries.Framework.Train
                 DistanceAlongSpline = CurrentOptimalStartPoint;
 
             Spline.gameObject.TryGetComponent(out _railSplit);
+            OnTrackSwitch?.Invoke(trackID);
         }
 
         /// <summary>
