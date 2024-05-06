@@ -1,4 +1,8 @@
+using DerailedDeliveries.Framework.Train;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace DerailedDeliveries.Framework.Gameplay.Map
 {
@@ -7,36 +11,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
     /// </summary>
     public class MapUpdater : MonoBehaviour
     {
-        [Header("World Transforms")]
         [SerializeField]
-        private Transform _bottomRightWorldTransform;
+        private TrainController _train;
 
-        [Header("Map Settings")]
-        [SerializeField]
-        private RectTransform _mapIndicator;
-
-        [SerializeField]
-        private Transform _trackingTransform;
-
-        private float _xRectScale;
-        private float _yRectScale;
+        private List<Vector3> positions;
 
         private void Awake()
         {
-            RectTransform _mapTransform = GetComponent<RectTransform>();
-
-            _xRectScale = _mapTransform.rect.width / _bottomRightWorldTransform.position.z;
-            _yRectScale = _mapTransform.rect.height / _bottomRightWorldTransform.position.x;
+            foreach (BezierKnot knot in _train.Spline.Splines[0].Knots)
+            {
+                Vector3 newPos = knot.Position;
+                newPos += _train.Spline.gameObject.transform.position;
+                positions.Add(newPos);
+            }
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            _mapIndicator.anchoredPosition =
-                new Vector2
-                    (
-                        _trackingTransform.position.z * _xRectScale,
-                        _trackingTransform.position.x * _yRectScale * -1
-                    );
+            
         }
     }
 }
