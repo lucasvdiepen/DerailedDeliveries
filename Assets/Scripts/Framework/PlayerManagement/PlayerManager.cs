@@ -51,6 +51,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public int PlayerCount => _players.Count;
 
         /// <summary>
+        /// The maximum amount of players allowed in the game.
+        /// </summary>
+        public int MaxPlayers => _maxPlayers;
+
+        /// <summary>
         /// The spawn point for new players.
         /// </summary>
         public Transform SpawnPoint => _spawnPoint;

@@ -22,6 +22,10 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters.Lobby
 
         private void PlayerJoined(PlayerId playerId) => UpdateText();
 
-        private void UpdateText() => ReplaceTag(PlayerManager.Instance.PlayerCount.ToString());
+        private void UpdateText()
+        {
+            ReplaceTag("[players]", PlayerManager.Instance.PlayerCount.ToString());
+            ReplaceTag("[maxPlayers]", PlayerManager.Instance.MaxPlayers.ToString());
+        }
     }
 }
