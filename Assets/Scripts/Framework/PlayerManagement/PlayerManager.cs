@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using FishNet.Connection;
 using FishNet.Object;
-using System.Linq;
-using Cinemachine;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -40,6 +39,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// Invoked when a player leaves the game.
         /// </summary>
         public Action OnPlayerLeft;
+
+        /// <summary>
+        /// Gets the current players in the game.
+        /// </summary>
+        public PlayerId[] CurrentPlayers => _players.ToArray();
 
         /// <summary>
         /// The amount of players currently in the game.
