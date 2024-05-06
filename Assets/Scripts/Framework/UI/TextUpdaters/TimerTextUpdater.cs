@@ -3,12 +3,24 @@ using DG.Tweening;
 
 using DerailedDeliveries.Framework.UI.TextUpdaters;
 using DerailedDeliveries.Framework.Gameplay.Timer;
+using TMPro;
 
 /// <summary>
 /// A TextUpdater class that is responsible for updating the <see cref="TimerUpdater"/>'s text.
 /// </summary>
 public class TimerTextUpdater : TextUpdater
 {
+    [Header("Text Updaters")]
+    [SerializeField]
+    private TextUpdater _minutesText;
+
+    [SerializeField]
+    private TextUpdater _secondsText;
+
+    [SerializeField]
+    private TextUpdater _millisecondsText;
+
+    [Header("Timer settings")]
     [SerializeField]
     private Color _chaosColor;
 
@@ -58,14 +70,9 @@ public class TimerTextUpdater : TextUpdater
         int seconds = (int)(newTime % 60);
         int milliseconds = (int)(100 * (newTime % 1));
 
-        string timerText 
-            = GetIntString(minutes) 
-            + "\u00A0 : \u00A0"
-            + GetIntString(seconds) 
-            + "\u00A0 : \u00A0"
-            + GetIntString(milliseconds);
-
-        ReplaceTag(timerText);
+        _minutesText.ReplaceTag(GetIntString(minutes));
+        _secondsText.ReplaceTag(GetIntString(seconds));
+        _millisecondsText.ReplaceTag(GetIntString(milliseconds));
     }
 
     private string GetIntString(int number)
