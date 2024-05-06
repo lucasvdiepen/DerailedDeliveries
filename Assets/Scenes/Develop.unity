@@ -4381,6 +4381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 1997683763}
   _fadeDuration: 0.5
+  _networkDiscovery: {fileID: 2043026374}
 --- !u!1 &2007289020
 GameObject:
   m_ObjectHideFlags: 0
@@ -4445,6 +4446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 2007289022}
   _fadeDuration: 0.5
+  _networkDiscovery: {fileID: 2043026374}
 --- !u!4 &2032872538 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4104198628936102777, guid: ec04a114bee5141408603a302383a667,
@@ -4679,6 +4681,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2388d4516f1c42e49a9603d7badee6c2, type: 3}
+--- !u!114 &2043026374 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1582657817117132337, guid: 2388d4516f1c42e49a9603d7badee6c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2043026373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdee964473d743b1bc62fd8f82ca78f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2088461723
 PrefabInstance:
   m_ObjectHideFlags: 0

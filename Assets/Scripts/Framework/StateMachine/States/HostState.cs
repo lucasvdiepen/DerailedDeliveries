@@ -1,6 +1,8 @@
 using FishNet;
+using FishNet.Discovery;
 using FishNet.Transporting;
 using System.Collections;
+using UnityEngine;
 
 using DerailedDeliveries.Framework.StateMachine.Attributes;
 
@@ -12,6 +14,9 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     [ParentState(typeof(LobbyState))]
     public class HostState : MenuState
     {
+        [SerializeField]
+        private NetworkDiscovery _networkDiscovery;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -21,6 +26,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             
             InstanceFinder.ServerManager.StartConnection();
             InstanceFinder.ClientManager.StartConnection("localhost");
+            _networkDiscovery.AdvertiseServer();
 
             yield return base.OnStateEnter();
         }
@@ -30,6 +36,9 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// </summary>
         public override IEnumerator OnStateExit()
         {
+            // todo: we need to call StopSearchingOrAdvertising when we have finished the host screen.
+            //_networkDiscovery.StopSearchingOrAdvertising();
+
             InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
 
             yield return base.OnStateExit();
