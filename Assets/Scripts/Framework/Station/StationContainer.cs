@@ -6,7 +6,7 @@ namespace DerailedDeliveries.Framework.Station
     /// <summary>
     /// Class responsible for holding all necessary station components for easy access.
     /// </summary>
-    public class StationCameraBlendingContainer : MonoBehaviour
+    public class StationContainer : MonoBehaviour
     {
         /// <summary>
         /// Getter for <see cref="CinemachineVirtualCamera"/> camera attached to this station.

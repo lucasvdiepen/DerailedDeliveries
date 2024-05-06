@@ -1,12 +1,10 @@
 using FishNet.Object;
-using Cinemachine;
 using UnityEngine;
 using FishNet;
 using System;
 
-using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Station;
-using DerailedDeliveries.Framework.Camera;
+using DerailedDeliveries.Framework.Utils;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -50,50 +48,34 @@ namespace DerailedDeliveries.Framework.Train
         private bool _canPark;
 
         private TrainController _trainController;
-        private Animator _currentStationAnimator;
-
-        private int _enterAnimationHash;
-        private int _exitAnimationHash;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
 
-        private void Start()
-        {
-            _enterAnimationHash = Animator.StringToHash("Enter");
-            _exitAnimationHash = Animator.StringToHash("Exit");
-        }
+        /// <summary>
+        /// Temporary disabled.
+        /// </summary>
+        private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
 
         /// <summary>
         /// Temporary disabled.
         /// </summary>
-        //private void OnEnable() => InstanceFinder.TimeManager.OnPostTick += OnPostTick;
-
-        /// <summary>
-        /// Temporary disabled.
-        /// </summary>
-        /*private void OnDisable()
+        private void OnDisable()
         {
-            if(InstanceFinder.TimeManager != null)
+            if (InstanceFinder.TimeManager != null)
                 InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
-        }*/
+        }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /*public override void OnStartServer()
-        {
-            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
-
-            ParkTrain(nearestStationIndex);
-        }*/
+        public override void OnStartServer() => ParkTrain();
 
         private void OnPostTick()
         {
             if (!IsServer || TrainEngine.Instance.EngineState == TrainEngineState.Inactive)
                 return;
 
-            _canPark = ParkCheck(out int nearestStationIndex);
+            _canPark = ParkCheck();
 
             if(!_canPark && IsParked)
             {
@@ -106,7 +88,7 @@ namespace DerailedDeliveries.Framework.Train
                 if (TrainEngine.Instance.CurrentGearIndex != 0 || !_canPark)
                     return;
 
-                ParkTrain(nearestStationIndex);
+                ParkTrain();
             }
 
             else if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) >= _minTrainSpeedToPark && IsParked)
@@ -114,12 +96,12 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [Server]
-        private bool ParkCheck(out int nearestStationIndex)
+        private bool ParkCheck()
         {
             Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
+            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
-            StationCameraBlendingContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
 
             bool min = closestStation.StationBoundingBoxCollider.bounds.Contains(_minimumPoint.position);
             bool max = closestStation.StationBoundingBoxCollider.bounds.Contains(_maximumPoint.position);
@@ -128,29 +110,9 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void ParkTrain(int closestStationIndex)
-        {
-            IsParked = true;
-
-            CinemachineVirtualCamera nearestStationCamera 
-                = StationManager.Instance.StationContainers[closestStationIndex].StationCamera;
-            
-            CameraManager.Instance.ChangeActiveCamera(nearestStationCamera);
-            
-            _currentStationAnimator = nearestStationCamera.transform.parent.GetComponent<Animator>();
-            _currentStationAnimator.SetTrigger(_enterAnimationHash);
-        }
+        private void ParkTrain() => IsParked = true;
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void UnparkTrain()
-        {
-            IsParked = false;
-
-            if (_currentStationAnimator != null )
-                _currentStationAnimator.SetTrigger(_exitAnimationHash);
-
-            CameraManager.Instance.ChangeActiveCamera(CameraManager.Instance.TrainCamera);
-            _currentStationAnimator = null;
-        }
+        private void UnparkTrain() => IsParked = false;
     }
 }
