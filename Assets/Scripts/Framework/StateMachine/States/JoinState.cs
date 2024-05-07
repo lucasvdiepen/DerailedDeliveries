@@ -1,8 +1,7 @@
-using System.Net;
 using FishNet;
 using FishNet.Discovery;
-using FishNet.Transporting;
 using System.Collections;
+using System.Net;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.StateMachine.Attributes;
@@ -23,8 +22,6 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// </summary>
         public override IEnumerator OnStateEnter()
         {
-            InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnnectionStateChanged;
-
             _networkDiscovery.ServerFoundCallback += OnServerFound;
             _networkDiscovery.SearchForServers();
 
@@ -38,17 +35,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         {
             StopSearchingServer();
 
-            InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
-
             yield return base.OnStateExit();
-        }
-
-        private void OnClientConnnectionStateChanged(ClientConnectionStateArgs args)
-        {
-            if (args.ConnectionState != LocalConnectionState.Started)
-                return;
-
-            //StateMachine.Instance.GoToState<GameState>();
         }
 
         private void OnServerFound(IPEndPoint ipEndPoint)

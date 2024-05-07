@@ -1,6 +1,5 @@
 using FishNet;
 using FishNet.Discovery;
-using FishNet.Transporting;
 using System.Collections;
 using UnityEngine;
 
@@ -21,9 +20,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// <inheritdoc/>
         /// </summary>
         public override IEnumerator OnStateEnter()
-        {
-            InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnnectionStateChanged;
-            
+        {   
             InstanceFinder.ServerManager.StartConnection();
             InstanceFinder.ClientManager.StartConnection("localhost");
             _networkDiscovery.AdvertiseServer();
@@ -38,17 +35,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         {
             _networkDiscovery.StopSearchingOrAdvertising();
 
-            InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
-
             yield return base.OnStateExit();
-        }
-
-        private void OnClientConnnectionStateChanged(ClientConnectionStateArgs args)
-        {
-            if (args.ConnectionState != LocalConnectionState.Started)
-                return;
-
-            //StateMachine.Instance.GoToState<GameState>();
         }
     }
 }
