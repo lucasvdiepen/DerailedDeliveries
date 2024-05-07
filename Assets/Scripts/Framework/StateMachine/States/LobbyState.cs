@@ -26,7 +26,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// </summary>
         public override IEnumerator OnStateExit()
         {
-            PlayerManager.Instance.IsSpawnEnabled = false;
+            PlayerManager.Instance.IsSpawningEnabled = false;
             
             InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
 

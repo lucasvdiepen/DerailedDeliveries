@@ -72,7 +72,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <summary>
         /// Whether spawning new players is enabled.
         /// </summary>
-        public bool IsSpawnEnabled
+        public bool IsSpawningEnabled
         {
             get
             {
@@ -104,7 +104,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         {
             base.OnStartClient();
 
-            IsSpawnEnabled = true;
+            IsSpawningEnabled = true;
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [ServerRpc(RequireOwnership = false)]
         private void SpawnPlayerOnServer(NetworkConnection clientConnection)
         {
-            if (_players.Count >= _maxPlayers)
+            if (!IsSpawningEnabled || _players.Count >= _maxPlayers)
             {
                 ClearSpawningPlayers(clientConnection);
                 return;
