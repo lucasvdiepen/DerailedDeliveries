@@ -1,6 +1,7 @@
 using System.Collections;
 using FishNet;
 using FishNet.Transporting;
+using UnityEngine.SceneManagement;
 
 using DerailedDeliveries.Framework.PlayerManagement;
 
@@ -38,7 +39,8 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             if(args.ConnectionState != LocalConnectionState.Stopped)
                 return;
 
-            StateMachine.Instance.GoToState<MainMenuState>();
+            //StateMachine.Instance.GoToState<MainMenuState>();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

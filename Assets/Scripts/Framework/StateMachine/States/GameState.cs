@@ -35,7 +35,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             if(args.ConnectionState != LocalConnectionState.Stopped)
                 return;
 
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
