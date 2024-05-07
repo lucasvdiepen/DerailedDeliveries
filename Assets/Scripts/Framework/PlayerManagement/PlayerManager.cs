@@ -222,9 +222,6 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public void DespawnPlayer(NetworkObject networkObject) => DespawnPlayerOnServer(networkObject);
 
         [ServerRpc(RequireOwnership = false)]
-        private void DespawnPlayerOnServer(NetworkObject networkObject)
-        {
-            ServerManager.Despawn(networkObject);
-        }
+        private void DespawnPlayerOnServer(NetworkObject networkObject) => ServerManager.Despawn(networkObject);
     }
 }
