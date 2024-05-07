@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 8
+  _componentIndexCache: 10
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &3048916122270372580
@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 2159347121489652977}
   - component: {fileID: 7003990518015754570}
   - component: {fileID: 1846157547019110412}
+  - component: {fileID: 3196395790145619610}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -320,6 +321,8 @@ MonoBehaviour:
   - {fileID: 968015005501435280}
   - {fileID: 6382568447217689505}
   - {fileID: 5199128844538758883}
+  - {fileID: 7003990518015754570}
+  - {fileID: 1846157547019110412}
   - {fileID: 7396771209937068835}
   - {fileID: 4046295834369320071}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
@@ -333,7 +336,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 5
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -609,9 +612,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b838fcd2b9c1f047aeefcd194192aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 8
   _addedNetworkObject: {fileID: 2499233359108512077}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!114 &1846157547019110412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,9 +627,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281da779de072c042a067f6c0e6301bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 9
   _addedNetworkObject: {fileID: 2499233359108512077}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2499233359108512077}
+--- !u!114 &3196395790145619610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048916122270372580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ffbd40a676d147478c308e7dca3ddb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5492449899307018159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 9
+  _componentIndexCache: 11
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   IgnoredParameters: []

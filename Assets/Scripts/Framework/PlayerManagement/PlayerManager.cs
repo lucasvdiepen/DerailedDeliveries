@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -16,7 +17,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
     public class PlayerManager : NetworkAbstractSingleton<PlayerManager>
     {
         [SerializeField]
-        private Transform _spawnPoint;
+        private Transform _respawnPoint;
+
+        [SerializeField]
+        private Transform[] _spawnpoints;
 
         [SerializeField]
         private PlayerInputManager _playerInputManager;
@@ -63,7 +67,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <summary>
         /// The spawn point for new players.
         /// </summary>
-        public Transform SpawnPoint => _spawnPoint;
+        public Transform RespawnPoint => _respawnPoint;
 
         /// <summary>
         /// Whether spawning new players is enabled.
@@ -87,8 +91,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
         private readonly List<PlayerId> _players = new();
         private readonly List<PlayerSpawnRequester> _playerSpawners = new();
+        private List<Transform> _availableSpawnpoints;
         private bool _isSpawnEnabled;
         private int _playerIdCount;
+
+        private void Awake() => _availableSpawnpoints = new List<Transform>(_spawnpoints);
 
         /// <summary>
         /// <inheritdoc/>
@@ -142,6 +149,9 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             {
                 Color playerColor = playerId.GetComponent<PlayerColor>().Color;
                 _playerColors.Add(playerColor);
+
+                Transform playerSpawnpoint = playerId.GetComponent<PlayerSpawnpoint>().Spawnpoint;
+                _availableSpawnpoints.Add(playerSpawnpoint);
             }
 
             _players.Remove(playerId);
@@ -190,7 +200,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
                 return;
             }
 
-            GameObject spawnedPlayer = Instantiate(_playerPrefab, _spawnPoint.position, Quaternion.identity);
+            int randomSpawnIndex = Random.Range(0, _availableSpawnpoints.Count);
+            Transform randomSpawnpoint = _availableSpawnpoints[randomSpawnIndex];
+
+            GameObject spawnedPlayer = Instantiate(_playerPrefab, randomSpawnpoint.position, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
@@ -198,9 +211,14 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             spawnedPlayer.GetComponent<PlayerId>().SetId(_playerIdCount);
 
-            Color newColor = _playerColors[UnityEngine.Random.Range(0, _playerColors.Count)];
+            Color newColor = _playerColors[Random.Range(0, _playerColors.Count)];
             spawnedPlayer.GetComponent<PlayerColor>().SetColor(newColor);
             _playerColors.Remove(newColor);
+
+            PlayerSpawnpoint playerSpawnpoint = spawnedPlayer.GetComponent<PlayerSpawnpoint>();
+            playerSpawnpoint.Spawnpoint = randomSpawnpoint;
+
+            _availableSpawnpoints.RemoveAt(randomSpawnIndex);
 
             _playerIdCount++;
         }
