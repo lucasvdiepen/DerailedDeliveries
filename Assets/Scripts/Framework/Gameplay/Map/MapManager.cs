@@ -16,72 +16,51 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
     public class MapManager : MonoBehaviour
     {
         [SerializeField]
-        private MapTrack _currentTrack;
-
-        [SerializeField]
-        private List<Tuple<Vector3, Vector3, float>> _currentMapPath = new();
-
-        [SerializeField]
         private MapTrack[] _tracks;
 
         [SerializeField]
-        private RectTransform _locationIndicator;
+        private MapTrack _currentTrack;
 
         [SerializeField]
-        private float _totalLength;
+        private TrainController _train;
+
+        [SerializeField]
+        private RectTransform _mapIndicator;
 
         private void Awake()
         {
-            for (int i = 0; i + 1 < _currentTrack.MapPath.Length; i++)
-                _totalLength += Vector2.Distance(_currentTrack.MapPath[i].position, _currentTrack.MapPath[i + 1].position);
+            UpdateTrackID(0);
+            _train.OnTrackSwitch += UpdateTrackID;
 
+            _train.OnDistanceAlongSplineChanged += UpdateDistanceAlongSpline;
         }
 
         private void UpdateTrackID(int newTrackID)
         {
-            int trackAmount = _tracks.Length;
-            for(int i = 0; i < trackAmount; i++)
+            for(int i = 0; i < _tracks.Length; i++)
                 if (_tracks[i].TrackID == newTrackID)
                     _currentTrack = _tracks[i];
-
-            _currentMapPath.Clear();
-            int mapPathLength = _currentTrack.MapPath.Length;
-
-            for (int i = 0; i + 1 < mapPathLength; i++)
-            {
-                Vector3 startPos = _currentTrack.MapPath[i].position;
-                Vector3 endPos = _currentTrack.MapPath[i + 1].position;
-
-                Tuple<Vector3, Vector3, float> pathData = new(startPos, endPos, Vector3.Distance(startPos, endPos));
-                _currentMapPath.Add(pathData);
-            }
-
-            _totalLength = 0;
-            int currentMapPathCount = _currentMapPath.Count;
-
-            for (int i = 0; i < currentMapPathCount; i++)
-                _totalLength += _currentMapPath[i].Item3;
         }
 
-        private int index = 0;
-
-        private IEnumerator StartLerpBetweenTargets(float distanceAlongSpline)
+        private void UpdateDistanceAlongSpline(float distanceAlongSpline)
         {
-            RectTransform startPos = _currentTrack.MapPath[index];
-            RectTransform endPos = _currentTrack.MapPath[index + 1];
+            if (_currentTrack == null)
+                return;
 
-            while()
-            {
-                _locationIndicator.position = Vector3.Lerp()
-            }
-        }
+            float pathDivider = 1f / _currentTrack.MapPath.Length;
+            int index = Mathf.FloorToInt(distanceAlongSpline / pathDivider);
 
-        private void CompletePathAndRecurse()
-        {
-            index++;
+            if (index + 1 >= _currentTrack.MapPath.Length)
+                return;
 
-            if(index <= _currentTrack.MapPath.Length - 1)
-                StartLerpBetweenTargets();
+            float lerpAlpha = distanceAlongSpline % pathDivider;
+
+            _mapIndicator.position = Vector3.Lerp
+                (
+                    _currentTrack.MapPath[index].position, 
+                    _currentTrack.MapPath[index + 1].position, 
+                    lerpAlpha
+                );
         }
     }
 }

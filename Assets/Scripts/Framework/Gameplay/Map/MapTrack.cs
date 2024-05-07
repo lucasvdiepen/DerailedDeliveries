@@ -14,7 +14,5 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
         [field: SerializeField]
         public RectTransform[] MapPath;
-
-
     }
 }
