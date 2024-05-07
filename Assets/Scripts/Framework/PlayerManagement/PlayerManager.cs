@@ -41,6 +41,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public Action OnPlayerLeft;
 
         /// <summary>
+        /// Invoked when the players in the game are updated.
+        /// </summary>
+        public Action OnPlayersUpdated;
+
+        /// <summary>
         /// Gets the current players in the game.
         /// </summary>
         public PlayerId[] CurrentPlayers => _players.ToArray();
@@ -121,6 +126,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             }
 
             OnPlayerJoined?.Invoke(playerId);
+            OnPlayersUpdated?.Invoke();
         }
 
         /// <summary>
@@ -140,6 +146,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             _players.Remove(playerId);
             OnPlayerLeft?.Invoke();
+            OnPlayersUpdated?.Invoke();
         }
 
         /// <summary>

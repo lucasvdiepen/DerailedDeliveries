@@ -9,8 +9,9 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters.Lobby
     {
         private void OnEnable()
         {
-            PlayerManager.Instance.OnPlayerJoined += PlayerJoined;
-            PlayerManager.Instance.OnPlayerLeft += UpdateText;
+            PlayerManager.Instance.OnPlayersUpdated += UpdateText;
+
+            ReplaceTag("[maxPlayers]", PlayerManager.Instance.MaxPlayers.ToString());
             UpdateText();
         }
 
@@ -19,16 +20,9 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters.Lobby
             if(PlayerManager.Instance == null)
                 return;
 
-            PlayerManager.Instance.OnPlayerJoined -= PlayerJoined;
-            PlayerManager.Instance.OnPlayerLeft -= UpdateText;
+            PlayerManager.Instance.OnPlayersUpdated -= UpdateText;
         }
 
-        private void PlayerJoined(PlayerId playerId) => UpdateText();
-
-        private void UpdateText()
-        {
-            ReplaceTag("[players]", PlayerManager.Instance.PlayerCount.ToString());
-            ReplaceTag("[maxPlayers]", PlayerManager.Instance.MaxPlayers.ToString());
-        }
+        private void UpdateText() => ReplaceTag("[players]", PlayerManager.Instance.PlayerCount.ToString());
     }
 }
