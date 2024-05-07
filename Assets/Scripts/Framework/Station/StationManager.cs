@@ -14,7 +14,7 @@ namespace DerailedDeliveries.Framework.Station
         /// Getter for all available train stations.
         /// </summary>
         [field: SerializeField]
-        public StationCameraBlendingContainer[] StationContainers { get; private set; }
+        public StationContainer[] StationContainers { get; private set; }
 
         /// <summary>
         /// Helper method responsible for getting the nearest virtual camera based on an origin position.
@@ -25,10 +25,10 @@ namespace DerailedDeliveries.Framework.Station
         /// <returns>Index of nearest camera.</returns>
         public int GetNearestStationIndex(Vector3 originPosition, out float distance)
         {
-            StationCameraBlendingContainer bestTarget = null;
+            StationContainer bestTarget = null;
             float closestDistanceSquare = Mathf.Infinity;
 
-            foreach (StationCameraBlendingContainer stationContainer in StationContainers)
+            foreach (StationContainer stationContainer in StationContainers)
             {
                 Vector3 directionToTarget = stationContainer.StationCamera.transform.position - originPosition;
                 float distanceSquared = directionToTarget.sqrMagnitude;
