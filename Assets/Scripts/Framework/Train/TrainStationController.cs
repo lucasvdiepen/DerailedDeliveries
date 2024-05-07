@@ -29,9 +29,6 @@ namespace DerailedDeliveries.Framework.Train
         [SerializeField]
         private Transform _maximumPoint;
 
-        private int _doorsOpenHash;
-        private int _doorsCloseHash;
-
         /// <summary>
         /// Getter for when train is parked.
         /// </summary>
@@ -56,15 +53,6 @@ namespace DerailedDeliveries.Framework.Train
         private TrainController _trainController;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
-
-        private void Start()
-        {
-            _doorsOpenHash = Animator.StringToHash("DoorsOpen");
-            _doorsCloseHash = Animator.StringToHash("DoorsClose");
-
-            OnParkStateChanged += HandleParkStateChanged;
-            HandleParkStateChanged(true);
-        }
 
         /// <summary>
         /// Temporary disabled.
@@ -129,8 +117,5 @@ namespace DerailedDeliveries.Framework.Train
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void UnparkTrain() => IsParked = false;
-
-        private void HandleParkStateChanged(bool newParkState) 
-            => _doorsAnimator.SetTrigger(newParkState ? _doorsOpenHash : _doorsCloseHash);
     }
 }
