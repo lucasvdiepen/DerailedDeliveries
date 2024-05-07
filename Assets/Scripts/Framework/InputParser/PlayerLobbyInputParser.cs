@@ -38,6 +38,7 @@ namespace DerailedDeliveries.Framework.InputParser
             UpdateIsEnabled(StateMachine.StateMachine.Instance.CurrentState);
 
             _playerInput.actions["Leave"].performed += Leave;
+            _playerInput.onDeviceLost += DeviceLost;
         }
 
         /// <summary>
@@ -50,19 +51,25 @@ namespace DerailedDeliveries.Framework.InputParser
             if(!IsOwner)
                 return;
 
-            StateMachine.StateMachine.Instance.OnStateChanged -= UpdateIsEnabled;
+            if(StateMachine.StateMachine.Instance != null)
+                StateMachine.StateMachine.Instance.OnStateChanged -= UpdateIsEnabled;
 
             _playerInput.actions["Leave"].performed -= Leave;
+            _playerInput.onDeviceLost -= DeviceLost;
         }
 
         private void UpdateIsEnabled(State state) => _isEnabled = state is HostState || state is JoinState;
 
-        private void Leave(InputAction.CallbackContext context)
+        private void Leave(InputAction.CallbackContext context) => Leave();
+
+        private void Leave()
         {
             if(!_isEnabled)
                 return;
 
             OnLeave?.Invoke();
         }
+
+        private void DeviceLost(PlayerInput playerInput) => Leave();
     }
 }
