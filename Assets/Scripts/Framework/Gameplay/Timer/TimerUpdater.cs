@@ -47,24 +47,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         public Action<float> OnTimerUpdated;
 
         /// <summary>
-        /// An action that brodcasts when the timer is completed.
+        /// An action that broadcasts when the timer is completed.
         /// </summary>
         public Action OnTimerCompleted;
 
         [SyncObject]
         private readonly SyncTimer _timer = new();
-
-        [ContextMenu("Set Timer To Zero")]
-        public void setTimerToZero() => _timer.Update(_timer.Remaining - 0.1f);
-
-        [ContextMenu("Reset Timer")]
-        public void ResetTimer() => _timer.StartTimer(_baseTime);
-
-        [ContextMenu("Decrease timer")]
-        public void DecreaseTimer() => _timer.StartTimer(_timer.Remaining - 10);
-
-        [ContextMenu("Increase timer")]
-        public void IncreaseTimer() => _timer.StartTimer(_timer.Remaining + 10);
 
         /// <summary>
         /// <inheritdoc/>
@@ -100,18 +88,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             _timer.StartTimer(_timer.Remaining + _stationArrivalTimeBonus);
 
             OnTimerUpdated?.Invoke(_timer.Remaining);
-        }
-
-        /// <summary>
-        /// A function that starts/stops the timer.
-        /// </summary>
-        /// <param name="newTime">The new time for the timer, is automatically 0 when not entered.</param>
-        public void ToggleTimer(float newTime = 0f)
-        {
-            if(!_timer.Paused || newTime == 0)
-                _timer.StopTimer();
-            else
-                _timer.StartTimer(newTime, false);
         }
 
         private void Update()
