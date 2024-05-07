@@ -4,7 +4,7 @@ using DerailedDeliveries.Framework.PlayerManagement;
 namespace DerailedDeliveries.Framework.Buttons.HostMenu
 {
     /// <summary>
-    /// A button responsible for starting the game.
+    /// A <see cref="BasicButton"/> class responsible for starting the game.
     /// </summary>
     public class StartGameButton : BasicButton
     {

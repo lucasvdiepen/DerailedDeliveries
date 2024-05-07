@@ -4,6 +4,9 @@ using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.Buttons.LobbyMenu
 {
+    /// <summary>
+    /// A <see cref="BasicButton"/> class responsible for leaving the lobby.
+    /// </summary>
     public class LeaveLobbyButton : BasicButton
     {
         private protected override void OnButtonPressed()
