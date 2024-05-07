@@ -51,24 +51,27 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (_playerInput == Vector2.zero)
                 return;
 
-            Vector3 cameraForward = Camera.main.transform.forward;
+            Vector3 cameraForward = UnityEngine.Camera.main.transform.forward;
             cameraForward.y = 0;
 
             // Transform the input from local space to world space using the camera's forward direction.
-            Vector3 playerInput = cameraForward * _playerInput.y + Camera.main.transform.right * _playerInput.x;
-            playerInput = playerInput.normalized;
+            Vector3 playerInput = cameraForward * _playerInput.y + UnityEngine.Camera.main.transform.right * _playerInput.x;
 
             UpdateVelocity(playerInput);
-            UpdateRotation(playerInput);
+            UpdateRotation(playerInput.normalized);
         }
 
         private void UpdateRotation(Vector3 input)
         {
+            Vector3 upwardsVector = transform.parent == null
+                ? Vector3.up
+                : transform.parent.up;
+
             gameObject.transform.rotation =
                     Quaternion.Slerp
                     (
                         gameObject.transform.rotation,
-                        Quaternion.LookRotation(input),
+                        Quaternion.LookRotation(input, upwardsVector),
                         Mathf.Clamp01(_rotationSpeed * Time.deltaTime)
                     );
         }

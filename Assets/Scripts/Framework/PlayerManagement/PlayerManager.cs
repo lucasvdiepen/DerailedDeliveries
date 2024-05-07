@@ -1,10 +1,11 @@
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using FishNet.Connection;
 using FishNet.Object;
-using System;
-using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -46,6 +47,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public int PlayerCount => _players.Count;
 
         /// <summary>
+        /// The spawn point for new players.
+        /// </summary>
+        public Transform SpawnPoint => _spawnPoint;
+
+        /// <summary>
         /// Whether spawning new players is enabled.
         /// </summary>
         public bool IsSpawnEnabled
@@ -58,7 +64,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             {
                 _isSpawnEnabled = value;
 
-                if(value)
+                if (value)
                     _playerInputManager.EnableJoining();
                 else
                     _playerInputManager.DisableJoining();
@@ -99,7 +105,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             _players.Add(playerId);
 
             // Check if the new player created by the server is for us. If true, copy the control scheme.
-            if(playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
+            if (playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
             {
                 PlayerSpawnRequester playerSpawner = _playerSpawners[0];
 
@@ -124,10 +130,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <param name="playerId">The PlayerId that left the game.</param>
         public void PlayerLeft(PlayerId playerId)
         {
-            if(!_players.Contains(playerId))
+            if (!_players.Contains(playerId))
                 return;
 
-            if(IsServer)
+            if (IsServer)
             {
                 Color playerColor = playerId.GetComponent<PlayerColor>().Color;
                 _playerColors.Add(playerColor);
@@ -155,10 +161,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <param name="playerSpawner">The player spawner which is trying to spawn a player.</param>
         public void SpawnPlayer(NetworkConnection clientConnection, PlayerSpawnRequester playerSpawner)
         {
-            if(_playerSpawners.Contains(playerSpawner))
+            if (_playerSpawners.Contains(playerSpawner))
                 return;
 
-            if(_players.Count >= _maxPlayers)
+            if (_players.Count >= _maxPlayers)
             {
                 Destroy(playerSpawner.gameObject);
                 return;
@@ -172,7 +178,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [ServerRpc(RequireOwnership = false)]
         private void SpawnPlayerOnServer(NetworkConnection clientConnection)
         {
-            if(_players.Count >= _maxPlayers)
+            if (_players.Count >= _maxPlayers)
             {
                 ClearSpawningPlayers(clientConnection);
                 return;
@@ -196,7 +202,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [TargetRpc]
         private void ClearSpawningPlayers(NetworkConnection clientConnection)
         {
-            for(int i = _playerSpawners.Count - 1; i >= 0; i--)
+            for (int i = _playerSpawners.Count - 1; i >= 0; i--)
             {
                 Destroy(_playerSpawners[i].gameObject);
                 _playerSpawners.RemoveAt(i);

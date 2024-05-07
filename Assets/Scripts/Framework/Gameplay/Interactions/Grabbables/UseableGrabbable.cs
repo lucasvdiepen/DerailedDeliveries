@@ -23,13 +23,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if(targetInteractable != null && RunInteract(targetInteractable))
                 return;
 
+            if(IsDeinitializing)
+                return;
+
             base.UseGrabbable(interactor);
         }
 
         [Server]
         private protected virtual Interactable GetCollidingInteractable(Interactor interactor)
         {
-            Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
+            Collider[] colliders = GetCollidingColliders();
 
             foreach(Collider collider in colliders)
             {

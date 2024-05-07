@@ -1,8 +1,11 @@
 using FishNet.Object.Synchronizing;
+using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.Utils.ObjectParenting;
+using DerailedDeliveries.Framework.ParentingSystem;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -18,7 +21,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         private Interactor _originInteractor;
 
         /// <summary>
-        /// Returns the <see cref="Interactor"/> of this Interactable, will be null if not being 
+        /// Returns the <see cref="Interactor"/> of this Interactable, will be null if not being
         /// targeted/interacted with.
         /// </summary>
         public Interactor OriginInteractor => _originInteractor;
@@ -29,9 +32,20 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        /// <param name="connection"><inheritdoc/></param>
+        public override void OnSpawnServer(NetworkConnection connection)
+        {
+            base.OnSpawnServer(connection);
+
+            PlaceOnGround();
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override bool CheckIfInteractable(Interactor interactor) 
+        public override bool CheckIfInteractable(Interactor interactor)
             => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
 
         [Server]
@@ -78,14 +92,36 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         }
 
         /// <summary>
+        /// A function that returns the new location if its <see cref="Transform"/> were to match the
+        /// given target <see cref="Transform"/>.
+        /// </summary>
+        /// <param name="target">The target transform.</param>
+        /// <returns>The new location that the Grabbable would be.</returns>
+        public virtual Vector3 GetPositionOnGround(Vector3 position)
+        {
+            Physics.Raycast(position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
+
+            return hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
+        }
+
+        /// <summary>
         /// A function that places the <see cref="Grabbable"/> on the ground, can be used for after snapping to a
         /// transform.
         /// </summary>
         public virtual void PlaceOnGround()
         {
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance);
+            if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance))
+                return;
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
+
+            if(ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
+            {
+                objectParent.SetParent(NetworkObject);
+                return;
+            }
+
+            NetworkObject.UnsetParent();
         }
     }
 }

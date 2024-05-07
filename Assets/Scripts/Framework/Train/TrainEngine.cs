@@ -40,7 +40,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Current train engine state.
         /// </summary>
         public TrainEngineState EngineState 
-            { get; private set; } = TrainEngineState.Active;
+            { get; private set; } = TrainEngineState.Inactive;
 
         /// <summary>
         /// Current train speed proportionally based on the length of the current spline.
@@ -53,6 +53,11 @@ namespace DerailedDeliveries.Framework.Train
         /// <br>True = right.</br>
         /// </summary>
         public bool CurrentSplitDirection { get; set; }
+        
+        /// <summary>
+        /// The max speed the train can go.
+        /// </summary>
+        public float MaxSpeed { get; private set; }
 
         /// <summary>
         /// Invokes when train direction is changed.
@@ -62,7 +67,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invokes when train engine state is changed.
         /// </summary>
-        public Action<TrainEngineState, TrainEngineState> OnEngineStateChanged;
+        public Action<TrainEngineState> OnEngineStateChanged;
 
         /// <summary>
         /// Invokes when train speed state is changed.
@@ -96,17 +101,19 @@ namespace DerailedDeliveries.Framework.Train
         /// Index used to handle switching between different levels of acceleration / deceleration.
         /// </summary>
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable, OnChange = nameof(OnSpeedStateChange)), HideInInspector]
-        public int CurrentSpeedIndex { get; private set; }
+        public int CurrentGearIndex { get; private set; }
         #endregion
 
         public const int SPEED_VALUES_COUNT = 3;
 
         private TrainController _trainController;
+
         private Dictionary<int, float> _speedValues;
         
         private float _brakeTimer;
         private float _startFriction;
         
+
         private bool _isBraking;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
@@ -125,6 +132,7 @@ namespace DerailedDeliveries.Framework.Train
             };
 
             _startFriction = _friction;
+            MaxSpeed = _speedValues[SPEED_VALUES_COUNT] / _friction;
         }
 
         #region ServerRPCS
@@ -132,8 +140,8 @@ namespace DerailedDeliveries.Framework.Train
         /// Used to toggle if the engine should be on/off.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
-        public void ToggleEngineState()
-            => OnTrainEngineStateChanged((TrainEngineState)(EngineState == TrainEngineState.Inactive ? 1 : 0));
+        public void SetEngineState(TrainEngineState trainEngineState)
+            => OnTrainEngineStateChanged(trainEngineState);
 
         /// <summary>
         /// Used to toggle direction of upcomming rail split.
@@ -149,11 +157,10 @@ namespace DerailedDeliveries.Framework.Train
         [ServerRpc(RequireOwnership = false)]
         public void AdjustSpeed(bool increment)
         {
-            int newCurrentSpeed = CurrentSpeedIndex + (increment ? 1 : -1);
-            CurrentSpeedIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
+            int newCurrentSpeed = CurrentGearIndex + (increment ? 1 : -1);
+            CurrentGearIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
            
-            CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
-            OnTrainEngineStateChanged(TrainEngineState.Active);
+            CurrentEngineAcceleration = _speedValues[CurrentGearIndex];
         }   
         #endregion;
         
@@ -169,29 +176,16 @@ namespace DerailedDeliveries.Framework.Train
         private void OnTrainEngineStateChanged(TrainEngineState newState)
         {
             EngineState = newState;
-            OnDirectionChanged?.Invoke(CurrentSplitDirection);
+            OnEngineStateChanged?.Invoke(EngineState);
 
-            // If engine is set to inactive, reset train acceleration.
-            if(newState == TrainEngineState.Inactive)
-            {
-                _friction = _standbyFriction;
-
-                CurrentSpeedIndex = 0;
-                CurrentEngineAcceleration = _speedValues[CurrentSpeedIndex];
-            }
-            else
-            {
-                _friction = _startFriction;
-            }
+            _friction = newState == TrainEngineState.Inactive ? _standbyFriction : _startFriction;
         }
         #endregion
 
         private void Update()
         {
-            if (!IsServer)
-                return;
-         
-            UpdateCurrentSpeed();
+            if (IsServer)
+                UpdateCurrentSpeed();
         }
 
         /// <summary>
@@ -206,10 +200,12 @@ namespace DerailedDeliveries.Framework.Train
             }
 
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
-            CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
 
-            bool forwardCheck = CurrentSpeed > 0 && CurrentSpeedIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
-            bool backwardCheck = CurrentSpeed < 0 && CurrentSpeedIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
+            if(EngineState == TrainEngineState.Active)
+                CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
+
+            bool forwardCheck = CurrentSpeed > 0 && CurrentGearIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
+            bool backwardCheck = CurrentSpeed < 0 && CurrentGearIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
             // Restart brake timer if train crosses from negative speed to positive or reversed.
             if (forwardCheck || backwardCheck)
