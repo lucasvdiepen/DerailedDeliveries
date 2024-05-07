@@ -3,6 +3,7 @@ using FishNet.Discovery;
 using System.Collections;
 using System.Net;
 using UnityEngine;
+using TMPro;
 
 using DerailedDeliveries.Framework.StateMachine.Attributes;
 
@@ -17,11 +18,16 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         [SerializeField]
         private NetworkDiscovery _networkDiscovery;
 
+        [SerializeField]
+        private TextMeshProUGUI _searchingHostText;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public override IEnumerator OnStateEnter()
         {
+            _searchingHostText.gameObject.SetActive(true);
+
             _networkDiscovery.ServerFoundCallback += OnServerFound;
             _networkDiscovery.SearchForServers();
 
@@ -40,6 +46,7 @@ namespace DerailedDeliveries.Framework.StateMachine.States
 
         private void OnServerFound(IPEndPoint ipEndPoint)
         {
+            _searchingHostText.gameObject.SetActive(false);
             InstanceFinder.ClientManager.StartConnection(ipEndPoint.Address.ToString());
 
             StopSearchingServer();
