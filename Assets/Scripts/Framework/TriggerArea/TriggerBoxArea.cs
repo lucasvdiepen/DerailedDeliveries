@@ -1,12 +1,12 @@
-using DerailedDeliveries.Framework.PlayerManagement;
 using UnityEngine;
 
-namespace DerailedDeliveries.Framework.PopupManagement
+namespace DerailedDeliveries.Framework.TriggerArea
 {
     /// <summary>
-    /// A class that is responsible for showing and hiding a popup when colliding with a player.
+    /// A <see cref="TriggerAreaBase{T}"/> class that uses a <see cref="BoxCollider"/>.
     /// </summary>
-    public class PlayerPopupTriggerActivator : PopupTriggerActivator<PlayerId>
+    /// <typeparam name="T">The class to check for on collision.</typeparam>
+    public class TriggerBoxArea<T> : TriggerAreaBase<T> where T : Component
     {
         [Header("TriggerArea settings")]
         [SerializeField]

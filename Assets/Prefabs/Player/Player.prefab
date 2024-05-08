@@ -520,8 +520,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d15a4de9ffc144db3f9fbc784b0cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _framesUntillUpdate: 25
   _popups:
   - {fileID: 4434121101895074578}
+  _collider: {fileID: 8561659200602252906}
 --- !u!114 &6382568447217689505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 968719039263636698}
   _networkAnimator: {fileID: 4046295834369320071}
+  _walkAnimationBaseVelocity: 3.5
 --- !u!114 &5199128844538758883
 MonoBehaviour:
   m_ObjectHideFlags: 0
