@@ -15,9 +15,6 @@ namespace DerailedDeliveries.Framework.Train
     public class TrainStationController : NetworkAbstractSingleton<TrainStationController>
     {
         [SerializeField]
-        private Animator _doorsAnimator;
-
-        [SerializeField]
         private float _minRangeToNearestStation = 25;
 
         [SerializeField]
@@ -45,7 +42,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Invoked when train <see cref="IsParked"/> state is changed.
         /// </summary>
-        public Action<bool> OnParkStateChanged { get; set; }
+        public Action<bool> OnParkStateChanged;
 
         private bool _isParked;
         private bool _canPark;

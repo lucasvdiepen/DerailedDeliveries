@@ -16,6 +16,7 @@ namespace DerailedDeliveries.Framework.UI.DoorStateUpdater
         private void Awake() => _doorStateLabel = GetComponent<TextMeshProUGUI>();
 
         private void OnEnable() => TrainStationController.Instance.OnParkStateChanged += HandleParkStateChanged;
+
         private void OnDisable() => TrainStationController.Instance.OnParkStateChanged -= HandleParkStateChanged;
 
         private void HandleParkStateChanged(bool newParkState) 

@@ -3,28 +3,33 @@ using UnityEngine;
 namespace DerailedDeliveries.Framework.Train
 {
     /// <summary>
-    /// Class responsible for opening and closing doors.
+    /// Class responsible for opening and closing train doors.
     /// </summary>
-    [RequireComponent(typeof(Animator))]
     public class TrainDoorsAnimator : MonoBehaviour
     {
-        private int _doorsOpenHash;
-        private int _doorsCloseHash;
+        private int _doorsOpenAnimationHash;
+        private int _doorsCloseAnimationHash;
 
-        private Animator _doorsAnimator;
+        private Animator[] _doorAnimators;
 
-        private void Awake() => _doorsAnimator = GetComponent<Animator>();
+        private void Awake() => _doorAnimators = GetComponentsInChildren<Animator>();
 
         private void OnEnable() => TrainStationController.Instance.OnParkStateChanged += HandleParkStateChanged;
+
         private void OnDisable() => TrainStationController.Instance.OnParkStateChanged -= HandleParkStateChanged;
 
         private void Start()
         {
-            _doorsOpenHash = Animator.StringToHash("DoorsOpen");
-            _doorsCloseHash = Animator.StringToHash("DoorsClose");
+            _doorsOpenAnimationHash = Animator.StringToHash("DoorsOpen");
+            _doorsCloseAnimationHash = Animator.StringToHash("DoorsClose");
         }
 
         private void HandleParkStateChanged(bool newParkState)
-            => _doorsAnimator.SetTrigger(newParkState ? _doorsOpenHash : _doorsCloseHash);
+        {
+            int doorsAmount = _doorAnimators.Length;
+
+            for (int i = 0; i < doorsAmount; i++)
+                _doorAnimators[i].SetTrigger(newParkState ? _doorsOpenAnimationHash : _doorsCloseAnimationHash);
+        }
     }
 }
