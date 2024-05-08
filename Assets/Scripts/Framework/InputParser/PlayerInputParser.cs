@@ -17,6 +17,11 @@ namespace DerailedDeliveries.Framework.InputParser
         public Action OnInteract;
 
         /// <summary>
+        /// An event invoked when the player pressed the use button.
+        /// </summary>
+        public Action OnUse;
+
+        /// <summary>
         /// An event invoked when the player gives input to move.
         /// Note that this event is only called when the input changes and not every frame.
         /// </summary>
@@ -38,6 +43,7 @@ namespace DerailedDeliveries.Framework.InputParser
             if(!IsOwner)
                 return;
 
+            _playerInput.actions["Use"].performed += Use;
             _playerInput.actions["Move"].performed += Move;
             _playerInput.actions["Interact"].performed += Interact;
         }
@@ -49,6 +55,7 @@ namespace DerailedDeliveries.Framework.InputParser
             if(!IsOwner)
                 return;
 
+            _playerInput.actions["Use"].performed -= Use;
             _playerInput.actions["Move"].performed -= Move;
             _playerInput.actions["Interact"].performed -= Interact;
         }
@@ -61,5 +68,7 @@ namespace DerailedDeliveries.Framework.InputParser
         }
 
         private void Interact(InputAction.CallbackContext context) => OnInteract?.Invoke();
+
+        private void Use(InputAction.CallbackContext context) => OnUse?.Invoke();
     }
 }
