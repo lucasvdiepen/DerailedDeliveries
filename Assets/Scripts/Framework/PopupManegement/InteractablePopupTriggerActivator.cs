@@ -19,6 +19,6 @@ namespace DerailedDeliveries.Framework.PopupManagement
         }
 
         private protected override Collider[] GetCollidingColliders()
-            => Physics.OverlapSphere(transform.position + _collider.center, _collider.radius);
+            => Physics.OverlapSphere((transform.rotation * _collider.center) + transform.position, _collider.radius);
     }
 }
