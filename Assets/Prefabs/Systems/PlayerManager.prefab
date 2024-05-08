@@ -50,17 +50,16 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 3213328650872674612}
   _networkObjectCache: {fileID: 3213328650872674612}
+  _spawnPoint: {fileID: 0}
   _playerInputManager: {fileID: 7137698066090911048}
-  _playerPrefab: {fileID: 3048916122270372580, guid: 35d12fa655fd7c14f8ba8f85fa76bdb7,
-    type: 3}
   _maxPlayers: 6
-  _playerColors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
-  - {r: 0.7647059, g: 0.5686275, b: 0.2627451, a: 1}
-  - {r: 0.2901961, g: 0.25490198, b: 0.16470589, a: 1}
-  - {r: 1, g: 0, b: 0.8942375, a: 1}
+  _playerPrefabs:
+  - {fileID: 5772104903608415947, guid: 962a0377c6c1a2641b3b4f9ad9b5f3b4, type: 3}
+  - {fileID: 4341548588251960629, guid: 0886acd0417a5d64488b5401d6f984ef, type: 3}
+  - {fileID: 7520057349788921362, guid: 8d982335e05196a48a75ecca591cdc4a, type: 3}
+  - {fileID: 2628853761545024655, guid: 0ac9105f23184f946a173b82bb4c9343, type: 3}
+  - {fileID: 3010341605837730744, guid: 7f4ad0a09c6b8b64598a08098d7f964d, type: 3}
+  - {fileID: 8775066568523936465, guid: bef9695b2348cdd4f8c45b1586d4c957, type: 3}
 --- !u!114 &3213328650872674612
 MonoBehaviour:
   m_ObjectHideFlags: 0

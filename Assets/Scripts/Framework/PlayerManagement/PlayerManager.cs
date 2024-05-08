@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 using UnityEngine.InputSystem;
 using FishNet.Connection;
 using FishNet.Object;
 using System.Linq;
-using Cinemachine;
 using UnityEngine;
 using System;
 
@@ -23,13 +23,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private PlayerInputManager _playerInputManager;
 
         [SerializeField]
-        private GameObject _playerPrefab;
-
-        [SerializeField]
         private int _maxPlayers = 6;
 
         [SerializeField]
-        private List<Color> _playerColors;
+        private List<GameObject> _playerPrefabs;
 
         /// <summary>
         /// Invoked when a player joins the game. The PlayerId script is passed as an argument.
@@ -73,8 +70,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
         private readonly List<PlayerId> _players = new();
         private readonly List<PlayerSpawnRequester> _playerSpawners = new();
+        private List<GameObject> _availablePlayerPrefabs;
         private bool _isSpawnEnabled;
         private int _playerIdCount;
+
+        private void Awake() => _availablePlayerPrefabs = new List<GameObject>(_playerPrefabs);
 
         /// <summary>
         /// <inheritdoc/>
@@ -135,8 +135,8 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             if (IsServer)
             {
-                Color playerColor = playerId.GetComponent<PlayerColor>().Color;
-                _playerColors.Add(playerColor);
+                PlayerModel playerModel = playerId.GetComponent<PlayerModel>();
+                _availablePlayerPrefabs.Add(_playerPrefabs[playerModel.ModelIndex]);
             }
 
             _players.Remove(playerId);
@@ -184,17 +184,16 @@ namespace DerailedDeliveries.Framework.PlayerManagement
                 return;
             }
 
-            GameObject spawnedPlayer = Instantiate(_playerPrefab, _spawnPoint.position, Quaternion.identity);
+            GameObject playerPrefab = GetAndRemoveRandomPlayerPrefab();
+
+            GameObject spawnedPlayer = Instantiate(playerPrefab, _spawnPoint.position, Quaternion.identity);
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
             SceneManager.AddOwnerToDefaultScene(networkObject);
 
             spawnedPlayer.GetComponent<PlayerId>().SetId(_playerIdCount);
-
-            Color newColor = _playerColors[UnityEngine.Random.Range(0, _playerColors.Count)];
-            spawnedPlayer.GetComponent<PlayerColor>().SetColor(newColor);
-            _playerColors.Remove(newColor);
+            spawnedPlayer.GetComponent<PlayerModel>().ModelIndex = _playerPrefabs.IndexOf(playerPrefab);
 
             _playerIdCount++;
         }
@@ -219,6 +218,15 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private void DespawnPlayerOnServer(NetworkObject networkObject)
         {
             ServerManager.Despawn(networkObject);
+        }
+
+        private GameObject GetAndRemoveRandomPlayerPrefab()
+        {
+            int randomIndex = Random.Range(0, _availablePlayerPrefabs.Count);
+            GameObject randomPlayerPrefab = _availablePlayerPrefabs[randomIndex];
+            _availablePlayerPrefabs.RemoveAt(randomIndex);
+
+            return randomPlayerPrefab;
         }
     }
 }
