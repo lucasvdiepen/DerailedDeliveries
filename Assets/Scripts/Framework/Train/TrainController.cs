@@ -38,6 +38,18 @@ namespace DerailedDeliveries.Framework.Train
         private Transform[] _followingWagons;
 
         /// <summary>
+        /// Getter for getting the middle wagon.
+        /// </summary>
+        public Transform MiddleWagon
+        {
+            get
+            {
+                float wagons = _followingWagons.Length + 1;
+                return _followingWagons[(int)Mathf.Floor(wagons / 2f)];
+            }
+        }
+
+        /// <summary>
         /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
         /// 1 = Spline end point.<br/>
@@ -62,7 +74,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Reference to the train engine.
         /// </summary>
         public TrainEngine TrainEngine { get; private set; }
-        
+
         /// <summary>
         /// Helper method for updating the current spline length.
         /// </summary>
@@ -90,7 +102,7 @@ namespace DerailedDeliveries.Framework.Train
         public override void OnStartClient()
         {
             base.OnStartClient();
-            
+
             if (IsServer)
                 TimeManager.OnTick += OnTick;
         }
@@ -98,13 +110,13 @@ namespace DerailedDeliveries.Framework.Train
         public override void OnStopClient()
         {
             base.OnStopClient();
-            
+
             if (IsServer)
                 TimeManager.OnTick -= OnTick;
         }
 
         [Server]
-        private void OnTick() 
+        private void OnTick()
         {
             // Update train position along spline based on its velocity.
             DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
@@ -118,15 +130,20 @@ namespace DerailedDeliveries.Framework.Train
         [ObserversRpc(RunLocally = true)]
         private void MoveTrain(float distanceAlongSpline)
         {
+            Vector3 positionSum = Vector3.zero;
             UpdateWagonPosition(_frontWagon, distanceAlongSpline);
 
-            int wagons = _followingWagons.Length;
-            for (int i = 0; i < wagons; i++)
+            positionSum += _frontWagon.position;
+
+            int wagonsAmount = _followingWagons.Length;
+            for (int i = 0; i < wagonsAmount; i++)
             {
                 // Calculate appropriate spacing/offset.
                 float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
                 float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * (i + 1);
                 UpdateWagonPosition(_followingWagons[i], distanceAlongSpline, offset / SplineLength);
+
+                positionSum += _followingWagons[i].position;
             }
         }
 
@@ -169,7 +186,7 @@ namespace DerailedDeliveries.Framework.Train
 
             DistanceAlongSpline = 1.0f;
             int nextTrackID = SplineManager.Instance.GetIDByTrack(nextSplineContainer);
-            
+
             // Switch current track to the new track.
             SwitchCurrentTrack(nextTrackID);
         }
@@ -202,7 +219,7 @@ namespace DerailedDeliveries.Framework.Train
         private float GetOptimalTrainStartPoint()
         {
             int wagons = _followingWagons.Length;
-            
+
             float adjustedFollowDistance = _wagonFollowDistance / TWEAK_DIVIDE_FACTOR;
             float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * wagons;
 
@@ -227,7 +244,7 @@ namespace DerailedDeliveries.Framework.Train
             Vector3 nextDirection = Spline.EvaluateTangent(totalSplineTime);
             trainBody.rotation = Quaternion.LookRotation(-nextDirection, Vector3.up);
         }
-        
+
         /// <summary>
         /// Helper method for resetting train position to the current spline start point based on its length. (Editor only)
         /// </summary>

@@ -62,7 +62,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
 
         private void UpdateAndShowPopup(Sprite sprite)
         {
-            _repairPopupImage.sprite = _criticalLowHealthSprite;
+            _repairPopupImage.sprite = sprite;
             Show();
         }
     }
