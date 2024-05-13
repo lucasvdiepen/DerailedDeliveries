@@ -1,5 +1,6 @@
-using DerailedDeliveries.Framework.Gameplay.Interactions;
 using UnityEngine;
+
+using DerailedDeliveries.Framework.Gameplay.Interactions;
 
 namespace DerailedDeliveries.Framework.PopupManagement
 {

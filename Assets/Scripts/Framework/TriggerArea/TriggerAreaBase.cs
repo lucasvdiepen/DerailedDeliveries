@@ -1,4 +1,3 @@
-using Component = UnityEngine.Component;
 using System.Collections.Generic;
 using System.Linq; 
 using UnityEngine;
@@ -77,7 +76,7 @@ namespace DerailedDeliveries.Framework.TriggerArea
 
         private protected virtual void FixedUpdate()
         {
-            if (_framesPassedSinceUpdate % _framesUntillUpdate != 0)
+            if (_framesPassedSinceUpdate <= _framesUntillUpdate)
             {
                 _framesPassedSinceUpdate++;
                 return;
@@ -85,14 +84,22 @@ namespace DerailedDeliveries.Framework.TriggerArea
 
             _framesPassedSinceUpdate = 0;
 
+            ProcessNewCollidingTargets();
+        }
+
+        private protected void ProcessNewCollidingTargets()
+        {
             List<T> newColliding = GetCollidingColliders().Select(collider => collider.GetComponent<T>()).ToList();
+
             int newCollidingCount = newColliding.Count;
 
             for (int i = 0; i < newCollidingCount; i++)
                 if (newColliding[i] != null)
                     AddNewComponent(newColliding[i]);
 
-            for (int i = 0; i < _colliders.Count; i++)
+            int collidersCount = _colliders.Count;
+
+            for (int i = 0; i < collidersCount; i++)
                 if (!newColliding.Contains(_colliders[i]))
                     RemoveOldComponent(_colliders[i]);
         }
