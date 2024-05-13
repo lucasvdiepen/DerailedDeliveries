@@ -1,3 +1,5 @@
+using FishNet.Object.Synchronizing;
+using Random = UnityEngine.Random;
 using UnityEngine.Splines;
 using FishNet.Object;
 using UnityEngine;
@@ -49,6 +51,12 @@ namespace DerailedDeliveries.Framework.Train
             }
         }
 
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        public bool[] BadRailSplitOrder { get; private set; }
+
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        public int CurrentRailSplitID { get; private set; }
+
         /// <summary>
         /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
@@ -74,6 +82,12 @@ namespace DerailedDeliveries.Framework.Train
         /// Reference to the train engine.
         /// </summary>
         public TrainEngine TrainEngine { get; private set; }
+
+        /// <summary>
+        /// Invokes when train switches from rail split.
+        /// <br/> int = rail split ID.
+        /// </summary>
+        public Action<int> onRailSplitChange;
 
         /// <summary>
         /// Helper method for updating the current spline length.
@@ -115,13 +129,23 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick -= OnTick;
         }
 
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            BadRailSplitOrder = new bool[SplineManager.Instance.RailSplitAmount];
+
+            for (int i = 0; i < BadRailSplitOrder.Length; i++)
+                BadRailSplitOrder[i] = Random.value > .5f;
+        }
+
         [Server]
         private void OnTick()
         {
             // Update train position along spline based on its velocity.
             DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
 
-            CheckUpcommingRailSplit();
+            CheckUpcomingRailSplit();
             CheckReverseRailSplit();
 
             MoveTrain(DistanceAlongSpline);
@@ -151,13 +175,15 @@ namespace DerailedDeliveries.Framework.Train
         /// Internally used to check for upcomming rail splits and switching tracks.
         /// </summary>
         [Server]
-        private void CheckUpcommingRailSplit()
+        private void CheckUpcomingRailSplit()
         {
             if (DistanceAlongSpline < 1.0f || TrainEngine.CurrentVelocity < 0)
                 return;
 
             if (_railSplit == null)
                 return;
+
+            CurrentRailSplitID = Mathf.Clamp(CurrentRailSplitID + 1, 1, SplineManager.Instance.RailSplitAmount);
 
             DistanceAlongSpline = 0.0f;
             SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
@@ -184,6 +210,8 @@ namespace DerailedDeliveries.Framework.Train
                 return;
             }
 
+            CurrentRailSplitID = Mathf.Clamp(CurrentRailSplitID - 1, 1, SplineManager.Instance.RailSplitAmount);
+
             DistanceAlongSpline = 1.0f;
             int nextTrackID = SplineManager.Instance.GetIDByTrack(nextSplineContainer);
 
@@ -209,7 +237,8 @@ namespace DerailedDeliveries.Framework.Train
             if (setDistanceAlongSpline)
                 DistanceAlongSpline = CurrentOptimalStartPoint;
 
-            Spline.gameObject.TryGetComponent(out _railSplit);
+            if (Spline.gameObject.TryGetComponent(out _railSplit))
+                onRailSplitChange?.Invoke(CurrentRailSplitID);
         }
 
         /// <summary>

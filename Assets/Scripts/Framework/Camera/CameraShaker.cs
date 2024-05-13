@@ -1,6 +1,7 @@
 using Cinemachine;
-using DerailedDeliveries.Framework.Train;
 using UnityEngine;
+
+using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -10,17 +11,38 @@ namespace DerailedDeliveries.Framework.Camera
     [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CameraShaker : MonoBehaviour
     {
+        [SerializeField]
+        private TrainController _trainController;
+
+        [SerializeField]
+        private float _badRailSplitShakePenalty = 10f;
+
+        private bool _applyShakePenalty;
+
         private CinemachineVirtualCamera _trainCamera;
         private CinemachineBasicMultiChannelPerlin _multiChannelPerlin;
 
         private float _startCameraNoiseAmplitude;
 
-        private void OnEnable() => TrainEngine.Instance.OnSpeedChanged += HandleSpeedChanged;
+        private void OnEnable()
+        {
+            TrainEngine.Instance.OnSpeedChanged += HandleSpeedChanged;
+            _trainController.onRailSplitChange += HandleRailSplitChanged;
+        }
+
+        private void HandleRailSplitChanged(int newRailSplitIndex)
+        {
+            print("HandleRailSplitChanged");
+            _applyShakePenalty = _trainController.BadRailSplitOrder[newRailSplitIndex - 1];
+        }
 
         private void OnDisable()
         {
             if(TrainEngine.Instance != null)
                 TrainEngine.Instance.OnSpeedChanged -= HandleSpeedChanged;
+
+            if(_trainController != null)
+                _trainController.onRailSplitChange -= HandleRailSplitChanged;
         }
 
         private void Awake()
@@ -39,7 +61,7 @@ namespace DerailedDeliveries.Framework.Camera
         {
             // Adjust Cinemachine noise amplitude gain based on current speed
             float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(newSpeed) / TrainEngine.Instance.MaxSpeed);
-            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain;
+            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain + (_applyShakePenalty ? _badRailSplitShakePenalty : 0);
         }
     }
 }
