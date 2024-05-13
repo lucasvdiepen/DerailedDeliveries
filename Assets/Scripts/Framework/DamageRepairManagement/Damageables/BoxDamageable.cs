@@ -34,7 +34,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
         }
 
         [Server]
-        public void ForceTakeDamage() => base.TakeDamage();
+        public void TakeDamageFromBadSplit() => TakeDamage();
 
         private void OnTriggerEnter(Collider other)
         {
