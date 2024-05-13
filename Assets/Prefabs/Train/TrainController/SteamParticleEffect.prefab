@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1958006238251110091}
   - component: {fileID: 3775590987467417251}
   - component: {fileID: 5803993103215072121}
+  - component: {fileID: 6252379374013899653}
   m_Layer: 0
   m_Name: SteamParticleEffect
   m_TagString: Untagged
@@ -49,7 +50,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -4832,3 +4833,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6252379374013899653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377580553151919866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff25de7c2e4b4644c8f1f4d18105381f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
