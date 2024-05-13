@@ -87,7 +87,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Invokes when train switches from rail split.
         /// <br/> int = rail split ID.
         /// </summary>
-        public Action<int> onRailSplitChange;
+        public Action<int, RailSplitType> onRailSplitChange;
 
         /// <summary>
         /// Helper method for updating the current spline length.
@@ -238,7 +238,11 @@ namespace DerailedDeliveries.Framework.Train
                 DistanceAlongSpline = CurrentOptimalStartPoint;
 
             if (Spline.gameObject.TryGetComponent(out _railSplit))
-                onRailSplitChange?.Invoke(CurrentRailSplitID);
+            {
+                //Check if new rail split is of type RailSplitType.Branch or RailSplitType.Funnel;
+                RailSplitType currentRailSplitType = CurrentRailSplitID % 2 == 1 ? RailSplitType.Branch : RailSplitType.Funnel;
+                onRailSplitChange?.Invoke(CurrentRailSplitID, currentRailSplitType);
+            }
         }
 
         /// <summary>

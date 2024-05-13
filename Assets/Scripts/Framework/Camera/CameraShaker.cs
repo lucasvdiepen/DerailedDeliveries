@@ -30,12 +30,6 @@ namespace DerailedDeliveries.Framework.Camera
             _trainController.onRailSplitChange += HandleRailSplitChanged;
         }
 
-        private void HandleRailSplitChanged(int newRailSplitIndex)
-        {
-            print("HandleRailSplitChanged");
-            _applyShakePenalty = _trainController.BadRailSplitOrder[newRailSplitIndex - 1];
-        }
-
         private void OnDisable()
         {
             if(TrainEngine.Instance != null)
@@ -57,11 +51,26 @@ namespace DerailedDeliveries.Framework.Camera
             _multiChannelPerlin.m_AmplitudeGain = 0;
         }
 
+        private void HandleRailSplitChanged(int newRailSplitIndex, RailSplitType nextRailSplitType)  
+        {
+            if (nextRailSplitType == RailSplitType.Branch)
+            {
+                bool badSplitDirection = _trainController.BadRailSplitOrder[newRailSplitIndex - 1];
+                
+                if(badSplitDirection == TrainEngine.Instance.CurrentSplitDirection)
+                    _applyShakePenalty = true;
+            }
+            else
+            {
+                _applyShakePenalty = false;
+            }
+        }
+
         private void HandleSpeedChanged(float newSpeed)
         {
             // Adjust Cinemachine noise amplitude gain based on current speed
             float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(newSpeed) / TrainEngine.Instance.MaxSpeed);
-            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain + (_applyShakePenalty ? _badRailSplitShakePenalty : 0);
+            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain * (_applyShakePenalty ? _badRailSplitShakePenalty : 0);
         }
     }
 }
