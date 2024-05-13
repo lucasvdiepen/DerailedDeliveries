@@ -11,22 +11,23 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     public abstract class UseableGrabbable : Grabbable
     {
         [Server]
-        private protected override void UseGrabbable(Interactor interactor)
+        private protected override bool GrabGrabbable(Interactor interactor)
         {
             if(!IsBeingInteracted)
             {
-                base.UseGrabbable(interactor);
-                return;
+                base.GrabGrabbable(interactor);
+                return true;
             }
 
             Interactable targetInteractable = GetCollidingInteractable(interactor);
             if(targetInteractable != null && RunInteract(targetInteractable))
-                return;
+                return true;
 
             if(IsDeinitializing)
-                return;
+                return false;
 
-            base.UseGrabbable(interactor);
+            base.GrabGrabbable(interactor);
+            return true;
         }
 
         [Server]

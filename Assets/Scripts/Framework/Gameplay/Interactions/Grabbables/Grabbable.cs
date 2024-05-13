@@ -45,22 +45,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override bool CheckIfInteractable(Interactor interactor)
-            => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
+        public override bool CheckIfGrabbable(Interactor interactor) 
+            => base.CheckIfGrabbable(interactor) && (!IsBeingInteracted || _originInteractor == interactor);
+
+        [ServerRpc(RequireOwnership = false)]
+        public virtual void GrabGrabbableOnServer(Interactor interactor) => GrabGrabbable(interactor);
 
         [Server]
-        private protected override bool Interact(Interactor interactor)
-        {
-            if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
-                return false;
-
-            UseGrabbable(interactor);
-
-            return true;
-        }
-
-        [Server]
-        private protected virtual void UseGrabbable(Interactor interactor)
+        private protected virtual bool GrabGrabbable(Interactor interactor)
         {
             if (!IsBeingInteracted)
             {
@@ -69,7 +61,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
                 UpdateInteractionStatus(interactor, true);
                 interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
-                return;
+                return true;
             }
 
             NetworkObject.UnsetParent();
@@ -77,7 +69,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             interactor.UpdateInteractingTarget(interactor.Owner, null, IsBeingInteracted);
             PlaceOnGround();
-            return;
+            return true;
         }
 
         /// <summary>
