@@ -40,6 +40,11 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
+        /// A getter for the Index of the nearest Station.
+        /// </summary>
+        public int NearestStationIndex { get; private set; }
+
+        /// <summary>
         /// A getter for the train's current location.
         /// </summary>
         public Vector3 CurrentTrainLocation => _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
@@ -104,9 +109,9 @@ namespace DerailedDeliveries.Framework.Train
         private bool ParkCheck()
         {
             Vector3 trainPosition = CurrentTrainLocation;
-            nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
+            NearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
 
-            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+            StationContainer closestStation = StationManager.Instance.StationContainers[NearestStationIndex];
 
             bool min = closestStation.StationBoundingBoxCollider.bounds.Contains(_minimumPoint.position);
             bool max = closestStation.StationBoundingBoxCollider.bounds.Contains(_maximumPoint.position);
