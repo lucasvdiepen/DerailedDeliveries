@@ -86,7 +86,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trainController: {fileID: 0}
-  _badRailSplitShakePenalty: 6
+  _badRailSplitShakePenalty: 1.5
+  _badRailSplitShakeFrequencyPenalty: 0.05
 --- !u!1 &4147421487569180890
 GameObject:
   m_ObjectHideFlags: 0

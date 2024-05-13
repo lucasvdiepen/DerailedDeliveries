@@ -54,8 +54,7 @@ namespace DerailedDeliveries.Framework.Train
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public bool[] BadRailSplitOrder { get; private set; }
 
-        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
-        public int CurrentRailSplitID { get; private set; }
+        public bool IsOnBadRailSplit { get; private set; }
 
         /// <summary>
         /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
@@ -84,10 +83,10 @@ namespace DerailedDeliveries.Framework.Train
         public TrainEngine TrainEngine { get; private set; }
 
         /// <summary>
-        /// Invokes when train switches from rail split.
-        /// <br/> int = rail split ID.
+        /// Invokes when train switches from rail split and returns if train is on bad splut.
+        /// <br/> bool == false = bad side of split.
         /// </summary>
-        public Action<int, RailSplitType> onRailSplitChange;
+        public Action<bool> onRailSplitChange;
 
         /// <summary>
         /// Helper method for updating the current spline length.
@@ -97,8 +96,9 @@ namespace DerailedDeliveries.Framework.Train
         private RailSplit _railSplit;
 
         private const float TWEAK_DIVIDE_FACTOR = 10;
-
         private float _distanceAlongSpline;
+
+        private int CurrentRailSplitID;
 
         private void Awake()
         {
@@ -241,7 +241,20 @@ namespace DerailedDeliveries.Framework.Train
             {
                 //Check if new rail split is of type RailSplitType.Branch or RailSplitType.Funnel;
                 RailSplitType currentRailSplitType = CurrentRailSplitID % 2 == 1 ? RailSplitType.Branch : RailSplitType.Funnel;
-                onRailSplitChange?.Invoke(CurrentRailSplitID, currentRailSplitType);
+
+                if (currentRailSplitType == RailSplitType.Branch)
+                {
+                    bool badSplitDirection = BadRailSplitOrder[CurrentRailSplitID - 1];
+
+                    if (badSplitDirection == TrainEngine.Instance.CurrentSplitDirection)
+                        IsOnBadRailSplit = true;
+                }
+                else
+                {
+                    IsOnBadRailSplit = false;
+                }
+
+                onRailSplitChange?.Invoke(IsOnBadRailSplit);
             }
         }
 

@@ -1,5 +1,6 @@
 using Cinemachine;
 using UnityEngine;
+using DG.Tweening;
 
 using DerailedDeliveries.Framework.Train;
 
@@ -15,14 +16,13 @@ namespace DerailedDeliveries.Framework.Camera
         private TrainController _trainController;
 
         [SerializeField]
-        private float _badRailSplitShakePenalty = 10f;
-
-        private bool _applyShakePenalty;
+        private float _badRailSplitShakeFrequencyPenalty = 0.04f;
 
         private CinemachineVirtualCamera _trainCamera;
         private CinemachineBasicMultiChannelPerlin _multiChannelPerlin;
 
         private float _startCameraNoiseAmplitude;
+        private float _startCameraNoiseFrequency;
 
         private void OnEnable()
         {
@@ -48,29 +48,24 @@ namespace DerailedDeliveries.Framework.Camera
         private void Start()
         {
             _startCameraNoiseAmplitude = _multiChannelPerlin.m_AmplitudeGain;
+            _startCameraNoiseFrequency = _multiChannelPerlin.m_FrequencyGain;
+
             _multiChannelPerlin.m_AmplitudeGain = 0;
         }
 
-        private void HandleRailSplitChanged(int newRailSplitIndex, RailSplitType nextRailSplitType)  
+        private void HandleRailSplitChanged(bool badRailSplit)
         {
-            if (nextRailSplitType == RailSplitType.Branch)
-            {
-                bool badSplitDirection = _trainController.BadRailSplitOrder[newRailSplitIndex - 1];
-                
-                if(badSplitDirection == TrainEngine.Instance.CurrentSplitDirection)
-                    _applyShakePenalty = true;
-            }
-            else
-            {
-                _applyShakePenalty = false;
-            }
+            float newCameraFrequency = badRailSplit ? _badRailSplitShakeFrequencyPenalty : _startCameraNoiseFrequency;
+
+            DOTween.To(() => _multiChannelPerlin.m_FrequencyGain, x 
+                => _multiChannelPerlin.m_FrequencyGain = x, newCameraFrequency, 1);
         }
 
         private void HandleSpeedChanged(float newSpeed)
         {
             // Adjust Cinemachine noise amplitude gain based on current speed
             float amplitudeGain = Mathf.Lerp(0f, _startCameraNoiseAmplitude, Mathf.Abs(newSpeed) / TrainEngine.Instance.MaxSpeed);
-            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain * (_applyShakePenalty ? _badRailSplitShakePenalty : 0);
+            _multiChannelPerlin.m_AmplitudeGain = amplitudeGain;
         }
     }
 }
