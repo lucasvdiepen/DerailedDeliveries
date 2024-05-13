@@ -13,6 +13,8 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 
         private int _amountInTrain;
 
+        public bool IsInTrain => _amountInTrain > 0;
+
         [Server]
         private protected override void UpdateTimer()
         {
@@ -27,9 +29,12 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
         {
             if(_amountInTrain == 0)
                 return;
-
+            
             base.TakeDamage();
         }
+
+        [Server]
+        public void ForceTakeDamage() => base.TakeDamage();
 
         private void OnTriggerEnter(Collider other)
         {
