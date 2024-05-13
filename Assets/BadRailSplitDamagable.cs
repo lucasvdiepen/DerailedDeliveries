@@ -90,7 +90,7 @@ namespace DerailedDeliveries.Framework.Train
             p_damageIntervalElapsed = 0;
 
             for (int i = 0; i < boxDamageablesInTrain.Length; i++)
-                boxDamageablesInTrain[i].ForceTakeDamage();
+                boxDamageablesInTrain[i].TakeDamageFromBadSplit();
 
         }
     }
