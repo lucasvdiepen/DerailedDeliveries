@@ -58,12 +58,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
         private void OnEnable()
         {
-            _inputParser.OnInteract += UseInteractable;
+            _inputParser.OnGrab += PickupInteractable;
+            _inputParser.OnUse += UseInteractable;
         }
 
         private void OnDisable()
         {
-            _inputParser.OnInteract -= UseInteractable;
+            _inputParser.OnGrab -= PickupInteractable;
+            _inputParser.OnUse -= UseInteractable;
         }
 
         private Collider[] GetInRangeColliders()

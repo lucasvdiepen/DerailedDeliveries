@@ -32,11 +32,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         private protected virtual void Awake() => BoxCollider = GetComponent<BoxCollider>();
 
         /// <summary>
+        /// Returns a boolean that reflects if this <see cref="Interactable"/> is grabbable.
+        /// </summary>
+        /// <param name="interactor">The <see cref="Interactor"/> that is checking if this is interactable.</param>
+        /// <returns>The status that reflects if this is interactable.</returns>
+        public abstract bool CheckIfGrabbable(Interactor interactor);
+
+        /// <summary>
         /// Returns a boolean that reflects if this <see cref="Interactable"/> is available for interaction.
         /// </summary>
         /// <param name="interactor">The <see cref="Interactor"/> that is checking if this is interactable.</param>
         /// <returns>The status that reflects if this is interactable.</returns>
-        public virtual bool CheckIfInteractable(Interactor interactor) => IsInteractable && !IsOnCooldown;
+        public abstract bool CheckIfInteractable(Interactor interactor);
 
         /// <summary>
         /// A function that calls a RPC to the server on this <see cref="Interactable"/>.

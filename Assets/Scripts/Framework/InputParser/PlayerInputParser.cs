@@ -14,7 +14,7 @@ namespace DerailedDeliveries.Framework.InputParser
         /// <summary>
         /// An event invoked when the player pressed the interact button.
         /// </summary>
-        public Action OnInteract;
+        public Action OnGrab;
 
         /// <summary>
         /// An event invoked when the player pressed the use button.
@@ -45,7 +45,7 @@ namespace DerailedDeliveries.Framework.InputParser
 
             _playerInput.actions["Use"].performed += Use;
             _playerInput.actions["Move"].performed += Move;
-            _playerInput.actions["Interact"].performed += Interact;
+            _playerInput.actions["Interact"].performed += Grab;
         }
 
         public override void OnStopClient()
@@ -57,7 +57,7 @@ namespace DerailedDeliveries.Framework.InputParser
 
             _playerInput.actions["Use"].performed -= Use;
             _playerInput.actions["Move"].performed -= Move;
-            _playerInput.actions["Interact"].performed -= Interact;
+            _playerInput.actions["Grab"].performed -= Grab;
         }
 
         private void Move(InputAction.CallbackContext context)
@@ -67,7 +67,7 @@ namespace DerailedDeliveries.Framework.InputParser
             OnMove?.Invoke(MoveDirection);
         }
 
-        private void Interact(InputAction.CallbackContext context) => OnInteract?.Invoke();
+        private void Grab(InputAction.CallbackContext context) => OnGrab?.Invoke();
 
         private void Use(InputAction.CallbackContext context) => OnUse?.Invoke();
     }
