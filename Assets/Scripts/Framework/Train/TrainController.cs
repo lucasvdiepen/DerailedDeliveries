@@ -210,7 +210,7 @@ namespace DerailedDeliveries.Framework.Train
 
             SplineContainer nextSplineContainer = null;
 
-            if (_railSplit.PossibleReversakTracks.Length > 0)
+            if (_railSplit.PossibleReversakTracks.Length > 0 && TrainEngine.CurrentSpeed < 0)
                 nextSplineContainer = _railSplit.PossibleReversakTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
             // Check for possible backward rail split.
