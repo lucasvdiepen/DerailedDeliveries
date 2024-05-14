@@ -29,10 +29,13 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private GameObject _playerPrefab;
 
         [SerializeField]
-        private int _maxPlayers = 6;
-
-        [SerializeField]
         private List<Color> _playerColors;
+
+        /// <summary>
+        /// The maximum amount of players allowed in the game.
+        /// </summary>
+        [field: SerializeField]
+        public int MaxPlayers { get; } = 6;
 
         /// <summary>
         /// Invoked when a player joins the game. The PlayerId script is passed as an argument.
@@ -58,11 +61,6 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// The amount of players currently in the game.
         /// </summary>
         public int PlayerCount => _players.Count;
-
-        /// <summary>
-        /// The maximum amount of players allowed in the game.
-        /// </summary>
-        public int MaxPlayers => _maxPlayers;
 
         /// <summary>
         /// The spawn point for new players.
@@ -183,7 +181,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             if (_playerSpawners.Contains(playerSpawner))
                 return;
 
-            if (_players.Count >= _maxPlayers)
+            if (_players.Count >= MaxPlayers)
             {
                 Destroy(playerSpawner.gameObject);
                 return;
@@ -197,7 +195,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [ServerRpc(RequireOwnership = false)]
         private void SpawnPlayerOnServer(NetworkConnection clientConnection)
         {
-            if (!IsSpawningEnabled || _players.Count >= _maxPlayers)
+            if (!IsSpawningEnabled || _players.Count >= MaxPlayers)
             {
                 ClearSpawningPlayers(clientConnection);
                 return;
