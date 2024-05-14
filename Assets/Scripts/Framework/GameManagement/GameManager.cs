@@ -6,7 +6,7 @@ using DerailedDeliveries.Framework.Utils;
 namespace DerailedDeliveries.Framework.GameManagement
 {
     /// <summary>
-    /// A class that is responsible for managing the game.
+    /// A class responsible for managing the game.
     /// </summary>
     public class GameManager : NetworkAbstractSingleton<GameManager>
     {

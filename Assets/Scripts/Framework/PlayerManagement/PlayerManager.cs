@@ -91,8 +91,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
         private readonly List<PlayerId> _players = new();
         private readonly List<PlayerSpawnRequester> _playerSpawners = new();
+        
         private List<Transform> _availableSpawnpoints;
+        
         private bool _isSpawnEnabled;
+        
         private int _playerIdCount;
 
         private void Awake() => _availableSpawnpoints = new List<Transform>(_spawnpoints);

@@ -391,7 +391,7 @@ namespace DerailedDeliveries.Framework.StateMachine
         }
 
         /// <summary>
-        /// Invoked when all states are initialized and the state machine is ready.
+        /// Called when all states are initialized and the state machine is ready.
         /// </summary>
         private void Start() => DisableAllStates();
 
