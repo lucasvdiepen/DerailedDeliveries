@@ -56,9 +56,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _collider = GetComponent<SphereCollider>();
         }
 
-        private void OnEnable() => _inputParser.OnInteract += UseInteractable;
+        private void OnEnable() => _inputParser.OnUse += UseInteractable;
 
-        private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
+        private void OnDisable() => _inputParser.OnUse -= UseInteractable;
 
         private void UseInteractable()
         {

@@ -45,7 +45,7 @@ namespace DerailedDeliveries.Framework.InputParser
 
             _playerInput.actions["Use"].performed += Use;
             _playerInput.actions["Move"].performed += Move;
-            _playerInput.actions["Interact"].performed += Grab;
+            _playerInput.actions["Grab"].performed += Grab;
         }
 
         public override void OnStopClient()
