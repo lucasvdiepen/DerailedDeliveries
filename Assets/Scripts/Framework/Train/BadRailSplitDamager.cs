@@ -11,7 +11,7 @@ namespace DerailedDeliveries.Framework.Train
     /// are not stored in a shelf when train is riding on a bad split.
     /// </summary>
     [RequireComponent(typeof(TrainController))]
-    public class BadRailSplitDamagable : NetworkBehaviour
+    public class BadRailSplitDamager : NetworkBehaviour
     {
         private TrainController _trainController;
 
@@ -64,8 +64,8 @@ namespace DerailedDeliveries.Framework.Train
                 return;
             }
 
-            BoxDamageable[] allBoxDamageables = FindObjectsOfType<BoxDamageable>();
-            boxDamageablesInTrain = allBoxDamageables.Where(boxDamageable => boxDamageable.IsInTrain).ToArray();
+            boxDamageablesInTrain = FindObjectsOfType<BoxDamageable>()
+                .Where(boxDamageable => boxDamageable.IsInTrain).ToArray();
         }
 
         private void Update()
@@ -77,7 +77,7 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         [Server]
-        private protected virtual void UpdateTimer()
+        private void UpdateTimer()
         {
             if (!_isTrainMoving || !_trainController.IsOnBadRailSplit)
                 return;
@@ -91,7 +91,6 @@ namespace DerailedDeliveries.Framework.Train
 
             for (int i = 0; i < boxDamageablesInTrain.Length; i++)
                 boxDamageablesInTrain[i].TakeDamageFromBadSplit();
-
         }
     }
 }
