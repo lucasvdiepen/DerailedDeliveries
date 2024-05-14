@@ -19,10 +19,36 @@ namespace DerailedDeliveries.Framework.ParentingSystem
 
         private ObjectParent _currentParent;
 
-        private void FixedUpdate()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            if(!IsOwner)
+                return;
+
+            TimeManager.OnPostTick += OnPostTick;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+
+            if(!IsOwner)
+                return;
+
+            TimeManager.OnPostTick -= OnPostTick;
+        }
+
+        private void OnPostTick()
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position + _sphereCollider.center, _sphereCollider.radius, _collisionLayer);
-
+            
             List<ObjectParent> collidingParents = GetAllObjectParents(colliders);
 
             SetOrUnsetParent(collidingParents);
