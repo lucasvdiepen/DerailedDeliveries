@@ -20,6 +20,8 @@ namespace DerailedDeliveries.Framework.Train
         [field: SerializeField]
         public int RailSplitAmount { get; set; }
 
+        public int AllSplitAmount { get; private set; }
+
         /// <summary>
         /// Helper method for getting the spline track based on a specified ID.
         /// </summary>
@@ -37,7 +39,12 @@ namespace DerailedDeliveries.Framework.Train
         private void Awake()
         {
             if (RailSplitAmount <= 0)
+            {
                 Debug.LogError("Rail split count cannot be less or equal than zero.", this);
+                return;
+            }
+
+            AllSplitAmount = RailSplitAmount * 2;
         }
     }
 }

@@ -12302,6 +12302,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 861439104}
   - {fileID: 861439104}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!1 &575357993
 GameObject:
   m_ObjectHideFlags: 0
@@ -17893,7 +17894,7 @@ PrefabInstance:
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
@@ -17903,7 +17904,7 @@ PrefabInstance:
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
@@ -17996,6 +17997,9 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 1788824025}
   - {fileID: 218896935}
+  <PossibleReversakTracks>k__BackingField:
+  - {fileID: 1663020936}
+  - {fileID: 1819585430}
 --- !u!1 &591029448
 GameObject:
   m_ObjectHideFlags: 0
@@ -18144,12 +18148,6 @@ MonoBehaviour:
   m_AmplitudeGain: 3
   m_FrequencyGain: 0.02
   mNoiseOffsets: {x: 0, y: 0, z: 0}
---- !u!1 &765669362 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2941088844697962846, guid: 410c17a52de8fce4493323205bf71189,
-    type: 3}
-  m_PrefabInstance: {fileID: 861439103}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &795211142 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6113781064345808111, guid: ec04a114bee5141408603a302383a667,
@@ -24078,6 +24076,26 @@ PrefabInstance:
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[80].Rotation.value.z
       value: 0.010205054
       objectReference: {fileID: 0}
+    - target: {fileID: 1275709452831592668, guid: 410c17a52de8fce4493323205bf71189,
+        type: 3}
+      propertyPath: <PossibleTracks>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 444495786}
+    - target: {fileID: 1275709452831592668, guid: 410c17a52de8fce4493323205bf71189,
+        type: 3}
+      propertyPath: <PossibleTracks>k__BackingField.Array.data[1]
+      value: 
+      objectReference: {fileID: 2122059431}
+    - target: {fileID: 1275709452831592668, guid: 410c17a52de8fce4493323205bf71189,
+        type: 3}
+      propertyPath: <PossibleReversakTracks>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 1788824025}
+    - target: {fileID: 1275709452831592668, guid: 410c17a52de8fce4493323205bf71189,
+        type: 3}
+      propertyPath: <PossibleReversakTracks>k__BackingField.Array.data[1]
+      value: 
+      objectReference: {fileID: 218896935}
     - target: {fileID: 2303023855678418510, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
       propertyPath: m_Seed
@@ -24111,7 +24129,7 @@ PrefabInstance:
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
@@ -24121,7 +24139,7 @@ PrefabInstance:
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 5356679241934127358, guid: 410c17a52de8fce4493323205bf71189,
         type: 3}
@@ -24169,11 +24187,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1787984255}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2941088844697962846, guid: 410c17a52de8fce4493323205bf71189,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 861439107}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 410c17a52de8fce4493323205bf71189, type: 3}
 --- !u!114 &861439104 stripped
 MonoBehaviour:
@@ -24181,7 +24195,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 861439103}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765669362}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
@@ -24193,21 +24207,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 861439103}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &861439107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765669362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f98cd0474f994846827c8985741cdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <PossibleTracks>k__BackingField:
-  - {fileID: 444495786}
-  - {fileID: 2122059431}
 --- !u!1001 &862838800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24724,6 +24723,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 1854715389}
   - {fileID: 1854715389}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!114 &1627424874 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6073812502090828546, guid: 2b1dc99f928f2d8479c8f1f0c917d880,
@@ -30397,6 +30397,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 580272399}
   - {fileID: 580272399}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!1001 &1727700136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41781,6 +41782,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 861439104}
   - {fileID: 861439104}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!1 &1798604577
 GameObject:
   m_ObjectHideFlags: 0
@@ -47563,6 +47565,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 580272399}
   - {fileID: 580272399}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!1001 &1826405471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48515,6 +48518,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 1854715389}
   - {fileID: 1854715389}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!114 &2140313123 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7039103409724323940, guid: ec04a114bee5141408603a302383a667,
@@ -48836,6 +48840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _componentIndexCache
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5142576653863284277, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _high
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5216006927920020546, guid: ec04a114bee5141408603a302383a667,
         type: 3}
@@ -50166,6 +50175,7 @@ MonoBehaviour:
   <PossibleTracks>k__BackingField:
   - {fileID: 1663020936}
   - {fileID: 1819585430}
+  <PossibleReversakTracks>k__BackingField: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

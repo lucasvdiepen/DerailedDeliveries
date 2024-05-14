@@ -14,6 +14,9 @@ namespace DerailedDeliveries.Framework.Train
         [field: SerializeField]
         public SplineContainer[] PossibleTracks { get; private set; }
 
+        [field: SerializeField]
+        public SplineContainer[] PossibleReversakTracks { get; private set; }
+
         private void Awake()
         {
             if (PossibleTracks.Length > 2)
