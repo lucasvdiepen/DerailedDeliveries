@@ -215,15 +215,14 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public void DespawnPlayer(NetworkObject networkObject) => DespawnPlayerOnServer(networkObject);
 
         [ServerRpc(RequireOwnership = false)]
-        private void DespawnPlayerOnServer(NetworkObject networkObject)
-        {
-            ServerManager.Despawn(networkObject);
-        }
+        private void DespawnPlayerOnServer(NetworkObject networkObject) => ServerManager.Despawn(networkObject);
 
+        [Server]
         private GameObject GetAndRemoveRandomPlayerPrefab()
         {
             int randomIndex = Random.Range(0, _availablePlayerPrefabs.Count);
             GameObject randomPlayerPrefab = _availablePlayerPrefabs[randomIndex];
+
             _availablePlayerPrefabs.RemoveAt(randomIndex);
 
             return randomPlayerPrefab;
