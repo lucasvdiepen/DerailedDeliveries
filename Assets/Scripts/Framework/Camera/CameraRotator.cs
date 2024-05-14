@@ -15,7 +15,13 @@ namespace DerailedDeliveries.Framework.Camera
 
         private void OnEnable() => StateMachine.StateMachine.Instance.OnStateChanged += OnStateChanged;
 
-        private void OnDisable() => StateMachine.StateMachine.Instance.OnStateChanged -= OnStateChanged;
+        private void OnDisable()
+        {
+            if(StateMachine.StateMachine.Instance == null)
+                return;
+
+            StateMachine.StateMachine.Instance.OnStateChanged -= OnStateChanged;
+        }
 
         private void OnStateChanged(State state) => gameObject.SetActive(state is not GameState);
 
