@@ -2,6 +2,9 @@ using FishNet.Object;
 
 namespace DerailedDeliveries.Framework.PlayerManagement
 {
+    /// <summary>
+    /// A class responsible for managing the unique identifier of a player.
+    /// </summary>
     public class PlayerId : NetworkBehaviour
     {
         /// <summary>
