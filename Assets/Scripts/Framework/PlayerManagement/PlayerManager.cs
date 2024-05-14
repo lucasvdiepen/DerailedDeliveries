@@ -1,11 +1,10 @@
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
+using UnityEngine.InputSystem;
 using FishNet.Connection;
 using FishNet.Object;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Random = UnityEngine.Random;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -26,10 +25,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private PlayerInputManager _playerInputManager;
 
         [SerializeField]
-        private GameObject _playerPrefab;
-
-        [SerializeField]
-        private List<Color> _playerColors;
+        private List<GameObject> _playerPrefabs;
 
         /// <summary>
         /// The maximum amount of players allowed in the game.
@@ -91,12 +87,17 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         private readonly List<PlayerSpawnRequester> _playerSpawners = new();
         
         private List<Transform> _availableSpawnpoints;
-        
+        private List<GameObject> _availablePlayerPrefabs;
+
         private bool _isSpawnEnabled;
         
         private int _playerIdCount;
 
-        private void Awake() => _availableSpawnpoints = new List<Transform>(_spawnpoints);
+        private void Awake()
+        {
+            _availableSpawnpoints = new List<Transform>(_spawnpoints);
+            _availablePlayerPrefabs = new List<GameObject>(_playerPrefabs);
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -148,11 +149,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             if (IsServer)
             {
-                Color playerColor = playerId.GetComponent<PlayerColor>().Color;
-                _playerColors.Add(playerColor);
-
                 Transform playerSpawnpoint = playerId.GetComponent<PlayerSpawnpoint>().Spawnpoint;
                 _availableSpawnpoints.Add(playerSpawnpoint);
+                
+                PlayerModel playerModel = playerId.GetComponent<PlayerModel>();
+                _availablePlayerPrefabs.Add(_playerPrefabs[playerModel.ModelIndex]);
             }
 
             _players.Remove(playerId);
@@ -204,17 +205,17 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             int randomSpawnIndex = Random.Range(0, _availableSpawnpoints.Count);
             Transform randomSpawnpoint = _availableSpawnpoints[randomSpawnIndex];
 
-            GameObject spawnedPlayer = Instantiate(_playerPrefab, randomSpawnpoint.position, Quaternion.identity);
+            GameObject playerPrefab = GetAndRemoveRandomPlayerPrefab();
+
+            GameObject spawnedPlayer = Instantiate(playerPrefab, randomSpawnpoint.position, Quaternion.identity);
+            
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
             SceneManager.AddOwnerToDefaultScene(networkObject);
 
             spawnedPlayer.GetComponent<PlayerId>().SetId(_playerIdCount);
-
-            Color newColor = _playerColors[Random.Range(0, _playerColors.Count)];
-            spawnedPlayer.GetComponent<PlayerColor>().SetColor(newColor);
-            _playerColors.Remove(newColor);
+            spawnedPlayer.GetComponent<PlayerModel>().ModelIndex = _playerPrefabs.IndexOf(playerPrefab);
 
             PlayerSpawnpoint playerSpawnpoint = spawnedPlayer.GetComponent<PlayerSpawnpoint>();
             playerSpawnpoint.Spawnpoint = randomSpawnpoint;
@@ -242,5 +243,16 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
         [ServerRpc(RequireOwnership = false)]
         private void DespawnPlayerOnServer(NetworkObject networkObject) => ServerManager.Despawn(networkObject);
+
+        [Server]
+        private GameObject GetAndRemoveRandomPlayerPrefab()
+        {
+            int randomIndex = Random.Range(0, _availablePlayerPrefabs.Count);
+            GameObject randomPlayerPrefab = _availablePlayerPrefabs[randomIndex];
+
+            _availablePlayerPrefabs.RemoveAt(randomIndex);
+
+            return randomPlayerPrefab;
+        }
     }
 }
