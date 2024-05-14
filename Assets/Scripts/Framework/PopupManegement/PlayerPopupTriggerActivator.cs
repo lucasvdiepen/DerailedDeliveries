@@ -20,6 +20,6 @@ namespace DerailedDeliveries.Framework.PopupManagement
         }
 
         private protected override Collider[] GetCollidingColliders()
-            => Physics.OverlapBox((transform.rotation * _collider.center) + transform.position, _collider.size);
+            => Physics.OverlapBox(GetColliderPosition(_collider.center), GetColliderSize(_collider.size));
     }
 }
