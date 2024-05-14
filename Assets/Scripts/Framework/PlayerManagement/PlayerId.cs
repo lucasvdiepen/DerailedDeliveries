@@ -37,6 +37,11 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// </summary>
         /// <param name="id">The new unique identifier of the player.</param>
         [ObserversRpc(BufferLast = true)]
-        public void SetId(int id) => Id = id;
+        public void SetId(int id)
+        {
+            Id = id;
+
+            PlayerManager.Instance.OnPlayersUpdated?.Invoke();
+        }
     }
 }
