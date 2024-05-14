@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5356679241934127358}
   - component: {fileID: 1263922393372949806}
   - component: {fileID: 2303023855678418510}
-  - component: {fileID: 1275709452831592668}
   m_Layer: 0
   m_Name: TrainTracks
   m_TagString: Untagged
@@ -1764,21 +1763,3 @@ MonoBehaviour:
   m_DeprecatedInstances: []
   m_AutoRefresh: 1
   m_Seed: -68774380
---- !u!114 &1275709452831592668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2941088844697962846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f98cd0474f994846827c8985741cdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <PossibleTracks>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
-  <PossibleReversakTracks>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
