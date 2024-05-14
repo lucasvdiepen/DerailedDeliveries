@@ -51,9 +51,16 @@ namespace DerailedDeliveries.Framework.Train
             }
         }
 
+        /// <summary>
+        /// Randomized bad rail split order in which the index indicates 
+        /// the ID of the branch rail split and bool value which side is affects (false = left).
+        /// </summary>
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public bool[] BadRailSplitOrder { get; private set; }
 
+        /// <summary>
+        /// True if train is currently on a bad rail split.
+        /// </summary>
         public bool IsOnBadRailSplit { get; private set; }
 
         /// <summary>
@@ -113,6 +120,9 @@ namespace DerailedDeliveries.Framework.Train
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartClient()
         {
             base.OnStartClient();
@@ -121,6 +131,10 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick += OnTick;
         }
 
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStopClient()
         {
             base.OnStopClient();
@@ -129,6 +143,10 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick -= OnTick;
         }
 
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartServer()
         {
             base.OnStartServer();

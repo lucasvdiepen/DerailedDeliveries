@@ -1,6 +1,8 @@
 using FishNet.Object;
 using UnityEngine;
 
+using DerailedDeliveries.Framework.Train;
+
 namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 {
     /// <summary>
@@ -15,26 +17,22 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 
         public bool IsInTrain => _amountInTrain > 0;
 
-        [Server]
-        private protected override void UpdateTimer()
-        {
-            if(_amountInTrain == 0)
-                return;
+        private TrainController _trainController;
 
-            base.UpdateTimer();
-        }
+        private void Awake() => _trainController = TrainEngine.Instance.GetComponent<TrainController>();
 
         [Server]
         private protected override void TakeDamage()
         {
+            // Take double damage if train is on bad rail split.
+            if (_trainController.IsOnBadRailSplit && IsInTrain)
+                base.TakeDamage();
+            
             if(_amountInTrain == 0)
                 return;
             
             base.TakeDamage();
         }
-
-        [Server]
-        public void TakeDamageFromBadSplit() => TakeDamage();
 
         private void OnTriggerEnter(Collider other)
         {
