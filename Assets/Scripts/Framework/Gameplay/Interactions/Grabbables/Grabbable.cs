@@ -45,14 +45,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// </summary>
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override bool CheckIfGrabbable(Interactor interactor) 
-            => base.CheckIfGrabbable(interactor) && (!IsBeingInteracted || _originInteractor == interactor);
-
-        [ServerRpc(RequireOwnership = false)]
-        public virtual void GrabGrabbableOnServer(Interactor interactor) => GrabGrabbable(interactor);
+        public override bool CheckIfInteractable(Interactor interactor)
+            => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
 
         [Server]
-        private protected virtual bool GrabGrabbable(Interactor interactor)
+        private protected override bool Interact(Interactor interactor)
+        {
+            if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
+                return false;
+
+            UseGrabbable(interactor);
+
+            return true;
+        }
+
+        [Server]
+        private protected virtual void UseGrabbable(Interactor interactor)
         {
             if (!IsBeingInteracted)
             {
@@ -61,7 +69,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
                 UpdateInteractionStatus(interactor, true);
                 interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
-                return true;
+                return;
             }
 
             NetworkObject.UnsetParent();
@@ -69,7 +77,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             interactor.UpdateInteractingTarget(interactor.Owner, null, IsBeingInteracted);
             PlaceOnGround();
-            return true;
+            return;
         }
 
         /// <summary>
@@ -107,7 +115,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
 
-            if(ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
+            if (ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
             {
                 objectParent.SetParent(NetworkObject);
                 return;

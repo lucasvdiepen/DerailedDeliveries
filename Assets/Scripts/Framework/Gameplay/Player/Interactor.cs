@@ -56,36 +56,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _collider = GetComponent<SphereCollider>();
         }
 
-        private void OnEnable()
-        {
-            _inputParser.OnGrab += PickupInteractable;
-            _inputParser.OnUse += UseInteractable;
-        }
+        private void OnEnable() => _inputParser.OnInteract += UseInteractable;
 
-        private void OnDisable()
-        {
-            _inputParser.OnGrab -= PickupInteractable;
-            _inputParser.OnUse -= UseInteractable;
-        }
-
-        private Collider[] GetInRangeColliders()
-        {
-            Vector3 directionVector = (transform.rotation * _collider.center) + transform.position;
-
-            return Physics.OverlapSphere(directionVector, _collider.radius);
-        }
-
-        private void PickupInteractable()
-        {
-            Collider[] interactables = GetInRangeColliders();
-
-            if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
-                return;
-        }
+        private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
 
         private void UseInteractable()
         {
-            Collider[] interactables = GetInRangeColliders();
+            Vector3 directionVector = (transform.rotation * _collider.center) + transform.position;
+
+            Collider[] interactables = Physics.OverlapSphere(directionVector, _collider.radius);
 
             if (_isOnCooldown || !_isInteracting && interactables.Length == 0)
                 return;
@@ -99,7 +78,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 return;
             }
 
-            foreach(Collider colliding in interactables)
+            foreach (Collider colliding in interactables)
             {
                 if (!colliding.TryGetComponent(out Interactable interactable))
                     continue;

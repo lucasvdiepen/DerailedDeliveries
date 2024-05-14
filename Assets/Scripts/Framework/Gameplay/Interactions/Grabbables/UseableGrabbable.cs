@@ -11,23 +11,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
     public abstract class UseableGrabbable : Grabbable
     {
         [Server]
-        private protected override bool GrabGrabbable(Interactor interactor)
+        private protected override void UseGrabbable(Interactor interactor)
         {
-            if(!IsBeingInteracted)
+            if (!IsBeingInteracted)
             {
-                base.GrabGrabbable(interactor);
-                return true;
+                base.UseGrabbable(interactor);
+                return;
             }
 
             Interactable targetInteractable = GetCollidingInteractable(interactor);
-            if(targetInteractable != null && RunInteract(targetInteractable))
-                return true;
+            if (targetInteractable != null && RunInteract(targetInteractable))
+                return;
 
-            if(IsDeinitializing)
-                return false;
+            if (IsDeinitializing)
+                return;
 
-            base.GrabGrabbable(interactor);
-            return true;
+            base.UseGrabbable(interactor);
         }
 
         [Server]
@@ -35,15 +34,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         {
             Collider[] colliders = GetCollidingColliders();
 
-            foreach(Collider collider in colliders)
+            foreach (Collider collider in colliders)
             {
-                if(!collider.TryGetComponent(out Interactable interactable))
+                if (!collider.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if(!CheckCollidingType(interactable))
+                if (!CheckCollidingType(interactable))
                     continue;
 
-                if(!interactable.CheckIfInteractable(interactor))
+                if (!interactable.CheckIfInteractable(interactor))
                     continue;
 
                 return interactable;
