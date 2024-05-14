@@ -35,7 +35,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// The maximum amount of players allowed in the game.
         /// </summary>
         [field: SerializeField]
-        public int MaxPlayers { get; } = 6;
+        public int MaxPlayers { get; private set; } = 6;
 
         /// <summary>
         /// Invoked when a player joins the game. The PlayerId script is passed as an argument.
