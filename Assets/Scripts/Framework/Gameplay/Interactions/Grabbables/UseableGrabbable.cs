@@ -30,6 +30,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         }
 
         [Server]
+        private protected override bool Use(Interactor interactor)
+        {
+            if (!IsBeingInteracted)
+                return false;
+
+            if (!base.Use(interactor))
+                return false;
+
+            Interactable targetInteractable = GetCollidingInteractable(interactor);
+            if (targetInteractable != null && RunUse(targetInteractable))
+                return false;
+
+            return true;
+        }
+
+        [Server]
         private protected virtual Interactable GetCollidingInteractable(Interactor interactor)
         {
             Collider[] colliders = GetCollidingColliders();
@@ -53,6 +69,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
         [Server]
         private protected virtual bool RunInteract(Interactable interactable) => interactable.Interact(this);
+
+        [Server]
+        private protected virtual bool RunUse(Interactable interactable) => interactable.Use(this);
 
         private protected abstract bool CheckCollidingType(Interactable interactable);
     }

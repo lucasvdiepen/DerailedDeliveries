@@ -53,7 +53,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         }
 
         [Server]
-        private protected override bool RunInteract(Interactable interactable)
+        private protected override bool RunUse(Interactable interactable)
         {
             IRepairable repairable = (IRepairable)interactable;
             if(repairable.CanBeRepaired())
@@ -62,7 +62,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 return true;
             }
 
-            return base.RunInteract(interactable);
+            return base.RunUse(interactable);
         }
     }
 }

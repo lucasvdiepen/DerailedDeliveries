@@ -31,6 +31,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         public Action<Interactable> OnInteract;
 
         /// <summary>
+        /// Invoked when the player uses an <see cref="Interactable"/>.
+        /// </summary>
+        public Action<Interactable> OnUse;
+
+        /// <summary>
         /// Invoked when the <see cref="Interactor"/>'s interactingTarget changes.
         /// </summary>
         public Action<Interactable> OnInteractingTargetChanged;
@@ -56,11 +61,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _collider = GetComponent<SphereCollider>();
         }
 
-        private void OnEnable() => _inputParser.OnInteract += UseInteractable;
+        private void OnEnable()
+        {
+            _inputParser.OnInteract += Interact;
+            _inputParser.OnUse += Use;
+        }
 
-        private void OnDisable() => _inputParser.OnInteract -= UseInteractable;
+        private void OnDisable()
+        {
+            _inputParser.OnInteract -= Interact;
+            _inputParser.OnUse -= Use;
+        }
 
-        private void UseInteractable()
+        private void Interact()
+        {
+            Interact(false);
+        }
+
+        private void Interact(bool isUse)
         {
             Vector3 directionVector = (transform.rotation * _collider.center) + transform.position;
 
@@ -73,12 +91,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
 
             if (_isInteracting && _interactingTarget != null)
             {
+                if(isUse)
+                {
+                    _interactingTarget.UseOnServer(this);
+                    OnUse?.Invoke(_interactingTarget);
+                    return;
+                }
+
                 _interactingTarget.InteractOnServer(this);
                 OnInteract?.Invoke(_interactingTarget);
                 return;
             }
 
-            foreach(Collider colliding in interactables)
+            foreach (Collider colliding in interactables)
             {
                 if (!colliding.TryGetComponent(out Interactable interactable))
                     continue;
@@ -86,10 +111,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 if (!interactable.CheckIfInteractable(this))
                     continue;
 
+                if(isUse)
+                {
+                    interactable.UseOnServer(this);
+                    OnUse?.Invoke(interactable);
+                    break;
+                }
+
                 interactable.InteractOnServer(this);
                 OnInteract?.Invoke(interactable);
                 break;
             }
+        }
+
+        private void Use()
+        {
+            Interact(true);
         }
 
         /// <summary>
