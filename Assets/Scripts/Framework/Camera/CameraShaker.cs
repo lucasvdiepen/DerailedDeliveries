@@ -3,6 +3,9 @@ using UnityEngine;
 using DG.Tweening;
 
 using DerailedDeliveries.Framework.Train;
+using DerailedDeliveries.Framework.StateMachine;
+using System;
+using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.Camera
 {
@@ -24,8 +27,13 @@ namespace DerailedDeliveries.Framework.Camera
         private float _startCameraNoiseAmplitude;
         private float _startCameraNoiseFrequency;
 
-        private void OnEnable()
+        private void OnEnable() => StateMachine.StateMachine.Instance.OnStateChanged += HandleStateChanged;
+
+        private void HandleStateChanged(State state)
         {
+            if (state is not GameState)
+                return;
+
             TrainEngine.Instance.OnSpeedChanged += HandleSpeedChanged;
             _trainController.onRailSplitChange += HandleRailSplitChanged;
         }
