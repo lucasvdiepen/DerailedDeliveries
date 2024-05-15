@@ -4,7 +4,6 @@ using DG.Tweening;
 
 using DerailedDeliveries.Framework.Train;
 using DerailedDeliveries.Framework.StateMachine;
-using System;
 using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.Camera
