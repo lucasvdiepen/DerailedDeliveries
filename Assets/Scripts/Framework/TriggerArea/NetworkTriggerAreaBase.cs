@@ -39,6 +39,16 @@ namespace DerailedDeliveries.Framework.TriggerArea
 
         private int _framesPassedSinceUpdate = 0;
 
+        private protected Vector3 GetColliderSize(Vector3 colliderScale)
+        {
+            return new Vector3
+                (
+                    transform.localScale.x * colliderScale.x,
+                    transform.localScale.y * colliderScale.y,
+                    transform.localScale.z * colliderScale.z
+                ) * .5f;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent(out T component))
