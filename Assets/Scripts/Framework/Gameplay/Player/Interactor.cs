@@ -108,15 +108,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 if (!colliding.TryGetComponent(out Interactable interactable))
                     continue;
 
-                if (!interactable.CheckIfInteractable(this))
-                    continue;
-
                 if(isUse)
                 {
+                    if(!interactable.CheckIfUseable(this))
+                        continue;
+
                     interactable.UseOnServer(this);
                     OnUse?.Invoke(interactable);
                     break;
                 }
+
+                if (!interactable.CheckIfInteractable(this))
+                    continue;
 
                 interactable.InteractOnServer(this);
                 OnInteract?.Invoke(interactable);

@@ -13,6 +13,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         [SerializeField]
         private bool _isForwardButton;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfUseable(Interactor interactor) => base.CheckIfUseable(interactor) && interactor.InteractingTarget == null;
+
         private protected override bool Use(Interactor interactor)
         {
             if(!base.Use(interactor))

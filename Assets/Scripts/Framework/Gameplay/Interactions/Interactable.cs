@@ -47,6 +47,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         public virtual bool CheckIfInteractable(Interactor interactor) => IsInteractable && !IsOnCooldown;
 
         /// <summary>
+        /// Returns a boolean that reflects if this <see cref="Interactable"/> is available for use.
+        /// </summary>
+        /// <param name="interactor">The <see cref="Interactor"/> that is checking if this is useable.</param>
+        /// <returns>The status that reflects if this is useable.</returns>
+        public virtual bool CheckIfUseable(Interactor interactor) => IsInteractable && !IsOnCooldown;
+
+        /// <summary>
         /// A function that calls a RPC to the server on this <see cref="Interactable"/>.
         /// </summary>
         /// <param name="interactor">The <see cref="Interactor"/> that this request originates from.</param>
@@ -97,7 +104,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [Server]
         private protected virtual bool Use(Interactor interactor)
         {
-            if (!IsInteractable || IsOnCooldown)
+            if (!CheckIfUseable(interactor))
                 return false;
 
             StartCoroutine(ActivateCooldown());
