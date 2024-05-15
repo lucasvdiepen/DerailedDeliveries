@@ -53,7 +53,8 @@ namespace DerailedDeliveries.Framework.Train
 
         /// <summary>
         /// Randomized bad rail split order in which the index indicates 
-        /// the ID of the branch rail split and bool value which side is affects (false = left).
+        /// the number of the next branch rail split and bool value which side is affects <br/>
+        /// <br/> (false = left).
         /// </summary>
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public bool[] BadRailSplitOrder { get; private set; }
@@ -90,7 +91,7 @@ namespace DerailedDeliveries.Framework.Train
         public TrainEngine TrainEngine { get; private set; }
 
         /// <summary>
-        /// Invokes when train switches from rail split and returns if train is on bad splut.
+        /// Invokes when train switches from rail split and returns if train is on bad split.
         /// <br/> bool == false = bad side of split.
         /// </summary>
         public Action<bool> onRailSplitChange;
@@ -105,7 +106,7 @@ namespace DerailedDeliveries.Framework.Train
         private const float TWEAK_DIVIDE_FACTOR = 10;
         private float _distanceAlongSpline;
 
-        private int CurrentRailSplitID;
+        private int _currentRailSplitID;
 
         private void Awake()
         {
@@ -131,7 +132,6 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick += OnTick;
         }
 
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -143,7 +143,6 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick -= OnTick;
         }
 
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -151,6 +150,7 @@ namespace DerailedDeliveries.Framework.Train
         {
             base.OnStartServer();
 
+            // Randomize new bad rail split order.
             BadRailSplitOrder = new bool[SplineManager.Instance.RailSplitAmount];
 
             for (int i = 0; i < BadRailSplitOrder.Length; i++)
@@ -201,12 +201,11 @@ namespace DerailedDeliveries.Framework.Train
             if (_railSplit == null)
                 return;
 
-            CurrentRailSplitID++;
-
+            _currentRailSplitID++;
             int allSplitAmount = SplineManager.Instance.AllSplitAmount;
             
-            if (CurrentRailSplitID >= allSplitAmount)
-                CurrentRailSplitID = 0;
+            if (_currentRailSplitID >= allSplitAmount)
+                _currentRailSplitID = 0;
 
             DistanceAlongSpline = 0.0f;
             SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
@@ -226,30 +225,31 @@ namespace DerailedDeliveries.Framework.Train
             if (DistanceAlongSpline > CurrentOptimalStartPoint || TrainEngine.CurrentVelocity > 0)
                 return;
 
-            SplineContainer nextSplineContainer = null;
+            SplineContainer nextSplineContainer;
 
-            if (_railSplit.PossibleReversakTracks.Length > 0 && TrainEngine.CurrentSpeed < 0)
-                nextSplineContainer = _railSplit.PossibleReversakTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
+            // Try to get next spline from the rail split.
+            if (_railSplit.PossibleReversalTracks.Length > 0 && TrainEngine.CurrentSpeed < 0)
+                nextSplineContainer = _railSplit.PossibleReversalTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
-            // Check for possible backward rail split.
+            // Try to get next spline from the possible parrent of the current spline.
             else if (!Spline.transform.parent.TryGetComponent(out nextSplineContainer))
             {
                 DistanceAlongSpline = CurrentOptimalStartPoint;
                 return;
             }
 
+            // No possible spline found, end reached.
             if (nextSplineContainer == null)
             {
                 DistanceAlongSpline = CurrentOptimalStartPoint;
                 return;
             }
 
-            CurrentRailSplitID--;
-
+            _currentRailSplitID--;
             int allSplitAmount = SplineManager.Instance.AllSplitAmount;
 
-            if (CurrentRailSplitID < 0)
-                CurrentRailSplitID = allSplitAmount - 1;
+            if (_currentRailSplitID < 0)
+                _currentRailSplitID = allSplitAmount - 1;
 
             DistanceAlongSpline = 1.0f;
             int nextTrackID = SplineManager.Instance.GetIDByTrack(nextSplineContainer);
@@ -279,13 +279,16 @@ namespace DerailedDeliveries.Framework.Train
             if (Spline.gameObject.TryGetComponent(out _railSplit))
             {
                 //Check if new rail split is of type RailSplitType.Branch or RailSplitType.Funnel;
-                RailSplitType currentRailSplitType = CurrentRailSplitID % 2 == 1 ? RailSplitType.Branch : RailSplitType.Funnel;
+                RailSplitType currentRailSplitType = _currentRailSplitID % 2 == 1 
+                    ? RailSplitType.Branch 
+                    : RailSplitType.Funnel;
 
                 if (currentRailSplitType == RailSplitType.Branch)
                 {
-                    int clampedIndex = Mathf.Clamp(CurrentRailSplitID - 1, 0, BadRailSplitOrder.Length - 1);
+                    int clampedIndex = Mathf.Clamp(_currentRailSplitID - 1, 0, BadRailSplitOrder.Length - 1);
                     bool badSplitDirection = BadRailSplitOrder[clampedIndex];
 
+                    // Check if train wants to go to a bad rail split.
                     if (badSplitDirection == TrainEngine.Instance.CurrentSplitDirection)
                         IsOnBadRailSplit = true;
                 }

@@ -15,11 +15,14 @@ namespace DerailedDeliveries.Framework.Train
         private List<SplineContainer> _splineContainers = new();
 
         /// <summary>
-        /// Getter for amount of available rail splits.
+        /// Getter for the amount of available <see cref="RailSplitType.Branch"/> rail splits.
         /// </summary>
         [field: SerializeField]
         public int RailSplitAmount { get; set; }
 
+        /// <summary>
+        /// Getter for the total amount of rail splits regardless of their type.
+        /// </summary>
         public int AllSplitAmount { get; private set; }
 
         /// <summary>
