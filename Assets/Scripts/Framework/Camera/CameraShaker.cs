@@ -44,6 +44,9 @@ namespace DerailedDeliveries.Framework.Camera
 
             if(_trainController != null)
                 _trainController.onRailSplitChange -= HandleRailSplitChanged;
+
+            if(StateMachine.StateMachine.Instance != null)
+                StateMachine.StateMachine.Instance.OnStateChanged -= HandleStateChanged;
         }
 
         private void Awake()
