@@ -5,6 +5,7 @@ using DerailedDeliveries.Framework.CoalOvenSystem;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.DamageRepairManagement;
+using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -24,6 +25,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             base.Awake();
 
             _damageable = GetComponent<TrainDamageable>();
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfUseable(Interactor interactor)
+        {
+            return base.CheckIfUseable(interactor)
+                && (interactor.InteractingTarget is HammerGrabbable && CanBeRepaired()
+                    || interactor.InteractingTarget == null
+                    && TrainEngine.Instance.EngineState == TrainEngineState.Inactive);
         }
 
         [Server]
