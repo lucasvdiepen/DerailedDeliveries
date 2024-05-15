@@ -1,8 +1,8 @@
+using FishNet.Transporting;
 using System.Collections;
 using FishNet;
 
 using DerailedDeliveries.Framework.Gameplay.Timer;
-using FishNet.Transporting;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
@@ -11,6 +11,10 @@ namespace DerailedDeliveries.Framework.StateMachine.States
     /// </summary>
     public class GameState : MenuState
     {
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <returns><inheritdoc/></returns>
         public override IEnumerator OnStateEnter()
         {
             if (TimerUpdater.Instance.IsServer)
@@ -21,6 +25,10 @@ namespace DerailedDeliveries.Framework.StateMachine.States
             return base.OnStateEnter();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <returns><inheritdoc/></returns>
         public override IEnumerator OnStateExit()
         {
             if (TimerUpdater.Instance.IsServer)
