@@ -1,13 +1,13 @@
 using UnityEngine;
 
-using DerailedDeliveries.Framework.Gameplay.Interactions;
-
-namespace DerailedDeliveries.Framework.PopupManagement
+namespace DerailedDeliveries.Framework.TriggerArea
 {
     /// <summary>
-    /// A class that is responsible for showing and hiding a popup when colliding with an interactable.
+    /// A <see cref="TriggerAreaBase{T}"/> class that uses a <see cref="SphereCollider"/>.
     /// </summary>
-    public class InteractablePopupTriggerActivator : PopupTriggerActivator<Interactable>
+    /// <typeparam name="T">The class to check for on collision.</typeparam>
+    [RequireComponent(typeof(SphereCollider))]
+    public class TriggerSphereArea<T> : TriggerAreaBase<T> where T : Component
     {
         [Header("TriggerArea collider")]
         [SerializeField]
@@ -19,7 +19,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
                 _collider = GetComponent<SphereCollider>();
         }
 
-        private protected override Collider[] GetCollidingColliders()
+        private protected override Collider[] GetCollidingColliders() 
             => Physics.OverlapSphere((transform.rotation * _collider.center) + transform.position, _collider.radius);
     }
 }
