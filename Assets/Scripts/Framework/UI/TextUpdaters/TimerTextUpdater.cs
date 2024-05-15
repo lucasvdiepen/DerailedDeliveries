@@ -1,9 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-using DerailedDeliveries.Framework.UI.TextUpdaters;
 using DerailedDeliveries.Framework.Gameplay.Timer;
-using TMPro;
 
 namespace DerailedDeliveries.Framework.UI.TextUpdaters
 {
