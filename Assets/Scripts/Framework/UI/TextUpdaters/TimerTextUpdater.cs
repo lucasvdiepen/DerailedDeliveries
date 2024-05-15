@@ -5,80 +5,83 @@ using DerailedDeliveries.Framework.UI.TextUpdaters;
 using DerailedDeliveries.Framework.Gameplay.Timer;
 using TMPro;
 
-/// <summary>
-/// A TextUpdater class that is responsible for updating the <see cref="TimerUpdater"/>'s text.
-/// </summary>
-public class TimerTextUpdater : TextUpdater
+namespace DerailedDeliveries.Framework.UI.TextUpdaters
 {
-    [Header("Text Updaters")]
-    [SerializeField]
-    private TextUpdater _minutesText;
-
-    [SerializeField]
-    private TextUpdater _secondsText;
-
-    [SerializeField]
-    private TextUpdater _millisecondsText;
-
-    [Header("Timer settings")]
-    [SerializeField]
-    private Color _chaosColor;
-
-    [SerializeField]
-    private Color _baseColor;
-
-    [SerializeField]
-    private float _chaosColorFadeDuration = 1f;
-
-    private bool _switchedColor;
-
-    private void OnEnable()
+    /// <summary>
+    /// A TextUpdater class that is responsible for updating the <see cref="TimerUpdater"/>'s text.
+    /// </summary>
+    public class TimerTextUpdater : TextUpdater
     {
-        TimerUpdater.Instance.OnTimerUpdated += UpdateText;
+        [Header("Text Updaters")]
+        [SerializeField]
+        private TextUpdater _minutesText;
 
-        UpdateText(TimerUpdater.Instance.TimeRemaining);
-    }
+        [SerializeField]
+        private TextUpdater _secondsText;
 
-    private void OnDisable()
-    {
-        if(TimerUpdater.Instance != null)
-            TimerUpdater.Instance.OnTimerUpdated -= UpdateText;
-    }
+        [SerializeField]
+        private TextUpdater _millisecondsText;
 
-    private void UpdateText(float newTime)
-    {
-        if(newTime < TimerUpdater.Instance.ChaosSpeedMultiplierThreshold && !_switchedColor)
+        [Header("Timer settings")]
+        [SerializeField]
+        private Color _chaosColor;
+
+        [SerializeField]
+        private Color _baseColor;
+
+        [SerializeField]
+        private float _chaosColorFadeDuration = 1f;
+
+        private bool _switchedColor;
+
+        private void OnEnable()
         {
-            DOTween.To
-            (
-                () => _baseColor,
-                (Color newColor) => { Text.color = newColor; },
-                _chaosColor,
-                _chaosColorFadeDuration
-            );
+            TimerUpdater.Instance.OnTimerUpdated += UpdateText;
 
-            _switchedColor = true;
-        }
-        else if(newTime > TimerUpdater.Instance.ChaosSpeedMultiplierThreshold)
-        {
-            Text.color = _baseColor;
-
-            _switchedColor = false;
+            UpdateText(TimerUpdater.Instance.TimeRemaining);
         }
 
-        int minutes = (int)(newTime / 60);
-        int seconds = (int)(newTime % 60);
-        int milliseconds = (int)(100 * (newTime % 1));
+        private void OnDisable()
+        {
+            if (TimerUpdater.Instance != null)
+                TimerUpdater.Instance.OnTimerUpdated -= UpdateText;
+        }
 
-        _minutesText.ReplaceTag(GetIntString(minutes));
-        _secondsText.ReplaceTag(GetIntString(seconds));
-        _millisecondsText.ReplaceTag(GetIntString(milliseconds));
-    }
+        private void UpdateText(float newTime)
+        {
+            if (newTime < TimerUpdater.Instance.ChaosSpeedMultiplierThreshold && !_switchedColor)
+            {
+                DOTween.To
+                (
+                    () => _baseColor,
+                    (Color newColor) => { Text.color = newColor; },
+                    _chaosColor,
+                    _chaosColorFadeDuration
+                );
 
-    private string GetIntString(int number)
-    {
-        return number < 10
-            ? "0" + number
-            : number.ToString();
+                _switchedColor = true;
+            }
+            else if (newTime > TimerUpdater.Instance.ChaosSpeedMultiplierThreshold)
+            {
+                Text.color = _baseColor;
+
+                _switchedColor = false;
+            }
+
+            int minutes = (int)(newTime / 60);
+            int seconds = (int)(newTime % 60);
+            int milliseconds = (int)(100 * (newTime % 1));
+
+            _minutesText.ReplaceTag(GetIntString(minutes));
+            _secondsText.ReplaceTag(GetIntString(seconds));
+            _millisecondsText.ReplaceTag(GetIntString(milliseconds));
+        }
+
+        private string GetIntString(int number)
+        {
+            return number < 10
+                ? "0" + number
+                : number.ToString();
+        }
     }
 }
