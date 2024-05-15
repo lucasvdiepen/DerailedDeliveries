@@ -18,7 +18,7 @@ namespace DerailedDeliveries.Framework.TriggerArea
                 _collider = GetComponent<BoxCollider>();
         }
 
-        private protected override Collider[] GetCollidingColliders()
-            => Physics.OverlapBox(GetColliderPosition(_collider.center), GetColliderSize(_collider.size));
+        private protected override Collider[] GetCollidingColliders() => 
+            Physics.OverlapBox(_collider.center + transform.position, GetColliderSize(_collider.size), transform.rotation);
     }
 }

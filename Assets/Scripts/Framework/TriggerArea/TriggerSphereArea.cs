@@ -20,6 +20,6 @@ namespace DerailedDeliveries.Framework.TriggerArea
         }
 
         private protected override Collider[] GetCollidingColliders() 
-            => Physics.OverlapSphere(GetColliderPosition(_collider.center), _collider.radius);
+            => Physics.OverlapSphere((transform.rotation * _collider.center) + transform.position, _collider.radius);
     }
 }
