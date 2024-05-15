@@ -35,9 +35,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// A function that returns all colliding colliders.
         /// </summary>
         /// <returns>An array of colliding <see cref="Collider"/>'s.</returns>
-        [Server]
         public Collider[] GetCollidingColliders() =>
-            Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size, transform.rotation);
+            Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size / 2, transform.rotation);
 
         /// <summary>
         /// Returns a boolean that reflects if this <see cref="Interactable"/> is available for interaction.

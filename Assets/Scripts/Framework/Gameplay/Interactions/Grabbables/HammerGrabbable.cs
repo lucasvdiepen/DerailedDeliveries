@@ -21,7 +21,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
         public override bool CheckIfUseable(Interactor interactor)
-            => IsInteractable && !IsOnCooldown && interactor.InteractingTarget == this;
+            => IsInteractable 
+            && !IsOnCooldown 
+            && interactor.InteractingTarget == this 
+            && GetRepairableInteractable(GetCollidingColliders()) != null;
 
         [Server]
         private protected override Interactable GetCollidingInteractable(Interactor interactor, bool isUse)
@@ -29,8 +32,32 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if(!isUse)
                 return base.GetCollidingInteractable(interactor, isUse);
 
-            Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
+            Collider[] colliders = GetCollidingColliders();
 
+            Interactable interactable = GetRepairableInteractable(colliders);
+
+            if(interactable != null)
+                return interactable;
+
+            foreach(Collider collider in colliders)
+            {
+                if(!collider.TryGetComponent(out interactable))
+                    continue;
+
+                if(!CheckCollidingType(interactable))
+                    continue;
+
+                if(!interactable.CheckIfInteractable(interactor))
+                    continue;
+
+                return interactable;
+            }
+
+            return null;
+        }
+
+        private Interactable GetRepairableInteractable(Collider[] colliders)
+        {
             foreach (Collider collider in colliders)
             {
                 if (!collider.TryGetComponent(out Interactable interactable))
@@ -40,21 +67,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                     continue;
 
                 IRepairable repairable = (IRepairable)interactable;
-                if(!repairable.CanBeRepaired())
-                    continue;
-
-                return interactable;
-            }
-
-            foreach(Collider collider in colliders)
-            {
-                if(!collider.TryGetComponent(out Interactable interactable))
-                    continue;
-
-                if(!CheckCollidingType(interactable))
-                    continue;
-
-                if(!interactable.CheckIfInteractable(interactor))
+                if (!repairable.CanBeRepaired())
                     continue;
 
                 return interactable;
