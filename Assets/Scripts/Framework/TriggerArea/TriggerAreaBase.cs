@@ -38,9 +38,6 @@ namespace DerailedDeliveries.Framework.TriggerArea
 
         private int _framesPassedSinceUpdate = 0;
 
-        private protected Vector3 GetColliderPosition(Vector3 colliderCenter) 
-            => (transform.rotation * colliderCenter) + transform.position;
-
         private protected Vector3 GetColliderSize(Vector3 colliderScale)
         {
             return new Vector3
