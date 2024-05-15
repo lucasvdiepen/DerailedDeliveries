@@ -12,7 +12,7 @@ using DerailedDeliveries.Framework.Train;
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
     /// <summary>
-    /// A class that is responsible for updating the timer text in the <see cref="GameState"/>.
+    /// A class that is responsible for updating the timer in the <see cref="GameState"/>.
     /// </summary>
     public class TimerUpdater : NetworkAbstractSingleton<TimerUpdater>
     {
@@ -66,6 +66,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             TrainStationController.Instance.OnParkStateChanged += OnStationArrival;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStopServer()
         {
             base.OnStopServer();
@@ -105,13 +108,18 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             if (_timer.Paused)
                 return;
 
+            UpdateTimer();
+        }
+
+        private void UpdateTimer()
+        {
             _timer.Update(Time.deltaTime);
             OnTimerUpdated?.Invoke(_timer.Remaining);
 
             if (_timer.Remaining <= 0)
                 OnTimerCompleted?.Invoke();
 
-            if(_timer.Remaining <= _chaosSpeedMultiplierThreshold)
+            if (_timer.Remaining <= _chaosSpeedMultiplierThreshold)
                 ApplyChaosMultiplier();
         }
 
