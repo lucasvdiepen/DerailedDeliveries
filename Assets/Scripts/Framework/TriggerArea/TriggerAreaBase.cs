@@ -107,9 +107,9 @@ namespace DerailedDeliveries.Framework.TriggerArea
                 if (newColliding[i] != null)
                     AddNewComponent(newColliding[i]);
 
-            int collidersCount = _colliders.Count;
+            int collidersLastIndex = _colliders.Count - 1;
 
-            for (int i = 0; i < collidersCount; i++)
+            for (int i = collidersLastIndex; i > 0; i--)
                 if (!newColliding.Contains(_colliders[i]))
                     RemoveOldComponent(_colliders[i]);
         }
