@@ -66,6 +66,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             TrainStationController.Instance.OnParkStateChanged += OnStationArrival;
         }
 
+        public override void OnStopServer()
+        {
+            base.OnStopServer();
+
+            _timer.StopTimer();
+
+            if (TrainStationController.Instance != null)
+                TrainStationController.Instance.OnParkStateChanged -= OnStationArrival;
+        }
+
         /// <summary>
         /// A function that updates the time when the train arrives at a station.
         /// </summary>
