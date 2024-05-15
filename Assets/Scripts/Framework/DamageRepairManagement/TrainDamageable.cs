@@ -31,8 +31,6 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             UpdateTimer();
         }
 
-
-
         [Server]
         private protected virtual void UpdateTimer()
         {
