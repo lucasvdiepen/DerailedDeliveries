@@ -37,7 +37,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// <returns>An array of colliding <see cref="Collider"/>'s.</returns>
         [Server]
         public Collider[] GetCollidingColliders() =>
-            Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
+            Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size, transform.rotation);
 
         /// <summary>
         /// Returns a boolean that reflects if this <see cref="Interactable"/> is available for interaction.
@@ -51,7 +51,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         /// </summary>
         /// <param name="interactor">The <see cref="Interactor"/> that is checking if this is useable.</param>
         /// <returns>The status that reflects if this is useable.</returns>
-        public virtual bool CheckIfUseable(Interactor interactor) => IsInteractable && !IsOnCooldown;
+        public virtual bool CheckIfUseable(Interactor interactor) => false;
 
         /// <summary>
         /// A function that calls a RPC to the server on this <see cref="Interactable"/>.
@@ -85,7 +85,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions
         [Server]
         private protected virtual bool Interact(Interactor interactor)
         {
-            if(!IsInteractable || IsOnCooldown)
+            if(!CheckIfInteractable(interactor))
                 return false;
 
             StartCoroutine(ActivateCooldown());

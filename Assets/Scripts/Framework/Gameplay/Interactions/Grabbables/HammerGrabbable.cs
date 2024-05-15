@@ -15,9 +15,20 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         private protected override bool CheckCollidingType(Interactable interactable)
             => interactable is IRepairable || interactable is ShelfInteractable;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfUseable(Interactor interactor)
+            => IsInteractable && !IsOnCooldown && interactor.InteractingTarget == this;
+
         [Server]
-        private protected override Interactable GetCollidingInteractable(Interactor interactor)
+        private protected override Interactable GetCollidingInteractable(Interactor interactor, bool isUse)
         {
+            if(!isUse)
+                return base.GetCollidingInteractable(interactor, isUse);
+
             Collider[] colliders = Physics.OverlapBox(BoxCollider.center + transform.position, BoxCollider.size);
 
             foreach (Collider collider in colliders)

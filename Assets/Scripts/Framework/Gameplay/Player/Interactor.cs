@@ -73,10 +73,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _inputParser.OnUse -= Use;
         }
 
-        private void Interact()
-        {
-            Interact(false);
-        }
+        private void Interact() => Interact(false);
+
+        private void Use() => Interact(true);
 
         private void Interact(bool isUse)
         {
@@ -125,11 +124,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
                 OnInteract?.Invoke(interactable);
                 break;
             }
-        }
-
-        private void Use()
-        {
-            Interact(true);
         }
 
         /// <summary>

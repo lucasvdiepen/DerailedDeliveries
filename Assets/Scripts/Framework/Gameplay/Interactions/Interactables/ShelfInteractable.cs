@@ -53,7 +53,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
         public override bool CheckIfUseable(Interactor interactor)
-            => base.CheckIfUseable(interactor) && interactor.InteractingTarget is HammerGrabbable && CanBeRepaired();
+            => IsInteractable && !IsOnCooldown && interactor.InteractingTarget is HammerGrabbable && CanBeRepaired();
 
         [Server]
         private protected override bool Interact(Interactor interactor)

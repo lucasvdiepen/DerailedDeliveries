@@ -46,12 +46,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
         public override bool CheckIfInteractable(Interactor interactor)
-            => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
+            => base.CheckIfInteractable(interactor) && (!IsBeingInteracted || interactor == _originInteractor);
 
         [Server]
         private protected override bool Interact(Interactor interactor)
         {
-            if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
+            if (!base.Interact(interactor))
                 return false;
 
             UseGrabbable(interactor);

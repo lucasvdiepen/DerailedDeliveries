@@ -19,7 +19,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 return;
             }
 
-            Interactable targetInteractable = GetCollidingInteractable(interactor);
+            Interactable targetInteractable = GetCollidingInteractable(interactor, false);
             if(targetInteractable != null && RunInteract(targetInteractable))
                 return;
 
@@ -38,7 +38,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if (!base.Use(interactor))
                 return false;
 
-            Interactable targetInteractable = GetCollidingInteractable(interactor);
+            Interactable targetInteractable = GetCollidingInteractable(interactor, true);
             if (targetInteractable != null && RunUse(targetInteractable))
                 return false;
 
@@ -46,7 +46,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         }
 
         [Server]
-        private protected virtual Interactable GetCollidingInteractable(Interactor interactor)
+        private protected virtual Interactable GetCollidingInteractable(Interactor interactor, bool isUse)
         {
             Collider[] colliders = GetCollidingColliders();
 
@@ -58,7 +58,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 if(!CheckCollidingType(interactable))
                     continue;
 
-                if(!interactable.CheckIfInteractable(interactor))
+                if(isUse && !interactable.CheckIfUseable(interactor))
+                    continue;
+
+                if(!isUse && !interactable.CheckIfInteractable(interactor))
                     continue;
 
                 return interactable;

@@ -32,12 +32,21 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
+        public override bool CheckIfInteractable(Interactor interactor)
+            => base.CheckIfInteractable(interactor) && interactor.InteractingTarget is CoalGrabbable;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
         public override bool CheckIfUseable(Interactor interactor)
         {
-            return base.CheckIfUseable(interactor)
+            return IsInteractable && !IsOnCooldown
                 && (interactor.InteractingTarget is HammerGrabbable && CanBeRepaired()
                     || interactor.InteractingTarget == null
-                    && TrainEngine.Instance.EngineState == TrainEngineState.Inactive);
+                    && TrainEngine.Instance.EngineState == TrainEngineState.Inactive
+                    && CoalOven.Instance.CoalAmount > 0.1);
         }
 
         [Server]

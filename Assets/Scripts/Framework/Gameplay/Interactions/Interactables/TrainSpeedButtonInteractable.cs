@@ -18,7 +18,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override bool CheckIfUseable(Interactor interactor) => base.CheckIfUseable(interactor) && interactor.InteractingTarget == null;
+        public override bool CheckIfUseable(Interactor interactor)
+            => IsInteractable && !IsOnCooldown && interactor.InteractingTarget == null;
 
         private protected override bool Use(Interactor interactor)
         {
