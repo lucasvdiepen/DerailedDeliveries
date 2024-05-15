@@ -9,7 +9,7 @@ namespace DerailedDeliveries.Framework.TriggerArea
     [RequireComponent(typeof(SphereCollider))]
     public class TriggerSphereArea<T> : TriggerAreaBase<T> where T : Component
     {
-        [Header("TriggerArea settings")]
+        [Header("TriggerArea collider")]
         [SerializeField]
         private SphereCollider _collider;
 

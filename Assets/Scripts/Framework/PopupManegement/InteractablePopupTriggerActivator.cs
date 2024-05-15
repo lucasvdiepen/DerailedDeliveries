@@ -9,7 +9,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
     /// </summary>
     public class InteractablePopupTriggerActivator : PopupTriggerActivator<Interactable>
     {
-        [Header("TriggerArea settings")]
+        [Header("TriggerArea collider")]
         [SerializeField]
         private SphereCollider _collider;
 

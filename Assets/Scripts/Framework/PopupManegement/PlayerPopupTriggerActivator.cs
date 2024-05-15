@@ -9,7 +9,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
     /// </summary>
     public class PlayerPopupTriggerActivator : PopupTriggerActivator<PlayerId>
     {
-        [Header("TriggerArea settings")]
+        [Header("TriggerArea collider")]
         [SerializeField]
         private BoxCollider _collider;
 

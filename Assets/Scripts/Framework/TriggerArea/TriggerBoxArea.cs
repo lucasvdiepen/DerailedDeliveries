@@ -8,7 +8,7 @@ namespace DerailedDeliveries.Framework.TriggerArea
     /// <typeparam name="T">The class to check for on collision.</typeparam>
     public class TriggerBoxArea<T> : TriggerAreaBase<T> where T : Component
     {
-        [Header("TriggerArea settings")]
+        [Header("TriggerArea collider")]
         [SerializeField]
         private BoxCollider _collider;
 
