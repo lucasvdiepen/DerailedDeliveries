@@ -46,14 +46,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
         private void OnEnable()
         {
             _playerInputParser.OnMove += OnMove;
-            _interactor.OnInteract += OnInteract;
+            _interactor.OnUse += OnUse;
             _interactor.OnInteractingTargetChanged += OnInteractingTargetChanged;
         }
 
         private void OnDisable()
         {
             _playerInputParser.OnMove -= OnMove;
-            _interactor.OnInteract -= OnInteract;
+            _interactor.OnUse -= OnUse;
             _interactor.OnInteractingTargetChanged -= OnInteractingTargetChanged;
         }
 
@@ -63,9 +63,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             _animator.SetBool(_isWalkingAnimationHash, moveDirection != Vector2.zero);
         }
 
-        private void OnInteract(Interactable interactable)
+        private void OnUse(Interactable interactable)
         {
-            if(interactable is Grabbable || interactable is CoalPileInteractable)
+            if(interactable is not TrainSpeedButtonInteractable && interactable is not TrainDirectionLeverInteractable && interactable is not CoalOvenInteractable)
                 return;
 
             _networkAnimator.SetTrigger(_interactAnimatioHash);

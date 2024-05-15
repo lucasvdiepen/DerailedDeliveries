@@ -27,9 +27,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         }
 
         [Server]
-        private protected override bool Interact(Interactor interactor)
+        private protected override bool Use(Interactor interactor)
         {
-            if(!base.Interact(interactor))
+            if(!base.Use(interactor))
                 return false;
 
             CoalOven.Instance.EnableOven();
