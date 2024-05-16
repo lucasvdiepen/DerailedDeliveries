@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 5142576653863284277}
   - component: {fileID: 2229436681252859813}
   - component: {fileID: 6338395050477402982}
+  - component: {fileID: 686971075804116784}
   m_Layer: 6
   m_Name: Train
   m_TagString: Untagged
@@ -685,7 +686,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 18
+  <PrefabId>k__BackingField: 22
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -729,6 +730,8 @@ MonoBehaviour:
   _followingWagons:
   - {fileID: 1727611534515989209}
   - {fileID: 3813624059706690898}
+  <BadRailSplitOrder>k__BackingField: 
+  _currentRailSplitID: 0
 --- !u!114 &5142576653863284277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,6 +790,22 @@ MonoBehaviour:
   _minTrainSpeedToPark: 0.35
   _minimumPoint: {fileID: 7978792327245781025}
   _maximumPoint: {fileID: 8157620527424892232}
+--- !u!114 &686971075804116784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7138987264163802401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba1e6b8ec366b64ea805145c5ee183a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 8057311849413527246}
+  _networkObjectCache: {fileID: 0}
+  _damageInterval: 15
 --- !u!1 &8751652286285840472
 GameObject:
   m_ObjectHideFlags: 0

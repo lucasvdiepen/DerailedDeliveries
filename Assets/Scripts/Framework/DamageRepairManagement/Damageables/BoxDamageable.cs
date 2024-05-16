@@ -17,22 +17,19 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 
         public bool IsInTrain => _amountInTrain > 0;
 
-        private TrainController _trainController;
-
-        private void Awake() => _trainController = TrainEngine.Instance.GetComponent<TrainController>();
-
         [Server]
         private protected override void TakeDamage()
         {
-            // Take double damage if train is on bad rail split.
-            if (_trainController.IsOnBadRailSplit && IsInTrain)
-                base.TakeDamage();
-            
             if(_amountInTrain == 0)
                 return;
-            
+
             base.TakeDamage();
         }
+
+        /// <summary>
+        /// Method to force this <see cref="BoxDamageable"/> to take damage externally.
+        /// </summary>
+        public void ForceTakeDamage() => TakeDamage();
 
         private void OnTriggerEnter(Collider other)
         {
