@@ -106,6 +106,7 @@ namespace DerailedDeliveries.Framework.Train
         private const float TWEAK_DIVIDE_FACTOR = 10;
         private float _distanceAlongSpline;
 
+        [SerializeField]
         private int _currentRailSplitID;
 
         private void Awake()
@@ -201,12 +202,6 @@ namespace DerailedDeliveries.Framework.Train
             if (_railSplit == null)
                 return;
 
-            _currentRailSplitID++;
-            int allSplitAmount = SplineManager.Instance.AllSplitAmount;
-            
-            if (_currentRailSplitID >= allSplitAmount)
-                _currentRailSplitID = 0;
-
             DistanceAlongSpline = 0.0f;
             SplineContainer nextContainer = _railSplit.PossibleTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
 
@@ -245,17 +240,11 @@ namespace DerailedDeliveries.Framework.Train
                 return;
             }
 
-            _currentRailSplitID--;
-            int allSplitAmount = SplineManager.Instance.AllSplitAmount;
-
-            if (_currentRailSplitID < 0)
-                _currentRailSplitID = allSplitAmount - 1;
-
             DistanceAlongSpline = 1.0f;
             int nextTrackID = SplineManager.Instance.GetIDByTrack(nextSplineContainer);
 
             // Switch current track to the new track.
-            SwitchCurrentTrack(nextTrackID);
+            SwitchCurrentTrack(nextTrackID, false);
         }
 
         /// <summary>
@@ -264,7 +253,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="trackID">ID of the track.</param>
         /// <param name="setDistanceAlongSpline">Whether the train should snap to optimal starting point.</param>
         [ObserversRpc(RunLocally = true)]
-        private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline = false)
+        private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline)
         {
             // Get correct spline by given ID.
             Spline = SplineManager.Instance.GetTrackByID(trackID);
@@ -275,6 +264,8 @@ namespace DerailedDeliveries.Framework.Train
 
             if (setDistanceAlongSpline)
                 DistanceAlongSpline = CurrentOptimalStartPoint;
+
+                UpdateCurrentRailSplitID(setDistanceAlongSpline);
 
             if (Spline.gameObject.TryGetComponent(out _railSplit))
             {
@@ -298,6 +289,26 @@ namespace DerailedDeliveries.Framework.Train
                 }
 
                 onRailSplitChange?.Invoke(IsOnBadRailSplit);
+            }
+        }
+
+        private void UpdateCurrentRailSplitID(bool increment)
+        {
+            int allSplitAmount = SplineManager.Instance.AllSplitAmount;
+
+            if (increment)
+            {
+                _currentRailSplitID++;
+
+                if (_currentRailSplitID >= allSplitAmount)
+                    _currentRailSplitID = 0;
+            }
+            else
+            {
+                _currentRailSplitID--;
+
+                if (_currentRailSplitID < 0)
+                    _currentRailSplitID = allSplitAmount - 1;
             }
         }
 
