@@ -46,7 +46,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
                 && (interactor.InteractingTarget is HammerGrabbable && CanBeRepaired()
                     || interactor.InteractingTarget == null
                     && TrainEngine.Instance.EngineState == TrainEngineState.Inactive
-                    && CoalOven.Instance.CoalAmount > 0.1);
+                    && CoalOven.Instance.CoalAmount > 0.1
+                    && _damageable.Health > 0);
         }
 
         [Server]
