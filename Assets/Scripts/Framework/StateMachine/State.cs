@@ -14,14 +14,9 @@ namespace DerailedDeliveries.Framework.StateMachine
         public bool IsActive { get; private set; }
 
         /// <summary>
-        /// Deactive the game object and registers the state.
+        /// Registers the state when it is created.
         /// </summary>
-        private protected virtual void Awake()
-        {
-            gameObject.SetActive(false);
-
-            RegisterState();
-        }
+        private protected virtual void Awake() => RegisterState();
 
         /// <summary>
         /// Unregisters the state.
