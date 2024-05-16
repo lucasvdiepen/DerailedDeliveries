@@ -106,7 +106,6 @@ namespace DerailedDeliveries.Framework.Train
         private const float TWEAK_DIVIDE_FACTOR = 10;
         private float _distanceAlongSpline;
 
-        [SerializeField]
         private int _currentRailSplitID;
 
         private void Awake()
@@ -114,7 +113,7 @@ namespace DerailedDeliveries.Framework.Train
             TrainEngine = GetComponent<TrainEngine>();
 
             DistanceAlongSpline = _trainFrontStartTime;
-            CurrentOptimalStartPoint = _trainFrontStartTime;
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
             if (Spline != null)
                 RecalculateSplineLength();
