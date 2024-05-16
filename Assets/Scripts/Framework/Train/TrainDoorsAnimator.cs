@@ -15,9 +15,17 @@ namespace DerailedDeliveries.Framework.Train
 
         private void Awake() => _doorAnimator = GetComponent<Animator>();
 
-        private void OnEnable() => TrainStationController.Instance.OnParkStateChanged += HandleParkStateChanged;
+        private void OnEnable()  
+        {
+            TrainStationController.Instance.OnParkStateChanged += HandleParkStateChanged;
+            HandleParkStateChanged(true);
+        }
 
-        private void OnDisable() => TrainStationController.Instance.OnParkStateChanged -= HandleParkStateChanged;
+        private void OnDisable()
+        {
+            if(TrainStationController.Instance != null) 
+                TrainStationController.Instance.OnParkStateChanged -= HandleParkStateChanged;
+        }
 
         private void Start()
         {

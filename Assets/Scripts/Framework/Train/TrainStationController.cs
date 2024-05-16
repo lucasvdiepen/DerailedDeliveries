@@ -44,7 +44,7 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         public Action<bool> OnParkStateChanged;
 
-        private bool _isParked;
+        private bool _isParked = true;
         private bool _canPark;
 
         private TrainController _trainController;
@@ -64,11 +64,6 @@ namespace DerailedDeliveries.Framework.Train
             if (InstanceFinder.TimeManager != null)
                 InstanceFinder.TimeManager.OnPostTick -= OnPostTick;
         }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void OnStartServer() => ParkTrain();
 
         private void OnPostTick()
         {
