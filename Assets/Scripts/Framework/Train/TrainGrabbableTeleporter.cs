@@ -40,6 +40,7 @@ namespace DerailedDeliveries.Framework.Train
             TeleportBack();
         }
 
+        [Server]
         private void TeleportBack()
         {
             if(_grabbable.OriginInteractor != null)
