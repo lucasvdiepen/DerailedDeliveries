@@ -25,7 +25,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
             if (!IsOwner)
                 return;
 
-            _teleportTarget = PlayerManager.Instance.SpawnPoint;
+            _teleportTarget = PlayerManager.Instance.RespawnPoint;
             TimeManager.OnPostTick += OnPostTick;
         }
 

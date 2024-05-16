@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using DerailedDeliveries.Framework.PlayerManagement;
 using DerailedDeliveries.Framework.TriggerArea;
 
 namespace DerailedDeliveries.Framework.PopupManagement
@@ -8,7 +7,7 @@ namespace DerailedDeliveries.Framework.PopupManagement
     /// <summary>
     /// A class that is responsible for showing and hiding a popup when the player is in range.
     /// </summary>
-    public class PopupTriggerActivator<T> : TriggerArea<T> where T : Component
+    public abstract class PopupTriggerActivator<T> : TriggerAreaBase<T> where T : Component
     {
         [SerializeField]
         private Popup[] _popups;
