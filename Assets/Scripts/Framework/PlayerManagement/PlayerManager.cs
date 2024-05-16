@@ -1,10 +1,11 @@
-using FishNet.Connection;
-using FishNet.Object;
 using System;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
+using UnityEngine.InputSystem;
+using FishNet.Connection;
+using FishNet.Object;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 using DerailedDeliveries.Framework.Utils;
 
@@ -16,19 +17,22 @@ namespace DerailedDeliveries.Framework.PlayerManagement
     public class PlayerManager : NetworkAbstractSingleton<PlayerManager>
     {
         [SerializeField]
-        private Transform _spawnPoint;
+        private Transform _respawnPoint;
+
+        [SerializeField]
+        private Transform[] _spawnpoints;
 
         [SerializeField]
         private PlayerInputManager _playerInputManager;
 
         [SerializeField]
-        private GameObject _playerPrefab;
+        private List<GameObject> _playerPrefabs;
 
-        [SerializeField]
-        private int _maxPlayers = 6;
-
-        [SerializeField]
-        private List<Color> _playerColors;
+        /// <summary>
+        /// The maximum amount of players allowed in the game.
+        /// </summary>
+        [field: SerializeField]
+        public int MaxPlayers { get; private set; } = 6;
 
         /// <summary>
         /// Invoked when a player joins the game. The PlayerId script is passed as an argument.
@@ -41,14 +45,29 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public Action OnPlayerLeft;
 
         /// <summary>
+        /// Invoked when the players in the game are updated.
+        /// </summary>
+        public Action OnPlayersUpdated;
+
+        /// <summary>
+        /// Gets the current players in the game.
+        /// </summary>
+        public PlayerId[] CurrentPlayers => _players.ToArray();
+
+        /// <summary>
         /// The amount of players currently in the game.
         /// </summary>
         public int PlayerCount => _players.Count;
 
         /// <summary>
+        /// The spawn point for new players.
+        /// </summary>
+        public Transform RespawnPoint => _respawnPoint;
+
+        /// <summary>
         /// Whether spawning new players is enabled.
         /// </summary>
-        public bool IsSpawnEnabled
+        public bool IsSpawningEnabled
         {
             get
             {
@@ -58,7 +77,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             {
                 _isSpawnEnabled = value;
 
-                if(value)
+                if (value)
                     _playerInputManager.EnableJoining();
                 else
                     _playerInputManager.DisableJoining();
@@ -67,8 +86,19 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
         private readonly List<PlayerId> _players = new();
         private readonly List<PlayerSpawnRequester> _playerSpawners = new();
+        
+        private List<Transform> _availableSpawnpoints;
+        private List<GameObject> _availablePlayerPrefabs;
+
         private bool _isSpawnEnabled;
+        
         private int _playerIdCount;
+
+        private void Awake()
+        {
+            _availableSpawnpoints = new List<Transform>(_spawnpoints);
+            _availablePlayerPrefabs = new List<GameObject>(_playerPrefabs);
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -77,17 +107,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         {
             base.OnStartClient();
 
-            _playerInputManager.EnableJoining();
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void OnStopClient()
-        {
-            base.OnStopClient();
-
-            _playerInputManager.DisableJoining();
+            IsSpawningEnabled = true;
         }
 
         /// <summary>
@@ -99,7 +119,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             _players.Add(playerId);
 
             // Check if the new player created by the server is for us. If true, copy the control scheme.
-            if(playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
+            if (playerId.Owner.IsLocalClient && _playerSpawners.Count > 0)
             {
                 PlayerSpawnRequester playerSpawner = _playerSpawners[0];
 
@@ -116,6 +136,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             }
 
             OnPlayerJoined?.Invoke(playerId);
+            OnPlayersUpdated?.Invoke();
         }
 
         /// <summary>
@@ -124,17 +145,21 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <param name="playerId">The PlayerId that left the game.</param>
         public void PlayerLeft(PlayerId playerId)
         {
-            if(!_players.Contains(playerId))
+            if (!_players.Contains(playerId))
                 return;
 
-            if(IsServer)
+            if (IsServer)
             {
-                Color playerColor = playerId.GetComponent<PlayerColor>().Color;
-                _playerColors.Add(playerColor);
+                Transform playerSpawnpoint = playerId.GetComponent<PlayerSpawnpoint>().Spawnpoint;
+                _availableSpawnpoints.Add(playerSpawnpoint);
+                
+                PlayerModel playerModel = playerId.GetComponent<PlayerModel>();
+                _availablePlayerPrefabs.Add(_playerPrefabs[playerModel.ModelIndex]);
             }
 
             _players.Remove(playerId);
             OnPlayerLeft?.Invoke();
+            OnPlayersUpdated?.Invoke();
         }
 
         /// <summary>
@@ -155,10 +180,10 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         /// <param name="playerSpawner">The player spawner which is trying to spawn a player.</param>
         public void SpawnPlayer(NetworkConnection clientConnection, PlayerSpawnRequester playerSpawner)
         {
-            if(_playerSpawners.Contains(playerSpawner))
+            if (_playerSpawners.Contains(playerSpawner))
                 return;
 
-            if(_players.Count >= _maxPlayers)
+            if (_players.Count >= MaxPlayers)
             {
                 Destroy(playerSpawner.gameObject);
                 return;
@@ -172,23 +197,31 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [ServerRpc(RequireOwnership = false)]
         private void SpawnPlayerOnServer(NetworkConnection clientConnection)
         {
-            if(_players.Count >= _maxPlayers)
+            if (!IsSpawningEnabled || _players.Count >= MaxPlayers)
             {
                 ClearSpawningPlayers(clientConnection);
                 return;
             }
 
-            GameObject spawnedPlayer = Instantiate(_playerPrefab, _spawnPoint.position, Quaternion.identity);
+            int randomSpawnIndex = Random.Range(0, _availableSpawnpoints.Count);
+            Transform randomSpawnpoint = _availableSpawnpoints[randomSpawnIndex];
+
+            GameObject playerPrefab = GetAndRemoveRandomPlayerPrefab();
+
+            GameObject spawnedPlayer = Instantiate(playerPrefab, randomSpawnpoint.position, Quaternion.identity);
+            
             NetworkObject networkObject = spawnedPlayer.GetComponent<NetworkObject>();
 
             ServerManager.Spawn(spawnedPlayer, clientConnection);
             SceneManager.AddOwnerToDefaultScene(networkObject);
 
             spawnedPlayer.GetComponent<PlayerId>().SetId(_playerIdCount);
+            spawnedPlayer.GetComponent<PlayerModel>().ModelIndex = _playerPrefabs.IndexOf(playerPrefab);
 
-            Color newColor = _playerColors[UnityEngine.Random.Range(0, _playerColors.Count)];
-            spawnedPlayer.GetComponent<PlayerColor>().SetColor(newColor);
-            _playerColors.Remove(newColor);
+            PlayerSpawnpoint playerSpawnpoint = spawnedPlayer.GetComponent<PlayerSpawnpoint>();
+            playerSpawnpoint.Spawnpoint = randomSpawnpoint;
+
+            _availableSpawnpoints.RemoveAt(randomSpawnIndex);
 
             _playerIdCount++;
         }
@@ -196,7 +229,7 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         [TargetRpc]
         private void ClearSpawningPlayers(NetworkConnection clientConnection)
         {
-            for(int i = _playerSpawners.Count - 1; i >= 0; i--)
+            for (int i = _playerSpawners.Count - 1; i >= 0; i--)
             {
                 Destroy(_playerSpawners[i].gameObject);
                 _playerSpawners.RemoveAt(i);
@@ -210,9 +243,17 @@ namespace DerailedDeliveries.Framework.PlayerManagement
         public void DespawnPlayer(NetworkObject networkObject) => DespawnPlayerOnServer(networkObject);
 
         [ServerRpc(RequireOwnership = false)]
-        private void DespawnPlayerOnServer(NetworkObject networkObject)
+        private void DespawnPlayerOnServer(NetworkObject networkObject) => ServerManager.Despawn(networkObject);
+
+        [Server]
+        private GameObject GetAndRemoveRandomPlayerPrefab()
         {
-            ServerManager.Despawn(networkObject);
+            int randomIndex = Random.Range(0, _availablePlayerPrefabs.Count);
+            GameObject randomPlayerPrefab = _availablePlayerPrefabs[randomIndex];
+
+            _availablePlayerPrefabs.RemoveAt(randomIndex);
+
+            return randomPlayerPrefab;
         }
     }
 }

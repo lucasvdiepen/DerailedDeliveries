@@ -10,7 +10,7 @@
                     "type": "PassThrough",
                     "id": "7e062abf-c5b7-4bfe-be8c-344157187a66",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": "",
                     "initialStateCheck": false
                 },
@@ -18,6 +18,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "0a6152b9-900e-46d3-abb2-d2fb09418605",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Leave",
+                    "type": "Button",
+                    "id": "89b7d6e6-87ec-4a88-a9c1-d17af94911d6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -123,6 +132,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fbbe5383-cf71-44e1-8723-a8f57815656c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Leave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2737cd7f-7748-4428-b2d9-aa20d2fbde69",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Leave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
