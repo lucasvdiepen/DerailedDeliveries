@@ -8,9 +8,17 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
     /// </summary>
     public class TrainDirectionLeverInteractable : Interactable
     {
-        private protected override bool Interact(Interactor interactor)
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfUseable(Interactor interactor)
+            => IsInteractable && !IsOnCooldown && interactor.InteractingTarget == null;
+
+        private protected override bool Use(Interactor interactor)
         {
-            if(!base.Interact(interactor))
+            if(!base.Use(interactor))
                 return false;
 
             TrainEngine.Instance.ToggleTrainDirection();
