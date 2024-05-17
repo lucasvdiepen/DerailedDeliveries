@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1203635209601451498}
   - component: {fileID: 5874332289348043185}
   - component: {fileID: 5073760608637361814}
+  - component: {fileID: 5090425799546255344}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Untagged
@@ -66,7 +67,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 14
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -173,6 +174,25 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &5090425799546255344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3406699706478946813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3df08f6412bba499115e12fd8b97de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7902929511321928141}
+  _networkObjectCache: {fileID: 0}
+  _trainLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _originTransform: {fileID: 0}
 --- !u!1001 &2443056450311163468
 PrefabInstance:
   m_ObjectHideFlags: 0
