@@ -17,6 +17,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
     /// </summary>
     public class TimerUpdater : NetworkAbstractSingleton<TimerUpdater>
     {
+        public float newTime;
+
+        [ContextMenu("Set Timer Time")]
+        private void SetTimerTime() => _timer.StartTimer(newTime);
+
         [SerializeField]
         private float _baseTime = 240f;
 

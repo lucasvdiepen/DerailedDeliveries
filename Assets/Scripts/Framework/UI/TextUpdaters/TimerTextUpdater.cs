@@ -28,9 +28,10 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
         private Color _baseColor;
 
         [SerializeField]
-        private float _chaosColorFadeDuration = 1f;
+        private float _colorFadeDuration = 1f;
 
-        private bool _switchedColor;
+        private bool _isChaosColor;
+        private bool _isSwitchingColor;
 
         private void OnEnable()
         {
@@ -47,23 +48,17 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
 
         private void UpdateText(float newTime)
         {
-            if (newTime < TimerUpdater.Instance.ChaosSpeedMultiplierThreshold && !_switchedColor)
+            if (newTime < TimerUpdater.Instance.ChaosSpeedMultiplierThreshold && !_isChaosColor)
             {
-                DOTween.To
-                (
-                    () => _baseColor,
-                    (Color newColor) => { Text.color = newColor; },
-                    _chaosColor,
-                    _chaosColorFadeDuration
-                );
+                SwitchColor(Text.color, _chaosColor);
 
-                _switchedColor = true;
+                _isChaosColor = true;
             }
-            else if (newTime > TimerUpdater.Instance.ChaosSpeedMultiplierThreshold)
+            else if (newTime > TimerUpdater.Instance.ChaosSpeedMultiplierThreshold && _isChaosColor)
             {
-                Text.color = _baseColor;
+                SwitchColor(Text.color, _baseColor);
 
-                _switchedColor = false;
+                _isChaosColor = false;
             }
 
             int minutes = (int)(newTime / 60);
@@ -73,6 +68,28 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
             _minutesText.ReplaceTag(GetIntString(minutes));
             _secondsText.ReplaceTag(GetIntString(seconds));
             _millisecondsText.ReplaceTag(GetIntString(milliseconds));
+        }
+
+        private void SwitchColor(Color baseColor, Color newColor)
+        {
+            if (_isSwitchingColor)
+                return;
+
+            _isSwitchingColor = true;
+
+            DOTween.To
+                (
+                    () => baseColor,
+                    (Color tweenColor) => 
+                    { 
+                        Text.color = tweenColor;
+                        _secondsText.Text.color = tweenColor;
+                        _minutesText.Text.color = tweenColor;
+                        _millisecondsText.Text.color = tweenColor;
+                    },
+                    newColor,
+                    _colorFadeDuration
+                ).OnComplete(() => { _isSwitchingColor = false; });
         }
 
         private string GetIntString(int number)
