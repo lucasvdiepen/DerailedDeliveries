@@ -5,6 +5,7 @@ using DerailedDeliveries.Framework.CoalOvenSystem;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.DamageRepairManagement;
+using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -26,10 +27,33 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             _damageable = GetComponent<TrainDamageable>();
         }
 
-        [Server]
-        private protected override bool Interact(Interactor interactor)
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfInteractable(Interactor interactor)
+            => base.CheckIfInteractable(interactor) && interactor.InteractingTarget is CoalGrabbable;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfUseable(Interactor interactor)
         {
-            if(!base.Interact(interactor))
+            return IsInteractable && !IsOnCooldown
+                && (interactor.InteractingTarget is HammerGrabbable && CanBeRepaired()
+                    || interactor.InteractingTarget == null
+                    && TrainEngine.Instance.EngineState == TrainEngineState.Inactive
+                    && CoalOven.Instance.CoalAmount > 0.1
+                    && _damageable.Health > 0);
+        }
+
+        [Server]
+        private protected override bool Use(Interactor interactor)
+        {
+            if(!base.Use(interactor))
                 return false;
 
             CoalOven.Instance.EnableOven();
