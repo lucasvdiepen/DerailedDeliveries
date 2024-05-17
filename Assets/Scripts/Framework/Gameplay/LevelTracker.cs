@@ -52,6 +52,21 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// </summary>
         public int CurrentScore { get; private set; }
 
+        /// <summary>
+        /// The score for correct deliveries.
+        /// </summary>
+        public int CorrectScore { get; private set; }
+
+        /// <summary>
+        /// The score for incorrect deliveries.
+        /// </summary>
+        public int IncorrectScore { get; private set; }
+
+        /// <summary>
+        /// The score percentage.
+        /// </summary>
+        public float ScorePercentage => (float)CurrentScore / MaxScore * 100;
+
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
         /// <summary>
@@ -72,6 +87,8 @@ namespace DerailedDeliveries.Framework.Gameplay
         private void SelectLevelToLoad(int index)
         {
             CurrentScore = 0;
+            CorrectScore = 0;
+            IncorrectScore = 0;
 
             StationLevelData[] levelData = _levels.levels[index].StationLevelData;
             List<string> labels = GenerateLabelsForStations(levelData);
@@ -187,20 +204,31 @@ namespace DerailedDeliveries.Framework.Gameplay
         public void HandlePackageDelivery(PackageData package, int stationID)
         {
             int newScore = CurrentScore;
+            int newCorrectScore = CorrectScore;
+            int newIncorrectScore = IncorrectScore;
 
             if (package.PackageID == stationID)
-                newScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+            {
+                int scoreToAdd = _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+                newScore += scoreToAdd;
+                newCorrectScore += scoreToAdd;
+            }
             else
+            {
                 newScore -= _incorrectDeliveryPenalty;
+                newIncorrectScore -= _incorrectDeliveryPenalty;
+            }
 
-            HandleScoreUpdate(newScore, package.PackageID);
+            HandleScoreUpdate(newScore, newCorrectScore, newIncorrectScore, package.PackageID);
             ServerManager.Despawn(package.gameObject);
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void HandleScoreUpdate(int newScore, int packageID)
+        private void HandleScoreUpdate(int newScore, int newCorrectScore, int newIncorrectScore, int packageID)
         {
             CurrentScore = newScore;
+            CorrectScore = newCorrectScore;
+            IncorrectScore = newIncorrectScore;
 
             OnPackageDelivered?.Invoke(packageID);
             OnScoreChanged?.Invoke(CurrentScore);
