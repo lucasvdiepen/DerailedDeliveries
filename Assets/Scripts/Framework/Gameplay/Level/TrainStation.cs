@@ -1,6 +1,7 @@
 using FishNet.Object;
 using UnityEngine;
-using TMPro;
+
+using DerailedDeliveries.Framework.UI.TextUpdaters;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
@@ -10,7 +11,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
     public class TrainStation : NetworkBehaviour
     {
         [SerializeField]
-        private TextMeshProUGUI _stationText;
+        private TextUpdater _stationText;
 
         [SerializeField]
         private Transform[] _spawnTransforms;
@@ -42,7 +43,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
             StationID = id;
 
             if (_stationText != null)
-                _stationText.text = "Station " + StationLabel;
+                _stationText.ReplaceTag(StationLabel);
         }
     }
 }
