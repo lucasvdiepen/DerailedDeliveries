@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8072352160945962249}
-  - component: {fileID: 6344498240306664020}
   - component: {fileID: 3845281651878002397}
+  - component: {fileID: 6344498240306664020}
   m_Layer: 0
   m_Name: TimerUpdater
   m_TagString: Untagged
@@ -33,26 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6344498240306664020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965151148267681933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79ddc825216287428bc150693b442c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 3845281651878002397}
-  _networkObjectCache: {fileID: 3845281651878002397}
-  _baseTime: 600
-  _stationArrivalTimeBonus: 180
-  _chaosSpeedMultiplierThreshold: 60
-  _chaosSpeedMultiplier: 1.5
-  _arrivedStations: 
 --- !u!114 &3845281651878002397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +63,26 @@ MonoBehaviour:
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 25
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 3308168281
+  _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 17796675695506584416
+--- !u!114 &6344498240306664020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965151148267681933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79ddc825216287428bc150693b442c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 3845281651878002397}
+  _networkObjectCache: {fileID: 3845281651878002397}
+  _baseTime: 600
+  _stationArrivalTimeBonus: 180
+  _chaosSpeedMultiplierThreshold: 60
+  _chaosSpeedMultiplier: 1.5
+  _arrivedStations: 
