@@ -17,7 +17,13 @@ namespace DerailedDeliveries.Framework.UI.DoorStateUpdater
 
         private void OnEnable() => TrainStationController.Instance.OnParkStateChanged += HandleParkStateChanged;
 
-        private void OnDisable() => TrainStationController.Instance.OnParkStateChanged -= HandleParkStateChanged;
+        private void OnDisable()
+        {
+            if(TrainStationController.Instance != null)
+                TrainStationController.Instance.OnParkStateChanged -= HandleParkStateChanged;
+        }
+
+        private void Start() => HandleParkStateChanged(true);
 
         private void HandleParkStateChanged(bool newParkState) 
             => _doorStateLabel.SetText($"Door state: {(newParkState ? "OPENED" : "CLOSED")}");
