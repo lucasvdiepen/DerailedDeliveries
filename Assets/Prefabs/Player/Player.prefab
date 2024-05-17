@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &5280102052399864776
 MonoBehaviour:
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 10
+  _componentIndexCache: 9
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &1304047607357596629
@@ -398,7 +398,6 @@ MonoBehaviour:
   - {fileID: 1002849335369828256}
   - {fileID: 4598101147158428293}
   - {fileID: -581960332264621981}
-  - {fileID: 3074924858106231759}
   - {fileID: 6382568447217689505}
   - {fileID: 5199128844538758883}
   - {fileID: 6210968850907486939}
@@ -498,13 +497,12 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2499233359108512077}
   _components:
   - {fileID: -1424917087407433126}
-  - {fileID: 3074924858106231759}
-  - {fileID: 4598101147158428293}
   - {fileID: 7486978254264253109}
   - {fileID: 6382253627042203312}
   - {fileID: 6210968850907486939}
   - {fileID: 945120239230563089}
   - {fileID: 350454645476312809}
+  - {fileID: 3074924858106231759}
   - {fileID: 4434121101895074578}
   - {fileID: 6382568447217689505}
   - {fileID: 5199128844538758883}
@@ -591,16 +589,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d15a4de9ffc144db3f9fbc784b0cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 5
-  _addedNetworkObject: {fileID: 2499233359108512077}
-  _networkObjectCache: {fileID: 2499233359108512077}
   _framesUntillUpdate: 25
+  _popups:
+  - {fileID: 4434121101895074578}
   _collider: {fileID: 8561659200602252906}
-  popup: {fileID: 4434121101895074578}
-  _popupImage: {fileID: 6171554726073240939}
-  _popupInteractSprite: {fileID: 21300000, guid: 5fdbcd28886d27e46a95601e24110aff,
-    type: 3}
-  _popupUseSprite: {fileID: 21300000, guid: bf36a1617ca93534aa8476b4c0a0c2be, type: 3}
 --- !u!114 &6382568447217689505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,7 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd6f7388b8c84ed47a228c71cac735cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _sphereCollider: {fileID: 2159347121489652977}
@@ -647,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5bbfda0f10cf744fa8eb88cd05b9cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 7
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   _maxDistance: 50
@@ -708,7 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b838fcd2b9c1f047aeefcd194192aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 8
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!114 &6382253627042203312
@@ -723,7 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281da779de072c042a067f6c0e6301bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 9
+  _componentIndexCache: 8
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
 --- !u!1 &5492449899307018159
@@ -1101,7 +1093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 11
+  _componentIndexCache: 10
   _addedNetworkObject: {fileID: 2499233359108512077}
   _networkObjectCache: {fileID: 2499233359108512077}
   IgnoredParameters: []

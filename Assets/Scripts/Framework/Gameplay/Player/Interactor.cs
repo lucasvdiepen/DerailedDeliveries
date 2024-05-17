@@ -12,7 +12,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Player
     /// <summary>
     /// A class that is responsible for handling with in range Interactables for the player.
     /// </summary>
-    [RequireComponent(typeof(PlayerInputParser), typeof(SphereCollider))]
+    [RequireComponent(typeof(SphereCollider))]
     public class Interactor : NetworkBehaviour
     {
         /// <summary>

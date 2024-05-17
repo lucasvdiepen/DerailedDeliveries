@@ -64,15 +64,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         {
             if (!IsBeingInteracted)
             {
+                UpdateInteractionStatus(interactor, true);
+                interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
+
                 NetworkObject.SetParent(interactor.GrabbingAnchor);
                 transform.localPosition = Vector3.zero;
 
-                UpdateInteractionStatus(interactor, true);
-                interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
                 return;
             }
 
-            NetworkObject.UnsetParent();
             UpdateInteractionStatus(null, false);
 
             interactor.UpdateInteractingTarget(interactor.Owner, null, IsBeingInteracted);
