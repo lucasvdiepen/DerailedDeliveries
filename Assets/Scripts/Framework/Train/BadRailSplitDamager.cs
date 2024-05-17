@@ -1,8 +1,7 @@
 using FishNet.Object;
-using System.Linq;
 using UnityEngine;
 
-using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
+using DerailedDeliveries.Framework.DamageRepairManagement;
 
 namespace DerailedDeliveries.Framework.Train
 {
@@ -18,7 +17,7 @@ namespace DerailedDeliveries.Framework.Train
 
         private TrainController _trainController;
        
-        private BoxDamageable[] boxDamageablesInTrain;
+        private TrainDamageable[] _trainDamageables;
 
         private bool _isTrainMoving;
 
@@ -60,12 +59,11 @@ namespace DerailedDeliveries.Framework.Train
         {
             if (!isBadSplit)
             {
-                boxDamageablesInTrain = null;
+                _trainDamageables = null;
                 return;
             }
 
-            boxDamageablesInTrain = FindObjectsOfType<BoxDamageable>()
-                .Where(boxDamageable => boxDamageable.IsInTrain).ToArray();
+            _trainDamageables = FindObjectsOfType<TrainDamageable>();
         }
 
         private void Update()
@@ -89,8 +87,8 @@ namespace DerailedDeliveries.Framework.Train
 
             p_damageIntervalElapsed = 0;
 
-            for (int i = 0; i < boxDamageablesInTrain.Length; i++)
-                boxDamageablesInTrain[i].ForceTakeDamage();
+            for (int i = 0; i < _trainDamageables.Length; i++)
+                _trainDamageables[i].TakeDamage();
         }
     }
 }

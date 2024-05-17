@@ -672,6 +672,7 @@ MonoBehaviour:
   - {fileID: 5142576653863284277}
   - {fileID: 2229436681252859813}
   - {fileID: 6338395050477402982}
+  - {fileID: 686971075804116784}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 2856174469343471813}
@@ -731,7 +732,6 @@ MonoBehaviour:
   - {fileID: 1727611534515989209}
   - {fileID: 3813624059706690898}
   <BadRailSplitOrder>k__BackingField: 
-  _currentRailSplitID: 0
 --- !u!114 &5142576653863284277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -802,10 +802,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba1e6b8ec366b64ea805145c5ee183a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 8057311849413527246}
-  _networkObjectCache: {fileID: 0}
-  _damageInterval: 15
+  _networkObjectCache: {fileID: 8057311849413527246}
+  _damageInterval: 20
 --- !u!1 &8751652286285840472
 GameObject:
   m_ObjectHideFlags: 0
@@ -2513,6 +2513,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7902929511321928141, guid: 2d09231454f4e774fbb91aa6cd1ef916,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902929511321928141, guid: 2d09231454f4e774fbb91aa6cd1ef916,
+        type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 7
       objectReference: {fileID: 0}
@@ -3412,6 +3417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279804749332139994, guid: bafd756271df25c4683e9b4c1719ebc8,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6279804749332139994, guid: bafd756271df25c4683e9b4c1719ebc8,
         type: 3}

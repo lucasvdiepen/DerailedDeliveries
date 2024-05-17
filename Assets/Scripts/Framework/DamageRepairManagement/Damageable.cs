@@ -50,7 +50,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         public virtual void Repair() => ChangeHealth(MaxHealth);
 
         [Server]
-        private protected virtual void TakeDamage()
+        public virtual void TakeDamage()
         {
             if(!CanTakeDamage)
                 return;

@@ -16,18 +16,13 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
         public bool IsInTrain => _amountInTrain > 0;
 
         [Server]
-        private protected override void TakeDamage()
+        public override void TakeDamage()
         {
             if(_amountInTrain == 0)
                 return;
 
             base.TakeDamage();
         }
-
-        /// <summary>
-        /// Method to force this <see cref="BoxDamageable"/> to take damage externally.
-        /// </summary>
-        public void ForceTakeDamage() => TakeDamage();
 
         private void OnTriggerEnter(Collider other)
         {
