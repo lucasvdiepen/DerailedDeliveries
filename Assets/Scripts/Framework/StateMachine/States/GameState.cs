@@ -1,6 +1,7 @@
+using FishNet;
 using FishNet.Transporting;
 using System.Collections;
-using FishNet;
+using UnityEngine.SceneManagement;
 
 using DerailedDeliveries.Framework.Gameplay.Timer;
 
@@ -14,43 +15,29 @@ namespace DerailedDeliveries.Framework.StateMachine.States
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <returns><inheritdoc/></returns>
         public override IEnumerator OnStateEnter()
         {
-            if (TimerUpdater.Instance.IsServer)
-                TimerUpdater.Instance.OnTimerCompleted += StopConnection;
-            else
-                InstanceFinder.ClientManager.OnClientConnectionState += ReturnToMenuState;
+            yield return base.OnStateEnter();
 
-            return base.OnStateEnter();
+            InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnnectionStateChanged;
         }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <returns><inheritdoc/></returns>
         public override IEnumerator OnStateExit()
         {
-            if (TimerUpdater.Instance.IsServer)
-                TimerUpdater.Instance.OnTimerCompleted -= StopConnection;
-            else
-                InstanceFinder.ClientManager.OnClientConnectionState -= ReturnToMenuState;
+            InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnnectionStateChanged;
 
-            return base.OnStateExit();
+            yield return base.OnStateExit();
         }
 
-        private void StopConnection()
+        private void OnClientConnnectionStateChanged(ClientConnectionStateArgs args)
         {
-            InstanceFinder.ServerManager.StopConnection(true);
+            if(args.ConnectionState != LocalConnectionState.Stopped)
+                return;
 
-            StateMachine.Instance.GoToState<MainMenuState>();
-        }
-
-        private void ReturnToMenuState(ClientConnectionStateArgs conn)
-        {
-            if(conn.ConnectionState == LocalConnectionState.Stopped 
-               || conn.ConnectionState == LocalConnectionState.Stopping)
-                StateMachine.Instance.GoToState<MainMenuState>();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

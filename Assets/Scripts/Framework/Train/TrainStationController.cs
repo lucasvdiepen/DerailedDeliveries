@@ -35,7 +35,7 @@ namespace DerailedDeliveries.Framework.Train
             set
             {
                 _isParked = value;
-                OnParkStateChanged?.Invoke(this);
+                OnParkStateChanged?.Invoke(value);
             }
         }
 

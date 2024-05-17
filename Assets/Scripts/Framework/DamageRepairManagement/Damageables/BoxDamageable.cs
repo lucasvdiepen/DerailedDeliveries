@@ -1,6 +1,9 @@
 using FishNet.Object;
 using UnityEngine;
 
+using DerailedDeliveries.Framework.ParentingSystem;
+using DerailedDeliveries.Framework.Utils.ObjectParenting;
+
 namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
 {
     /// <summary>
@@ -11,12 +14,15 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
         [SerializeField]
         private LayerMask _trainLayer;
 
-        private int _amountInTrain;
+        /// <summary>
+        /// Gets whether the box is inside the train.
+        /// </summary>
+        public bool IsInsideTrain { get; private set; }
 
         [Server]
         private protected override void UpdateTimer()
         {
-            if(_amountInTrain == 0)
+            if(!IsInsideTrain)
                 return;
 
             base.UpdateTimer();
@@ -25,26 +31,24 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
         [Server]
         private protected override void TakeDamage()
         {
-            if(_amountInTrain == 0)
+            if(!IsInsideTrain)
                 return;
 
             base.TakeDamage();
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTransformParentChanged()
         {
-            if((_trainLayer.value & 1 << other.gameObject.layer) == 0)
-                return;
+            if(ObjectParentUtils.TryGetObjectParent(gameObject, out ObjectParent objectParent))
+            {
+                if((_trainLayer.value & 1 << objectParent.gameObject.layer) != 0)
+                {
+                    IsInsideTrain = true;
+                    return;
+                }
+            }
 
-            _amountInTrain++;
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if((_trainLayer.value & 1 << other.gameObject.layer) == 0)
-                return;
-
-            _amountInTrain--;
+            IsInsideTrain = false;
         }
     }
 }
