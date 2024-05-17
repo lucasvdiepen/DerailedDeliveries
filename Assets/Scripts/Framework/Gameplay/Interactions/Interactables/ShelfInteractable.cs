@@ -4,7 +4,6 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
-using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.DamageRepairManagement;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
@@ -47,6 +46,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             return base.CheckIfInteractable(interactor) 
                 && (_heldGrabbable == null ^ interactor.InteractingTarget == null);
         }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="interactor"><inheritdoc/></param>
+        /// <returns><inheritdoc/></returns>
+        public override bool CheckIfUseable(Interactor interactor)
+            => IsInteractable && !IsOnCooldown && interactor.InteractingTarget is HammerGrabbable && CanBeRepaired();
 
         [Server]
         private protected override bool Interact(Interactor interactor)
