@@ -76,7 +76,7 @@ namespace DerailedDeliveries.Framework.Train
 
         private void OnPostTick()
         {
-            if (!IsServer || TrainEngine.Instance.EngineState == TrainEngineState.Inactive)
+            if (!IsServer)
                 return;
 
             CanPark = ParkCheck();
