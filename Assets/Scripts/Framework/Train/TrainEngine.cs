@@ -142,7 +142,10 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
         public void SetEngineState(TrainEngineState trainEngineState)
-            => OnTrainEngineStateChanged(trainEngineState);
+        {
+            OnTrainEngineStateChanged(trainEngineState);
+            SetFriction(trainEngineState == TrainEngineState.Inactive ? true : false);
+        }
 
         /// <summary>
         /// Used to toggle direction of upcomming rail split.
@@ -162,6 +165,7 @@ namespace DerailedDeliveries.Framework.Train
             CurrentGearIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
 
             CurrentEngineAcceleration = _speedValues[CurrentGearIndex];
+            SetFriction(CurrentGearIndex == 0 ? true : false);
         }
         #endregion;
 
@@ -178,9 +182,11 @@ namespace DerailedDeliveries.Framework.Train
         {
             EngineState = newState;
             OnEngineStateChanged?.Invoke(EngineState);
-
-            _friction = newState == TrainEngineState.Inactive ? _standbyFriction : _startFriction;
         }
+
+        [ObserversRpc(BufferLast = true, RunLocally = true)]
+        private void SetFriction(bool standbyFriction) 
+            => _friction = standbyFriction ? _standbyFriction : _startFriction;
         #endregion
 
         private void Update()
