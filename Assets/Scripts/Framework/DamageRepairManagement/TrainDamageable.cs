@@ -61,8 +61,12 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         /// A function to apply the ChaosMultiplier to the <see cref="_damageInterval"/> of this damageable.
         /// </summary>
         /// <param name="chaosMultiplier">The multiplier of how much faster the damage must occur.</param>
-        public void ApplyChaosMultiplier(float chaosMultiplier) 
-            => _damageInterval = _baseDamageInterval / chaosMultiplier;
+        public void ToggleChaosMultiplier(float chaosMultiplier, bool isChaos)
+        {
+            _damageInterval = isChaos
+                ? _baseDamageInterval / chaosMultiplier
+                : _baseDamageInterval;
+        }
 
         /// <summary>
         /// <inheritdoc/>

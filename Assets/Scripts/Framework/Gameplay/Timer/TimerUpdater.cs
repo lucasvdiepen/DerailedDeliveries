@@ -55,6 +55,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         [SyncObject]
         private readonly SyncTimer _timer = new();
 
+        private bool _isChaos;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -121,17 +123,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             if (_timer.Remaining <= 0)
                 OnTimerCompleted?.Invoke();
 
-            if (_timer.Remaining <= _chaosSpeedMultiplierThreshold)
-                ApplyChaosMultiplier();
+            if (!IsServer)
+                return;
+
+            if (_timer.Remaining <= _chaosSpeedMultiplierThreshold != _isChaos)
+                ToggleChaosMultiplier();
         }
 
-        private void ApplyChaosMultiplier()
+        private void ToggleChaosMultiplier()
         {
+            _isChaos = !_isChaos;
+
             TrainDamageable[] damageables = FindObjectsOfType<TrainDamageable>();
 
             int damageablesCount = damageables.Length;
             for (int i = 0; i < damageablesCount; i++)
-                damageables[i].ApplyChaosMultiplier(_chaosSpeedMultiplier);
+                damageables[i].ToggleChaosMultiplier(_chaosSpeedMultiplier, _isChaos);
         }
     }
 }
