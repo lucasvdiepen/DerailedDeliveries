@@ -55,7 +55,6 @@ namespace DerailedDeliveries.Framework.Train
         public Action<bool> OnParkStateChanged;
 
         private bool _isParked = true;
-        private bool _canPark;
 
         private TrainController _trainController;
 
