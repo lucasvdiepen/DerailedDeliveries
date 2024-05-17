@@ -13,22 +13,22 @@ namespace DerailedDeliveries.Framework.Train
     [RequireComponent(typeof(TrainController))]
     public class BadRailSplitDamager : NetworkBehaviour
     {
-        private TrainController _trainController;
-
         [SerializeField]
         private float _damageInterval;
 
+        private TrainController _trainController;
+       
         private BoxDamageable[] boxDamageablesInTrain;
 
         private bool _isTrainMoving;
 
         private protected float p_damageIntervalElapsed;
 
-        private void Awake() => _trainController = gameObject.GetComponent<TrainController>();
+        private void Awake() => _trainController = GetComponent<TrainController>();
 
-        private void OnEnable() => _trainController.onRailSplitChange += HandleRailSplitChanged;
+        private void OnEnable() => _trainController.OnRailSplitChange += HandleRailSplitChanged;
 
-        private void OnDisable() => _trainController.onRailSplitChange -= HandleRailSplitChanged;
+        private void OnDisable() => _trainController.OnRailSplitChange -= HandleRailSplitChanged;
 
         /// <summary>
         /// <inheritdoc/>
@@ -56,9 +56,9 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private void OnVelocityChanged(float velocity) => _isTrainMoving = Mathf.Abs(velocity) > 0.1f;
 
-        private void HandleRailSplitChanged(bool badSplit)
+        private void HandleRailSplitChanged(bool isBadSplit)
         {
-            if (!badSplit)
+            if (!isBadSplit)
             {
                 boxDamageablesInTrain = null;
                 return;

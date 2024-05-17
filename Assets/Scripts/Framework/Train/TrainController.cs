@@ -94,7 +94,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Invokes when train switches from rail split and returns if train is on bad split.
         /// <br/> bool == false = bad side of split.
         /// </summary>
-        public Action<bool> onRailSplitChange;
+        public Action<bool> OnRailSplitChange;
 
         /// <summary>
         /// Helper method for updating the current spline length.
@@ -287,7 +287,7 @@ namespace DerailedDeliveries.Framework.Train
                     IsOnBadRailSplit = false;
                 }
 
-                onRailSplitChange?.Invoke(IsOnBadRailSplit);
+                OnRailSplitChange?.Invoke(IsOnBadRailSplit);
             }
         }
 

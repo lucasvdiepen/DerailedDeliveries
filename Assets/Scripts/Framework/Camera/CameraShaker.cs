@@ -20,6 +20,9 @@ namespace DerailedDeliveries.Framework.Camera
         [SerializeField]
         private float _badRailSplitShakeFrequencyPenalty = 0.04f;
 
+        [SerializeField]
+        private float _ShakeFrequencyDuration = 1f;
+
         private CinemachineVirtualCamera _trainCamera;
         private CinemachineBasicMultiChannelPerlin _multiChannelPerlin;
 
@@ -34,7 +37,7 @@ namespace DerailedDeliveries.Framework.Camera
                 return;
 
             TrainEngine.Instance.OnSpeedChanged += HandleSpeedChanged;
-            _trainController.onRailSplitChange += HandleRailSplitChanged;
+            _trainController.OnRailSplitChange += HandleRailSplitChanged;
         }
 
         private void OnDisable()
@@ -43,7 +46,7 @@ namespace DerailedDeliveries.Framework.Camera
                 TrainEngine.Instance.OnSpeedChanged -= HandleSpeedChanged;
 
             if(_trainController != null)
-                _trainController.onRailSplitChange -= HandleRailSplitChanged;
+                _trainController.OnRailSplitChange -= HandleRailSplitChanged;
 
             if(StateMachine.StateMachine.Instance != null)
                 StateMachine.StateMachine.Instance.OnStateChanged -= HandleStateChanged;
@@ -68,7 +71,7 @@ namespace DerailedDeliveries.Framework.Camera
             float newCameraFrequency = badRailSplit ? _badRailSplitShakeFrequencyPenalty : _startCameraNoiseFrequency;
 
             DOTween.To(() => _multiChannelPerlin.m_FrequencyGain, x 
-                => _multiChannelPerlin.m_FrequencyGain = x, newCameraFrequency, 1);
+                => _multiChannelPerlin.m_FrequencyGain = x, newCameraFrequency, _ShakeFrequencyDuration);
         }
 
         private void HandleSpeedChanged(float newSpeed)
