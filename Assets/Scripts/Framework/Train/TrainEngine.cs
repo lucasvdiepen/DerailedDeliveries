@@ -25,7 +25,7 @@ namespace DerailedDeliveries.Framework.Train
 
         [SerializeField, Space]
         private float _brakeDuration = 1.5f;
-        
+
         [Header("Acceleration levels")]
         [SerializeField]
         private float _high = 2;
@@ -39,8 +39,8 @@ namespace DerailedDeliveries.Framework.Train
         /// <summary>
         /// Current train engine state.
         /// </summary>
-        public TrainEngineState EngineState 
-            { get; private set; } = TrainEngineState.Inactive;
+        public TrainEngineState EngineState
+        { get; private set; } = TrainEngineState.Inactive;
 
         /// <summary>
         /// Current train speed proportionally based on the length of the current spline.
@@ -53,7 +53,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <br>True = right.</br>
         /// </summary>
         public bool CurrentSplitDirection { get; set; }
-        
+
         /// <summary>
         /// The max speed the train can go.
         /// </summary>
@@ -96,7 +96,7 @@ namespace DerailedDeliveries.Framework.Train
         /// </summary>
         [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable), HideInInspector]
         public float CurrentEngineAcceleration { get; private set; }
-        
+
         /// <summary>
         /// Index used to handle switching between different levels of acceleration / deceleration.
         /// </summary>
@@ -109,12 +109,13 @@ namespace DerailedDeliveries.Framework.Train
         private TrainController _trainController;
 
         private Dictionary<int, float> _speedValues;
-        
+
         private float _brakeTimer;
         private float _startFriction;
-        
 
         private bool _isBraking;
+
+        private const float PARK_BRAKE_THRESHOLD = 0.3f;
 
         private void Awake() => _trainController = GetComponent<TrainController>();
 
@@ -159,11 +160,11 @@ namespace DerailedDeliveries.Framework.Train
         {
             int newCurrentSpeed = CurrentGearIndex + (increment ? 1 : -1);
             CurrentGearIndex = Mathf.Clamp(newCurrentSpeed, -SPEED_VALUES_COUNT, SPEED_VALUES_COUNT);
-           
+
             CurrentEngineAcceleration = _speedValues[CurrentGearIndex];
-        }   
+        }
         #endregion;
-        
+
         #region ObserverRPCS
         [ObserversRpc(BufferLast = true, RunLocally = true)]
         private void OnTrainDirectionChanged(bool newDirection)
@@ -201,7 +202,7 @@ namespace DerailedDeliveries.Framework.Train
 
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
 
-            if(EngineState == TrainEngineState.Active)
+            if (EngineState == TrainEngineState.Active)
                 CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
 
             bool forwardCheck = CurrentSpeed > 0 && CurrentGearIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
@@ -214,6 +215,13 @@ namespace DerailedDeliveries.Framework.Train
                 _brakeTimer = _brakeDuration;
                 CurrentSpeed = 0;
             }
+
+            bool canPark = TrainStationController.Instance.CanPark;
+            bool isNotParked = !TrainStationController.Instance.IsParked;
+
+            // Set speed to zero if below the parking brake threshold.
+            if (Mathf.Abs(CurrentSpeed) < PARK_BRAKE_THRESHOLD && canPark && isNotParked) 
+                CurrentSpeed = 0;
         }
 
         private void UpdateBraking()
@@ -225,7 +233,7 @@ namespace DerailedDeliveries.Framework.Train
 
             if (_brakeTimer > 0)
                 return;
-            
+
             _isBraking = false;
             _brakeTimer = 0f;
         }
@@ -235,7 +243,7 @@ namespace DerailedDeliveries.Framework.Train
             OnSpeedChanged?.Invoke(newSpeed);
             OnVelocityChanged?.Invoke(CurrentVelocity);
         }
-        
+
         private void OnSpeedStateChange(int previousValue, int newValue, bool asServer)
             => OnSpeedStateChanged?.Invoke(newValue);
     }
