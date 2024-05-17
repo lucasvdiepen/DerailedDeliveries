@@ -5,6 +5,7 @@ using System;
 
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
+using DerailedDeliveries.Framework.GameManagement;
 using DerailedDeliveries.Framework.Station;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
@@ -64,6 +65,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             _timer.StartTimer(_baseTime);
 
             TrainStationController.Instance.OnParkStateChanged += OnStationArrival;
+            OnTimerCompleted += GameManager.Instance.EndGame;
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 using FishNet.Object;
 
 using DerailedDeliveries.Framework.StateMachine.States;
+using DerailedDeliveries.Framework.StateMachine;
 using DerailedDeliveries.Framework.Utils;
 
 namespace DerailedDeliveries.Framework.GameManagement
@@ -12,5 +13,12 @@ namespace DerailedDeliveries.Framework.GameManagement
     {
         [ObserversRpc(RunLocally = true)]
         public void StartGame() => StateMachine.StateMachine.Instance.GoToState<GameState>();
+
+        [ObserversRpc(RunLocally = true)]
+        public void EndGame()
+        {
+            UnityEngine.SceneManagement.SceneManager.
+                LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
     }
 }
