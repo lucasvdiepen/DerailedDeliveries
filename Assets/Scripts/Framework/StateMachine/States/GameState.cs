@@ -1,9 +1,7 @@
-using FishNet;
+using UnityEngine.SceneManagement;
 using FishNet.Transporting;
 using System.Collections;
-using UnityEngine.SceneManagement;
-
-using DerailedDeliveries.Framework.Gameplay.Timer;
+using FishNet;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
