@@ -56,8 +56,23 @@ MonoBehaviour:
     audioClipList:
     - {fileID: 8300000, guid: 31777d67ca5d5db4a95d250df022a642, type: 3}
     - {fileID: 8300000, guid: 3ea7d62a52c79dc4d81e27739869498b, type: 3}
+  - <AudioCollectionType>k__BackingField: 2
+    audioClipList:
+    - {fileID: 8300000, guid: 06e0b1d2c190d464794b810a094d1d3f, type: 3}
+    - {fileID: 8300000, guid: f803335ae8dd80c4e96c26fc51f66a32, type: 3}
+    - {fileID: 8300000, guid: b35a6a4e5738b094ab806153f182689f, type: 3}
+  - <AudioCollectionType>k__BackingField: 5
+    audioClipList:
+    - {fileID: 8300000, guid: 7663b819e3644524a9aa933f7d76ed16, type: 3}
+  - <AudioCollectionType>k__BackingField: 4
+    audioClipList:
+    - {fileID: 8300000, guid: 2d816e5ad64bfdc479b20d8c5d57f33f, type: 3}
+  - <AudioCollectionType>k__BackingField: 3
+    audioClipList:
+    - {fileID: 8300000, guid: 1636b7e6fd19de141a44cd2d8ae1a5af, type: 3}
   _songFadeDuration: 0.5
   _songStopFadeDuration: 0.1
+  _pitchMinMaxRandomization: {x: 0.75, y: 1.25}
 --- !u!82 &4673819470906129435
 AudioSource:
   m_ObjectHideFlags: 0

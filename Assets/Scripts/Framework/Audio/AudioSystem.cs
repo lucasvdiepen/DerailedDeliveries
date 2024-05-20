@@ -55,7 +55,7 @@ namespace DerailedDeliveries.Framework.Audio
         /// </summary>
         /// <param name="audioCollectionType">Audio collection type.</param>
         /// <param name="volume">Optional volume param.</param>
-        public void PlayRandomSoundEffectOfType(AudioCollectionTypes audioCollectionType, float volume = .75f)
+        public void PlayRandomSoundEffectOfType(AudioCollectionTypes audioCollectionType, bool randomizePitch = false, float volume = .75f)
         {
             for (int i = 0; i < _audioCollections.Length; i++)
             {
@@ -63,11 +63,11 @@ namespace DerailedDeliveries.Framework.Audio
                     continue;
 
                 int randIndex = Random.Range(0, _audioCollections[i].audioClipList.Count);
-                PlaySound(_audioCollections[i].audioClipList[randIndex], volume);
+                PlaySound(_audioCollections[i].audioClipList[randIndex], randomizePitch, volume);
             }
         }
 
-        private void PlaySound(AudioClip clip, float volume = .75f, bool randomizePitch = false)
+        private void PlaySound(AudioClip clip, bool randomizePitch, float volume = .75f)
         {
             AudioSource source = gameObject.AddComponent<AudioSource>();
 

@@ -65,7 +65,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         private void UpdateAndShowPopup(Sprite sprite)
         {
             if(StateMachine.StateMachine.Instance.CurrentState is GameState)
-                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Popup, .5f);
+                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Popup, false, .5f);
 
             _repairPopupImage.sprite = sprite;
             Show();

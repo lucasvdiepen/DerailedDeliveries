@@ -16,12 +16,15 @@ namespace DerailedDeliveries.Framework.Audio
         [SerializeField]
         private float volume = 1;
 
+        [SerializeField]
+        private bool randomizePitch;
+
         private readonly AudioCollectionTypes soundTypeOnDenied = AudioCollectionTypes.Denied;
 
         private protected override void OnButtonPointerDown(PointerEventData eventData)
         {
             AudioCollectionTypes audioType = !Button.interactable ? soundTypeOnDenied : soundTypeOnPress;
-            AudioSystem.Instance.PlayRandomSoundEffectOfType(audioType, volume);
+            AudioSystem.Instance.PlayRandomSoundEffectOfType(audioType, randomizePitch, volume);
         }
     }
 }
