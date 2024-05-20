@@ -65,23 +65,23 @@ MonoBehaviour:
   - m_EditModeType: 1
     m_Knots:
     - Position:
-        x: 295.16
-        y: 76.358
-        z: 1279.92
+        x: 286.42007
+        y: 76.54
+        z: 1278.56
       TangentIn:
-        x: -0
-        y: -0
-        z: -6.3430243
+        x: -0.0000038146973
+        y: 0.00000047683716
+        z: -12.099527
       TangentOut:
-        x: 0
-        y: 0
-        z: 6.3430243
+        x: 0.0000038146973
+        y: -0.00000047683716
+        z: 12.099527
       Rotation:
         value:
-          x: 0.050068207
-          y: 0.7615423
-          z: 0.034401353
-          w: -0.64526206
+          x: 0.048432264
+          y: 0.7489368
+          z: 0.049035873
+          w: -0.6590473
     - Position:
         x: 233.04
         y: 83.78
@@ -89,17 +89,17 @@ MonoBehaviour:
       TangentIn:
         x: -0
         y: -0
-        z: -24.303452
+        z: -21.584345
       TangentOut:
         x: 0
         y: 0
-        z: 33.887676
+        z: 32.429256
       Rotation:
         value:
-          x: 0.040644508
-          y: 0.81190026
-          z: 0.044234414
-          w: -0.5806973
+          x: 0.042987783
+          y: 0.8120232
+          z: 0.047409784
+          w: -0.5801058
     - Position:
         x: 125.1636
         y: 98.32444
@@ -115,7 +115,7 @@ MonoBehaviour:
       Rotation:
         value:
           x: 0.04145041
-          y: 0.9362692
+          y: 0.9362693
           z: 0.01989215
           w: -0.34826136
     - Position:
@@ -227,9 +227,9 @@ MonoBehaviour:
           z: -0.0071191955
           w: 0.16427404
     - Position:
-        x: 260.46
-        y: 0.6
-        z: 489.81
+        x: 0
+        y: 0
+        z: 0
       TangentIn:
         x: 0
         y: 0
@@ -240,12 +240,12 @@ MonoBehaviour:
         z: 0
       Rotation:
         value:
-          x: 0.004522607
-          y: 0.98962647
-          z: 0.0016912806
-          w: 0.14358371
+          x: 0
+          y: 0
+          z: 0
+          w: 1
     m_MetaData:
-    - Mode: 0
+    - Mode: 4
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
@@ -263,7 +263,7 @@ MonoBehaviour:
       Tension: 0
     - Mode: 4
       Tension: 0
-    - Mode: 1
+    - Mode: 0
       Tension: 0
     m_Closed: 0
     m_IntData:
