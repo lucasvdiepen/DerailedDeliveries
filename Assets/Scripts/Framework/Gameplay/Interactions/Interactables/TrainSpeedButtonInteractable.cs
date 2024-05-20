@@ -28,13 +28,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             if(!base.Use(interactor))
                 return false;
 
-            TrainEngine.Instance.AdjustSpeed(_isForwardButton);
             PlayUseSound();
+            TrainEngine.Instance.AdjustSpeed(_isForwardButton);
 
             return true;
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void PlayUseSound() => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Button, true);
+        private void PlayUseSound() 
+            => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Button, true);
     }
 }
