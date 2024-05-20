@@ -23,6 +23,9 @@ namespace DerailedDeliveries.Framework.Audio
         [SerializeField]
         private float _songStopFadeDuration = .1f;
 
+        [SerializeField]
+        private Vector2 _pitchMinMaxRandomization;
+
         /// <summary>
         /// Current active audio source for playing songs.
         /// </summary>
@@ -64,13 +67,14 @@ namespace DerailedDeliveries.Framework.Audio
             }
         }
 
-        private void PlaySound(AudioClip clip, float volume = .75f)
+        private void PlaySound(AudioClip clip, float volume = .75f, bool randomizePitch = false)
         {
             AudioSource source = gameObject.AddComponent<AudioSource>();
 
             source.clip = clip;
             source.volume = volume;
-
+            source.pitch = randomizePitch ? Random.Range(_pitchMinMaxRandomization.x, _pitchMinMaxRandomization.y) : 1;
+                 
             source.Play();
 
             float audioClipLenght = clip.length;

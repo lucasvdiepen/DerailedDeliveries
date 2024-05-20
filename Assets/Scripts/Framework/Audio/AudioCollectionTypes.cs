@@ -19,5 +19,20 @@ namespace DerailedDeliveries.Framework.Audio
         /// Sound type for UI select buttons.
         /// </summary>
         Denied,
+
+        /// <summary>
+        /// Sound type for in-game buttons.
+        /// </summary>
+        Button,
+
+        /// <summary>
+        /// Sound type for in-game switches.
+        /// </summary>
+        Switch,
+
+        /// <summary>
+        /// Sound type for showing popups.
+        /// </summary>
+        Popup,
     }
 }
