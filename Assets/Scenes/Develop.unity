@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1786,6 +1786,7 @@ GameObject:
   - component: {fileID: 404814189}
   - component: {fileID: 404814188}
   - component: {fileID: 404814191}
+  - component: {fileID: 404814192}
   m_Layer: 5
   m_Name: LeaveButton
   m_TagString: Untagged
@@ -1907,6 +1908,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bdcce4c5bb83e74bb0a8995ba759d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &404814192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404814186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7322cee6174114a96414fea883fdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundTypeOnPress: 0
+  volume: 1
 --- !u!114 &449776008 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5500139971157908219, guid: 30dcc2271bf2a3f4394b8617767b38af,
@@ -2059,6 +2074,7 @@ GameObject:
   - component: {fileID: 575357996}
   - component: {fileID: 575357995}
   - component: {fileID: 575357998}
+  - component: {fileID: 575357999}
   m_Layer: 5
   m_Name: HostButton
   m_TagString: Untagged
@@ -2180,6 +2196,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6de7eb539849443b978b2deab0cc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &575357999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575357993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7322cee6174114a96414fea883fdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundTypeOnPress: 1
+  volume: 1
 --- !u!1 &579839227
 GameObject:
   m_ObjectHideFlags: 0
@@ -3122,6 +3152,7 @@ GameObject:
   - component: {fileID: 923618400}
   - component: {fileID: 923618399}
   - component: {fileID: 923618402}
+  - component: {fileID: 923618403}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -3243,6 +3274,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e011549a27addc84ebed08dc81aae86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &923618403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923618396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7322cee6174114a96414fea883fdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundTypeOnPress: 0
+  volume: 1
 --- !u!1 &934886552
 GameObject:
   m_ObjectHideFlags: 0
@@ -3769,6 +3814,7 @@ GameObject:
   - component: {fileID: 1076522925}
   - component: {fileID: 1076522924}
   - component: {fileID: 1076522927}
+  - component: {fileID: 1076522928}
   m_Layer: 5
   m_Name: StartSessionButton
   m_TagString: Untagged
@@ -3890,6 +3936,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4ecdb4e0485e745ac103b8d3e176ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1076522928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076522922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7322cee6174114a96414fea883fdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundTypeOnPress: 1
+  volume: 1
 --- !u!1 &1076804556
 GameObject:
   m_ObjectHideFlags: 0
@@ -6944,6 +7004,7 @@ GameObject:
   - component: {fileID: 2023873253}
   - component: {fileID: 2023873252}
   - component: {fileID: 2023873251}
+  - component: {fileID: 2023873255}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -7065,6 +7126,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023873249}
   m_CullTransparentMesh: 1
+--- !u!114 &2023873255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023873249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7322cee6174114a96414fea883fdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundTypeOnPress: 1
+  volume: 1
 --- !u!4 &2032872538 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4104198628936102777, guid: ec04a114bee5141408603a302383a667,
@@ -7106,7 +7181,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 400.575, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040831966
@@ -7484,6 +7559,36 @@ PrefabInstance:
       propertyPath: _allStations.Array.data[3]
       value: 
       objectReference: {fileID: 491973560}
+    - target: {fileID: 8614097953863873228, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _audioCollections.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614097953863873228, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[2].audioClipList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614097953863873228, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[2].audioClipList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 06e0b1d2c190d464794b810a094d1d3f, type: 3}
+    - target: {fileID: 8614097953863873228, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[2].audioClipList.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: f803335ae8dd80c4e96c26fc51f66a32, type: 3}
+    - target: {fileID: 8614097953863873228, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[2].audioClipList.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: b35a6a4e5738b094ab806153f182689f, type: 3}
+    - target: {fileID: 8614097953863873228, guid: 2388d4516f1c42e49a9603d7badee6c2,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[2].<AudioCollectionType>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7536,7 +7641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 60.08, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2074486945
