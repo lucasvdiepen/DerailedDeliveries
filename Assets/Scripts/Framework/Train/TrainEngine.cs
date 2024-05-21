@@ -231,10 +231,7 @@ namespace DerailedDeliveries.Framework.Train
             
             // Set speed to zero if below the parking brake threshold.
             if (Mathf.Abs(CurrentSpeed) < PARK_BRAKE_THRESHOLD && canPark && isNotParked && CurrentGearIndex == 0)
-            {
-                print("Assisted park brake");
                 CurrentSpeed = 0;
-            }
         }
 
         private void UpdateBraking()
