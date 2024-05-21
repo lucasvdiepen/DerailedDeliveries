@@ -210,25 +210,31 @@ namespace DerailedDeliveries.Framework.Train
 
             if (EngineState == TrainEngineState.Active)
                 CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
+            
+
 
             bool forwardCheck = CurrentSpeed > 0 && CurrentGearIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
             bool backwardCheck = CurrentSpeed < 0 && CurrentGearIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
-            
-            bool canPark = TrainStationController.Instance.CanPark;
-            bool isNotParked = !TrainStationController.Instance.IsParked;
-
-            // Set speed to zero if below the parking brake threshold.
-            if (Mathf.Abs(CurrentSpeed) < PARK_BRAKE_THRESHOLD && canPark && isNotParked)
-                CurrentSpeed = 0;
 
             // Restart brake timer if train crosses from negative speed to positive or reversed.
             if (forwardCheck || backwardCheck)
             {
                 _isBraking = true;
                 _brakeTimer = _brakeDuration;
+
+                CurrentSpeed = 0;
+                return;
+            }
+           
+            bool canPark = TrainStationController.Instance.CanPark;
+            bool isNotParked = !TrainStationController.Instance.IsParked;
+            
+            // Set speed to zero if below the parking brake threshold.
+            if (Mathf.Abs(CurrentSpeed) < PARK_BRAKE_THRESHOLD && canPark && isNotParked && CurrentGearIndex == 0)
+            {
+                print("Assisted park brake");
                 CurrentSpeed = 0;
             }
-
         }
 
         private void UpdateBraking()

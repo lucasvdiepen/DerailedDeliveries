@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7106,7 +7106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 400.575, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040831966
@@ -7536,7 +7536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 60.08, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2074486945
@@ -8644,6 +8644,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.00012912371
       objectReference: {fileID: 0}
+    - target: {fileID: 4051083629223949163, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _ignoreCoalBurn
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4338970240149917886, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -8678,6 +8683,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _componentIndexCache
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5142576653863284277, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _high
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5216006927920020546, guid: ec04a114bee5141408603a302383a667,
         type: 3}
@@ -9473,6 +9483,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _componentIndexCache
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8698901074674195663, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _maxHealth
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 8925753240111501401, guid: ec04a114bee5141408603a302383a667,
         type: 3}
