@@ -23,7 +23,7 @@ namespace DerailedDeliveries.Framework.Station
         /// <param name="distance">Distance to the nearest camera.</param>
         /// <param name="ignore">Cameras to ignore in search.</param>
         /// <returns>Index of nearest camera.</returns>
-        public int GetNearestStationIndex(Vector3 originPosition, out float distance)
+        public int GetNearestStationIndex(Vector3 originPosition)
         {
             StationContainer bestTarget = null;
             float closestDistanceSquare = Mathf.Infinity;
@@ -40,7 +40,6 @@ namespace DerailedDeliveries.Framework.Station
                 bestTarget = stationContainer;
             }
 
-            distance = Mathf.Sqrt(closestDistanceSquare);
             return Array.IndexOf(StationContainers, bestTarget);
         }
     }
