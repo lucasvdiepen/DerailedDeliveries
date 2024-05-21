@@ -206,7 +206,6 @@ namespace DerailedDeliveries.Framework.Train
                 return;
             }
 
-
             CurrentSpeed -= CurrentSpeed * _friction * Time.deltaTime;
 
             if (EngineState == TrainEngineState.Active)
