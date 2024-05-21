@@ -1,12 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Splines;
 
 using DerailedDeliveries.Framework.Train;
-using DG.Tweening;
-using System.Collections;
-using System;
-using Unity.VisualScripting;
 
 namespace DerailedDeliveries.Framework.Gameplay.Map
 {
@@ -55,10 +49,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
             float lerpAlpha = distanceAlongSpline % pathDivider;
 
+            Vector3 currentPos = _currentTrack.MapPath[index].position;
+            Vector3 endPos = _currentTrack.MapPath[index + 1].position;
+
             _mapIndicator.position = Vector3.Lerp
                 (
-                    _currentTrack.MapPath[index].position, 
-                    _currentTrack.MapPath[index + 1].position, 
+                    currentPos,
+                    endPos,
                     lerpAlpha
                 );
         }
