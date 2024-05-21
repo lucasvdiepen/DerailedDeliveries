@@ -113,7 +113,7 @@ namespace DerailedDeliveries.Framework.Train
         private bool ParkCheck()
         {
             Vector3 trainPosition = CurrentTrainLocation;
-            NearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
+            NearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition);
 
             StationContainer closestStation = StationManager.Instance.StationContainers[NearestStationIndex];
 

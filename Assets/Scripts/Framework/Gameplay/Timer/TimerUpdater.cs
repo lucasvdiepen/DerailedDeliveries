@@ -98,8 +98,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
             int stationIndex = StationManager.Instance.GetNearestStationIndex
                 (
-                    TrainStationController.Instance.CurrentTrainLocation, 
-                    out _
+                    TrainStationController.Instance.CurrentTrainLocation
                 );
 
             if (_arrivedStations.Contains(stationIndex))
