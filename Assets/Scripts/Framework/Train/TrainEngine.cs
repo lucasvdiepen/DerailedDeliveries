@@ -211,8 +211,6 @@ namespace DerailedDeliveries.Framework.Train
             if (EngineState == TrainEngineState.Active)
                 CurrentSpeed += CurrentEngineAcceleration * Time.deltaTime;
             
-
-
             bool forwardCheck = CurrentSpeed > 0 && CurrentGearIndex < 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
             bool backwardCheck = CurrentSpeed < 0 && CurrentGearIndex > 0 && Mathf.Abs(CurrentSpeed) < 0.1f;
 
