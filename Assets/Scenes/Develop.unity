@@ -8644,6 +8644,11 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5142576653863284277, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _high
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5216006927920020546, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -9816,6 +9821,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 104683266350686165, guid: 30dcc2271bf2a3f4394b8617767b38af,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 111.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 104683266350686165, guid: 30dcc2271bf2a3f4394b8617767b38af,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 104683266350686165, guid: 30dcc2271bf2a3f4394b8617767b38af,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 275.99
+      objectReference: {fileID: 0}
     - target: {fileID: 136599519907536932, guid: 30dcc2271bf2a3f4394b8617767b38af,
         type: 3}
       propertyPath: _scenePathHash
@@ -9966,6 +9986,16 @@ PrefabInstance:
       propertyPath: <ChildNetworkObjects>k__BackingField.Array.data[0]
       value: 
       objectReference: {fileID: 7729426240705543753}
+    - target: {fileID: 2080015638249186911, guid: 30dcc2271bf2a3f4394b8617767b38af,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 50.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080015638249186911, guid: 30dcc2271bf2a3f4394b8617767b38af,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 49.65
+      objectReference: {fileID: 0}
     - target: {fileID: 2420445159093480436, guid: 30dcc2271bf2a3f4394b8617767b38af,
         type: 3}
       propertyPath: _networkObjectCache
