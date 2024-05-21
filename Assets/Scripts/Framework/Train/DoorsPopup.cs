@@ -23,7 +23,7 @@ namespace DerailedDeliveries.Framework.Train
         private Sprite _doorsClosedSprite;
 
         [SerializeField]
-        private float _popupDuration = 5f;
+        private float _popupDuration = 4f;
 
         private Coroutine _closePopupCoroutine;
 
