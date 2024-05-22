@@ -27,12 +27,17 @@ namespace DerailedDeliveries.Framework.Train
         private Transform _maximumPoint;
 
         /// <summary>
+        /// Gets the distance to the current closest station.
+        /// </summary>
+        public float DistanceToClosestStation { get; private set; }
+
+        /// <summary>
         /// Getter for when train is parked.
         /// </summary>
         public bool IsParked
         {
             get => _isParked;
-            set 
+            set
             {
                 _isParked = value;
                 OnParkStateChanged?.Invoke(value);
@@ -40,12 +45,26 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
+        /// True on the sever when train is allowed to park.
+        /// </summary>
+        public bool CanPark { get; private set; }
+
+        /// <summary>
+        /// A getter for the Index of the nearest Station.
+        /// </summary>
+        public int NearestStationIndex { get; private set; }
+
+        /// <summary>
+        /// A getter for the train's current location.
+        /// </summary>
+        public Vector3 CurrentTrainLocation => _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
+
+        /// <summary>
         /// Invoked when train <see cref="IsParked"/> state is changed.
         /// </summary>
         public Action<bool> OnParkStateChanged;
 
         private bool _isParked = true;
-        private bool _canPark;
 
         private TrainController _trainController;
 
@@ -67,12 +86,12 @@ namespace DerailedDeliveries.Framework.Train
 
         private void OnPostTick()
         {
-            if (!IsServer || TrainEngine.Instance.EngineState == TrainEngineState.Inactive)
+            if (!IsServer)
                 return;
 
-            _canPark = ParkCheck();
+            CanPark = ParkCheck();
 
-            if(!_canPark && IsParked)
+            if(!CanPark && IsParked)
             {
                 UnparkTrain();
                 return;
@@ -80,7 +99,7 @@ namespace DerailedDeliveries.Framework.Train
 
             if (Mathf.Abs(TrainEngine.Instance.CurrentSpeed) <= 0.005f && !IsParked)
             {
-                if (TrainEngine.Instance.CurrentGearIndex != 0 || !_canPark)
+                if (TrainEngine.Instance.CurrentGearIndex != 0 || !CanPark)
                     return;
 
                 ParkTrain();
@@ -93,10 +112,10 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private bool ParkCheck()
         {
-            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition, out _);
+            Vector3 trainPosition = CurrentTrainLocation;
+            NearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition);
 
-            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+            StationContainer closestStation = StationManager.Instance.StationContainers[NearestStationIndex];
 
             bool min = closestStation.StationBoundingBoxCollider.bounds.Contains(_minimumPoint.position);
             bool max = closestStation.StationBoundingBoxCollider.bounds.Contains(_maximumPoint.position);
