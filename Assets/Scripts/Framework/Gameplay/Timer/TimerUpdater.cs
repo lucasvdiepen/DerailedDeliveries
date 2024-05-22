@@ -9,6 +9,7 @@ using DerailedDeliveries.Framework.GameManagement;
 using DerailedDeliveries.Framework.Station;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
+using DerailedDeliveries.Framework.StateMachine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
@@ -69,10 +70,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         {
             base.OnStartServer();
 
-            _timer.StartTimer(_baseTime);
-
-            TrainStationController.Instance.OnParkStateChanged += OnStationArrival;
-            OnTimerCompleted += GameManager.Instance.EndGame;
+            StateMachine.StateMachine.Instance.OnStateChanged += HandleStateChanged;
         }
 
         /// <summary>
@@ -84,8 +82,22 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
             _timer.StopTimer();
 
+            if(StateMachine.StateMachine.Instance != null)
+                StateMachine.StateMachine.Instance.OnStateChanged -= HandleStateChanged;
+
             if (TrainStationController.Instance != null)
                 TrainStationController.Instance.OnParkStateChanged -= OnStationArrival;
+        }
+
+        private void HandleStateChanged(State state)
+        {
+            if(state is not GameState)
+                return;
+
+            _timer.StartTimer(_baseTime);
+
+            TrainStationController.Instance.OnParkStateChanged += OnStationArrival;
+            OnTimerCompleted += GameManager.Instance.EndGame;
         }
 
         /// <summary>
