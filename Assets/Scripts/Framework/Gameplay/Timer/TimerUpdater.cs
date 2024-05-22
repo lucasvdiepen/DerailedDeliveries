@@ -54,11 +54,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         public float TimeRemaining => _timer.Remaining;
 
         /// <summary>
-        /// An action that broadcasts when we arrive at a new station and what the station's ID is.
-        /// </summary>
-        public Action<int> OnStationIDArrival;
-
-        /// <summary>
         /// An action that broadcasts when the timer is updated and the new time that comes with it.
         /// </summary>
         public Action<float> OnTimerUpdated;
@@ -127,7 +122,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
                 return;
 
             _arrivedStations.Add(stationIndex);
-            OnStationIDArrival?.Invoke(stationIndex);
 
             _timer.StartTimer(_timer.Remaining + _stationArrivalTimeBonus);
 

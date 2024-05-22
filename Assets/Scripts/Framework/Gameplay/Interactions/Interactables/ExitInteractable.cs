@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using DerailedDeliveries.Framework.PlayerManagement;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.GameManagement;
-using DerailedDeliveries.Framework.Gameplay.Timer;
+using DerailedDeliveries.Framework.Station;
+using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -19,7 +20,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         {
             base.OnStartServer();
 
-            TimerUpdater.Instance.OnStationIDArrival += ProcessStationArrival;
+            TrainStationController.Instance.OnParkStateChanged += ProcessStationArrival;
 
             PlayerManager.Instance.OnPlayersUpdated += CheckForSessionEnding;
         }
@@ -28,19 +29,27 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         {
             base.OnStopServer();
 
-            if(TimerUpdater.Instance != null)
-                TimerUpdater.Instance.OnStationIDArrival -= ProcessStationArrival;
+            if(TrainStationController.Instance != null)
+                TrainStationController.Instance.OnParkStateChanged -= ProcessStationArrival;
 
             if (PlayerManager.Instance != null)
                 PlayerManager.Instance.OnPlayersUpdated -= CheckForSessionEnding;
         }
 
-        private void ProcessStationArrival(int newStationID)
+        private void ProcessStationArrival(bool isParked)
         {
-            if (_arrivedStationIDs.Contains(newStationID))
+            if (!isParked)
                 return;
 
-            _arrivedStationIDs.Add(newStationID);
+            int stationIndex = StationManager.Instance.GetNearestStationIndex
+                (
+                    TrainStationController.Instance.CurrentTrainLocation
+                );
+
+            if (_arrivedStationIDs.Contains(stationIndex))
+                return;
+
+            _arrivedStationIDs.Add(stationIndex);
             _amountOfStationsVisited = _arrivedStationIDs.Count;
         }
 
