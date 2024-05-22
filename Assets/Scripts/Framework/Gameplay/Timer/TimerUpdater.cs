@@ -125,10 +125,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
                 GameManager.Instance.OnGameEnded -= OnGameEnded;
         }
 
-        private void OnGameEnded()
-        {
-            _timer.PauseTimer(true);
-        }
+        private void OnGameEnded() => _timer.PauseTimer(true);
 
         private void HandleStateChanged(State state)
         {

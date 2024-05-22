@@ -11,6 +11,9 @@ namespace DerailedDeliveries.Framework.GameManagement
     /// </summary>
     public class GameManager : NetworkAbstractSingleton<GameManager>
     {
+        /// <summary>
+        /// Called when the game has ended.
+        /// </summary>
         public Action OnGameEnded;
 
         /// <summary>
