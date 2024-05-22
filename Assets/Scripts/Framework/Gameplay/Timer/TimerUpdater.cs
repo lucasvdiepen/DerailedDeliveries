@@ -39,6 +39,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         private List<int> _arrivedStations = new();
 
         /// <summary>
+        /// A getter for the amount of visited stations that the players have been to.
+        /// </summary>
+        public int VisitedStationsAmount => _arrivedStations.Count;
+
+        /// <summary>
         /// A getter to get the ChaosSpeedMultiplierThreshold.
         /// </summary>
         public float ChaosSpeedMultiplierThreshold => _chaosSpeedMultiplierThreshold;
