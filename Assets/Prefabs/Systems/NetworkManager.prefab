@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7824822620588592968}
   - component: {fileID: 4568036028253490313}
   - component: {fileID: 7433467141506567385}
+  - component: {fileID: 5265345794190045081}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -109,3 +110,19 @@ MonoBehaviour:
   _maximumClients: 4095
   _clientAddress: localhost
   _timeout: 15
+--- !u!114 &5265345794190045081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4985775027927175738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdee964473d743b1bc62fd8f82ca78f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secret: DerailedDeliveriesSecret
+  port: 7771
+  searchTimeout: 10
+  automatic: 0
