@@ -2,6 +2,7 @@ using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Train;
+using DerailedDeliveries.Framework.Audio;
 
 namespace DerailedDeliveries.Framework.DamageRepairManagement
 {
@@ -53,9 +54,14 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         public override void Repair()
         {
             base.Repair();
+            PlayRepairSound();
 
             p_damageIntervalElapsed = 0;
         }
+
+        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        private void PlayRepairSound() 
+            => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Repair, true, .5f);
 
         /// <summary>
         /// A function to apply the ChaosMultiplier to the <see cref="_damageInterval"/> of this damageable.
