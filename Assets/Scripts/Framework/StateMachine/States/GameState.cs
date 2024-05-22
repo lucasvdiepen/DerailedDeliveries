@@ -1,7 +1,7 @@
-using FishNet;
+using UnityEngine.SceneManagement;
 using FishNet.Transporting;
 using System.Collections;
-using UnityEngine.SceneManagement;
+using FishNet;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
