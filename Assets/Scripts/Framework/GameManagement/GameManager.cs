@@ -1,7 +1,7 @@
+using System;
 using FishNet.Object;
 
 using DerailedDeliveries.Framework.StateMachine.States;
-using DerailedDeliveries.Framework.StateMachine;
 using DerailedDeliveries.Framework.Utils;
 
 namespace DerailedDeliveries.Framework.GameManagement
@@ -11,6 +11,8 @@ namespace DerailedDeliveries.Framework.GameManagement
     /// </summary>
     public class GameManager : NetworkAbstractSingleton<GameManager>
     {
+        public Action OnGameEnded;
+
         /// <summary>
         /// A method that sends players to the <see cref="GameState"/>.
         /// </summary>
@@ -21,6 +23,11 @@ namespace DerailedDeliveries.Framework.GameManagement
         /// A method to end the game and reload the scene.
         /// </summary>
         [ObserversRpc(RunLocally = true)]
-        public void EndGame() => StateMachine.StateMachine.Instance.GoToState<ScoreState>();
+        public void EndGame()
+        {
+            OnGameEnded?.Invoke();
+
+            StateMachine.StateMachine.Instance.GoToState<ScoreState>();
+        }
     }
 }

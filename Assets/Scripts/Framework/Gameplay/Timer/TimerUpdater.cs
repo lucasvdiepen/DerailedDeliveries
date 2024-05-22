@@ -103,6 +103,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             base.OnStartServer();
 
             StateMachine.StateMachine.Instance.OnStateChanged += HandleStateChanged;
+            GameManager.Instance.OnGameEnded += OnGameEnded;
         }
 
         /// <summary>
@@ -119,17 +120,20 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
             if (TrainStationController.Instance != null)
                 TrainStationController.Instance.OnParkStateChanged -= OnStationArrival;
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnGameEnded -= OnGameEnded;
+        }
+
+        private void OnGameEnded()
+        {
+            _timer.PauseTimer(true);
         }
 
         private void HandleStateChanged(State state)
         {
             if(state is not GameState)
-            {
-                if (_hasTimerStarted)
-                    _timer.PauseTimer(true);
-
                 return;
-            }
 
             _timer.StartTimer(_baseTime);
 
