@@ -6,10 +6,10 @@ using System;
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
 using DerailedDeliveries.Framework.GameManagement;
+using DerailedDeliveries.Framework.StateMachine;
 using DerailedDeliveries.Framework.Station;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
-using DerailedDeliveries.Framework.StateMachine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
@@ -52,6 +52,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         /// A getter that returns the seconds that are left on the timer.
         /// </summary>
         public float TimeRemaining => _timer.Remaining;
+
+        /// <summary>
+        /// An action that broadcasts when we arrive at a new station and what the station's ID is.
+        /// </summary>
+        public Action<int> OnStationIDArrival;
 
         /// <summary>
         /// An action that broadcasts when the timer is updated and the new time that comes with it.
@@ -122,6 +127,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
                 return;
 
             _arrivedStations.Add(stationIndex);
+            OnStationIDArrival?.Invoke(stationIndex);
 
             _timer.StartTimer(_timer.Remaining + _stationArrivalTimeBonus);
 

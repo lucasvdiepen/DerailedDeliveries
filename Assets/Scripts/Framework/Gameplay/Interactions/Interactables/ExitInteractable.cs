@@ -1,20 +1,61 @@
-using DerailedDeliveries.Framework.GameManagement;
-using DerailedDeliveries.Framework.Gameplay.Player;
-using DerailedDeliveries.Framework.Gameplay.Timer;
-using System.Collections;
+using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
-using UnityEngine;
+
+using DerailedDeliveries.Framework.PlayerManagement;
+using DerailedDeliveries.Framework.Gameplay.Player;
+using DerailedDeliveries.Framework.GameManagement;
+using DerailedDeliveries.Framework.Gameplay.Timer;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
     public class ExitInteractable : Interactable
     {
+        private List<int> _arrivedStationIDs = new();
+
+        [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        private int _amountOfStationsVisited;
+
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            TimerUpdater.Instance.OnStationIDArrival += ProcessStationArrival;
+
+            PlayerManager.Instance.OnPlayersUpdated += CheckForSessionEnding;
+        }
+
+        public override void OnStopServer()
+        {
+            base.OnStopServer();
+
+            if(TimerUpdater.Instance != null)
+                TimerUpdater.Instance.OnStationIDArrival -= ProcessStationArrival;
+
+            if (PlayerManager.Instance != null)
+                PlayerManager.Instance.OnPlayersUpdated -= CheckForSessionEnding;
+        }
+
+        private void ProcessStationArrival(int newStationID)
+        {
+            if (_arrivedStationIDs.Contains(newStationID))
+                return;
+
+            _arrivedStationIDs.Add(newStationID);
+            _amountOfStationsVisited = _arrivedStationIDs.Count;
+        }
+
+        private void CheckForSessionEnding()
+        {
+            if(PlayerManager.Instance.PlayerCount == 0)
+                GameManager.Instance.EndGame();
+        }
+
         private protected override bool Use(Interactor interactor)
         {
             if (!base.Use(interactor))
                 return false;
 
-            GameManager.Instance.EndGame();
+            PlayerManager.Instance.DespawnPlayer(interactor.NetworkObject);
 
             return true;
         }
@@ -27,7 +68,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         public override bool CheckIfUseable(Interactor interactor) => IsInteractable
             && !IsOnCooldown
             && interactor.InteractingTarget == null
-            && TimerUpdater.Instance.VisitedStationsAmount > 1;
+            && _amountOfStationsVisited > 1;
 
         /// <summary>
         /// <inheritdoc/>
