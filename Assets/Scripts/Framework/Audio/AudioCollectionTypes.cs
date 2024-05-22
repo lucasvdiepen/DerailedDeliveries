@@ -49,5 +49,20 @@ namespace DerailedDeliveries.Framework.Audio
         /// Sound type for when a player joined the lobby.
         /// </summary>
         PlayerJoined,
+
+        /// <summary>
+        /// Sound type for when a player drops a grabbable".
+        /// </summary>
+        DropGrabbable,
+
+        /// <summary>
+        /// Sound type for when a player grabs a grabbable".
+        /// </summary>
+        GrabGrabbable,
+
+        /// <summary>
+        /// Sound type for when a player deposits coal in the coal oven".
+        /// </summary>
+        DepositCoal,
     }
 }

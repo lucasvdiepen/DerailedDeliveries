@@ -591,8 +591,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
+      propertyPath: _songFadeDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
       propertyPath: _audioCollections.Array.size
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
@@ -602,6 +607,21 @@ PrefabInstance:
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
       propertyPath: _audioCollections.Array.data[8].audioClipList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[9].audioClipList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[10].audioClipList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[11].audioClipList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
@@ -616,6 +636,21 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 94fdab7735a394349b32dd3b7637861c, type: 3}
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
+      propertyPath: _audioCollections.Array.data[9].audioClipList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: cf364c20fbc5ef643be8ac1bf215c173, type: 3}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[10].audioClipList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ffd01ba918304f41bebe6234e241029, type: 3}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[11].audioClipList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: cd9cfa21e4719be46a86849bd95e33ac, type: 3}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
       propertyPath: _audioCollections.Array.data[7].<AudioCollectionType>k__BackingField
       value: 7
       objectReference: {fileID: 0}
@@ -623,6 +658,21 @@ PrefabInstance:
         type: 3}
       propertyPath: _audioCollections.Array.data[8].<AudioCollectionType>k__BackingField
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[9].<AudioCollectionType>k__BackingField
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[10].<AudioCollectionType>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[11].<AudioCollectionType>k__BackingField
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2130327331508371100, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
@@ -1004,6 +1054,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <SceneId>k__BackingField
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845281651878002397, guid: 038004d4505278d4f996025e620b135f,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8072352160945962249, guid: 038004d4505278d4f996025e620b135f,
         type: 3}

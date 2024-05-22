@@ -6,6 +6,8 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Utils.ObjectParenting;
 using DerailedDeliveries.Framework.ParentingSystem;
+using DerailedDeliveries.Framework.Audio;
+using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 {
@@ -55,7 +57,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
                 return false;
 
             UseGrabbable(interactor);
-
             return true;
         }
 
@@ -66,6 +67,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             {
                 UpdateInteractionStatus(interactor, true);
                 interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
+
+                PlayGrabbableSound(false);
 
                 NetworkObject.SetParent(interactor.GrabbingAnchor);
                 transform.localPosition = Vector3.zero;
@@ -115,13 +118,28 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
 
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
 
-            if(ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
+            if (ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
             {
                 objectParent.SetParent(NetworkObject);
+                PlayGrabbableSound(true);
                 return;
             }
 
             NetworkObject.UnsetParent();
+            PlayGrabbableSound(true);
+        }
+
+        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        private void PlayGrabbableSound(bool isDrop)
+        {
+            if (StateMachine.StateMachine.Instance.CurrentState is not GameState)
+                return;
+
+            AudioCollectionTypes collectionType = isDrop 
+                ? AudioCollectionTypes.DropGrabbable 
+                : AudioCollectionTypes.GrabGrabbable;
+
+            AudioSystem.Instance.PlayRandomSoundEffectOfType(collectionType, true, 1f);
         }
     }
 }
