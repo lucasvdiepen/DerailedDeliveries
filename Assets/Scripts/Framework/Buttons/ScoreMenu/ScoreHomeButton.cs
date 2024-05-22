@@ -1,3 +1,4 @@
+using FishNet;
 using UnityEngine.SceneManagement;
 
 namespace DerailedDeliveries.Framework.Buttons.ScoreMenu
@@ -7,6 +8,10 @@ namespace DerailedDeliveries.Framework.Buttons.ScoreMenu
     /// </summary>
     public class ScoreHomeButton : BasicButton
     {
-        private protected override void OnButtonPressed() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        private protected override void OnButtonPressed()
+        {
+            InstanceFinder.ServerManager.StopConnection(true);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

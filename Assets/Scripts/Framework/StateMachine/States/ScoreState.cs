@@ -1,11 +1,15 @@
+using FishNet;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DerailedDeliveries.Framework.StateMachine.States
 {
     public class ScoreState : MenuState
     {
+        public override IEnumerator OnStateEnter()
+        {
+            yield return base.OnStateEnter();
 
+            InstanceFinder.ClientManager.StopConnection();
+        }
     }
 }

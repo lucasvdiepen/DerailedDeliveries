@@ -21,10 +21,6 @@ namespace DerailedDeliveries.Framework.GameManagement
         /// A method to end the game and reload the scene.
         /// </summary>
         [ObserversRpc(RunLocally = true)]
-        public void EndGame()
-        {
-            UnityEngine.SceneManagement.SceneManager.
-                LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        }
+        public void EndGame() => StateMachine.StateMachine.Instance.GoToState<ScoreState>();
     }
 }

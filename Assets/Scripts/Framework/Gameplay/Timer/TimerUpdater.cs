@@ -62,6 +62,28 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         private readonly SyncTimer _timer = new();
 
         private bool _isChaos;
+        private bool _hasTimerStarted;
+        private bool _isTimerFinished;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            _timer.OnChange += TimerUpdated;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+
+            _timer.OnChange -= TimerUpdated;
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -125,7 +147,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         private void Update()
         {
-            if (_timer.Paused)
+            if (_timer.Paused || _isTimerFinished || !_hasTimerStarted)
                 return;
 
             UpdateTimer();
@@ -137,13 +159,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             OnTimerUpdated?.Invoke(_timer.Remaining);
 
             if (_timer.Remaining <= 0)
+            {
+                _isTimerFinished = true;
                 OnTimerCompleted?.Invoke();
+            }
 
             if (!IsServer)
                 return;
 
             if (_timer.Remaining <= _chaosSpeedMultiplierThreshold != _isChaos)
                 ToggleChaosMultiplier();
+        }
+
+        private void TimerUpdated(SyncTimerOperation op, float prev, float next, bool asServer)
+        {
+            if (op != SyncTimerOperation.Start)
+                return;
+
+            _hasTimerStarted = true;
         }
 
         private void ToggleChaosMultiplier()
