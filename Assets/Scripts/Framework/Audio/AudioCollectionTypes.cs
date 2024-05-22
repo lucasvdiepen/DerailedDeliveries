@@ -34,5 +34,10 @@ namespace DerailedDeliveries.Framework.Audio
         /// Sound type for showing popups.
         /// </summary>
         Popup,
+
+        /// <summary>
+        /// Sound type for showing popups.
+        /// </summary>
+        SuccessfulDeliver,
     }
 }
