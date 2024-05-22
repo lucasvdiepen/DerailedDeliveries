@@ -20,8 +20,8 @@ namespace DerailedDeliveries.Framework.UI.Score
 
         private void OnEnable()
         {
-            _niceJobSticker.SetActive(LevelTracker.Instance.CurrentScore >= _percentageToWin);
-            _failedSticker.SetActive(LevelTracker.Instance.CurrentScore < _percentageToWin);
+            _niceJobSticker.SetActive(LevelTracker.Instance.ScorePercentage >= _percentageToWin);
+            _failedSticker.SetActive(LevelTracker.Instance.ScorePercentage < _percentageToWin);
         }
     }
 }

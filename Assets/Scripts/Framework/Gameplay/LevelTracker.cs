@@ -73,7 +73,12 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// <summary>
         /// The time score.
         /// </summary>
-        public int TimeScore => Mathf.RoundToInt(TimerUpdater.Instance.TimeRemaining);
+        public int TimeScore => Mathf.Min(Mathf.RoundToInt(TimerUpdater.Instance.TimeRemaining), MaxTimeScore);
+
+        /// <summary>
+        /// The maximum time score.
+        /// </summary>
+        public int MaxTimeScore => (Mathf.RoundToInt(TimerUpdater.Instance.BaseTime) + Mathf.RoundToInt(TimerUpdater.Instance.StationArrivalTimeBonus) * _allStations.Length) / 2;
 
         /// <summary>
         /// The total score.
@@ -89,8 +94,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         {
             base.OnStartServer();
 
-            MaxScore += Mathf.RoundToInt(TimerUpdater.Instance.BaseTime);
-            MaxScore += Mathf.RoundToInt(TimerUpdater.Instance.StationArrivalTimeBonus) * _allStations.Length;
+            MaxScore += MaxTimeScore;
 
             SelectLevelToLoad(0);
         }
