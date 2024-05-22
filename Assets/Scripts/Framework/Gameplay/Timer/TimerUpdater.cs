@@ -124,7 +124,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         private void HandleStateChanged(State state)
         {
             if(state is not GameState)
+            {
+                if (_hasTimerStarted)
+                    _timer.PauseTimer(true);
+
                 return;
+            }
 
             _timer.StartTimer(_baseTime);
 
