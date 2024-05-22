@@ -2,6 +2,7 @@ using UnityEngine;
 
 using DerailedDeliveries.Framework.Train;
 using DerailedDeliveries.Framework.Audio;
+using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.Gameplay.TrainControls
 {
@@ -38,7 +39,8 @@ namespace DerailedDeliveries.Framework.Gameplay.TrainControls
 
             _leverTransform.rotation = Quaternion.Euler(_leverTransform.rotation.x, _leverTransform.rotation.y, newZRotation);
 
-            AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Switch, true, _switchUseSoundVolume);
+            if(StateMachine.StateMachine.Instance.CurrentState is GameState)
+                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Switch, true, _switchUseSoundVolume);
         }
     }
 }

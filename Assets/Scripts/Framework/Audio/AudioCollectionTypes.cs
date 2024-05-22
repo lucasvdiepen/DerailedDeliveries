@@ -44,5 +44,10 @@ namespace DerailedDeliveries.Framework.Audio
         /// Sound type for repairing.
         /// </summary>
         Repair,
+
+        /// <summary>
+        /// Sound type for when a player joined the lobby.
+        /// </summary>
+        PlayerJoined,
     }
 }

@@ -115,6 +115,11 @@ PrefabInstance:
       propertyPath: <PrefabId>k__BackingField
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6881910571500370151, guid: e401d674117e2194d958aa5c20ab26fe,
+        type: 3}
+      propertyPath: _backgroundTrack
+      value: 
+      objectReference: {fileID: 8300000, guid: d178a7000244af84ba6121a590072428, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -587,11 +592,16 @@ PrefabInstance:
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
       propertyPath: _audioCollections.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
       propertyPath: _audioCollections.Array.data[7].audioClipList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[8].audioClipList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
@@ -601,8 +611,18 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 1ad0ded52a88ec349afe288ba08bda9d, type: 3}
     - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}
+      propertyPath: _audioCollections.Array.data[8].audioClipList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 94fdab7735a394349b32dd3b7637861c, type: 3}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
       propertyPath: _audioCollections.Array.data[7].<AudioCollectionType>k__BackingField
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 65757189153618703, guid: 70d4683512105ae4ba838977fbfd532f,
+        type: 3}
+      propertyPath: _audioCollections.Array.data[8].<AudioCollectionType>k__BackingField
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2130327331508371100, guid: 70d4683512105ae4ba838977fbfd532f,
         type: 3}

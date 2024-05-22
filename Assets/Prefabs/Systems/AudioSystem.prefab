@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7003569747215035487}
   - component: {fileID: 65757189153618703}
   - component: {fileID: 4673819470906129435}
+  - component: {fileID: 6581832073928623037}
   m_Layer: 0
   m_Name: AudioSystem
   m_TagString: Untagged
@@ -172,3 +173,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6581832073928623037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130327331508371100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2fc36db35220be49814e040d8a01c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backgroundTrack: {fileID: 8300000, guid: d178a7000244af84ba6121a590072428, type: 3}
+  _musicVolume: 0.3

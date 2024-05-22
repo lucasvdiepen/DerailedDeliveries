@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Audio;
 
 namespace DerailedDeliveries.Framework.PlayerManagement
 {
@@ -137,6 +138,8 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             OnPlayerJoined?.Invoke(playerId);
             OnPlayersUpdated?.Invoke();
+
+            AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.PlayerJoined);
         }
 
         /// <summary>

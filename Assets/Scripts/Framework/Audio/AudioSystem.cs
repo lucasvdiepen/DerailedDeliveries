@@ -109,14 +109,11 @@ namespace DerailedDeliveries.Framework.Audio
             CurrentActiveSongSource.volume = 0;
             CurrentActiveSongSource.clip = clip;
 
+            CurrentActiveSongSource.loop = true;
             CurrentActiveSongSource.Play();
 
             CurrentActiveSongSource.time = startTime;
             CurrentActiveSongSource.DOFade(volume, _songFadeDuration);
-
-            float audioClipLenght = clip.length;
-            DOTween.To(() => _songLenghtCounter, x => _songLenghtCounter = x, 1, audioClipLenght)
-                .OnComplete(() => CurrentActiveSongSource.clip = null);
         }
 
         /// <summary>
