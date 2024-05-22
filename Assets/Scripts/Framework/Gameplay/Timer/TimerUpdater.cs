@@ -49,6 +49,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         public float TimeRemaining => _timer.Remaining;
 
         /// <summary>
+        /// A getter that returns the base time of the timer.
+        /// </summary>
+        public float BaseTime => _baseTime;
+
+        /// <summary>
+        /// A getter that returns the station arrival time bonus.
+        /// </summary>
+        public float StationArrivalTimeBonus => _stationArrivalTimeBonus;
+
+        /// <summary>
         /// An action that broadcasts when the timer is updated and the new time that comes with it.
         /// </summary>
         public Action<float> OnTimerUpdated;

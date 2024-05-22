@@ -9,6 +9,10 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters.Score
     /// </summary>
     public class ScorePercentageTextUpdater : TextUpdater
     {
-        private void OnEnable() => ReplaceTag(Mathf.RoundToInt(LevelTracker.Instance.ScorePercentage).ToString());
+        private void OnEnable()
+        {
+            int scorePercentage = Mathf.Max(0, Mathf.RoundToInt(LevelTracker.Instance.ScorePercentage));
+            ReplaceTag(scorePercentage + "%");
+        }
     }
 }

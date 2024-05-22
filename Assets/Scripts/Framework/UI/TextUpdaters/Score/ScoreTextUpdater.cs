@@ -9,6 +9,6 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters.Score
     /// </summary>
     public class ScoreTextUpdater : TextUpdater
     {
-        private void OnEnable() => ReplaceTag(LevelTracker.Instance.CurrentScore.ToString());
+        private void OnEnable() => ReplaceTag(LevelTracker.Instance.TotalScore.ToString());
     }
 }

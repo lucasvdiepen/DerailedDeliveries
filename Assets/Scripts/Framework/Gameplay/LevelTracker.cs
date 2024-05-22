@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameKit.Utilities;
+using FishNet.Object.Synchronizing;
 using FishNet.Object;
 using UnityEngine;
 using System.Linq;
@@ -9,6 +10,7 @@ using Random = UnityEngine.Random;
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Gameplay.Timer;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -45,6 +47,7 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// <summary>
         /// The total amount of points that can be achieved in this session.
         /// </summary>
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public int MaxScore { get; private set; }
 
         /// <summary>
@@ -65,7 +68,17 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// <summary>
         /// The score percentage.
         /// </summary>
-        public float ScorePercentage => (float)CurrentScore / MaxScore * 100;
+        public float ScorePercentage => (float)TotalScore / MaxScore * 100;
+
+        /// <summary>
+        /// The time score.
+        /// </summary>
+        public int TimeScore => Mathf.RoundToInt(TimerUpdater.Instance.TimeRemaining);
+
+        /// <summary>
+        /// The total score.
+        /// </summary>
+        public int TotalScore => CurrentScore + TimeScore;
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
@@ -75,6 +88,9 @@ namespace DerailedDeliveries.Framework.Gameplay
         public override void OnStartServer()
         {
             base.OnStartServer();
+
+            MaxScore += Mathf.RoundToInt(TimerUpdater.Instance.BaseTime);
+            MaxScore += Mathf.RoundToInt(TimerUpdater.Instance.StationArrivalTimeBonus) * _allStations.Length;
 
             SelectLevelToLoad(0);
         }
