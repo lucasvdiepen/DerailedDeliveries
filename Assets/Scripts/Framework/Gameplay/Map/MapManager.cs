@@ -16,7 +16,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         private MapTrack _currentTrack;
 
         [SerializeField]
-        private TrainController _train;
+        private TrainController _trainController;
 
         [SerializeField]
         private RectTransform _mapIndicator;
@@ -24,9 +24,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         private void Awake()
         {
             UpdateTrackID(0);
-            _train.OnTrackSwitch += UpdateTrackID;
+            _trainController.OnTrackSwitch += UpdateTrackID;
 
-            _train.OnDistanceAlongSplineChanged += UpdateDistanceAlongSpline;
+            _trainController.OnDistanceAlongSplineChanged += UpdateDistanceAlongSpline;
         }
 
         private void UpdateTrackID(int newTrackID)
