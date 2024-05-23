@@ -1,3 +1,4 @@
+using System;
 using FishNet.Object;
 
 using DerailedDeliveries.Framework.StateMachine.States;
@@ -11,6 +12,11 @@ namespace DerailedDeliveries.Framework.GameManagement
     public class GameManager : NetworkAbstractSingleton<GameManager>
     {
         /// <summary>
+        /// Called when the game has ended.
+        /// </summary>
+        public Action OnGameEnded;
+
+        /// <summary>
         /// A method that sends players to the <see cref="GameState"/>.
         /// </summary>
         [ObserversRpc(RunLocally = true)]
@@ -22,8 +28,9 @@ namespace DerailedDeliveries.Framework.GameManagement
         [ObserversRpc(RunLocally = true)]
         public void EndGame()
         {
-            UnityEngine.SceneManagement.SceneManager.
-                LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            OnGameEnded?.Invoke();
+
+            StateMachine.StateMachine.Instance.GoToState<ScoreState>();
         }
     }
 }

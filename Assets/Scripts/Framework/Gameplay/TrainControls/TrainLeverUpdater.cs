@@ -37,10 +37,10 @@ namespace DerailedDeliveries.Framework.Gameplay.TrainControls
                 ? _rightRotation 
                 : _leftRotation;
 
-            _leverTransform.rotation = Quaternion.Euler(_leverTransform.rotation.x, _leverTransform.rotation.y, newZRotation);
-
             if(StateMachine.StateMachine.Instance.CurrentState is GameState)
                 AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Switch, true, _switchUseSoundVolume);
+                
+            _leverTransform.localRotation = Quaternion.Euler(_leverTransform.localRotation.x, _leverTransform.localRotation.y, newZRotation);
         }
     }
 }
