@@ -93,9 +93,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         /// </summary>
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
-        public override bool CheckIfInteractable(Interactor interactor)
-        {
-            return false;
-        }
+        public override bool CheckIfInteractable(Interactor interactor) => false;
     }
 }
