@@ -17,6 +17,11 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
         private string _defaultText;
         private Dictionary<string, string> _tags = new();
 
+        /// <summary>
+        /// A getter that retrieves this <see cref="TextUpdater"/>'s <see cref="TextMeshProUGUI"/> component.
+        /// </summary>
+        public TextMeshProUGUI Text => _text;
+
         private protected virtual void Awake()
         {
             _text = GetComponent<TextMeshProUGUI>();
@@ -30,6 +35,9 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
         /// <param name="text">The text to replace the tag with.</param>
         public void ReplaceTag(string tag, string text)
         {
+            if (_text == null)
+                return;
+
             _tags[tag] = text;
 
             string defaultText = _defaultText;
