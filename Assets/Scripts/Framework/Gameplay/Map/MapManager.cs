@@ -85,12 +85,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
             Vector3 currentPos = _currentTrack.mapPath[index].position;
             Vector3 endPos = _currentTrack.mapPath[index + 1].position;
 
-            return Vector3.Lerp
-                (
-                    currentPos,
-                    endPos,
-                    lerpAlpha
-                );
+            return Vector3.Lerp(currentPos, endPos, lerpAlpha);
         }
     }
 }
