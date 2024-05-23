@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2941088844697962846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5356679241934127358}
+  - component: {fileID: 1263922393372949806}
+  - component: {fileID: 2303023855678418510}
+  - component: {fileID: 5282637987373672843}
+  m_Layer: 0
+  m_Name: TrainTracksPart1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5356679241934127358
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2941088844697962846}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.107521586, z: -0, w: 0.99420273}
+  m_LocalPosition: {x: 783.68, y: 42.5, z: 982}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -12.345, z: 0}
+--- !u!114 &1263922393372949806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2941088844697962846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Spline:
+    m_EditModeType: 1
+    m_Knots: []
+    m_MetaData: []
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Splines:
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: -11.013367
+        y: -0.66999817
+        z: -52.63745
+      TangentIn:
+        x: 7.070054
+        y: 0.0000008730722
+        z: -15.999066
+      TangentOut:
+        x: -0.44380653
+        y: -0.00033070543
+        z: 1.0434742
+      Rotation:
+        value:
+          x: 0.0025386936
+          y: 0.1362251
+          z: 0.0105860615
+          w: 0.99061805
+    - Position:
+        x: -7.4682617
+        y: -0.66999817
+        z: 1.1430969
+      TangentIn:
+        x: 0
+        y: 0
+        z: -13.442061
+      TangentOut:
+        x: 0.00000009685755
+        y: 0.0000000055879354
+        z: 8.01386
+      Rotation:
+        value:
+          x: 0.0072740694
+          y: 0.04124351
+          z: 0.02942907
+          w: 0.9986891
+    - Position:
+        x: -4.837497
+        y: -1.044461
+        z: 20.270302
+      TangentIn:
+        x: -0.00000016973354
+        y: -9.313226e-10
+        z: -5.9827943
+      TangentOut:
+        x: 0.0000000055879354
+        y: -0.000000016763806
+        z: 5.256746
+      Rotation:
+        value:
+          x: 0.01219241
+          y: 0.038834196
+          z: 0.029290874
+          w: 0.9987418
+    - Position:
+        x: -3.695068
+        y: -1.409502
+        z: 35.03506
+      TangentIn:
+        x: -0
+        y: -0
+        z: -1.481339
+      TangentOut:
+        x: 0
+        y: 0
+        z: 1.481339
+      Rotation:
+        value:
+          x: 0.013458605
+          y: 0.03821391
+          z: 0.02932028
+          w: 0.99874866
+    m_MetaData:
+    - Mode: 4
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 4
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Knots:
+    m_KnotsLink: []
+--- !u!114 &2303023855678418510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2941088844697962846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 1263922393372949806}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 919132149155446097, guid: 8a3eb9caf5813de4fa5763e55ab54539, type: 3}
+    probability: 0
+    Probability: 0
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 2, y: 2}
+  m_Up: 2
+  m_Forward: 3
+  m_PositionOffset:
+    setup: 1
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 1
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: -100, y: 1, z: -10}
+    max: {x: 0, y: 100, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -68774380
+--- !u!114 &5282637987373672843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2941088844697962846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f98cd0474f994846827c8985741cdd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PossibleTracks>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  <PossibleReversalTracks>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
