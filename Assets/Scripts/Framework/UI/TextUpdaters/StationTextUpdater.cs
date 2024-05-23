@@ -12,23 +12,12 @@ namespace DerailedDeliveries.Framework.UI.TextUpdaters
         [SerializeField]
         private TrainStation _parentStation;
 
-        public void SetNewParentStation(TrainStation newParentStation)
-        {
-            _parentStation = newParentStation;
-        }
-
         private void OnEnable()
         {
             if (_parentStation != null)
-                _parentStation.OnStationLabelChange += UpdateStationLabel;
+                UpdateStationLabel();
         }
 
-        private void OnDisable()
-        {
-            if(_parentStation != null)
-                _parentStation.OnStationLabelChange -= UpdateStationLabel;
-        }
-
-        private void UpdateStationLabel(string newLabel) => ReplaceTag(tag, newLabel);
+        private void UpdateStationLabel() => ReplaceTag(_parentStation.StationLabel);
     }
 }

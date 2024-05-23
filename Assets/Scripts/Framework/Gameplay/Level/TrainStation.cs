@@ -12,6 +12,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
     public class TrainStation : NetworkBehaviour
     {
         [SerializeField]
+        private StationTextUpdater _labelTextUpdater;
+
+        [SerializeField]
         private Transform[] _spawnTransforms;
 
         /// <summary>
@@ -45,7 +48,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
             StationLabel = label;
             StationID = id;
 
-            OnStationLabelChange?.Invoke(StationLabel);
+            if(_labelTextUpdater != null)
+                _labelTextUpdater.ReplaceTag(StationLabel);
         }
     }
 }
