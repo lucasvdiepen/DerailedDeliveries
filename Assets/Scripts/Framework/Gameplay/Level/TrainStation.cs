@@ -1,8 +1,8 @@
 using FishNet.Object;
 using UnityEngine;
+using System;
 
 using DerailedDeliveries.Framework.UI.TextUpdaters;
-using System;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
