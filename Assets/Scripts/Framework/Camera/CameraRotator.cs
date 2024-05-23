@@ -13,6 +13,9 @@ namespace DerailedDeliveries.Framework.Camera
         [SerializeField]
         private float _speed = 5f;
 
+        [SerializeField]
+        private GameObject _camera;
+
         private void OnEnable() => StateMachine.StateMachine.Instance.OnStateChanged += OnStateChanged;
 
         private void OnDisable()
@@ -23,7 +26,7 @@ namespace DerailedDeliveries.Framework.Camera
             StateMachine.StateMachine.Instance.OnStateChanged -= OnStateChanged;
         }
 
-        private void OnStateChanged(State state) => gameObject.SetActive(state is not GameState);
+        private void OnStateChanged(State state) => _camera.SetActive(state is not GameState);
 
         private void Update() => transform.Rotate(Vector3.up, _speed * Time.deltaTime);
     }
