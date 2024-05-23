@@ -42,23 +42,23 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
             int trackIndex = 0;
             for(int i = 0; i < _trainController.BadRailSplitOrder.Length; i++)
             {
-                _tracks[trackIndex]._badSplitWarning.enabled = false;
+                _tracks[trackIndex].badSplitWarning.enabled = false;
                 trackIndex++;
 
-                _tracks[trackIndex]._badSplitWarning.enabled = _trainController.BadRailSplitOrder[i];
+                _tracks[trackIndex].badSplitWarning.enabled = _trainController.BadRailSplitOrder[i];
                 trackIndex++;
 
-                _tracks[trackIndex]._badSplitWarning.enabled = !_trainController.BadRailSplitOrder[i];
+                _tracks[trackIndex].badSplitWarning.enabled = !_trainController.BadRailSplitOrder[i];
                 trackIndex++;
             }
         }
 
         private void OnDisable() => _trainController.OnDistanceAlongSplineChanged -= UpdateDistanceAlongSpline;
 
-        private void UpdateTrackID(int newTrackID, bool isBadRailsplit = false)
+        private void UpdateTrackID(int newTrackID, bool isBadRailSplit = false)
         {
             for(int i = 0; i < _tracks.Length; i++)
-                if (_tracks[i].TrackID == newTrackID)
+                if (_tracks[i].trackID == newTrackID)
                     _currentTrack = _tracks[i];
         }
 
@@ -69,10 +69,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
             if (_currentTrack == null)
                 return;
 
-            float pathDivider = 1f / (_currentTrack.MapPath.Length - 1);
+            float pathDivider = 1f / (_currentTrack.mapPath.Length - 1);
             int index = (int)(distanceAlongSpline / pathDivider);
 
-            if (index + 1 >= _currentTrack.MapPath.Length)
+            if (index + 1 >= _currentTrack.mapPath.Length)
                 return;
 
             float lerpAlpha = (distanceAlongSpline % pathDivider) / pathDivider;
@@ -82,8 +82,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
         private Vector3 ReturnLerpPosition(int index, float lerpAlpha)
         {
-            Vector3 currentPos = _currentTrack.MapPath[index].position;
-            Vector3 endPos = _currentTrack.MapPath[index + 1].position;
+            Vector3 currentPos = _currentTrack.mapPath[index].position;
+            Vector3 endPos = _currentTrack.mapPath[index + 1].position;
 
             return Vector3.Lerp
                 (

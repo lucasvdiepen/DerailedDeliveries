@@ -12,17 +12,17 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         /// <summary>
         /// The TrackID of this <see cref="MapTrack"/>.
         /// </summary>
-        public int TrackID = -1;
+        public int trackID = -1;
 
         /// <summary>
         /// The <see cref="SpriteRenderer"/> of the bad split warning sprite.
         /// </summary>
-        public SpriteRenderer _badSplitWarning;
+        public SpriteRenderer badSplitWarning;
 
         /// <summary>
         /// The array of <see cref="RectTransform"/>s that is lerped from <see cref="RectTransform"/> to 
         /// <see cref="RectTransform"/> to represent the current Track.
         /// </summary>
-        public RectTransform[] MapPath;
+        public RectTransform[] mapPath;
     }
 }
