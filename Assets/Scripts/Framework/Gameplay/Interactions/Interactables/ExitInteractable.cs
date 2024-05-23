@@ -19,6 +19,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
         [SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         private int _amountOfStationsVisited;
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -28,6 +31,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             PlayerManager.Instance.OnPlayersUpdated += CheckForSessionEnding;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStopServer()
         {
             base.OnStopServer();
