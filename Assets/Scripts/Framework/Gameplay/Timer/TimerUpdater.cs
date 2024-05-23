@@ -6,10 +6,10 @@ using System;
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
 using DerailedDeliveries.Framework.GameManagement;
+using DerailedDeliveries.Framework.StateMachine;
 using DerailedDeliveries.Framework.Station;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
-using DerailedDeliveries.Framework.StateMachine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
@@ -37,6 +37,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         [SerializeField]
         private List<int> _arrivedStations = new();
+
+        /// <summary>
+        /// A getter for the amount of visited stations that the players have been to.
+        /// </summary>
+        public int VisitedStationsAmount => _arrivedStations.Count;
 
         /// <summary>
         /// A getter to get the ChaosSpeedMultiplierThreshold.
