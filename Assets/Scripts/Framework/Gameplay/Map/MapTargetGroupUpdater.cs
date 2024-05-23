@@ -23,6 +23,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         [SerializeField]
         private float _lerpWeightDuration = 1.25f;
 
+        [SerializeField]
+        private float _endTargetRadius = 1.15f;
+
         private void OnEnable()
         {
             _mapPopup.OnShowPopup += HandleShowPopup;
@@ -57,7 +60,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
             DOTween.To(()
                 => _targetGroup.m_Targets[0].radius, x
-                => _targetGroup.m_Targets[0].radius = x, 1.15f, _lerpWeightDuration);
+                => _targetGroup.m_Targets[0].radius = x, _endTargetRadius, _lerpWeightDuration);
         }
     }
 }
