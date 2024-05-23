@@ -43,6 +43,9 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
             _trainController.OnTrackSwitch += UpdateTrackID;
 
             _trainController.OnDistanceAlongSplineChanged += UpdateDistanceAlongSpline;
+
+            for(int i = 0; i < _tracks.Length; i++)
+                _tracks[i]._badSplitWarning.enabled = true; // _trainController.BadRailSplitOrder[i];
         }
 
         [ContextMenu("PlaceStationIndicator")]

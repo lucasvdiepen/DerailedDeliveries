@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: c17c12bdc21c74980b8b757f9434b95f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -442,6 +442,9 @@ MonoBehaviour:
   - {fileID: 3073824787436086313}
   _currentTrack: {fileID: 0}
   _trainController: {fileID: 0}
+  _distanceAlongSpline: 0
+  distancesForStations: []
+  trainStations: []
   _mapIndicator: {fileID: 8235447508978398678}
   _stationIndicatorPrefab: {fileID: 5391169018366524342}
 --- !u!1001 &4114044514713765424
@@ -587,6 +590,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2356108016638896795, guid: 8764c4c52c634d547b90448372db29a9,
+        type: 3}
+      propertyPath: m_Name
+      value: BadSplitWarning
       objectReference: {fileID: 0}
     - target: {fileID: 7011115433809719766, guid: 8764c4c52c634d547b90448372db29a9,
         type: 3}
