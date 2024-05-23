@@ -85,6 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c05e588ad0761f42b08e5a811484909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trainController: {fileID: 0}
+  _badRailSplitShakePenalty: 1.5
+  _badRailSplitShakeFrequencyPenalty: 0.05
 --- !u!1 &4147421487569180890
 GameObject:
   m_ObjectHideFlags: 0
