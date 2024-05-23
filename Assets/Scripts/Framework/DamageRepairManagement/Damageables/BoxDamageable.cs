@@ -28,6 +28,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
             base.UpdateTimer();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         [Server]
         public override void TakeDamage()
         {

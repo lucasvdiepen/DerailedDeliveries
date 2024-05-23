@@ -48,6 +48,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         [Server]
         public virtual void Repair() => ChangeHealth(MaxHealth);
 
+        /// <summary>
+        /// Method used to let this <see cref="Damageable"/> take damage.
+        /// </summary>
         [Server]
         public virtual void TakeDamage()
         {
