@@ -1,3 +1,5 @@
+using FishNet.Object.Synchronizing;
+using Random = UnityEngine.Random;
 using UnityEngine.Splines;
 using FishNet.Object;
 using UnityEngine;
@@ -50,6 +52,19 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
+        /// Randomized bad rail split order in which the index indicates 
+        /// the number of the next branch rail split and bool value which side is affects <br/>
+        /// <br/> (false = left).
+        /// </summary>
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
+        public bool[] BadRailSplitOrder { get; private set; }
+
+        /// <summary>
+        /// True if train is currently on a bad rail split.
+        /// </summary>
+        public bool IsOnBadRailSplit { get; private set; }
+
+        /// <summary>
         /// Current distance value along spline length clamped between 0-1 (same as time). <br/>
         /// <br/> 0 = Spline start point.<br/>
         /// 1 = Spline end point.<br/>
@@ -76,6 +91,12 @@ namespace DerailedDeliveries.Framework.Train
         public TrainEngine TrainEngine { get; private set; }
 
         /// <summary>
+        /// Invokes when train switches from rail split and returns if train is on bad split.
+        /// <br/> bool == false = bad side of split.
+        /// </summary>
+        public Action<bool> OnRailSplitChange;
+
+        /// <summary>
         /// Helper method for updating the current spline length.
         /// </summary>
         public void RecalculateSplineLength() => SplineLength = Spline.CalculateLength();
@@ -83,15 +104,16 @@ namespace DerailedDeliveries.Framework.Train
         private RailSplit _railSplit;
 
         private const float TWEAK_DIVIDE_FACTOR = 10;
-
         private float _distanceAlongSpline;
+
+        private int _currentRailSplitID;
 
         private void Awake()
         {
             TrainEngine = GetComponent<TrainEngine>();
 
             DistanceAlongSpline = _trainFrontStartTime;
-            CurrentOptimalStartPoint = _trainFrontStartTime;
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
             if (Spline != null)
                 RecalculateSplineLength();
@@ -99,6 +121,9 @@ namespace DerailedDeliveries.Framework.Train
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStartClient()
         {
             base.OnStartClient();
@@ -107,6 +132,9 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick += OnTick;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override void OnStopClient()
         {
             base.OnStopClient();
@@ -115,13 +143,27 @@ namespace DerailedDeliveries.Framework.Train
                 TimeManager.OnTick -= OnTick;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+
+            // Randomize new bad rail split order.
+            BadRailSplitOrder = new bool[SplineManager.Instance.RailSplitAmount];
+
+            for (int i = 0; i < BadRailSplitOrder.Length; i++)
+                BadRailSplitOrder[i] = Random.value > .5f;
+        }
+
         [Server]
         private void OnTick()
         {
             // Update train position along spline based on its velocity.
             DistanceAlongSpline += TrainEngine.CurrentVelocity * (float)TimeManager.TickDelta;
 
-            CheckUpcommingRailSplit();
+            CheckUpcomingRailSplit();
             CheckReverseRailSplit();
 
             MoveTrain(DistanceAlongSpline);
@@ -151,7 +193,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Internally used to check for upcomming rail splits and switching tracks.
         /// </summary>
         [Server]
-        private void CheckUpcommingRailSplit()
+        private void CheckUpcomingRailSplit()
         {
             if (DistanceAlongSpline < 1.0f || TrainEngine.CurrentVelocity < 0)
                 return;
@@ -177,8 +219,21 @@ namespace DerailedDeliveries.Framework.Train
             if (DistanceAlongSpline > CurrentOptimalStartPoint || TrainEngine.CurrentVelocity > 0)
                 return;
 
-            // Check for possible backward rail split.
-            if (!Spline.transform.parent.TryGetComponent(out SplineContainer nextSplineContainer))
+            SplineContainer nextSplineContainer;
+
+            // Try to get next spline from the rail split.
+            if (_railSplit.PossibleReversalTracks.Length > 0 && TrainEngine.CurrentSpeed < 0)
+                nextSplineContainer = _railSplit.PossibleReversalTracks[TrainEngine.CurrentSplitDirection ? 1 : 0];
+
+            // Try to get next spline from the possible parrent of the current spline.
+            else if (!Spline.transform.parent.TryGetComponent(out nextSplineContainer))
+            {
+                DistanceAlongSpline = CurrentOptimalStartPoint;
+                return;
+            }
+
+            // No possible spline found, end reached.
+            if (nextSplineContainer == null)
             {
                 DistanceAlongSpline = CurrentOptimalStartPoint;
                 return;
@@ -188,7 +243,7 @@ namespace DerailedDeliveries.Framework.Train
             int nextTrackID = SplineManager.Instance.GetIDByTrack(nextSplineContainer);
 
             // Switch current track to the new track.
-            SwitchCurrentTrack(nextTrackID);
+            SwitchCurrentTrack(nextTrackID, false);
         }
 
         /// <summary>
@@ -197,7 +252,7 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="trackID">ID of the track.</param>
         /// <param name="setDistanceAlongSpline">Whether the train should snap to optimal starting point.</param>
         [ObserversRpc(RunLocally = true)]
-        private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline = false)
+        private void SwitchCurrentTrack(int trackID, bool setDistanceAlongSpline)
         {
             // Get correct spline by given ID.
             Spline = SplineManager.Instance.GetTrackByID(trackID);
@@ -209,7 +264,51 @@ namespace DerailedDeliveries.Framework.Train
             if (setDistanceAlongSpline)
                 DistanceAlongSpline = CurrentOptimalStartPoint;
 
-            Spline.gameObject.TryGetComponent(out _railSplit);
+                UpdateCurrentRailSplitID(setDistanceAlongSpline);
+
+            if (Spline.gameObject.TryGetComponent(out _railSplit))
+            {
+                //Check if new rail split is of type RailSplitType.Branch or RailSplitType.Funnel;
+                RailSplitType currentRailSplitType = _currentRailSplitID % 2 == 1 
+                    ? RailSplitType.Branch 
+                    : RailSplitType.Funnel;
+
+                if (currentRailSplitType == RailSplitType.Branch)
+                {
+                    int clampedIndex = Mathf.Clamp(_currentRailSplitID - 1, 0, BadRailSplitOrder.Length - 1);
+                    bool badSplitDirection = BadRailSplitOrder[clampedIndex];
+
+                    // Check if train wants to go to a bad rail split.
+                    if (badSplitDirection == TrainEngine.Instance.CurrentSplitDirection)
+                        IsOnBadRailSplit = true;
+                }
+                else
+                {
+                    IsOnBadRailSplit = false;
+                }
+
+                OnRailSplitChange?.Invoke(IsOnBadRailSplit);
+            }
+        }
+
+        private void UpdateCurrentRailSplitID(bool increment)
+        {
+            int allSplitAmount = SplineManager.Instance.AllSplitAmount;
+
+            if (increment)
+            {
+                _currentRailSplitID++;
+
+                if (_currentRailSplitID >= allSplitAmount)
+                    _currentRailSplitID = 0;
+            }
+            else
+            {
+                _currentRailSplitID--;
+
+                if (_currentRailSplitID < 0)
+                    _currentRailSplitID = allSplitAmount - 1;
+            }
         }
 
         /// <summary>
