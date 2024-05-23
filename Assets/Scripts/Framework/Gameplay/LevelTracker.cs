@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameKit.Utilities;
+using FishNet.Object.Synchronizing;
 using FishNet.Object;
 using UnityEngine;
 using System.Linq;
@@ -9,6 +10,7 @@ using Random = UnityEngine.Random;
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Gameplay.Timer;
 
 namespace DerailedDeliveries.Framework.Gameplay
 {
@@ -45,12 +47,44 @@ namespace DerailedDeliveries.Framework.Gameplay
         /// <summary>
         /// The total amount of points that can be achieved in this session.
         /// </summary>
+        [field: SyncVar(Channel = FishNet.Transporting.Channel.Reliable)]
         public int MaxScore { get; private set; }
 
         /// <summary>
         /// The current score of this session.
         /// </summary>
         public int CurrentScore { get; private set; }
+
+        /// <summary>
+        /// The score for correct deliveries.
+        /// </summary>
+        public int CorrectScore { get; private set; }
+
+        /// <summary>
+        /// The score for incorrect deliveries.
+        /// </summary>
+        public int IncorrectScore { get; private set; }
+
+        /// <summary>
+        /// The score percentage.
+        /// </summary>
+        public float ScorePercentage => (float)TotalScore / MaxScore * 100;
+
+        /// <summary>
+        /// The time score.
+        /// </summary>
+        public int TimeScore => Mathf.Min(Mathf.RoundToInt(TimerUpdater.Instance.TimeRemaining), MaxTimeScore);
+
+        /// <summary>
+        /// The maximum time score.
+        /// </summary>
+        public int MaxTimeScore => (Mathf.RoundToInt(TimerUpdater.Instance.BaseTime)
+            + Mathf.RoundToInt(TimerUpdater.Instance.StationArrivalTimeBonus) * _allStations.Length) / 2;
+
+        /// <summary>
+        /// The total score.
+        /// </summary>
+        public int TotalScore => CurrentScore + TimeScore;
 
         private static readonly char[] CHARACTERS = "QWERTYUIOPASDFGHJKLZXCVBNM".ToCharArray();
 
@@ -60,6 +94,8 @@ namespace DerailedDeliveries.Framework.Gameplay
         public override void OnStartServer()
         {
             base.OnStartServer();
+
+            MaxScore += MaxTimeScore;
 
             SelectLevelToLoad(0);
         }
@@ -72,6 +108,8 @@ namespace DerailedDeliveries.Framework.Gameplay
         private void SelectLevelToLoad(int index)
         {
             CurrentScore = 0;
+            CorrectScore = 0;
+            IncorrectScore = 0;
 
             StationLevelData[] levelData = _levels.levels[index].StationLevelData;
             List<string> labels = GenerateLabelsForStations(levelData);
@@ -187,20 +225,31 @@ namespace DerailedDeliveries.Framework.Gameplay
         public void HandlePackageDelivery(PackageData package, int stationID)
         {
             int newScore = CurrentScore;
+            int newCorrectScore = CorrectScore;
+            int newIncorrectScore = IncorrectScore;
 
             if (package.PackageID == stationID)
-                newScore += _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+            {
+                int scoreToAdd = _succesfullDeliveryBonus + package.GetComponent<BoxDamageable>().Health;
+                newScore += scoreToAdd;
+                newCorrectScore += scoreToAdd;
+            }
             else
+            {
                 newScore -= _incorrectDeliveryPenalty;
+                newIncorrectScore -= _incorrectDeliveryPenalty;
+            }
 
-            HandleScoreUpdate(newScore, package.PackageID);
+            HandleScoreUpdate(newScore, newCorrectScore, newIncorrectScore, package.PackageID);
             ServerManager.Despawn(package.gameObject);
         }
 
         [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void HandleScoreUpdate(int newScore, int packageID)
+        private void HandleScoreUpdate(int newScore, int newCorrectScore, int newIncorrectScore, int packageID)
         {
             CurrentScore = newScore;
+            CorrectScore = newCorrectScore;
+            IncorrectScore = newIncorrectScore;
 
             OnPackageDelivered?.Invoke(packageID);
             OnScoreChanged?.Invoke(CurrentScore);
