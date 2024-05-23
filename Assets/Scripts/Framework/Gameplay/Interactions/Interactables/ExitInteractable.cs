@@ -9,6 +9,9 @@ using DerailedDeliveries.Framework.Train;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
+    /// <summary>
+    /// An <see cref="Interactable"/> class that players can interact with to end their session.
+    /// </summary>
     public class ExitInteractable : Interactable
     {
         private List<int> _arrivedStationIDs = new();
