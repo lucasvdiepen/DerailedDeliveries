@@ -8854,6 +8854,11 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _trainController
+      value: 
+      objectReference: {fileID: 2220954708020609928}
     - target: {fileID: 6045372273579720442, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -9624,6 +9629,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2220954708020609928 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3516951749390559386, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 884ec3b01c9095546925d8ad8815f562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6821619390316210339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10362,7 +10379,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7729426240705543752}
     m_RemovedComponents:
-    - {fileID: 4185794742375875765, guid: 30dcc2271bf2a3f4394b8617767b38af, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

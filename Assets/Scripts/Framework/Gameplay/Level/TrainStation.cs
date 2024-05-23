@@ -2,6 +2,7 @@ using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.UI.TextUpdaters;
+using System;
 
 namespace DerailedDeliveries.Framework.Gameplay.Level
 {
@@ -10,9 +11,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
     /// </summary>
     public class TrainStation : NetworkBehaviour
     {
-        [SerializeField]
-        private TextUpdater _stationText;
-
         [SerializeField]
         private Transform[] _spawnTransforms;
 
@@ -32,6 +30,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
         public Transform[] SpawnTransforms => _spawnTransforms;
 
         /// <summary>
+        /// An action that broadcasts the newly set <see cref="StationLabel"/>.
+        /// </summary>
+        public Action<string> OnStationLabelChange;
+
+        /// <summary>
         /// Updates the stations Label and ID.
         /// </summary>
         /// <param name="label">The new label to assign.</param>
@@ -42,8 +45,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Level
             StationLabel = label;
             StationID = id;
 
-            if (_stationText != null)
-                _stationText.ReplaceTag(StationLabel);
+            OnStationLabelChange?.Invoke(StationLabel);
         }
     }
 }

@@ -1,6 +1,10 @@
 using UnityEngine;
 
+using DerailedDeliveries.Framework.UI.TextUpdaters;
+using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Train;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DerailedDeliveries.Framework.Gameplay.Map
 {
@@ -19,7 +23,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         private TrainController _trainController;
 
         [SerializeField]
+        private float _distanceAlongSpline;
+
+        [SerializeField]
+        private List<float> distancesForStations;
+
+        [SerializeField]
+        private List<TrainStation> trainStations;
+
+        [SerializeField]
         private RectTransform _mapIndicator;
+
+        [SerializeField]
+        private GameObject _stationIndicatorPrefab;
 
         private void Awake()
         {
@@ -27,6 +43,39 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
             _trainController.OnTrackSwitch += UpdateTrackID;
 
             _trainController.OnDistanceAlongSplineChanged += UpdateDistanceAlongSpline;
+        }
+
+        [ContextMenu("PlaceStationIndicator")]
+        private void SpawnStationIndicator()
+        {
+            GameObject newStationIndicator = Instantiate(_stationIndicatorPrefab);
+
+            newStationIndicator.transform.parent = gameObject.transform;
+
+            newStationIndicator.transform.localRotation = Quaternion.identity;
+            newStationIndicator.transform.position = _mapIndicator.position;
+
+            distancesForStations.Add(_distanceAlongSpline);
+
+            TrainStation[] allStations = FindObjectsOfType<TrainStation>();
+            TrainStation closestStation = null;
+
+            for(int i = 0; i < allStations.Length; i++)
+            {
+                if(closestStation == null)
+                {
+                    closestStation = allStations[i];
+                    continue;
+                }
+
+                float distanceToOther = Vector3.Distance(transform.position, allStations[i].transform.position);
+                float distanceToClosest = Vector3.Distance(transform.position, closestStation.transform.position);
+
+                if(distanceToOther < distanceToClosest)
+                    closestStation = allStations[i];
+            }
+
+            trainStations.Add(closestStation);
         }
 
         private void UpdateTrackID(int newTrackID)
@@ -38,6 +87,8 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
         private void UpdateDistanceAlongSpline(float distanceAlongSpline)
         {
+            _distanceAlongSpline = distanceAlongSpline;
+
             if (_currentTrack == null)
                 return;
 
@@ -49,10 +100,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
             float lerpAlpha = distanceAlongSpline % pathDivider;
 
+            _mapIndicator.position = ReturnLerpPosition(index, lerpAlpha);
+        }
+
+        private Vector3 ReturnLerpPosition(int index, float lerpAlpha)
+        {
             Vector3 currentPos = _currentTrack.MapPath[index].position;
             Vector3 endPos = _currentTrack.MapPath[index + 1].position;
 
-            _mapIndicator.position = Vector3.Lerp
+            return Vector3.Lerp
                 (
                     currentPos,
                     endPos,
