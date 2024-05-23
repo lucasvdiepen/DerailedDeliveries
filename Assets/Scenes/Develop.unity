@@ -2242,6 +2242,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &571218376 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6393181279149603742, guid: ec04a114bee5141408603a302383a667,
+    type: 3}
+  m_PrefabInstance: {fileID: 2220954708020609914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33dd0e5769dda3488f613321aac7fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &575357993
 GameObject:
   m_ObjectHideFlags: 0
@@ -7785,7 +7797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 400.575, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040831966
@@ -8230,7 +8242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 60.08, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2074486945
@@ -9083,6 +9095,11 @@ PrefabInstance:
       propertyPath: <SceneId>k__BackingField
       value: 14208474580443028120
       objectReference: {fileID: 0}
+    - target: {fileID: 2414691125835018943, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _parentStation
+      value: 
+      objectReference: {fileID: 449776008}
     - target: {fileID: 2415124462051399690, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -9338,6 +9355,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0017739212
       objectReference: {fileID: 0}
+    - target: {fileID: 3877196281007315263, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _parentStation
+      value: 
+      objectReference: {fileID: 491973560}
     - target: {fileID: 4338970240149917886, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -9348,6 +9370,11 @@ PrefabInstance:
       propertyPath: <SceneId>k__BackingField
       value: 14208474578994544407
       objectReference: {fileID: 0}
+    - target: {fileID: 4367665992798325953, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _parentStation
+      value: 
+      objectReference: {fileID: 641295629}
     - target: {fileID: 4874668471624638960, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -9488,6 +9515,11 @@ PrefabInstance:
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 1757695614}
+    - target: {fileID: 5899793669915824745, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _parentStation
+      value: 
+      objectReference: {fileID: 1655948843}
     - target: {fileID: 5928784290260433678, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash
@@ -9548,6 +9580,41 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _currentTrack
+      value: 
+      objectReference: {fileID: 571218376}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: _trainController
+      value: 
+      objectReference: {fileID: 2220954708020609928}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: trainStations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: trainStations.Array.data[0]
+      value: 
+      objectReference: {fileID: 641295629}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: trainStations.Array.data[1]
+      value: 
+      objectReference: {fileID: 449776008}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: trainStations.Array.data[2]
+      value: 
+      objectReference: {fileID: 1655948843}
+    - target: {fileID: 5980076741128251275, guid: ec04a114bee5141408603a302383a667,
+        type: 3}
+      propertyPath: trainStations.Array.data[3]
+      value: 
+      objectReference: {fileID: 491973560}
     - target: {fileID: 6045372273579720442, guid: ec04a114bee5141408603a302383a667,
         type: 3}
       propertyPath: _scenePathHash

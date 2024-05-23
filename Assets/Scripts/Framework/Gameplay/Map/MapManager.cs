@@ -1,10 +1,6 @@
 using UnityEngine;
 
-using DerailedDeliveries.Framework.UI.TextUpdaters;
-using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Train;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace DerailedDeliveries.Framework.Gameplay.Map
 {
@@ -26,12 +22,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         private float _distanceAlongSpline;
 
         [SerializeField]
-        private List<float> distancesForStations;
-
-        [SerializeField]
-        private List<TrainStation> trainStations;
-
-        [SerializeField]
         private RectTransform _mapIndicator;
 
         [SerializeField]
@@ -39,49 +29,33 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
 
         private void Awake()
         {
-            UpdateTrackID(0);
-            _trainController.OnTrackSwitch += UpdateTrackID;
+            UpdateTrackID(0, false);
+            _trainController.OnRailSplitChange += UpdateTrackID;
+        }
+
+        private void OnEnable()
+        {
+            UpdateDistanceAlongSpline(_distanceAlongSpline);
 
             _trainController.OnDistanceAlongSplineChanged += UpdateDistanceAlongSpline;
 
-            for(int i = 0; i < _tracks.Length; i++)
-                _tracks[i]._badSplitWarning.enabled = true; // _trainController.BadRailSplitOrder[i];
-        }
-
-        [ContextMenu("PlaceStationIndicator")]
-        private void SpawnStationIndicator()
-        {
-            GameObject newStationIndicator = Instantiate(_stationIndicatorPrefab);
-
-            newStationIndicator.transform.parent = gameObject.transform;
-
-            newStationIndicator.transform.localRotation = Quaternion.identity;
-            newStationIndicator.transform.position = _mapIndicator.position;
-
-            distancesForStations.Add(_distanceAlongSpline);
-
-            TrainStation[] allStations = FindObjectsOfType<TrainStation>();
-            TrainStation closestStation = null;
-
-            for(int i = 0; i < allStations.Length; i++)
+            int trackIndex = 0;
+            for(int i = 0; i < _trainController.BadRailSplitOrder.Length; i++)
             {
-                if(closestStation == null)
-                {
-                    closestStation = allStations[i];
-                    continue;
-                }
+                _tracks[trackIndex]._badSplitWarning.enabled = false;
+                trackIndex++;
 
-                float distanceToOther = Vector3.Distance(transform.position, allStations[i].transform.position);
-                float distanceToClosest = Vector3.Distance(transform.position, closestStation.transform.position);
+                _tracks[trackIndex]._badSplitWarning.enabled = _trainController.BadRailSplitOrder[i];
+                trackIndex++;
 
-                if(distanceToOther < distanceToClosest)
-                    closestStation = allStations[i];
+                _tracks[trackIndex]._badSplitWarning.enabled = !_trainController.BadRailSplitOrder[i];
+                trackIndex++;
             }
-
-            trainStations.Add(closestStation);
         }
 
-        private void UpdateTrackID(int newTrackID)
+        private void OnDisable() => _trainController.OnDistanceAlongSplineChanged -= UpdateDistanceAlongSpline;
+
+        private void UpdateTrackID(int newTrackID, bool isBadRailsplit = false)
         {
             for(int i = 0; i < _tracks.Length; i++)
                 if (_tracks[i].TrackID == newTrackID)
@@ -95,13 +69,13 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
             if (_currentTrack == null)
                 return;
 
-            float pathDivider = 1f / _currentTrack.MapPath.Length;
-            int index = Mathf.FloorToInt(distanceAlongSpline / pathDivider);
+            float pathDivider = 1f / (_currentTrack.MapPath.Length - 1);
+            int index = (int)(distanceAlongSpline / pathDivider);
 
             if (index + 1 >= _currentTrack.MapPath.Length)
                 return;
 
-            float lerpAlpha = distanceAlongSpline % pathDivider;
+            float lerpAlpha = (distanceAlongSpline % pathDivider) / pathDivider;
 
             _mapIndicator.position = ReturnLerpPosition(index, lerpAlpha);
         }

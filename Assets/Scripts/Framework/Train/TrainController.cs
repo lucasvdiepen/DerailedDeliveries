@@ -293,7 +293,7 @@ namespace DerailedDeliveries.Framework.Train
                     IsOnBadRailSplit = false;
                 }
 
-                OnRailSplitChange?.Invoke(IsOnBadRailSplit);
+                OnRailSplitChange?.Invoke(trackID, IsOnBadRailSplit);
             }
         }
 
