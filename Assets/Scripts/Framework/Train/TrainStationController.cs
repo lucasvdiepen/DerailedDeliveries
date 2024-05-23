@@ -37,7 +37,7 @@ namespace DerailedDeliveries.Framework.Train
         public bool IsParked
         {
             get => _isParked;
-            set 
+            set
             {
                 _isParked = value;
                 OnParkStateChanged?.Invoke(value);
@@ -48,6 +48,16 @@ namespace DerailedDeliveries.Framework.Train
         /// True on the sever when train is allowed to park.
         /// </summary>
         public bool CanPark { get; private set; }
+
+        /// <summary>
+        /// A getter for the Index of the nearest Station.
+        /// </summary>
+        public int NearestStationIndex { get; private set; }
+
+        /// <summary>
+        /// A getter for the train's current location.
+        /// </summary>
+        public Vector3 CurrentTrainLocation => _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
 
         /// <summary>
         /// Invoked when train <see cref="IsParked"/> state is changed.
@@ -102,10 +112,10 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private bool ParkCheck()
         {
-            Vector3 trainPosition = _trainController.Spline.EvaluatePosition(_trainController.DistanceAlongSpline);
-            int nearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition);
-            
-            StationContainer closestStation = StationManager.Instance.StationContainers[nearestStationIndex];
+            Vector3 trainPosition = CurrentTrainLocation;
+            NearestStationIndex = StationManager.Instance.GetNearestStationIndex(trainPosition);
+
+            StationContainer closestStation = StationManager.Instance.StationContainers[NearestStationIndex];
 
             bool min = closestStation.StationBoundingBoxCollider.bounds.Contains(_minimumPoint.position);
             bool max = closestStation.StationBoundingBoxCollider.bounds.Contains(_maximumPoint.position);
