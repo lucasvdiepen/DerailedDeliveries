@@ -24,9 +24,6 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         [SerializeField]
         private RectTransform _mapIndicator;
 
-        [SerializeField]
-        private GameObject _stationIndicatorPrefab;
-
         private void Awake()
         {
             UpdateTrackID(0, false);

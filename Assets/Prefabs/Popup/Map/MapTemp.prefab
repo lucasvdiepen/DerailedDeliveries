@@ -614,8 +614,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1.0414064, z: 3.0907364}
-  m_Center: {x: 0, y: 0.4792968, z: 0.068605244}
+  m_Size: {x: 1.3321112, y: 1.7211909, z: 3.3426306}
+  m_Center: {x: -0.15337491, y: 0.13941541, z: -0.48634437}
 --- !u!114 &7915080662662208877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,8 +1199,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 249.99997, y: -250}
-  m_SizeDelta: {x: 1500, y: 500}
+  m_AnchoredPosition: {x: 249.99997, y: -350}
+  m_SizeDelta: {x: 1500, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &527769055446086775
 CanvasRenderer:
@@ -1266,8 +1266,6 @@ MonoBehaviour:
   _trainController: {fileID: 0}
   _distanceAlongSpline: 0
   _mapIndicator: {fileID: 8235447508978398678}
-  _stationIndicatorPrefab: {fileID: 2914539169576584699, guid: 71036b2959f72654d962de4affaf8b59,
-    type: 3}
 --- !u!1 &8735654059066048094
 GameObject:
   m_ObjectHideFlags: 0
