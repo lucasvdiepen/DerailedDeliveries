@@ -28,8 +28,11 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement.Damageables
             base.UpdateTimer();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         [Server]
-        private protected override void TakeDamage()
+        public override void TakeDamage()
         {
             if(!IsInsideTrain)
                 return;
