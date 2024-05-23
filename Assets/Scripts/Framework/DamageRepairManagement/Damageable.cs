@@ -40,7 +40,6 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
         /// Checks if the object can be repaired.
         /// </summary>
         /// <returns>True if the object can be repaired, otherwise false.</returns>
-        [Server]
         public virtual bool CanBeRepaired() => Health < MaxHealth;
 
         /// <summary>

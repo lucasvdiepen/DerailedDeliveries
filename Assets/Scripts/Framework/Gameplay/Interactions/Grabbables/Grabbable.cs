@@ -46,12 +46,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         /// <param name="interactor"><inheritdoc/></param>
         /// <returns><inheritdoc/></returns>
         public override bool CheckIfInteractable(Interactor interactor)
-            => base.CheckIfInteractable(interactor) && !IsBeingInteracted;
+            => base.CheckIfInteractable(interactor) && (!IsBeingInteracted || interactor == _originInteractor);
 
         [Server]
         private protected override bool Interact(Interactor interactor)
         {
-            if (!base.Interact(interactor) || IsBeingInteracted && interactor != _originInteractor)
+            if (!base.Interact(interactor))
                 return false;
 
             UseGrabbable(interactor);
@@ -64,15 +64,15 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
         {
             if (!IsBeingInteracted)
             {
+                UpdateInteractionStatus(interactor, true);
+                interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
+
                 NetworkObject.SetParent(interactor.GrabbingAnchor);
                 transform.localPosition = Vector3.zero;
 
-                UpdateInteractionStatus(interactor, true);
-                interactor.UpdateInteractingTarget(interactor.Owner, this, IsBeingInteracted);
                 return;
             }
 
-            NetworkObject.UnsetParent();
             UpdateInteractionStatus(null, false);
 
             interactor.UpdateInteractingTarget(interactor.Owner, null, IsBeingInteracted);
