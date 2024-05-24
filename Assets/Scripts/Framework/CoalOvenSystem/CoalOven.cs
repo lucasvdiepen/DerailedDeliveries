@@ -5,6 +5,7 @@ using UnityEngine;
 using DerailedDeliveries.Framework.Train;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.DamageRepairManagement;
+using DerailedDeliveries.Framework.Audio;
 
 namespace DerailedDeliveries.Framework.CoalOvenSystem
 {
@@ -34,7 +35,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         /// <summary>
         /// Gets whether the oven is enabled or not.
         /// </summary>
-        public bool IsOvenEnabled => TrainEngine.Instance.EngineState == TrainEngineState.Active;
+        public bool IsOvenEnabled {  get; private set; }    
 
         /// <summary>
         /// Gets the current coal amount.
@@ -56,9 +57,25 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
         {
             _damageable.OnHealthChanged += OnHealthChanged;
             OnHealthChanged(_damageable.Health);
+
+            TrainEngine.Instance.OnEngineStateChanged += HandleEngineStateChanged;
         }
 
-        private void OnDisable() => _damageable.OnHealthChanged -= OnHealthChanged;
+        private void HandleEngineStateChanged(TrainEngineState state)
+        {
+            IsOvenEnabled = state == TrainEngineState.Active;
+
+            if (!IsOvenEnabled && IsServer)
+                PlayOvenSound(false);
+        }
+
+        private void OnDisable()
+        {
+            _damageable.OnHealthChanged -= OnHealthChanged;
+
+            if(TrainEngine.Instance != null)
+                TrainEngine.Instance.OnEngineStateChanged -= HandleEngineStateChanged;
+        }
 
         private void Update()
         {
@@ -78,6 +95,7 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
                 return;
 
             TrainEngine.Instance.SetEngineState(TrainEngineState.Active);
+            PlayOvenSound(true);
         }
 
         /// <summary>
@@ -129,5 +147,11 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
 
             TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
         }
+
+        [ObserversRpc(RunLocally = true)]
+        private void PlayOvenSound(bool isOvenEnabled)
+            => AudioSystem.Instance.PlayRandomSoundEffectOfType(isOvenEnabled 
+                ? AudioCollectionTypes.CoalOvenOn 
+                : AudioCollectionTypes.CoalOvenOff);
     }
 }
