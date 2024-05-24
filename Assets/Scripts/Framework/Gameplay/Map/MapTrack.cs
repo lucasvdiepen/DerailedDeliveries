@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Map
@@ -7,6 +5,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
     /// <summary>
     /// A class that holds data and functionality for updating the current position on the map.
     /// </summary>
+    [RequireComponent(typeof(SpriteRenderer))]
     public class MapTrack : MonoBehaviour
     {
         /// <summary>
@@ -24,5 +23,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         /// <see cref="RectTransform"/> to represent the current Track.
         /// </summary>
         public RectTransform[] mapPath;
+
+        /// <summary>
+        /// The sprite renderer of the track sprite.
+        /// </summary>
+        public SpriteRenderer spriteRenderer;
+
+        private void Awake() => spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }

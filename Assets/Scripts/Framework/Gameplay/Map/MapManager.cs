@@ -43,9 +43,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
                 trackIndex++;
 
                 _tracks[trackIndex].badSplitWarning.enabled = _trainController.BadRailSplitOrder[i];
+                _tracks[trackIndex].spriteRenderer.color = _trainController.BadRailSplitOrder[i] ? Color.red : Color.white;
                 trackIndex++;
 
                 _tracks[trackIndex].badSplitWarning.enabled = !_trainController.BadRailSplitOrder[i];
+                _tracks[trackIndex].spriteRenderer.color = !_trainController.BadRailSplitOrder[i] ? Color.red : Color.white;
                 trackIndex++;
             }
         }
