@@ -1,7 +1,9 @@
+using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Train;
+using DerailedDeliveries.Framework.Audio;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -26,8 +28,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             if(!base.Use(interactor))
                 return false;
 
+            PlayUseSound();
             TrainEngine.Instance.AdjustSpeed(_isForwardButton);
+
             return true;
         }
+
+        [ObserversRpc(RunLocally = true)]
+        private void PlayUseSound() 
+            => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Button, true);
     }
 }
