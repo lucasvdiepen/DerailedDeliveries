@@ -55,7 +55,7 @@ namespace DerailedDeliveries.Framework.Train
         [Server]
         private void OnVelocityChanged(float velocity) => _isTrainMoving = Mathf.Abs(velocity) > 0.1f;
 
-        private void HandleRailSplitChanged(bool isBadSplit)
+        private void HandleRailSplitChanged(int trackID, bool isBadSplit)
         {
             if (!isBadSplit)
             {
