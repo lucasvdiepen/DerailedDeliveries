@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 using DerailedDeliveries.Framework.DamageRepairManagement.Damageables;
 using DerailedDeliveries.Framework.Gameplay.Level;
 using DerailedDeliveries.Framework.Utils;
+using DerailedDeliveries.Framework.Audio;
 using DerailedDeliveries.Framework.Gameplay.Timer;
 
 namespace DerailedDeliveries.Framework.Gameplay
@@ -247,6 +248,12 @@ namespace DerailedDeliveries.Framework.Gameplay
         [ObserversRpc(RunLocally = true, BufferLast = true)]
         private void HandleScoreUpdate(int newScore, int newCorrectScore, int newIncorrectScore, int packageID)
         {
+            AudioCollectionTypes soundEffect = CurrentScore < newScore 
+                ? AudioCollectionTypes.SuccessfulDeliver 
+                : AudioCollectionTypes.Denied;
+
+            AudioSystem.Instance.PlayRandomSoundEffectOfType(soundEffect);
+
             CurrentScore = newScore;
             CorrectScore = newCorrectScore;
             IncorrectScore = newIncorrectScore;

@@ -40,6 +40,11 @@ namespace DerailedDeliveries.Framework.Train
         private Transform[] _followingWagons;
 
         /// <summary>
+        /// An action that broadcasts the new <see cref="DistanceAlongSpline"/> when the train moves.
+        /// </summary>
+        public Action<float> OnDistanceAlongSplineChanged;
+
+        /// <summary>
         /// Getter for getting the middle wagon.
         /// </summary>
         public Transform MiddleWagon
@@ -52,7 +57,7 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
-        /// Randomized bad rail split order in which the index indicates 
+        /// Randomized bad rail split order in which the index indicates
         /// the number of the next branch rail split and bool value which side is affects <br/>
         /// <br/> (false = left).
         /// </summary>
@@ -76,7 +81,7 @@ namespace DerailedDeliveries.Framework.Train
         }
 
         /// <summary>
-        /// Optimal start point for train on spline track based on its length. 
+        /// Optimal start point for train on spline track based on its length.
         /// </summary>
         public float CurrentOptimalStartPoint { get; private set; }
 
@@ -94,7 +99,7 @@ namespace DerailedDeliveries.Framework.Train
         /// Invokes when train switches from rail split and returns if train is on bad split.
         /// <br/> bool == false = bad side of split.
         /// </summary>
-        public Action<bool> OnRailSplitChange;
+        public Action<int, bool> OnRailSplitChange;
 
         /// <summary>
         /// Helper method for updating the current spline length.
@@ -174,6 +179,7 @@ namespace DerailedDeliveries.Framework.Train
         {
             Vector3 positionSum = Vector3.zero;
             UpdateWagonPosition(_frontWagon, distanceAlongSpline);
+            OnDistanceAlongSplineChanged?.Invoke(distanceAlongSpline);
 
             positionSum += _frontWagon.position;
 
@@ -269,8 +275,8 @@ namespace DerailedDeliveries.Framework.Train
             if (Spline.gameObject.TryGetComponent(out _railSplit))
             {
                 //Check if new rail split is of type RailSplitType.Branch or RailSplitType.Funnel;
-                RailSplitType currentRailSplitType = _currentRailSplitID % 2 == 1 
-                    ? RailSplitType.Branch 
+                RailSplitType currentRailSplitType = _currentRailSplitID % 2 == 1
+                    ? RailSplitType.Branch
                     : RailSplitType.Funnel;
 
                 if (currentRailSplitType == RailSplitType.Branch)
@@ -287,7 +293,7 @@ namespace DerailedDeliveries.Framework.Train
                     IsOnBadRailSplit = false;
                 }
 
-                OnRailSplitChange?.Invoke(IsOnBadRailSplit);
+                OnRailSplitChange?.Invoke(trackID, IsOnBadRailSplit);
             }
         }
 
