@@ -80,7 +80,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             return base.Interact(useableGrabbable);
         }
 
-        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        [ObserversRpc(RunLocally = true)]
         private void PlayDepositSound()
             => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.DepositCoal, true);
 

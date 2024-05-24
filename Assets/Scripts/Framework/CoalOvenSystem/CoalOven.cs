@@ -148,9 +148,9 @@ namespace DerailedDeliveries.Framework.CoalOvenSystem
             TrainEngine.Instance.SetEngineState(TrainEngineState.Inactive);
         }
 
-        [ObserversRpc(RunLocally = true, BufferLast = true)]
-        private void PlayOvenSound(bool ovenEnabled)
-            => AudioSystem.Instance.PlayRandomSoundEffectOfType(ovenEnabled 
+        [ObserversRpc(RunLocally = true)]
+        private void PlayOvenSound(bool isOvenEnabled)
+            => AudioSystem.Instance.PlayRandomSoundEffectOfType(isOvenEnabled 
                 ? AudioCollectionTypes.CoalOvenOn 
                 : AudioCollectionTypes.CoalOvenOff);
     }

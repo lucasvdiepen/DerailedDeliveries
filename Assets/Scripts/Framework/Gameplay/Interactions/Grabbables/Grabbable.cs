@@ -116,20 +116,19 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables
             if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _maxGroundCheckDistance))
                 return;
 
+            PlayGrabbableSound(true);
             transform.position = hit.point + new Vector3(0, BoxCollider.size.y * .5f, 0);
 
             if (ObjectParentUtils.TryGetObjectParent(hit.collider.gameObject, out ObjectParent objectParent))
             {
                 objectParent.SetParent(NetworkObject);
-                PlayGrabbableSound(true);
                 return;
             }
 
             NetworkObject.UnsetParent();
-            PlayGrabbableSound(true);
         }
 
-        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        [ObserversRpc(RunLocally = true)]
         private void PlayGrabbableSound(bool isDrop)
         {
             if (StateMachine.StateMachine.Instance.CurrentState is not GameState)

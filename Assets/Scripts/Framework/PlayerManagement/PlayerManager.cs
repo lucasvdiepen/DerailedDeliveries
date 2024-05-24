@@ -139,6 +139,9 @@ namespace DerailedDeliveries.Framework.PlayerManagement
 
             OnPlayerJoined?.Invoke(playerId);
             OnPlayersUpdated?.Invoke();
+
+            if (StateMachine.StateMachine.Instance.CurrentState is HostState)
+                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.PlayerJoined);
         }
 
         /// <summary>
@@ -226,9 +229,6 @@ namespace DerailedDeliveries.Framework.PlayerManagement
             _availableSpawnpoints.RemoveAt(randomSpawnIndex);
 
             _playerIdCount++;
-
-            if (StateMachine.StateMachine.Instance.CurrentState is HostState)
-                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.PlayerJoined);
         }
 
         [TargetRpc]

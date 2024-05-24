@@ -59,7 +59,7 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
             p_damageIntervalElapsed = 0;
         }
 
-        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        [ObserversRpc(RunLocally = true)]
         private void PlayRepairSound() 
             => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Repair, true, .5f);
 

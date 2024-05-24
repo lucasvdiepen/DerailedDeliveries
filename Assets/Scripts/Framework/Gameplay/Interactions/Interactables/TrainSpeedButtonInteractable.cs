@@ -1,8 +1,8 @@
+using FishNet.Object;
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.Train;
-using FishNet.Object;
 using DerailedDeliveries.Framework.Audio;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
@@ -34,7 +34,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             return true;
         }
 
-        [ObserversRpc(RunLocally = true, BufferLast = true)]
+        [ObserversRpc(RunLocally = true)]
         private void PlayUseSound() 
             => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Button, true);
     }
