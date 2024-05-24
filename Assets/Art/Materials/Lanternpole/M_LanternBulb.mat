@@ -21,21 +21,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_LanternBulb
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 313fcf3aebc04cf4ab4f8c5f2850be7f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _EMISSION
   - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  m_InvalidKeywords:
+  - _EMISSION
   - _SPECULAR_SETUP
-  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2400
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -118,12 +117,19 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0.308
     - _OcclusionStrength: 1
+    - _OutlineWidth: 0.531
     - _Parallax: 0.005
     - _QueueOffset: -50
     - _ReceiveShadows: 1
+    - _RimStep: 0.925
+    - _RimStepSmooth: 0.715
+    - _ShadowStep: 0.5
+    - _ShadowStepSmooth: 0.315
     - _Smoothness: 0.356
     - _SmoothnessTextureChannel: 1
     - _SpecularHighlights: 1
+    - _SpecularStep: 0.6
+    - _SpecularStepSmooth: 0.042
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -133,5 +139,8 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.2264151, g: 0.15149212, b: 0.09270203, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
