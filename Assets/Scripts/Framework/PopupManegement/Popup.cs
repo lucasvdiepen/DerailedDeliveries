@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -26,10 +27,21 @@ namespace DerailedDeliveries.Framework.PopupManagement
         /// </summary>
         public bool IsShowing { get; private set; }
         
+        /// <summary>
+        /// Invoked when this popup is show.
+        /// </summary>
+        public Action OnShowPopup;
+
+        /// <summary>
+        /// Invoked when this popup is closed.
+        /// </summary>
+        public Action OnClosePopup;
+
         private Tween _hoverAnimation;
         private Coroutine _popupCoroutine;
         private float _initialYPosition;
         private float _endYPosition;
+
 
         private protected virtual void Awake()
         {
@@ -88,12 +100,13 @@ namespace DerailedDeliveries.Framework.PopupManagement
         private protected virtual IEnumerator ShowPopup()
         {
             _popupCanvasGroup.gameObject.SetActive(true);
+            OnShowPopup?.Invoke();
 
-            if(_hoverAnimation == null || !_hoverAnimation.active)
+            if (_hoverAnimation == null || !_hoverAnimation.active)
             {
                 _hoverAnimation = DOTween.To
                 (
-                    () => _initialYPosition, 
+                    () => _initialYPosition,
                     y =>
                     {
                         _popupCanvasGroup.transform.localPosition = new Vector3
@@ -115,7 +128,10 @@ namespace DerailedDeliveries.Framework.PopupManagement
 
         private protected virtual IEnumerator ClosePopup()
         {
-            yield return _popupCanvasGroup.DOFade(0, _fadeDuration).SetEase(Ease.OutCubic).WaitForCompletion();
+            yield return _popupCanvasGroup.DOFade(0, _fadeDuration)
+                .OnStart(() => OnClosePopup?.Invoke())
+                .SetEase(Ease.OutCubic)
+                .WaitForCompletion();
 
             _popupCanvasGroup.gameObject.SetActive(false);
         }

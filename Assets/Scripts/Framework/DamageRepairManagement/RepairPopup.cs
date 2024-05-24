@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using DerailedDeliveries.Framework.PopupManagement;
+using DerailedDeliveries.Framework.Audio;
+using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.DamageRepairManagement
 {
@@ -62,6 +64,9 @@ namespace DerailedDeliveries.Framework.DamageRepairManagement
 
         private void UpdateAndShowPopup(Sprite sprite)
         {
+            if(StateMachine.StateMachine.Instance.CurrentState is GameState)
+                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Popup, false, .5f);
+
             _repairPopupImage.sprite = sprite;
             Show();
         }

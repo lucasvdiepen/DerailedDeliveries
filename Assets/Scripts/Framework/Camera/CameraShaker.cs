@@ -66,7 +66,7 @@ namespace DerailedDeliveries.Framework.Camera
             _multiChannelPerlin.m_AmplitudeGain = 0;
         }
 
-        private void HandleRailSplitChanged(bool badRailSplit)
+        private void HandleRailSplitChanged(int trackID, bool badRailSplit)
         {
             float newCameraFrequency = badRailSplit ? _badRailSplitShakeFrequencyPenalty : _startCameraNoiseFrequency;
 
