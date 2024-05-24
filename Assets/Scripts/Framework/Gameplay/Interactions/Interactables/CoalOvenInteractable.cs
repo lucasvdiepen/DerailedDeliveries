@@ -6,6 +6,7 @@ using DerailedDeliveries.Framework.Gameplay.Interactions.Grabbables;
 using DerailedDeliveries.Framework.Gameplay.Player;
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.Train;
+using DerailedDeliveries.Framework.Audio;
 
 namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
 {
@@ -74,8 +75,14 @@ namespace DerailedDeliveries.Framework.Gameplay.Interactions.Interactables
             useableGrabbable.OriginInteractor.UpdateInteractingTarget(useableGrabbable.OriginInteractor.Owner, null, false);
             useableGrabbable.Despawn();
 
+            PlayDepositSound();
+
             return base.Interact(useableGrabbable);
         }
+
+        [ObserversRpc(RunLocally = true)]
+        private void PlayDepositSound()
+            => AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.DepositCoal, true);
 
         /// <summary>
         /// <inheritdoc/>
