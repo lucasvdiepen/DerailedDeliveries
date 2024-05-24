@@ -731,7 +731,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 8057311849413527246}
   _networkObjectCache: {fileID: 8057311849413527246}
   <Spline>k__BackingField: {fileID: 0}
-  _trainFrontStartTime: 0.017611483
+  _trainFrontStartTime: 0.48
   _heightOffset: 2.1
   _frontWagon: {fileID: 7640492346968642029}
   _wagonFollowDistance: 540
@@ -739,6 +739,7 @@ MonoBehaviour:
   _followingWagons:
   - {fileID: 1727611534515989209}
   - {fileID: 3813624059706690898}
+  <BadRailSplitOrder>k__BackingField: 
 --- !u!114 &5142576653863284277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -871,6 +872,7 @@ Transform:
   - {fileID: 7920384510448217669}
   - {fileID: 8033893408880661338}
   - {fileID: 2865743725917694683}
+  - {fileID: 1444366120637841875}
   - {fileID: 4772630875323825843}
   m_Father: {fileID: 5552596949075366985}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -977,6 +979,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
@@ -2128,6 +2135,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -2333,6 +2345,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -2503,6 +2520,114 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 944680653600933282}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1287281400420744812
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1727611534515989209}
+    m_Modifications:
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837102951976524263, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: _train
+      value: 
+      objectReference: {fileID: 3516951749390559386}
+    - target: {fileID: 4837102951976524263, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: _trainController
+      value: 
+      objectReference: {fileID: 3516951749390559386}
+    - target: {fileID: 7016901113309536315, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      propertyPath: m_Name
+      value: MapTemp
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7016901113309536315, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3447474639616520401}
+  m_SourcePrefab: {fileID: 100100000, guid: 5ed80d30cf0da87408ceb8fb054cc2a9, type: 3}
+--- !u!4 &1444366120637841875 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 420590447248932799, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1287281400420744812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8123471180566896215 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7016901113309536315, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1287281400420744812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3447474639616520401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123471180566896215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ed37e643853a446af5af8b1b9715e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetGroup: {fileID: 0}
+  _mapPopup: {fileID: 8936641876748985089}
+  _endTargetWeight: 1.25
+  _lerpWeightDuration: 1.25
+  _endTargetRadius: 8
+--- !u!114 &8936641876748985089 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7915080662662208877, guid: 5ed80d30cf0da87408ceb8fb054cc2a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1287281400420744812}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123471180566896215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a376665b3feb0964a926a109b8eaca4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1459495103010127983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2535,6 +2660,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
@@ -2901,6 +3031,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -3103,6 +3238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
@@ -3387,6 +3527,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
@@ -4066,6 +4211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -4268,6 +4418,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
@@ -5182,6 +5337,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -5671,6 +5831,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -5873,6 +6038,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
+        type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 1350685379646451756, guid: 38d8c342cf8be494bae32dde3cb2ce84,
         type: 3}

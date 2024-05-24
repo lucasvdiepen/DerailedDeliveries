@@ -14,6 +14,12 @@ namespace DerailedDeliveries.Framework.Train
         [field: SerializeField]
         public SplineContainer[] PossibleTracks { get; private set; }
 
+        /// <summary>
+        /// Slots for the different rail tracks that have to connect to a seperate child rail track.
+        /// </summary>
+        [field: SerializeField]
+        public SplineContainer[] PossibleReversalTracks { get; private set; }
+
         private void Awake()
         {
             if (PossibleTracks.Length > 2)

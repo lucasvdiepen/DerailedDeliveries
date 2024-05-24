@@ -1,6 +1,8 @@
 using UnityEngine;
 
 using DerailedDeliveries.Framework.Train;
+using DerailedDeliveries.Framework.Audio;
+using DerailedDeliveries.Framework.StateMachine.States;
 
 namespace DerailedDeliveries.Framework.Gameplay.TrainControls
 {
@@ -9,6 +11,9 @@ namespace DerailedDeliveries.Framework.Gameplay.TrainControls
     /// </summary>
     public class TrainLeverUpdater : MonoBehaviour
     {
+        [SerializeField]
+        private float _switchUseSoundVolume = .6f;
+
         [SerializeField]
         private float _leftRotation;
 
@@ -32,7 +37,10 @@ namespace DerailedDeliveries.Framework.Gameplay.TrainControls
                 ? _rightRotation 
                 : _leftRotation;
 
-            _leverTransform.rotation = Quaternion.Euler(_leverTransform.rotation.x, _leverTransform.rotation.y, newZRotation);
+            if(StateMachine.StateMachine.Instance.CurrentState is GameState)
+                AudioSystem.Instance.PlayRandomSoundEffectOfType(AudioCollectionTypes.Switch, true, _switchUseSoundVolume);
+                
+            _leverTransform.localRotation = Quaternion.Euler(_leverTransform.localRotation.x, _leverTransform.localRotation.y, newZRotation);
         }
     }
 }
