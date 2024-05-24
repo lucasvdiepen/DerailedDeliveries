@@ -1,9 +1,10 @@
 # Derailed Deliveries
-This is the repository for Derailed Deliveries.
+This is the repository for Derailed Deliveries. 
+Team04's client is [Paladin studios](https://paladinstudios.com/). The client wants a fun coöperative game that can be played with all ages. The game has to contain a unique game mechanic that is easy to learn and understand.
 
 Information about the project and its systems can be found here and on our [wiki](https://github.com/lucasvdiepen/DerailedDeliveries/wiki).
 
-Derailed Deliveries is a co-op game where players work together to deliver all the packages on time and to the correct station. Play together on the same device or on multiple devices over the local network.
+Derailed Deliveries is a co-op game where players work together to deliver all the packages on time and to the correct station. Travel from station to station while keeping your train and it's equipment in top notch condition and work together to get the highest rating! Play together on the same device or on multiple devices over the local network.
 
 ## Member contributions
  * Developers
