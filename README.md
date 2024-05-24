@@ -1,6 +1,6 @@
 # Derailed Deliveries
 This is the repository for Derailed Deliveries. 
-Team04's client is [Paladin studios](https://paladinstudios.com/). The client wants a fun coöperative game that can be played with all ages. The game has to contain a unique game mechanic that is easy to learn and understand.
+Team04's client is [Paladin studios](https://paladinstudios.com/). The client wants a fun coöperative game that can be played by all ages. The game has to contain a unique game mechanic that is easy to learn and understand.
 
 Information about the project and its systems can be found here and on our [wiki](https://github.com/lucasvdiepen/DerailedDeliveries/wiki).
 
