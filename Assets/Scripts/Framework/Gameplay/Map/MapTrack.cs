@@ -29,6 +29,10 @@ namespace DerailedDeliveries.Framework.Gameplay.Map
         /// </summary>
         public SpriteRenderer spriteRenderer;
 
-        private void Awake() => spriteRenderer = GetComponent<SpriteRenderer>();
+        private void Awake()
+        {
+            if(spriteRenderer == null)
+                spriteRenderer = GetComponent<SpriteRenderer>();
+        }
     }
 }
