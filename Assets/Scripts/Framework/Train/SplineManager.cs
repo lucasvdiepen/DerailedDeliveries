@@ -15,6 +15,17 @@ namespace DerailedDeliveries.Framework.Train
         private List<SplineContainer> _splineContainers = new();
 
         /// <summary>
+        /// Getter for the amount of available <see cref="RailSplitType.Branch"/> rail splits.
+        /// </summary>
+        [field: SerializeField]
+        public int RailSplitAmount { get; set; }
+
+        /// <summary>
+        /// Getter for the total amount of rail splits regardless of their type.
+        /// </summary>
+        public int AllSplitAmount { get; private set; }
+
+        /// <summary>
         /// Helper method for getting the spline track based on a specified ID.
         /// </summary>
         /// <param name="trackID">Track ID interger.</param>
@@ -27,5 +38,16 @@ namespace DerailedDeliveries.Framework.Train
         /// <param name="track">SplineContainer track.</param>
         /// <returns>Correct SplineContainer ID.</returns>
         public int GetIDByTrack(SplineContainer track) => _splineContainers.IndexOf(track);
+
+        private void Awake()
+        {
+            if (RailSplitAmount <= 0)
+            {
+                Debug.LogError("Rail split count cannot be less or equal than zero.", this);
+                return;
+            }
+
+            AllSplitAmount = RailSplitAmount * 2;
+        }
     }
 }

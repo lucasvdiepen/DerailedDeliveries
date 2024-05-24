@@ -6,10 +6,10 @@ using System;
 using DerailedDeliveries.Framework.DamageRepairManagement;
 using DerailedDeliveries.Framework.StateMachine.States;
 using DerailedDeliveries.Framework.GameManagement;
+using DerailedDeliveries.Framework.StateMachine;
 using DerailedDeliveries.Framework.Station;
 using DerailedDeliveries.Framework.Utils;
 using DerailedDeliveries.Framework.Train;
-using DerailedDeliveries.Framework.StateMachine;
 
 namespace DerailedDeliveries.Framework.Gameplay.Timer
 {
@@ -39,6 +39,11 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         private List<int> _arrivedStations = new();
 
         /// <summary>
+        /// A getter for the amount of visited stations that the players have been to.
+        /// </summary>
+        public int VisitedStationsAmount => _arrivedStations.Count;
+
+        /// <summary>
         /// A getter to get the ChaosSpeedMultiplierThreshold.
         /// </summary>
         public float ChaosSpeedMultiplierThreshold => _chaosSpeedMultiplierThreshold;
@@ -47,6 +52,16 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         /// A getter that returns the seconds that are left on the timer.
         /// </summary>
         public float TimeRemaining => _timer.Remaining;
+
+        /// <summary>
+        /// A getter that returns the base time of the timer.
+        /// </summary>
+        public float BaseTime => _baseTime;
+
+        /// <summary>
+        /// A getter that returns the station arrival time bonus.
+        /// </summary>
+        public float StationArrivalTimeBonus => _stationArrivalTimeBonus;
 
         /// <summary>
         /// An action that broadcasts when the timer is updated and the new time that comes with it.
@@ -62,6 +77,28 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
         private readonly SyncTimer _timer = new();
 
         private bool _isChaos;
+        private bool _hasTimerStarted;
+        private bool _isTimerFinished;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+
+            _timer.OnChange += TimerUpdated;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void OnStopClient()
+        {
+            base.OnStopClient();
+
+            _timer.OnChange -= TimerUpdated;
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -71,6 +108,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             base.OnStartServer();
 
             StateMachine.StateMachine.Instance.OnStateChanged += HandleStateChanged;
+            GameManager.Instance.OnGameEnded += OnGameEnded;
         }
 
         /// <summary>
@@ -87,7 +125,12 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
             if (TrainStationController.Instance != null)
                 TrainStationController.Instance.OnParkStateChanged -= OnStationArrival;
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnGameEnded -= OnGameEnded;
         }
+
+        private void OnGameEnded() => _timer.PauseTimer(true);
 
         private void HandleStateChanged(State state)
         {
@@ -125,7 +168,7 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
 
         private void Update()
         {
-            if (_timer.Paused)
+            if (_timer.Paused || _isTimerFinished || !_hasTimerStarted)
                 return;
 
             UpdateTimer();
@@ -137,13 +180,24 @@ namespace DerailedDeliveries.Framework.Gameplay.Timer
             OnTimerUpdated?.Invoke(_timer.Remaining);
 
             if (_timer.Remaining <= 0)
+            {
+                _isTimerFinished = true;
                 OnTimerCompleted?.Invoke();
+            }
 
             if (!IsServer)
                 return;
 
             if (_timer.Remaining <= _chaosSpeedMultiplierThreshold != _isChaos)
                 ToggleChaosMultiplier();
+        }
+
+        private void TimerUpdated(SyncTimerOperation op, float prev, float next, bool asServer)
+        {
+            if (op != SyncTimerOperation.Start)
+                return;
+
+            _hasTimerStarted = true;
         }
 
         private void ToggleChaosMultiplier()
