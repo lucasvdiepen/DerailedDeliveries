@@ -112,11 +112,11 @@ namespace DerailedDeliveries.Framework.Train
         {
             TrainEngine = GetComponent<TrainEngine>();
 
-            DistanceAlongSpline = _trainFrontStartTime;
-            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
-
             if (Spline != null)
                 RecalculateSplineLength();
+
+            DistanceAlongSpline = _trainFrontStartTime;
+            CurrentOptimalStartPoint = GetOptimalTrainStartPoint();
 
             _railSplit = Spline.gameObject.GetComponent<RailSplit>();
         }
@@ -323,7 +323,6 @@ namespace DerailedDeliveries.Framework.Train
             float offset = adjustedFollowDistance + (-_wagonSpacing / TWEAK_DIVIDE_FACTOR) * wagons;
 
             float offsetSum = Mathf.Abs(offset / SplineLength / TWEAK_DIVIDE_FACTOR);
-
             return offsetSum;
         }
 
